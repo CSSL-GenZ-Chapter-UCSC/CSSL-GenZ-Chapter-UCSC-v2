@@ -33,6 +33,8 @@ export default function BlogsPage() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [visibleCount, setVisibleCount] = useState(9);
   const [activeCategory, setActiveCategory] = useState("All");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   //const categories = ["All", "Tutorials", "News", "Updates"];
 
@@ -40,7 +42,21 @@ export default function BlogsPage() {
 
 
   useEffect(() => {
-    getBlogs().then(setBlogs);
+    const fetchBlogs = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await getBlogs();
+        setBlogs(data);
+      } catch (err) {
+        console.error("Failed to fetch blogs:", err);
+        setError("Failed to load blogs. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
   }, []);
 
   const filteredBlogs =
@@ -81,7 +97,19 @@ export default function BlogsPage() {
       </section>
 
       {/* Blog Grid */}
-      {filteredBlogs.length === 0 ? (
+      {loading ? (
+        <p className="text-center text-gray-500">Loading blogs...</p>
+      ) : error ? (
+        <div className="text-center">
+          <p className="text-red-600 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            Retry
+          </button>
+        </div>
+      ) : filteredBlogs.length === 0 ? (
         <p className="text-center text-gray-500">No blogs yet.</p>
       ) : (
         <section className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
