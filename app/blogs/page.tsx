@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { client } from "@/sanity/lib/client";
 import { useState, useEffect } from "react";
 
@@ -91,9 +92,11 @@ export default function BlogsPage() {
               className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col"
             >
               {blog.mainImage?.asset?.url && (
-                <img
+                <Image
                   src={blog.mainImage.asset.url}
                   alt={blog.title}
+                  width={600}
+                  height={224}
                   className="w-full h-56 object-cover"
                 />
               )}
