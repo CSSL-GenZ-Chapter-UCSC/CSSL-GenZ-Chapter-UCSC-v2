@@ -58,7 +58,7 @@ export default function BlogsPage() {
             src="/images/blog-header.jpg"
             alt="Blog Header"
             fill
-            sizes="100vw"
+            sizes="(max-width: 1152px) 100vw, 1152px"
             className="object-cover"
             priority
           />
