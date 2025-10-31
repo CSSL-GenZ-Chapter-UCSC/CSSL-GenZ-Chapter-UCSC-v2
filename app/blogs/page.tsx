@@ -58,6 +58,7 @@ export default function BlogsPage() {
             src="/images/blog-header.jpg"
             alt="Blog Header"
             fill
+            sizes="100vw"
             className="object-cover"
             priority
           />
@@ -101,6 +102,7 @@ export default function BlogsPage() {
                     src={blog.mainImage.asset.url}
                     alt={blog.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover"
                   />
                 </div>
