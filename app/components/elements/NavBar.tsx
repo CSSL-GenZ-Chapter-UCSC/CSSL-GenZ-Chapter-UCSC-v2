@@ -13,7 +13,7 @@ export const Navbar = () => {
   }, [isOpen]);
 
   return (
-    <header className="absolute lg:sticky inset-x-0 top-0 z-40 ">
+    <header className="absolute lg:sticky inset-x-0 top-0 z-40">
       <Container>
         <>Navbar</>
       </Container>
