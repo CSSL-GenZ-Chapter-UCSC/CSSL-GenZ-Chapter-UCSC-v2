@@ -35,10 +35,7 @@ export default function BlogsPage() {
   const [visibleCount, setVisibleCount] = useState(9);
   const [activeCategory, setActiveCategory] = useState("All");
 
-  //const categories = ["All", "Tutorials", "News", "Updates"];
-
   const categories = ["All", "Events", "Workshops", "Competitions", "Announcements"];
-
 
   useEffect(() => {
     getBlogs().then(setBlogs);
@@ -96,10 +93,10 @@ export default function BlogsPage() {
               key={blog._id}
               className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col"
             >
-              {blog.mainImage?.asset?.url && (
+              {blog.mainImage?.url && (
                 <div className="relative w-full h-56">
                   <Image
-                    src={blog.mainImage.asset.url}
+                    src={blog.mainImage.url}
                     alt={blog.title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -107,6 +104,7 @@ export default function BlogsPage() {
                   />
                 </div>
               )}
+
               <div className="p-4 flex flex-col flex-1 justify-between">
                 <div>
                   <Link

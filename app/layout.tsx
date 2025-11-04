@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Poppins, La_Belle_Aurore } from "next/font/google";
 import { Navbar } from "./components/elements/NavBar";
 import { Footer } from "./components/elements/Footer";
 import "./globals.css";
@@ -8,6 +8,13 @@ const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["400", "700"],
+  display: "swap",
+});
+
+const laBelleAurore = La_Belle_Aurore({
+  variable: "--font-la-belle-aurore",
+  subsets: ["latin"],
+  weight: ["400"],
   display: "swap",
 });
 
@@ -23,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} ${poppins.className} antialiased`}>
+      <body className={`${poppins.variable} ${laBelleAurore.variable} ${poppins.className} antialiased`}>
         <Navbar />
         {children}
         <Footer />
