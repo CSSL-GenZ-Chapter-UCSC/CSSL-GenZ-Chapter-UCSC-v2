@@ -30,14 +30,14 @@ const LogoScroll = ({ gradient }: { gradient: string }) => {
   const bgPosition = useTransform(
     scrollYProgress,
     [0, 1],
-    ["-60% 50%", "220% 50%"]
+    ["-50% 50%", "170% 50%"]
   );
 
   return (
     <div ref={containerRef} className="relative h-[300vh] w-full">
       <div className="h-screen sticky top-0 flex items-center justify-center overflow-hidden">
         <motion.h2
-          className="mt-30 text-center font-[Poppins] text-[750px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
+          className="text-center font-[Poppins] 2xl:text-[750px] xl:text-[650px] lg:text-[550px] md:text-[450px] sm:text-[350px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
             backgroundSize: "300% 100%",
