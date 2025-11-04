@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins, La_Belle_Aurore } from "next/font/google";
 import { Navbar } from "./components/elements/NavBar";
-import { Footer } from "./components/elements/Footer";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -30,10 +29,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} ${laBelleAurore.variable} ${poppins.className} antialiased`}>
+      <body
+        className={`${poppins.variable} ${laBelleAurore.variable} ${poppins.className} antialiased bg-black`}
+      >
         <Navbar />
         {children}
-        <Footer />
       </body>
     </html>
   );
