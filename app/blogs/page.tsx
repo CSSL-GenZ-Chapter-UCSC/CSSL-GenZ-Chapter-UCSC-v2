@@ -37,10 +37,7 @@ export default function BlogsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  //const categories = ["All", "Tutorials", "News", "Updates"];
-
   const categories = ["All", "Events", "Workshops", "Competitions", "Announcements"];
-
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -69,11 +66,16 @@ export default function BlogsPage() {
     <main className="mx-auto max-w-6xl px-4 py-10">
       {/* Header */}
       <section className="text-center mb-12">
-        <img
-          src="/images/blog-header.jpg"
-          alt="Blog Header"
-          className="mx-auto mb-6 w-full max-h-64 object-cover rounded-lg shadow-sm"
-        />
+        <div className="relative mx-auto mb-6 w-full h-64 rounded-lg shadow-sm overflow-hidden">
+          <Image
+            src="/images/blog-header.jpg"
+            alt="Blog Header"
+            fill
+            sizes="(max-width: 1152px) 100vw, 1152px"
+            className="object-cover"
+            priority
+          />
+        </div>
         <h1 className="text-4xl font-bold">Blogs</h1>
         <p className="mt-4 text-gray-600">
           Stay updated with the latest events, workshops, and announcements
@@ -119,15 +121,18 @@ export default function BlogsPage() {
               key={blog._id}
               className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col"
             >
-              {blog.mainImage?.asset?.url && (
-                <Image
-                  src={blog.mainImage.asset.url}
-                  alt={blog.title}
-                  width={600}
-                  height={224}
-                  className="w-full h-56 object-cover"
-                />
+              {blog.mainImage?.url && (
+                <div className="relative w-full h-56">
+                  <Image
+                    src={blog.mainImage.url}
+                    alt={blog.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover"
+                  />
+                </div>
               )}
+
               <div className="p-4 flex flex-col flex-1 justify-between">
                 <div>
                   <Link
