@@ -1,4 +1,5 @@
 import { Hero } from "./components/sections/Hero";
+import { Gallery } from "./components/sections/Gallery";
 
 export const metadata = {
   title: "CSSL GenZ Chapter",
@@ -10,6 +11,7 @@ export default function Home() {
   return (
     <main className="flex flex-col">
       <Hero />
+      <Gallery />
     </main>
   );
 }
