@@ -221,19 +221,11 @@ const WordReveal = ({
     isFirstSlide ? [0, 0] : [20, 0]
   );
   
-  // No blur on text - always clear
-  const blur = useTransform(
-    scrollYProgress,
-    [wordStart, wordEnd],
-    [0, 0]
-  );
-
   return (
     <motion.span
       style={{ 
         opacity,
         y,
-        filter: `blur(${blur.get() || 0}px)`,
       }}
       className={`inline-block mr-2 md:mr-3 ${
         isHighlighted ? "text-[#4C9DFE]" : "text-white"
