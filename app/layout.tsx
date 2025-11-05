@@ -7,7 +7,9 @@ import { frame, cancelFrame } from "framer-motion";
 import { useRef, useEffect } from "react";
 import { Poppins, La_Belle_Aurore } from "next/font/google";
 import { Navbar } from "./components/elements/NavBar";
+import { Footer } from "./components/elements/Footer";
 import "./globals.css";
+import { Background } from "./components/elements/Background";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -42,15 +44,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${laBelleAurore.variable} ${poppins.className} antialiased bg-black`}
+        className={`${poppins.variable} ${laBelleAurore.variable} ${poppins.className} antialiased bg-black relative`}
       >
         <ReactLenis
           root
           ref={lenisRef}
           options={{ autoRaf: false }}
         ></ReactLenis>
+        <Background />
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );

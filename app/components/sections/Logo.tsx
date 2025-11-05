@@ -30,7 +30,7 @@ const LogoScroll = ({ gradient }: { gradient: string }) => {
   const bgPosition = useTransform(
     scrollYProgress,
     [0, 1],
-    ["-50% 50%", "170% 50%"]
+    ["0% 50%", "170% 50%"]
   );
 
   return (
