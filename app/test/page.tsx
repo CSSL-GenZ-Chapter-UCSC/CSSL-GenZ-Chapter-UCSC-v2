@@ -1,4 +1,4 @@
-import { EventsSection } from "../components/sections/EventsSection";
+import EventsSection from '@/app/components/sections/EventsSection';
 
 export default function TestPage() {
   return (
