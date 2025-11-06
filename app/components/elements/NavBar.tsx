@@ -26,7 +26,7 @@ export const Navbar = () => {
   ];
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40">
+    <header className="fixed inset-x-0 top-0 z-40 bg-black/30 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)]">
       <Container>
         <nav className="flex items-center justify-between">
           {/* Logo */}
