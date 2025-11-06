@@ -6,50 +6,29 @@ import Image from "next/image";
 
 // Gallery configuration - easy to modify
 const GALLERY_CONFIG = {
-  slides: [
+  // Single text that shows throughout all images
+  text: {
+    line1: "An initiative dedicated to",
+    line2: "empowering ",
+    line2Highlight: "the next generation of IT professionals",
+  },
+  // Images array
+  images: [
     {
-      image: {
-        src: "/galery/image 5.png",
-        alt: "CSSL GenZ Chapter Team",
-      },
-      text: {
-        line1: "An initiative dedicated to",
-        line2: "empowering ",
-        line2Highlight: "the next generation of IT professionals",
-      }
+      src: "/galery/image 5.png",
+      alt: "CSSL GenZ Chapter Team",
     },
     {
-      image: {
-        src: "/galery/images.jpg",
-        alt: "CSSL GenZ Chapter Event",
-      },
-      text: {
-        line1: "Building a community of",
-        line2: "innovative ",
-        line2Highlight: "tech leaders and problem solvers",
-      }
+      src: "/galery/images.jpg",
+      alt: "CSSL GenZ Chapter Event",
     },
     {
-      image: {
-        src: "/galery/img_5terre.jpg",
-        alt: "CSSL Learning Sessions",
-      },
-      text: {
-        line1: "Fostering growth through",
-        line2: "collaborative ",
-        line2Highlight: "projects and mentorship programs",
-      }
+      src: "/galery/img_5terre.jpg",
+      alt: "CSSL Learning Sessions",
     },
     {
-      image: {
-        src: "/galery/img_forest.jpg",
-        alt: "CSSL Team Building",
-      },
-      text: {
-        line1: "Creating opportunities for",
-        line2: "aspiring ",
-        line2Highlight: "developers to thrive and excel",
-      }
+      src: "/galery/img_forest.jpg",
+      alt: "CSSL Team Building",
     },
   ]
 };
@@ -58,7 +37,7 @@ export const Gallery = () => {
   const containerRef = useRef(null);
   
   // Calculate total height needed for all slides - each slide needs scroll distance
-  const totalSlides = GALLERY_CONFIG.slides.length;
+  const totalSlides = GALLERY_CONFIG.images.length;
   const heightMultiplier = totalSlides + 1; // Extra space for smooth transitions
   
   // Scroll progress for the entire section
@@ -79,10 +58,10 @@ export const Gallery = () => {
           {/* Left Side - Stacked Images */}
           <div className="absolute left-0 top-0 w-[55%] h-full">
             <div className="relative w-full h-full">
-              {GALLERY_CONFIG.slides.map((slide, slideIndex) => (
+              {GALLERY_CONFIG.images.map((image, slideIndex) => (
                 <GalleryImage
                   key={slideIndex}
-                  image={slide.image}
+                  image={image}
                   slideIndex={slideIndex}
                   totalSlides={totalSlides}
                   scrollYProgress={scrollYProgress}
@@ -91,18 +70,13 @@ export const Gallery = () => {
             </div>
           </div>
 
-          {/* Right Side - Stacked Text */}
+          {/* Right Side - Single Persistent Text */}
           <div className="absolute right-0 top-0 w-[45%] h-full">
             <div className="relative w-full h-full">
-              {GALLERY_CONFIG.slides.map((slide, slideIndex) => (
-                <GalleryText
-                  key={slideIndex}
-                  slide={slide}
-                  slideIndex={slideIndex}
-                  totalSlides={totalSlides}
-                  scrollYProgress={scrollYProgress}
-                />
-              ))}
+              <GalleryText
+                text={GALLERY_CONFIG.text}
+                scrollYProgress={scrollYProgress}
+              />
             </div>
           </div>
         </div>
@@ -111,36 +85,25 @@ export const Gallery = () => {
   );
 };
 
-// Text component for each slide
-const GalleryText = ({ slide, slideIndex, totalSlides, scrollYProgress }) => {
-  // Calculate progress range for this slide
-  const slideStart = slideIndex / totalSlides;
-  const slideEnd = (slideIndex + 1) / totalSlides;
-  
-  // Text visibility
+// Text component - single persistent text
+const GalleryText = ({ text, scrollYProgress }) => {
+  // Text appears with word-by-word animation at the start, then stays visible
   const textOpacity = useTransform(
     scrollYProgress,
-    [slideStart - 0.05, slideStart + 0.05, slideEnd - 0.05, slideEnd + 0.05],
-    slideIndex === 0 ? [1, 1, 1, 0] : [0, 1, 1, 0]
-  );
-  
-  const textY = useTransform(
-    scrollYProgress,
-    [slideStart, slideEnd],
-    ["0%", "-10%"]
+    [0, 0.15, 1],
+    [1, 1, 1] // Always visible
   );
   
   // Split text into words
-  const line1Words = slide.text.line1.split(" ");
-  const line2Words = slide.text.line2.split(" ");
-  const highlightWords = slide.text.line2Highlight.split(" ");
+  const line1Words = text.line1.split(" ");
+  const line2Words = text.line2.split(" ");
+  const highlightWords = text.line2Highlight.split(" ");
   const allWords = [...line1Words, ...line2Words, ...highlightWords];
 
   return (
     <motion.div
       style={{ 
         opacity: textOpacity,
-        y: textY,
       }}
       className="absolute inset-0 flex flex-col justify-center items-start px-12 lg:px-20"
     >
@@ -154,7 +117,6 @@ const GalleryText = ({ slide, slideIndex, totalSlides, scrollYProgress }) => {
                 word={word}
                 index={index}
                 total={allWords.length}
-                slideStart={slideStart}
                 scrollYProgress={scrollYProgress}
                 isHighlighted={false}
               />
@@ -169,7 +131,6 @@ const GalleryText = ({ slide, slideIndex, totalSlides, scrollYProgress }) => {
                 word={word}
                 index={line1Words.length + index}
                 total={allWords.length}
-                slideStart={slideStart}
                 scrollYProgress={scrollYProgress}
                 isHighlighted={false}
               />
@@ -181,7 +142,6 @@ const GalleryText = ({ slide, slideIndex, totalSlides, scrollYProgress }) => {
                 word={word}
                 index={line1Words.length + line2Words.length + index}
                 total={allWords.length}
-                slideStart={slideStart}
                 scrollYProgress={scrollYProgress}
                 isHighlighted={true}
               />
@@ -197,35 +157,25 @@ const GalleryText = ({ slide, slideIndex, totalSlides, scrollYProgress }) => {
 const WordReveal = ({ 
   word, 
   index, 
-  total, 
-  slideStart,
+  total,
   scrollYProgress,
   isHighlighted 
 }) => {
-  // Calculate reveal progress for each word within the slide
-  const wordStart = slideStart + 0.05 + (index / total) * 0.15;
+  // Calculate reveal progress for each word - happens at the beginning
+  const wordStart = 0.05 + (index / total) * 0.15;
   const wordEnd = wordStart + 0.05;
   
-  // For first slide (slideStart = 0), show immediately
-  const isFirstSlide = slideStart < 0.1;
-  
+  // Words appear with animation initially, then stay fully visible
   const opacity = useTransform(
     scrollYProgress,
-    [wordStart - 0.02, wordStart, wordEnd],
-    isFirstSlide ? [1, 1, 1] : [0, 0.3, 1]
+    [wordStart - 0.02, wordStart, wordEnd, 1],
+    [0, 0.3, 1, 1] // Appear gradually then stay at 1
   );
   
   const y = useTransform(
     scrollYProgress,
-    [wordStart, wordEnd],
-    isFirstSlide ? [0, 0] : [20, 0]
-  );
-  
-  // No blur on text - always clear
-  const blur = useTransform(
-    scrollYProgress,
-    [wordStart, wordEnd],
-    [0, 0]
+    [wordStart, wordEnd, 1],
+    [20, 0, 0] // Slide up then stay in place
   );
 
   return (
@@ -233,7 +183,6 @@ const WordReveal = ({
       style={{ 
         opacity,
         y,
-        filter: `blur(${blur.get() || 0}px)`,
       }}
       className={`inline-block mr-2 md:mr-3 ${
         isHighlighted ? "text-[#4C9DFE]" : "text-white"
