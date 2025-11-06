@@ -53,7 +53,7 @@ export const About = () => {
     <section className="h-screen flex items-start justify-center bg-black text-white pt-30">
       <Container className="h-full pb-20">
         <div className="w-full h-full flex flex-col items-stretch">
-          <h2 className="flex items-center justify-start text-(--lightBlue,#318AFF) font-[Poppins] text-[213px] not-italic font-medium leading-none tracking-[10.65px] flex-1">
+          <h2 className="flex items-center justify-start text-(--lightBlue,#3774CB) font-[Poppins] text-[213px] not-italic font-medium leading-none tracking-[10.65px] flex-1">
             ABOUT
           </h2>
           <div className="flex px-2.5 justify-between items-start self-stretch flex-1">
@@ -92,12 +92,19 @@ export const About = () => {
                       src={img.src}
                       alt={img.alt ?? `About image ${i + 1}`}
                       fill
-                      className={`w-full h-full object-cover ${img.className ?? ""}`}
+                      className={`w-full h-full object-cover ${
+                        hoveredIndex === i ? "grayscale-0" : "grayscale"
+                      } transition-all duration-200 ${img.className ?? ""}`}
                       sizes="(max-width: 1024px) 25vw, 150px"
                       priority={i < 2}
                     />
                   </div>
                 ) : null}
+                <div
+                  className={`absolute inset-0 bg-[#3774CB] mix-blend-color z-10 ${
+                    hoveredIndex === i ? "opacity-0" : "opacity-100"
+                  }`}
+                ></div>
               </div>
             ))}
           </div>

@@ -14,6 +14,7 @@ import {
 
 export const Vision = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const visionImages: {
     src?: string;
     className?: string;
@@ -56,6 +57,13 @@ export const Vision = () => {
       className: "scale-130",
       alt: "Vision image 1",
     },
+    {
+      src: "/Images/About/vision2.jpg",
+      containerClassName: "",
+      overlayClassName: "mix-blend-color",
+      className: "scale-130",
+      alt: "Vision image 1",
+    },
   ];
 
   const { scrollYProgress } = useScroll({
@@ -80,7 +88,7 @@ export const Vision = () => {
         initial={{ opacity: 0, filter: `blur(${blur}px)` }}
         animate={{ opacity: 1, filter: `blur(0px)` }}
         exit={{ opacity: 0, filter: `blur(${blur}px)` }}
-        transition={{ duration: 0.3, ease: "easeOut", delay: i * stagger }}
+        transition={{ duration: 0.1, ease: "easeOut", delay: i * stagger }}
         className="inline-block mr-2"
       >
         {w}
@@ -152,21 +160,25 @@ export const Vision = () => {
                 className={`w-1/6 h-full flex-none relative overflow-hidden ${
                   item.containerClassName ?? ""
                 }`}
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
               >
                 {item.src ? (
                   <Image
                     src={item.src}
                     alt={item.alt ?? `Vision image ${i + 1}`}
                     fill
-                    className={`w-full h-full object-cover ${item.className ?? ""}`}
+                    className={`w-full h-full object-cover ${
+                      hoveredIndex === i ? "grayscale-0" : "grayscale"
+                    } transition-all duration-200 brightness-80 ${item.className ?? ""}`}
                     sizes="(max-width: 1024px) 50vw, 33vw"
                     priority={i < 2}
                   />
                 ) : null}
                 <div
-                  className={`absolute w-full h-full bg-[#1E448F] mix-blend-color z-10 ${
+                  className={`absolute w-full h-full bg-[#3774CB] mix-blend-color z-10 ${
                     item.overlayClassName ?? ""
-                  }`}
+                  } ${hoveredIndex === i ? "opacity-0" : "opacity-100"}`}
                 ></div>
               </div>
             ))}
