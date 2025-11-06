@@ -1,6 +1,54 @@
+"use client";
+
+import { useState } from "react";
 import { Container } from "../shared/Container";
+import Image from "next/image";
 
 export const About = () => {
+  const aboutImages: { src?: string; className?: string; alt?: string }[] = [
+    {
+      src: "/Images/About/img1.jpg",
+      className: "object-cover scale-[1.6]",
+      alt: "About image 1",
+    },
+    {
+      src: "/Images/About/img2.jpg",
+      className: "object-cover scale-[1.6]",
+      alt: "About image 2",
+    },
+    {
+      src: "/Images/About/img3.jpg",
+      className: "object-cover scale-[1.6]",
+      alt: "About image 3",
+    },
+    {
+      src: "/Images/About/img4.jpg",
+      className: "object-cover scale-[1.6]",
+      alt: "About image 4",
+    },
+    {
+      src: "/Images/About/img1.jpg",
+      className: "object-cover [transform:scaleX(-1)_scale(1.6)]",
+      alt: "About image 1",
+    },
+    {
+      src: "/Images/About/img2.jpg",
+      className: "object-cover [transform:scaleX(-1)_scale(1.6)]",
+      alt: "About image 2",
+    },
+    {
+      src: "/Images/About/img3.jpg",
+      className: "object-cover [transform:scaleX(-1)_scale(1.6)]",
+      alt: "About image 3",
+    },
+    {
+      src: "/Images/About/img4.jpg",
+      className: "object-cover [transform:scaleX(-1)_scale(1.6)]",
+      alt: "About image 4",
+    },
+  ];
+
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   return (
     <section className="h-screen flex items-start justify-center bg-black text-white pt-30">
       <Container className="h-full pb-20">
@@ -21,8 +69,36 @@ export const About = () => {
             </p>
           </div>
           <div className="flex justify-between items-end self-stretch flex-1">
-            {[...Array(8)].map((_, i) => (
-              <div key={i} className="w-[150px] h-[150px] bg-gray-500" />
+            {aboutImages.map((img, i) => (
+              <div
+                key={i}
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                className={`relative bg-gray-500 overflow-hidden transition-all duration-300 ease-out ${
+                  hoveredIndex === i
+                    ? "w-[180px] h-[180px]"
+                    : "w-[150px] h-[150px]"
+                }`}
+              >
+                {img.src ? (
+                  <div
+                    className="absolute inset-0 transition-transform duration-300 ease-out"
+                    style={{
+                      transform:
+                        hoveredIndex === i ? "scale(0.625)" : "scale(1)",
+                    }}
+                  >
+                    <Image
+                      src={img.src}
+                      alt={img.alt ?? `About image ${i + 1}`}
+                      fill
+                      className={`w-full h-full object-cover ${img.className ?? ""}`}
+                      sizes="(max-width: 1024px) 25vw, 150px"
+                      priority={i < 2}
+                    />
+                  </div>
+                ) : null}
+              </div>
             ))}
           </div>
         </div>
