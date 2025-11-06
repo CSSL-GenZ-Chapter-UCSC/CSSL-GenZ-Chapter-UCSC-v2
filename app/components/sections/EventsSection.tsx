@@ -58,11 +58,28 @@ export default function EventsSection() {
             const scrollable = scrollableContentRef.current;
             if (!scrollable) return;
 
-            e.preventDefault();
-
             const currentScroll = scrollable.scrollTop;
             const maxScroll = scrollable.scrollHeight - scrollable.clientHeight;
             const newScroll = currentScroll + e.deltaY;
+
+            // Check if at bottom and trying to scroll down further
+            const isAtBottom = currentScroll >= maxScroll - 1; // -1 for floating point tolerance
+            const isScrollingDown = e.deltaY > 0;
+
+            // Check if at top and trying to scroll up further
+            const isAtTop = currentScroll <= 1; // 1px tolerance
+            const isScrollingUp = e.deltaY < 0;
+
+            // Allow default scroll behavior when:
+            // 1. At bottom and scrolling down (user wants to scroll page below)
+            // 2. At top and scrolling up (user wants to scroll page above)
+            if ((isAtBottom && isScrollingDown) || (isAtTop && isScrollingUp)) {
+                // Don't prevent default - allow normal page scroll
+                return;
+            }
+
+            // Prevent default for custom scroll within container
+            e.preventDefault();
 
             // Update scroll position
             if (newScroll >= 0 && newScroll <= maxScroll) {
@@ -73,13 +90,8 @@ export default function EventsSection() {
                 scrollable.scrollTop = maxScroll;
             }
 
-            // 📍 Current scroll position (viewportTop)
-            const viewportTop = scrollable.scrollTop;
-
-            console.log("📍 Scroll position (viewportTop):", viewportTop);
-            console.log("🎯 Activation threshold:", ACTIVATION_THRESHOLD);
-
             // Find which element should be active
+            const viewportTop = scrollable.scrollTop;
             let newActiveIndex = 0;
 
             // Loop through all event cards
@@ -87,33 +99,17 @@ export default function EventsSection() {
                 const card = eventCardRefs.current[i];
                 if (!card) continue;
 
-                // Get element's position from top of scrollable container
                 const elementTop = card.offsetTop;
 
-                console.log(`  Event ${i}: elementTop = ${elementTop}px`);
-
-                // Calculate: How far is this element's top from viewport top?
-                const distanceFromViewportTop = elementTop - viewportTop;
-
-                console.log(`    Distance from viewport top: ${distanceFromViewportTop}px`);
-
-                // Rule: Element becomes active when its top reaches 350px from viewport top
-                // In other words: elementTop - viewportTop <= 350
-                // Rearranged: elementTop <= viewportTop + 350
                 if (elementTop <= viewportTop + ACTIVATION_THRESHOLD) {
                     newActiveIndex = i;
-                    console.log(`    ✓ Element ${i} is active (top at or above threshold)`);
                 } else {
-                    console.log(`    ✗ Element ${i} is below threshold, stopping`);
                     break;
                 }
             }
 
-            console.log(`🎯 Active index: ${newActiveIndex}\n`);
-
             // Update state if changed
             if (newActiveIndex !== activeEventIndex) {
-                console.log(`🔄 Active changed: ${activeEventIndex} → ${newActiveIndex}`);
                 setActiveEventIndex(newActiveIndex);
             }
         }
