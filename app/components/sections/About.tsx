@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Container } from "../shared/Container";
 import Image from "next/image";
+import { motion } from "motion/react";
 
 export const About = () => {
   const aboutImages: { src?: string; className?: string; alt?: string }[] = [
@@ -53,20 +54,40 @@ export const About = () => {
     <section className="h-screen flex items-start justify-center bg-black text-white pt-30">
       <Container className="h-full pb-20">
         <div className="w-full h-full flex flex-col items-stretch">
-          <h2 className="flex items-center justify-start text-(--lightBlue,#3774CB) font-[Poppins] text-[213px] not-italic font-medium leading-none tracking-[10.65px] flex-1">
+          <motion.h2
+            initial={{ opacity: 0, filter: "blur(8px)" }}
+            animate={{ opacity: 1, filter: "blur(0px)" }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            className="flex items-center justify-start text-(--lightBlue,#3774CB) font-[Poppins] text-[213px] not-italic font-medium leading-none tracking-[10.65px] flex-1"
+          >
             ABOUT
-          </h2>
+          </motion.h2>
           <div className="flex px-2.5 justify-between items-start self-stretch flex-1">
-            <p className="text-[#E0E0E0] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] w-[274px]">
+            <motion.p
+              initial={{ opacity: 0, filter: "blur(8px)" }}
+              animate={{ opacity: 1, filter: "blur(0px)" }}
+              transition={{ duration: 0.3, ease: "easeOut", delay: 0.15 }}
+              className="text-[#E0E0E0] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] w-[274px]"
+            >
               An initiative dedicated to empowering the next generation of IT
               professionals
-            </p>
-            <p className="text-[#E0E0E0] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] w-[274px]">
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, filter: "blur(8px)" }}
+              animate={{ opacity: 1, filter: "blur(0px)" }}
+              transition={{ duration: 0.3, ease: "easeOut", delay: 0.25 }}
+              className="text-[#E0E0E0] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] w-[274px]"
+            >
               Founded in 2025
-            </p>
-            <p className="text-[#E0E0E0] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] w-[274px]">
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, filter: "blur(8px)" }}
+              animate={{ opacity: 1, filter: "blur(0px)" }}
+              transition={{ duration: 0.3, ease: "easeOut", delay: 0.35 }}
+              className="text-[#E0E0E0] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] w-[274px]"
+            >
               CSSL GenZ Chapter of UCSC
-            </p>
+            </motion.p>
           </div>
           <div className="flex justify-between items-end self-stretch flex-1">
             {aboutImages.map((img, i) => (
@@ -81,7 +102,14 @@ export const About = () => {
                 }`}
               >
                 {img.src ? (
-                  <div
+                  <motion.div
+                    initial={{ opacity: 0, filter: "blur(8px)" }}
+                    animate={{ opacity: 1, filter: "blur(0px)" }}
+                    transition={{
+                      duration: 0.35,
+                      ease: "easeOut",
+                      delay: 0.3 + i * 0.06,
+                    }}
                     className="absolute inset-0 transition-transform duration-300 ease-out"
                     style={{
                       transform:
@@ -98,10 +126,10 @@ export const About = () => {
                       sizes="(max-width: 1024px) 25vw, 150px"
                       priority={i < 2}
                     />
-                  </div>
+                  </motion.div>
                 ) : null}
                 <div
-                  className={`absolute inset-0 bg-[#3774CB] mix-blend-color z-10 ${
+                  className={`absolute inset-0 bg-[#133769] mix-blend-color z-10 ${
                     hoveredIndex === i ? "opacity-0" : "opacity-100"
                   }`}
                 ></div>

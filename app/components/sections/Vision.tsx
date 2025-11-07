@@ -148,7 +148,6 @@ export const Vision = () => {
             </AnimatePresence>
           </div>
         </div>
-
         <div className="w-full h-full overflow-hidden">
           <motion.div
             style={{ x: xSpring }}
@@ -176,7 +175,7 @@ export const Vision = () => {
                   />
                 ) : null}
                 <div
-                  className={`absolute w-full h-full bg-[#3774CB] mix-blend-color z-10 ${
+                  className={`absolute w-full h-full bg-[#133769] mix-blend-color z-10 ${
                     item.overlayClassName ?? ""
                   } ${hoveredIndex === i ? "opacity-0" : "opacity-100"}`}
                 ></div>
