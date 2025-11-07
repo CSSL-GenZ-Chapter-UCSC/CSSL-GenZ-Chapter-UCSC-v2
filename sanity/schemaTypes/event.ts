@@ -26,5 +26,57 @@ export const event = defineType({
       type: "datetime",
       validation: (rule) => rule.required(),
     }),
+    
+    // logo
+    defineField({
+      name: "logo",
+      title: "Logo",
+      type: "image",
+      options: { hotspot: true },
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alt text",
+        },
+      ],
+    }),
+
+    // main image
+    defineField({
+      name: "mainImage",
+      title: "Main Image",
+      type: "image",
+      options: { hotspot: true },
+      fields: [
+        { name: "alt", type: "string", title: "Alt text" },
+        { name: "caption", type: "string", title: "Caption" },
+      ],
+    }),
+
+    // sub main image
+    defineField({
+      name: "subMainImage",
+      title: "Sub Main Image",
+      type: "image",
+      options: { hotspot: true },
+      fields: [{ name: "alt", type: "string", title: "Alt text" }],
+    }),
+
+    // two other images
+    defineField({
+      name: "otherImage1",
+      title: "Other Image 1",
+      type: "image",
+      options: { hotspot: true },
+      fields: [{ name: "alt", type: "string", title: "Alt text" }],
+    }),
+    defineField({
+      name: "otherImage2",
+      title: "Other Image 2",
+      type: "image",
+      options: { hotspot: true },
+      fields: [{ name: "alt", type: "string", title: "Alt text" }],
+    }),
   ],
 });
