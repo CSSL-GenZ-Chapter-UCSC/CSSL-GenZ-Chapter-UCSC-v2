@@ -2,43 +2,55 @@
 
 import { Container } from "../shared/Container";
 import { useEffect, useRef, useState } from "react";
+import type { Event } from "../../types/event";
 
-// Dummy data for events with images
-const EVENTS_DATA = [
+// Props interface - receives events from server component
+interface EventsSectionProps {
+  events: Event[];
+}
+
+// Dummy data for events with images (fallback)
+const DUMMY_EVENTS_DATA = [
     {
-        id: 1,
+        id: "1",
         date: "Sep 2025",
         title: "INFINITELOOP 3.0",
+        logo: "",
+        excerpt: "Annual coding competition for developers",
         className: "event-card-0",
         images: [
-            { id: 1, color: "bg-gradient-to-br from-blue-500 to-blue-700" },
-            { id: 2, color: "bg-gradient-to-br from-purple-500 to-purple-700" },
-            { id: 3, color: "bg-gradient-to-br from-pink-500 to-pink-700" },
-            { id: 4, color: "bg-gradient-to-br from-red-500 to-red-700" },
+            { id: "1-sub", url: "https://via.placeholder.com/800x600/3B82F6/FFFFFF?text=INFINITELOOP+Main", alt: "INFINITELOOP Main" },
+            { id: "1-main", url: "https://via.placeholder.com/1600x800/8B5CF6/FFFFFF?text=INFINITELOOP+Wide", alt: "INFINITELOOP Wide" },
+            { id: "1-other1", url: "https://via.placeholder.com/800x800/EC4899/FFFFFF?text=INFINITELOOP+1", alt: "INFINITELOOP 1" },
+            { id: "1-other2", url: "https://via.placeholder.com/800x800/EF4444/FFFFFF?text=INFINITELOOP+2", alt: "INFINITELOOP 2" },
         ],
     },
     {
-        id: 2,
+        id: "2",
         date: "Oct 2025",
         title: "IEEEXTREME 19.0",
+        logo: "",
+        excerpt: "24-hour global programming competition",
         className: "event-card-1",
         images: [
-            { id: 5, color: "bg-gradient-to-br from-green-500 to-green-700" },
-            { id: 6, color: "bg-gradient-to-br from-teal-500 to-teal-700" },
-            { id: 7, color: "bg-gradient-to-br from-cyan-500 to-cyan-700" },
-            { id: 8, color: "bg-gradient-to-br from-blue-500 to-blue-700" },
+            { id: "2-sub", url: "https://via.placeholder.com/800x600/10B981/FFFFFF?text=IEEEXTREME+Main", alt: "IEEEXTREME Main" },
+            { id: "2-main", url: "https://via.placeholder.com/1600x800/14B8A6/FFFFFF?text=IEEEXTREME+Wide", alt: "IEEEXTREME Wide" },
+            { id: "2-other1", url: "https://via.placeholder.com/800x800/06B6D4/FFFFFF?text=IEEEXTREME+1", alt: "IEEEXTREME 1" },
+            { id: "2-other2", url: "https://via.placeholder.com/800x800/3B82F6/FFFFFF?text=IEEEXTREME+2", alt: "IEEEXTREME 2" },
         ],
     },
     {
-        id: 3,
+        id: "3",
         date: "Nov 2025",
         title: "PROJECT SHIELD",
+        logo: "",
+        excerpt: "Cybersecurity awareness and workshop",
         className: "event-card-2",
         images: [
-            { id: 9, color: "bg-gradient-to-br from-yellow-500 to-yellow-700" },
-            { id: 10, color: "bg-gradient-to-br from-orange-500 to-orange-700" },
-            { id: 11, color: "bg-gradient-to-br from-red-500 to-red-700" },
-            { id: 12, color: "bg-gradient-to-br from-pink-500 to-pink-700" },
+            { id: "3-sub", url: "https://via.placeholder.com/800x600/EAB308/FFFFFF?text=PROJECT+SHIELD+Main", alt: "PROJECT SHIELD Main" },
+            { id: "3-main", url: "https://via.placeholder.com/1600x800/F97316/FFFFFF?text=PROJECT+SHIELD+Wide", alt: "PROJECT SHIELD Wide" },
+            { id: "3-other1", url: "https://via.placeholder.com/800x800/EF4444/FFFFFF?text=PROJECT+SHIELD+1", alt: "PROJECT SHIELD 1" },
+            { id: "3-other2", url: "https://via.placeholder.com/800x800/EC4899/FFFFFF?text=PROJECT+SHIELD+2", alt: "PROJECT SHIELD 2" },
         ],
     },
 ];
@@ -46,12 +58,69 @@ const EVENTS_DATA = [
 // 🎯 THRESHOLD: Change active element when its top is 350px from viewport top
 const ACTIVATION_THRESHOLD = 350;
 
-export default function EventsSection() {
+export default function EventsSection({ events }: EventsSectionProps) {
     const [activeEventIndex, setActiveEventIndex] = useState(0);
 
     const blueContainerRef = useRef<HTMLDivElement>(null);
     const scrollableContentRef = useRef<HTMLDivElement>(null);
     const eventCardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    // Transform Sanity events to component format
+    const transformedEvents = events.map((event, index) => {
+        const images = [];
+
+        // subMainImage → images[0] (first)
+        if (event.subMainImage?.url) {
+            images.push({
+                id: `${event._id}-sub`,
+                url: event.subMainImage.url,
+                alt: event.subMainImage.alt || event.title,
+            });
+        }
+
+        // mainImage → images[1] (second)
+        if (event.mainImage?.url) {
+            images.push({
+                id: `${event._id}-main`,
+                url: event.mainImage.url,
+                alt: event.mainImage.alt || event.title,
+            });
+        }
+
+        // otherImage1 → images[2] (third)
+        if (event.otherImage1?.url) {
+            images.push({
+                id: `${event._id}-other1`,
+                url: event.otherImage1.url,
+                alt: event.otherImage1.alt || event.title,
+            });
+        }
+
+        // otherImage2 → images[3] (fourth)
+        if (event.otherImage2?.url) {
+            images.push({
+                id: `${event._id}-other2`,
+                url: event.otherImage2.url,
+                alt: event.otherImage2.alt || event.title,
+            });
+        }
+
+        return {
+            id: event._id,
+            date: new Date(event.startDate).toLocaleDateString("en-US", {
+                month: "short",
+                year: "numeric",
+            }),
+            title: event.title,
+            logo: event.logo?.url,
+            excerpt: event.excerpt || "",
+            className: `event-card-${index}`,
+            images,
+        };
+    });
+
+    // Use transformed events or fallback to dummy data
+    const EVENTS_DATA = transformedEvents.length > 0 ? transformedEvents : DUMMY_EVENTS_DATA;
 
     useEffect(() => {
         function handleWheel(e: WheelEvent) {
@@ -131,7 +200,7 @@ export default function EventsSection() {
     return (
         <Container className="relative z-10 py-32 lg:py-40">
             <div
-                className="bg-blue-700 min-h-[920px] flex rounded-lg overflow-hidden"
+                className="bg-gradient-to-br from-[#000000] via-[#0F2248] to-[#1E448F] min-h-[920px] flex rounded-lg overflow-hidden"
                 ref={blueContainerRef}
             >
                 {/* LEFT SECTION: Event cards */}
@@ -146,16 +215,12 @@ export default function EventsSection() {
                             ref={(el) => {
                                 eventCardRefs.current[index] = el;
                             }}
-                            className={`${event.className} flex items-center justify-between h-[705px] shrink-0 transition-all duration-300 ${
-                                activeEventIndex === index
-                                    ? "bg-green-400"
-                                    : "bg-green-400/50"
-                            }`}
+                            className={`${event.className} flex items-center justify-between h-[705px] shrink-0 transition-all duration-300`}
                             id={`event-${index}`}
                         >
                             {/* Date section */}
                             <div
-                                className={`date-section bg-amber-300 text-black flex items-center justify-center w-[18%] h-[215px] transition-all duration-300 ${
+                                className={`date-section text-white flex items-center justify-center w-[18%] h-[215px] transition-all duration-300 ${
                                     activeEventIndex === index
                                         ? "font-bold text-xl"
                                         : "text-base opacity-70"
@@ -164,13 +229,32 @@ export default function EventsSection() {
                                 {event.date}
                             </div>
 
-                            {/* Event title section */}
+                            {/* Event details container (replaces old title section) */}
                             <div
-                                className={`title-section bg-red-500 min-h-[215px] w-[80%] h-[215px] flex items-center justify-center text-white text-2xl font-bold transition-all duration-300 ${
+                                className={`event-details-container w-[80%] h-[215px] flex flex-col transition-all duration-300 ${
                                     activeEventIndex === index ? "scale-105" : "scale-100"
                                 }`}
                             >
-                                {event.title}
+                                {/* Logo section - 80px height */}
+                                <div className="logo-section h-[80px] flex items-center overflow-hidden">
+                                    <img
+                                        src={event.logo}
+                                        alt={`${event.title} logo`}
+                                        className="h-full w-auto object-contain"
+                                    />
+                                </div>
+
+                                {/* Title section - 35px height */}
+                                <div className="title-section h-[35px] flex items-center text-white font-bold text-lg px-2 overflow-hidden">
+                                    <span className="truncate">{event.title}</span>
+                                </div>
+
+                                {/* Excerpt section - Remaining height (215px - 80px - 35px = 100px) */}
+                                <div className="excerpt-section flex-1 flex items-center text-white text-sm px-4 py-2 overflow-hidden">
+                                    <p className="line-clamp-4 text-center">
+                                        {event.excerpt}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -186,7 +270,7 @@ export default function EventsSection() {
 
                 {/* RIGHT SECTION: Event photos */}
                 <div
-                    className="grid grid-rows-4 grid-cols-2 gap-2 h-[920px] w-[47%] bg-black p-3"
+                    className="grid grid-rows-4 grid-cols-2 gap-2 h-[920px] w-[47%] p-3"
                     id="photos-section"
                 >
                     {getActiveImages().map((image, index) => (
@@ -194,16 +278,23 @@ export default function EventsSection() {
                             key={image.id}
                             className={`
                                 photo-item
-                                ${image.color}
                                 rounded-lg
-                                flex items-center justify-center
-                                text-white font-bold text-5xl
-                                shadow-lg
+                                overflow-hidden
                                 ${index === 0 ? "col-span-2" : ""}
                                 ${index === 1 ? "col-span-2 row-span-2" : ""}
                             `}
                         >
-                            {image.id}
+                            {image.url ? (
+                                <img
+                                    src={image.url}
+                                    alt={image.alt || "Event image"}
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <div className="w-full h-full bg-gray-700 flex items-center justify-center text-white">
+                                    No Image
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>

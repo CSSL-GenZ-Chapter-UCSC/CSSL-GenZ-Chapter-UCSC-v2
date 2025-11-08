@@ -4,7 +4,7 @@
  */
 
 // Get 10 events with all image fields (ordered by startDate desc)
-export const GET_EVENTS_QUERY = `*[_type == "event"] | order(startDate desc)[0...10]{
+export const GET_EVENTS_QUERY = `*[_type == "event"] | order(startDate asc)[0...10]{
   _id,
   title,
   slug,

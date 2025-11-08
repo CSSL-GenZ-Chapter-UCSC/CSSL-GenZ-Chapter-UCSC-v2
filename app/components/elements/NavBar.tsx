@@ -10,6 +10,11 @@ export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
+  // Hide navbar on studio routes
+  if (pathname?.startsWith('/studio')) {
+    return null;
+  }
+
   useEffect(() => {
     const handleScroll = () => setIsOpen(false);
     if (isOpen) window.addEventListener("scroll", handleScroll);
