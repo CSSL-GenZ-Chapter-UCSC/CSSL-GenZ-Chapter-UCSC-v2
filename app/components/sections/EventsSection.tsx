@@ -9,6 +9,8 @@ const EVENTS_DATA = [
         id: 1,
         date: "Sep 2025",
         title: "INFINITELOOP 3.0",
+        logo: "https://via.placeholder.com/80", // Placeholder logo
+        excerpt: "Annual coding competition featuring algorithmic challenges and creative problem-solving.",
         className: "event-card-0",
         images: [
             { id: 1, color: "bg-gradient-to-br from-blue-500 to-blue-700" },
@@ -21,6 +23,8 @@ const EVENTS_DATA = [
         id: 2,
         date: "Oct 2025",
         title: "IEEEXTREME 19.0",
+        logo: "https://via.placeholder.com/80",
+        excerpt: "24-hour global programming competition testing coding skills and endurance.",
         className: "event-card-1",
         images: [
             { id: 5, color: "bg-gradient-to-br from-green-500 to-green-700" },
@@ -33,6 +37,8 @@ const EVENTS_DATA = [
         id: 3,
         date: "Nov 2025",
         title: "PROJECT SHIELD",
+        logo: "https://via.placeholder.com/80",
+        excerpt: "Cybersecurity workshop covering ethical hacking and network security fundamentals.",
         className: "event-card-2",
         images: [
             { id: 9, color: "bg-gradient-to-br from-yellow-500 to-yellow-700" },
@@ -164,13 +170,32 @@ export default function EventsSection() {
                                 {event.date}
                             </div>
 
-                            {/* Event title section */}
+                            {/* Event details container (replaces old title section) */}
                             <div
-                                className={`title-section bg-red-500 min-h-[215px] w-[80%] h-[215px] flex items-center justify-center text-white text-2xl font-bold transition-all duration-300 ${
+                                className={`event-details-container w-[80%] h-[215px] flex flex-col transition-all duration-300 ${
                                     activeEventIndex === index ? "scale-105" : "scale-100"
                                 }`}
                             >
-                                {event.title}
+                                {/* Logo section - 80px height */}
+                                <div className="logo-section h-[80px] bg-purple-500 flex items-center overflow-hidden">
+                                    <img
+                                        src={event.logo}
+                                        alt={`${event.title} logo`}
+                                        className="h-full w-auto object-contain"
+                                    />
+                                </div>
+
+                                {/* Title section - 35px height */}
+                                <div className="title-section h-[35px] bg-red-500 flex items-center text-white font-bold text-lg px-2 overflow-hidden">
+                                    <span className="truncate">{event.title}</span>
+                                </div>
+
+                                {/* Excerpt section - Remaining height (215px - 80px - 35px = 100px) */}
+                                <div className="excerpt-section flex-1 bg-blue-600 flex items-center text-white text-sm px-4 py-2 overflow-hidden">
+                                    <p className="line-clamp-4 text-center">
+                                        {event.excerpt}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     ))}
