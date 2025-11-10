@@ -60,7 +60,7 @@ export const About = () => {
             transition={{ duration: 0.35, ease: "easeOut" }}
             className="flex items-center justify-start text-(--lightBlue,#3774CB) font-[Poppins] text-[213px] not-italic font-medium leading-none tracking-[10.65px] flex-1"
           >
-            ABOUT
+            ABOUT US
           </motion.h2>
           <div className="flex px-2.5 justify-between items-start self-stretch flex-1">
             <motion.p

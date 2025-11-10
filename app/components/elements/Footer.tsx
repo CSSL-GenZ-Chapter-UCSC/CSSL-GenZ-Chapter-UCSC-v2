@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { Background } from "./Background";
 
 const gradient = `linear-gradient(
   80deg,
@@ -90,6 +91,7 @@ const socialLinks = [
 export const Footer = () => {
   return (
     <footer className="sticky bottom-0 -z-10">
+      <Background />
       <div className="w-full h-[85vh] flex items-center justify-start bg-none relative flex-col overflow-hidden">
         <div className="w-full h-[80%] bg-black/30 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)] z-10">
           <FooterContent />

@@ -34,7 +34,7 @@ const LogoScroll = ({ gradient }: { gradient: string }) => {
   );
 
   return (
-    <div ref={containerRef} className="relative h-[300vh] w-full">
+    <div ref={containerRef} className="relative h-[200vh] w-full">
       <div className="h-screen sticky top-0 flex items-center justify-center overflow-hidden">
         <motion.h2
           className="text-center font-[Poppins] 2xl:text-[750px] xl:text-[650px] lg:text-[550px] md:text-[450px] sm:text-[350px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
