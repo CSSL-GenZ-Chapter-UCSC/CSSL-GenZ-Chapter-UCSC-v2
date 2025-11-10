@@ -28,6 +28,13 @@ const blogs = [
     readTime: "7 min Read",
     date: "Nov 2025",
   },
+  {
+    image: "/Images/blogImg3.png",
+    title: "Third Blog Post",
+    description: "Description for the third blog post.",
+    readTime: "7 min Read",
+    date: "Nov 2025",
+  },
 ];
 
 export const Blogs = () => {
@@ -48,10 +55,11 @@ export const Blogs = () => {
       return {
         width: "50%",
         height: "100%",
-        opacity: 1,
         scale: 1,
         x: 0,
         zIndex: 30,
+        filter: "brightness(1)",
+        opacity: 1,
       };
     } else if (relativeIndex === blogs.length - 1) {
       // Previous slide, moving out
@@ -59,29 +67,32 @@ export const Blogs = () => {
         x: "-100%",
         scale: 1.2,
         opacity: 0,
-        zIndex: 0,
+        zIndex: 50,
         width: "50%",
         height: "100%",
+        filter: "brightness(0)",
       };
     } else if (relativeIndex === 1) {
       // Next slide
       return {
         width: "33.33%",
         height: "66.66%",
-        opacity: 0.2,
-        scale: 0.8,
+        scale: 1.2,
         x: "125%",
         zIndex: 20,
+        filter: "brightness(0.15)",
+        opacity: 1,
       };
     } else if (relativeIndex === 2) {
       // even more next slide
       return {
         width: "33.33%",
         height: "50%",
-        opacity: 0.15,
-        scale: 0.6,
+        scale: 1,
         x: "175%",
         zIndex: 10,
+        filter: "brightness(0.1)",
+        opacity: 1,
       };
     } else {
       // Slides that are further away
@@ -92,6 +103,7 @@ export const Blogs = () => {
         scale: 0.5,
         x: "300%",
         zIndex: 0,
+        filter: "brightness(0)",
       };
     }
   };

@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "motion/react";
+
 interface ButtonProps {
   className?: string;
-  isSvg?: boolean;
-  text: string;
+  isSvg?: boolean; // the SVG arrow icon
+  text: string; // button text
   onClick?: () => void;
 }
 
