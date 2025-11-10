@@ -15,6 +15,8 @@ const DUMMY_EVENTS_DATA = [
         id: "1",
         date: "Sep 2025",
         title: "INFINITELOOP 3.0",
+        logo: "https://via.placeholder.com/200x80/8B5CF6/FFFFFF?text=LOGO",
+        excerpt: "Annual coding competition for developers. Join us for an exciting challenge!",
         className: "event-card-0",
         images: [
             { id: "1-sub", url: "https://via.placeholder.com/800x600/3B82F6/FFFFFF?text=INFINITELOOP+Main", alt: "INFINITELOOP Main" },
@@ -27,6 +29,8 @@ const DUMMY_EVENTS_DATA = [
         id: "2",
         date: "Oct 2025",
         title: "IEEEXTREME 19.0",
+        logo: "https://via.placeholder.com/200x80/14B8A6/FFFFFF?text=LOGO",
+        excerpt: "24-hour global programming competition. Test your skills against the world!",
         className: "event-card-1",
         images: [
             { id: "2-sub", url: "https://via.placeholder.com/800x600/10B981/FFFFFF?text=IEEEXTREME+Main", alt: "IEEEXTREME Main" },
@@ -39,6 +43,8 @@ const DUMMY_EVENTS_DATA = [
         id: "3",
         date: "Nov 2025",
         title: "PROJECT SHIELD",
+        logo: "https://via.placeholder.com/200x80/F97316/FFFFFF?text=LOGO",
+        excerpt: "Cybersecurity awareness and workshop. Learn to protect your digital assets!",
         className: "event-card-2",
         images: [
             { id: "3-sub", url: "https://via.placeholder.com/800x600/EAB308/FFFFFF?text=PROJECT+SHIELD+Main", alt: "PROJECT SHIELD Main" },
@@ -61,43 +67,29 @@ export default function EventsSection({ events }: EventsSectionProps) {
 
     // Transform Sanity events to component format
     const transformedEvents = events.map((event, index) => {
-        const images = [];
-
-        // subMainImage → images[0] (first)
-        if (event.subMainImage?.url) {
-            images.push({
+        // Always return exactly four slots in a fixed order
+        const images = [
+            {
                 id: `${event._id}-sub`,
-                url: event.subMainImage.url,
-                alt: event.subMainImage.alt || event.title,
-            });
-        }
-
-        // mainImage → images[1] (second)
-        if (event.mainImage?.url) {
-            images.push({
+                url: event.subMainImage?.url ?? null,
+                alt: event.subMainImage?.alt || event.title,
+            },
+            {
                 id: `${event._id}-main`,
-                url: event.mainImage.url,
-                alt: event.mainImage.alt || event.title,
-            });
-        }
-
-        // otherImage1 → images[2] (third)
-        if (event.otherImage1?.url) {
-            images.push({
+                url: event.mainImage?.url ?? null,
+                alt: event.mainImage?.alt || event.title,
+            },
+            {
                 id: `${event._id}-other1`,
-                url: event.otherImage1.url,
-                alt: event.otherImage1.alt || event.title,
-            });
-        }
-
-        // otherImage2 → images[3] (fourth)
-        if (event.otherImage2?.url) {
-            images.push({
+                url: event.otherImage1?.url ?? null,
+                alt: event.otherImage1?.alt || event.title,
+            },
+            {
                 id: `${event._id}-other2`,
-                url: event.otherImage2.url,
-                alt: event.otherImage2.alt || event.title,
-            });
-        }
+                url: event.otherImage2?.url ?? null,
+                alt: event.otherImage2?.alt || event.title,
+            },
+        ];
 
         return {
             id: event._id,
@@ -229,7 +221,30 @@ export default function EventsSection({ events }: EventsSectionProps) {
                                     activeEventIndex === index ? "scale-105" : "scale-100"
                                 }`}
                             >
-                                {event.title}
+                                {/* Logo section - 80px height */}
+                                <div className="logo-section h-20 flex items-center overflow-hidden py-2 px-2">
+                                    {event.logo ? (
+                                        <img
+                                            src={event.logo}
+                                            alt={`${event.title} logo`}
+                                            className="h-full w-auto object-contain"
+                                        />
+                                    ) : (
+                                        <div className="text-white text-xs">No Logo</div>
+                                    )}
+                                </div>
+
+                                {/* Title section - 35px height */}
+                                <div className="title-section h-[35px] flex items-center text-white font-bold text-[45px] font-poppins px-3 py-2 overflow-hidden">
+                                    <span className="truncate">{event.title}</span>
+                                </div>
+
+                                {/* Excerpt section - Remaining height (215px - 80px - 35px = 100px) */}
+                                <div className="excerpt-section flex-1 flex items-center text-white text-[15px] font-poppins px-4 py-2 overflow-hidden">
+                                    <p className="line-clamp-4 text-left">
+                                        {event.excerpt}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -266,9 +281,7 @@ export default function EventsSection({ events }: EventsSectionProps) {
                                     className="w-full h-full object-cover"
                                 />
                             ) : (
-                                <div className="w-full h-full bg-gray-700 flex items-center justify-center text-white">
-                                    No Image
-                                </div>
+                                <div className="w-full h-full bg-white/20 rounded-lg"></div>
                             )}
                         </div>
                     ))}
