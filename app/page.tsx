@@ -1,3 +1,4 @@
+import { Blogs } from "./components/sections/Blogs";
 import { Hero } from "./components/sections/Hero";
 import { Logo } from "./components/sections/Logo";
 
@@ -12,6 +13,7 @@ export default function Home() {
     <main className="flex flex-col">
       <Hero />
       <Logo />
+      <Blogs />
     </main>
   );
 }
