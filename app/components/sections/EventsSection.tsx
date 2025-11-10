@@ -15,8 +15,6 @@ const DUMMY_EVENTS_DATA = [
         id: "1",
         date: "Sep 2025",
         title: "INFINITELOOP 3.0",
-        logo: "",
-        excerpt: "Annual coding competition for developers",
         className: "event-card-0",
         images: [
             { id: "1-sub", url: "https://via.placeholder.com/800x600/3B82F6/FFFFFF?text=INFINITELOOP+Main", alt: "INFINITELOOP Main" },
@@ -29,8 +27,6 @@ const DUMMY_EVENTS_DATA = [
         id: "2",
         date: "Oct 2025",
         title: "IEEEXTREME 19.0",
-        logo: "",
-        excerpt: "24-hour global programming competition",
         className: "event-card-1",
         images: [
             { id: "2-sub", url: "https://via.placeholder.com/800x600/10B981/FFFFFF?text=IEEEXTREME+Main", alt: "IEEEXTREME Main" },
@@ -43,8 +39,6 @@ const DUMMY_EVENTS_DATA = [
         id: "3",
         date: "Nov 2025",
         title: "PROJECT SHIELD",
-        logo: "",
-        excerpt: "Cybersecurity awareness and workshop",
         className: "event-card-2",
         images: [
             { id: "3-sub", url: "https://via.placeholder.com/800x600/EAB308/FFFFFF?text=PROJECT+SHIELD+Main", alt: "PROJECT SHIELD Main" },
@@ -235,26 +229,7 @@ export default function EventsSection({ events }: EventsSectionProps) {
                                     activeEventIndex === index ? "scale-105" : "scale-100"
                                 }`}
                             >
-                                {/* Logo section - 80px height */}
-                                <div className="logo-section h-[80px] flex items-center overflow-hidden">
-                                    <img
-                                        src={event.logo}
-                                        alt={`${event.title} logo`}
-                                        className="h-full w-auto object-contain"
-                                    />
-                                </div>
-
-                                {/* Title section - 35px height */}
-                                <div className="title-section h-[35px] flex items-center text-white font-bold text-lg px-2 overflow-hidden">
-                                    <span className="truncate">{event.title}</span>
-                                </div>
-
-                                {/* Excerpt section - Remaining height (215px - 80px - 35px = 100px) */}
-                                <div className="excerpt-section flex-1 flex items-center text-white text-sm px-4 py-2 overflow-hidden">
-                                    <p className="line-clamp-4 text-center">
-                                        {event.excerpt}
-                                    </p>
-                                </div>
+                                {event.title}
                             </div>
                         </div>
                     ))}
