@@ -11,7 +11,7 @@ const DarkVeil = dynamic(() => import("../shared/DarkVeil"), {
 
 export const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
       {/* DarkVeil Background */}
       <div className="absolute inset-0 z-0 w-full h-full">
         <DarkVeil

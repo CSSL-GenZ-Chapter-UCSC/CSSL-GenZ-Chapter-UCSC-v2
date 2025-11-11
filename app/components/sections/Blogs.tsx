@@ -46,8 +46,6 @@ export const Blogs = () => {
   const headingWords = useMemo(() => heading.split(" "), [heading]);
   const descriptionWords = useMemo(() => description.split(" "), [description]);
 
-  // Per-word animation will be applied inline to avoid complex variant typing issues
-
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prevIndex) => (prevIndex + 1) % blogs.length);
@@ -132,7 +130,7 @@ export const Blogs = () => {
                   ease: "easeOut",
                   delay: i * 0.06,
                 }}
-                viewport={{ once: true, amount: 0.6 }}
+                viewport={{ once: false, amount: 0.6 }}
               >
                 {word}
               </motion.span>
