@@ -112,17 +112,17 @@ export const Vision = () => {
                   className="text-[#E0E0E0] font-[Poppins] text-[45px] not-italic font-normal leading-[54px] tracking-[-0.52px] w-2/3"
                 >
                   {renderSpans(
-                    "Shaping future tech leaders through community, curiosity, and real‑world impact",
+                    "To create a community of UCSC undergraduates passionate about technology",
                     6
                   )}
                 </motion.p>
               ) : (
                 <motion.p
                   key="desc-1"
-                  className="text-[#E0E0E0] font-[Poppins] text-[45px] not-italic font-normal leading-[54px] tracking-[-0.52px] w-2/3"
+                  className="text-[#E0E0E0] font-[Poppins] text-[45px] not-italic font-normal leading-[54px] tracking-[-0.52px] w-3/4"
                 >
                   {renderSpans(
-                    "An initiative dedicated to empowering the next generation of IT professionals",
+                    "To inspire the next generation of ICT leaders who have the capability to transform the digital landscape in Sri Lanka",
                     6
                   )}
                 </motion.p>

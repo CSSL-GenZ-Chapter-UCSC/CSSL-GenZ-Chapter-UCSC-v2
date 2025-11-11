@@ -69,8 +69,7 @@ export const About = () => {
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.15 }}
               className="text-[#E0E0E0] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] w-[274px]"
             >
-              An initiative dedicated to empowering the next generation of IT
-              professionals
+              NextGen Tech, Today’s Chapter - CSSL Genz UCSC
             </motion.p>
             <motion.p
               initial={{ opacity: 0, filter: "blur(8px)" }}
@@ -78,7 +77,9 @@ export const About = () => {
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.25 }}
               className="text-[#E0E0E0] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] w-[274px]"
             >
-              Founded in 2025
+              CSSL GenZ - UCSC Chapter is the official representation of the
+              Computer Society of Sri Lanka at the University of Colombo School
+              of Computing.
             </motion.p>
             <motion.p
               initial={{ opacity: 0, filter: "blur(8px)" }}
@@ -86,7 +87,9 @@ export const About = () => {
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.35 }}
               className="text-[#E0E0E0] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] w-[274px]"
             >
-              CSSL GenZ Chapter of UCSC
+              We strive to empower undergraduates through technology,
+              innovation, and collaboration bridging the gap between academia
+              and the ICT industry to shape future-ready professionals.
             </motion.p>
           </div>
           <div className="flex justify-between items-end self-stretch flex-1">
