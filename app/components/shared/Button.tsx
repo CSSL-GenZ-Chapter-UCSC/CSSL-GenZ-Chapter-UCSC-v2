@@ -12,14 +12,24 @@ interface ButtonProps {
 export const Button = ({ className, isSvg, text, onClick }: ButtonProps) => {
   return (
     <motion.button
-      className={`relative overflow-hidden rounded-[33px] bg-[linear-gradient(90deg,var(--darkBlue,#1E448F)_0%,#4C9DFE_100%)] inline-flex h-[53px] px-[26px] py-2.5 justify-center items-center gap-[15px] cursor-pointer ${className ?? ""}`}
+      className={`relative overflow-hidden bg-[linear-gradient(90deg,var(--darkBlue,#1E448F)_0%,#4C9DFE_100%)] inline-flex 
+  h-11 sm:h-12 md:h-[53px] lg:h-14
+      px-4 sm:px-5 md:px-[26px] lg:px-8
+      py-2.5 justify-center items-center 
+  gap-2.5 md:gap-[15px] lg:gap-4 
+      rounded-[28px] md:rounded-[33px]
+      cursor-pointer ${className ?? ""}`}
       style={{ backgroundSize: "140% 100%", backgroundPositionX: "0%" }}
       whileHover={{ backgroundPositionX: "50%" }}
       whileTap={{ scale: 0.96 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
       onClick={onClick}
     >
-      <span className="text-white text-center font-poppins text-[16px]  font-medium leading-20">
+      <span
+        className="text-white text-center font-poppins 
+      text-[14px] sm:text-[15px] md:text-[16px] lg:text-[18px]
+      font-medium leading-20"
+      >
         {text}
       </span>
       {isSvg && (
