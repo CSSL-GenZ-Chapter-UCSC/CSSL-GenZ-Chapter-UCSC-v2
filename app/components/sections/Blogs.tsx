@@ -114,10 +114,72 @@ export const Blogs = () => {
     }
   };
 
+  // Mobile (below md)
+  const getMobileStyle = (index: number) => {
+    const relativeIndex = (index - activeIndex + blogs.length) % blogs.length;
+
+    if (relativeIndex === 0) {
+      // Active slide
+      return {
+        width: "100%",
+        height: "100%",
+        scale: 1,
+        y: 0,
+        zIndex: 30,
+        filter: "brightness(1)",
+        opacity: 1,
+      } as const;
+    } else if (relativeIndex === blogs.length - 1) {
+      // Previous slide, moving out upwards
+      return {
+        y: "-110%",
+        scale: 1.2,
+        opacity: 0,
+        zIndex: 50,
+        width: "100%",
+        height: "100%",
+        filter: "brightness(0)",
+      } as const;
+    } else if (relativeIndex === 1) {
+      // Next slide (peeking below)
+      return {
+        width: "100%",
+        height: "66.66%",
+        scale: 1.1,
+        y: "115%",
+        zIndex: 20,
+        filter: "brightness(0.15)",
+        opacity: 1,
+      } as const;
+    } else if (relativeIndex === 2) {
+      // Even more next slide (further below)
+      return {
+        width: "100%",
+        height: "50%",
+        scale: 1,
+        y: "180%",
+        zIndex: 10,
+        filter: "brightness(0.1)",
+        opacity: 1,
+      } as const;
+    } else {
+      // Slides further away
+      return {
+        width: "100%",
+        height: "40%",
+        opacity: 0,
+        scale: 0.5,
+        y: "300%",
+        zIndex: 0,
+        filter: "brightness(0)",
+      } as const;
+    }
+  };
+
   return (
-    <section className="w-full h-screen flex flex-col bg-black pt-30 pb-10 overflow-hidden">
+    <section className="w-full md:h-screen h-auto flex flex-col bg-black pt-30 pb-10 overflow-hidden">
       <Container className="w-full h-full flex flex-col justify-center items-center gap-15">
-        <div className="w-full h-[30%] flex flex-col justify-start items-start">
+        <div className="w-full md:h-[30%] h-auto flex flex-col justify-start items-start">
           <h2 className="text-white text-center font-poppins text-[48px] font-medium leading-normal">
             {headingWords.map((word, i) => (
               <motion.span
@@ -136,7 +198,7 @@ export const Blogs = () => {
               </motion.span>
             ))}
           </h2>
-          <p className="text-[#9AA0A6] font-poppins text-[24px] font-normal leading-normal w-1/2">
+          <p className="text-[#9AA0A6] font-poppins lg:text-[20px] md:text-[15px] text-[14px] font-normal leading-normal lg:w-1/2 w-full">
             {descriptionWords.map((word, i) => (
               <motion.span
                 key={`desc-word-${i}-${word}`}
@@ -154,10 +216,61 @@ export const Blogs = () => {
               </motion.span>
             ))}
           </p>
-          <Button className="mt-auto" isSvg text="All blogs" />
+          <Button className="md:mt-auto mt-6" isSvg text="All blogs" />
         </div>
+        {/* Mobile (below md) */}
+        <div className="w-full md:hidden flex flex-col gap-6">
+          <motion.div
+            className="w-full relative overflow-hidden h-[30vh]"
+            initial={{ opacity: 0, filter: "blur(8px)" }}
+            whileInView={{ opacity: 1, filter: "blur(0px)" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            {blogs.map((blog, index) => (
+              <motion.div
+                key={`mobile-slide-${index}`}
+                className="absolute inset-0"
+                initial={false}
+                animate={getMobileStyle(index)}
+                transition={{ duration: 1, ease: [0.4, 0.0, 0.2, 1] }}
+              >
+                <div className="w-full h-full relative">
+                  <Image
+                    src={blog.image}
+                    alt={blog.title}
+                    fill
+                    className="object-cover rounded-3xl"
+                    sizes="100vw"
+                  />
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`mobile-info-${blogs[activeIndex]?.title}`}
+              initial={{ opacity: 0, y: 8, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -8, filter: "blur(6px)" }}
+              transition={{ duration: 0.35, ease: [0.4, 0.0, 0.2, 1] }}
+            >
+              <h3 className="text-white font-poppins text-[20px] font-medium leading-snug">
+                {blogs[activeIndex]?.title}
+              </h3>
+              <p className="text-[#9AA0A6] font-poppins text-[15px] font-normal leading-normal mt-1">
+                {blogs[activeIndex]?.description}
+              </p>
+              <p className="text-[#9AA0A6] font-poppins text-[14px] font-normal leading-normal mt-4">
+                {blogs[activeIndex]?.readTime} . {blogs[activeIndex]?.date}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Desktop*/}
         <motion.div
-          className="w-full flex flex-row justify-start items-center h-[70%] relative"
+          className="w-full hidden md:flex md:flex-row md:justify-start md:items-center h-[70%] relative"
           initial={{ opacity: 0, filter: "blur(8px)" }}
           whileInView={{ opacity: 1, filter: "blur(0px)" }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
