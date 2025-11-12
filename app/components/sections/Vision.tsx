@@ -102,14 +102,14 @@ export const Vision = () => {
       className="w-full h-[400vh] flex flex-col bg-black pt-30"
     >
       <Container className="h-1/4 flex flex-col gap-5 pb-30 sticky top-30">
-        <div className="w-full h-auto flex flex-row">
-          <div className="w-1/3 h-full justify-start items-start flex flex-col" />
-          <div className="w-2/3 h-full justify-start items-start flex flex-col gap-5">
+        <div className="w-full h-1/2 flex flex-row">
+          <div className="md:flex hidden w-1/3 h-full justify-start items-start flex-col" />
+          <div className="md:w-2/3 w-full h-full justify-start items-start flex flex-col gap-5">
             <AnimatePresence initial={false} mode="wait">
               {pastHalf ? (
                 <motion.p
                   key="desc-2"
-                  className="text-[#E0E0E0] font-[Poppins] text-[45px] not-italic font-normal leading-[54px] tracking-[-0.52px] w-2/3"
+                  className="text-[#E0E0E0] font-[Poppins] md:text-[45px] text-[25px] not-italic font-normal md:leading-[54px] leading-[35px] tracking-[-0.52px] md:w-2/3 w-full"
                 >
                   {renderSpans(
                     "To create a community of UCSC undergraduates passionate about technology",
@@ -119,7 +119,7 @@ export const Vision = () => {
               ) : (
                 <motion.p
                   key="desc-1"
-                  className="text-[#E0E0E0] font-[Poppins] text-[45px] not-italic font-normal leading-[54px] tracking-[-0.52px] w-3/4"
+                  className="text-[#E0E0E0] font-[Poppins] md:text-[45px] text-[25px] not-italic font-normal md:leading-[54px] leading-[35px] tracking-[-0.52px] md:w-2/3 w-full"
                 >
                   {renderSpans(
                     "To inspire the next generation of ICT leaders who have the capability to transform the digital landscape in Sri Lanka",
@@ -133,14 +133,14 @@ export const Vision = () => {
               {pastHalf ? (
                 <motion.p
                   key="title-2"
-                  className="text-[#C4C4C4] font-[Poppins] text-[20px] not-italic font-normal leading-[65px] tracking-[-0.23px]"
+                  className="text-[#C4C4C4] font-[Poppins] md:text-[20px] text-[15px] not-italic font-normal leading-[65px] tracking-[-0.23px]"
                 >
                   {renderSpans("Our Mission", 4)}
                 </motion.p>
               ) : (
                 <motion.p
                   key="title-1"
-                  className="text-[#C4C4C4] font-[Poppins] text-[20px] not-italic font-normal leading-[65px] tracking-[-0.23px]"
+                  className="text-[#C4C4C4] font-[Poppins] md:text-[20px] text-[15px] not-italic font-normal leading-[65px] tracking-[-0.23px]"
                 >
                   {renderSpans("Our Vision", 4)}
                 </motion.p>
@@ -148,10 +148,10 @@ export const Vision = () => {
             </AnimatePresence>
           </div>
         </div>
-        <div className="w-full h-full overflow-hidden">
+        <div className="w-full h-1/2 overflow-hidden">
           <motion.div
             style={{ x: xSpring }}
-            className="w-[200%] h-full flex flex-row gap-5"
+            className="md:w-[200%] w-[400%] h-full flex flex-row md:gap-5 gap-2"
           >
             {visionImages.map((item, i) => (
               <div
