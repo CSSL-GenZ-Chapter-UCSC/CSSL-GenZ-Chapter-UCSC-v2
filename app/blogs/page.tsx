@@ -54,9 +54,11 @@ export default function BlogsPage() {
   if (blogs.length === 0) return <p className="text-center mt-10">No blogs found.</p>;
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="text-4xl font-bold text-center mb-10">Blogs</h1>
-      <section className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    <main className="mx-auto w-full px-0 py-10 mt-25 bg-black -mx-1000">
+      
+      <h1 className="text-4xl font-bold text-center mb-12 text-blue-500">Blogs</h1> 
+ 
+      <section className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 bg-black width-full px-20 pb-8">
         {blogs.map((blog, index) => {
           const numericId = index + 1; // Numeric ID
           return (

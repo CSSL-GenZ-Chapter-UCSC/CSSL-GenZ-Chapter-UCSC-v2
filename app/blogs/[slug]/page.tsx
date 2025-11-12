@@ -68,12 +68,12 @@ export default function BlogDetailPage() {
   if (!blog) return <p className="text-center mt-10">Blog not found.</p>;
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-10">
+    <main className="bg-black width-full -mx-14 mt-1 px-20 pb-30">
       <Link href="../blogs" className="text-blue-600 hover:underline mt-40 mb-6 inline-block">
         &lt; Back to Blogs
       </Link>
 
-      <article className="bg-white rounded-lg shadow-md overflow-hidden border border-red-500 mt-10 pl-4 pt-10">
+      <article className="bg-white rounded-lg shadow-md overflow-hidden border border-red-500 mt-10 pl-4 pt-10 ">
 
         <h1 className="text-4xl font-bold mb-4">{blog.title}</h1>
 
