@@ -58,7 +58,7 @@ export const About = () => {
             initial={{ opacity: 0, filter: "blur(8px)" }}
             animate={{ opacity: 1, filter: "blur(0px)" }}
             transition={{ duration: 0.35, ease: "easeOut" }}
-            className="flex items-center justify-start text-(--lightBlue,#3774CB) font-[Poppins] text-[213px] not-italic font-medium leading-none tracking-[10.65px] flex-1"
+            className="flex items-center justify-start bg-[linear-gradient(87deg,rgba(0,0,0,0)_-1.81%,#0F52B4_15.92%,rgba(17,105,234,0.58)_35.57%,rgba(68,140,246,0.82)_52.17%,rgba(49,138,255,0.82)_77.28%,rgba(25,69,128,0.41)_97.86%,rgba(0,0,0,0)_97.87%)] bg-clip-text text-transparent font-[Poppins] text-[213px] not-italic font-semibold leading-none tracking-[12.65px] flex-1"
           >
             ABOUT US
           </motion.h2>
@@ -67,7 +67,7 @@ export const About = () => {
               initial={{ opacity: 0, filter: "blur(8px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.15 }}
-              className="text-[#E0E0E0] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] w-[274px]"
+              className="text-[#afafaf] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] w-[274px]"
             >
               NextGen Tech, Today’s Chapter - CSSL Genz UCSC
             </motion.p>
@@ -75,7 +75,7 @@ export const About = () => {
               initial={{ opacity: 0, filter: "blur(8px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.25 }}
-              className="text-[#E0E0E0] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] w-[274px]"
+              className="text-[#afafaf] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] w-[274px]"
             >
               CSSL GenZ - UCSC Chapter is the official representation of the
               Computer Society of Sri Lanka at the University of Colombo School
@@ -85,7 +85,7 @@ export const About = () => {
               initial={{ opacity: 0, filter: "blur(8px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.35 }}
-              className="text-[#E0E0E0] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] w-[274px]"
+              className="text-[#afafaf] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] w-[274px]"
             >
               We strive to empower undergraduates through technology,
               innovation, and collaboration bridging the gap between academia

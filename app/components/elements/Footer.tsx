@@ -96,9 +96,9 @@ export const Footer = () => {
         <div className="w-full h-[80%] bg-black/30 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)] z-10">
           <FooterContent />
         </div>
-        <div className="w-[90%] absolute -bottom-70 flex items-center justify-center">
+        <div className="w-[90%] absolute sm:-bottom-70 bottom-0 flex items-center justify-center">
           <h2
-            className="text-center font-[Poppins] font-semibold leading-none bg-clip-text text-transparent select-none text-[50vw]"
+            className="text-center font-[Poppins] font-semibold leading-none bg-clip-text text-transparent select-none text-[50vw] sm:text-[40vw] md:text-[50vw]"
             style={{
               backgroundImage: gradient,
               backgroundSize: "300% 100%",
@@ -117,7 +117,7 @@ export const Footer = () => {
 
 const FooterContent = () => {
   return (
-    <div className="w-full h-full flex flex-col items-center justify-between p-20">
+    <div className="w-full h-full flex flex-col items-center justify-between p-8 sm:p-12 md:p-16 lg:p-20">
       <div className="w-full min-h-[50%] flex flex-col justify-start items-start">
         <Link href="/" className="flex items-center h-full w-full">
           <Image
@@ -125,21 +125,23 @@ const FooterContent = () => {
             alt="CSSL Logo"
             width={200}
             height={10}
-            className="object-contain"
+            className="object-contain w-32 sm:w-40 md:w-52 lg:w-[200px] h-auto"
           />
         </Link>
       </div>
-      <div className="w-full flex flex-row justify-between">
-        <p className="text-gray-300">2025 CSSL GenZ Chapter of UCSC</p>
-        <div className="h-auto flex flex-row gap-20 max-w-[50%] items-start justify-center">
+      <div className="w-full flex flex-col gap-6 md:gap-0 md:flex-row justify-between">
+        <p className="text-gray-300 text-sm sm:text-base md:text-lg">
+          2025 CSSL GenZ Chapter of UCSC
+        </p>
+        <div className="h-auto flex flex-col md:flex-row gap-3 sm:gap-6 md:gap-10 lg:gap-20 md:max-w-[60%] items-start justify-center text-sm sm:text-base md:text-lg">
           <p>cssl@gmail.com</p>
           <p>033 0929021</p>
-          <p className="max-w-[33%]">
+          <p className="md:max-w-[33%]">
             CSSL GenZ Chapter of UCSC, University of Colombo School of
             Computing, 35, Reid Avenue, Colombo 7.
           </p>
         </div>
-        <div className="h-auto flex flex-row items-start justify-center gap-3">
+        <div className="h-auto flex flex-row items-start justify-center gap-3 sm:gap-4 md:gap-5">
           {socialLinks.map(({ href, ariaLabel, icon }) => (
             <Link key={ariaLabel} href={href} aria-label={ariaLabel}>
               {icon}

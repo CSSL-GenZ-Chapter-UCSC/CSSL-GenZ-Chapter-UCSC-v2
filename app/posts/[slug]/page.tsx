@@ -9,34 +9,37 @@ type Post = {
   publishedAt?: string;
 };
 
-async function getPost(slug: string): Promise<Post | null> {
+async function getPost(slug: string | undefined): Promise<Post | null> {
+  if (typeof slug !== "string" || slug.length === 0) return null;
   const query = `*[_type=="post" && slug.current==$slug][0]{_id,title,slug,excerpt,publishedAt}`;
   const data = await client.fetch(query, { slug });
   return data ?? null;
 }
 
 export async function generateStaticParams() {
-  const slugs: { slug: { current: string } }[] = await client.fetch(
-    `*[_type=="post"].slug`
+  const slugs: string[] = await client.fetch(
+    `*[_type=="post" && defined(slug.current)].slug.current`
   );
-  return slugs.filter(Boolean).map((s) => ({ slug: s?.slug?.current }));
+  return slugs
+    .filter((s): s is string => typeof s === "string" && s.length > 0)
+    .map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: { slug?: string };
 }) {
-  const post = await getPost(params.slug);
+  const post = await getPost(params?.slug);
   return { title: post?.title ?? "Post" };
 }
 
 export default async function PostPage({
   params,
 }: {
-  params: { slug: string };
+  params: { slug?: string };
 }) {
-  const post = await getPost(params.slug);
+  const post = await getPost(params?.slug);
   if (!post) notFound();
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
