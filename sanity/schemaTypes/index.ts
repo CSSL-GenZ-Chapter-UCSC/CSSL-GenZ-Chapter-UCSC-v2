@@ -5,5 +5,5 @@ import { event } from './event'
 import { author } from './author'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [post, blog, event,author],
+  types: [post, blog, event, author],
 }
