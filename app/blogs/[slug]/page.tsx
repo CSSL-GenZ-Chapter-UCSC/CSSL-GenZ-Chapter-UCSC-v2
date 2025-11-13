@@ -10,6 +10,7 @@ import { PortableText } from "@portabletext/react";
 type Blog = {
   _id: string;
   title: string;
+  slug: { current: string };
   mainImage?: { asset: { url: string } };
   author?: { name: string };
   body?: any; // PortableText content
@@ -17,23 +18,23 @@ type Blog = {
   category?: string;
 };
 
-async function getBlogs(): Promise<Blog[]> {
-  const query = `*[_type=="blog"]|order(publishedAt desc)[0...50]{
+async function getBlogBySlug(slug: string): Promise<Blog | null> {
+  const query = `*[_type=="blog" && slug.current == $slug][0]{
     _id,
     title,
+    slug,
     "mainImage": mainImage.asset->{url},
     "author": author-> { name },
     body,
     publishedAt,
     category
   }`;
-  return client.fetch(query);
+  return client.fetch(query, { slug });
 }
 
 export default function BlogDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
-  const numericId = parseInt(slug, 10);
 
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(true);
@@ -46,10 +47,10 @@ export default function BlogDetailPage() {
     const fetchBlog = async () => {
       try {
         setLoading(true);
-        const blogs = await getBlogs();
+        const fetchedBlog = await getBlogBySlug(slug);
 
-        if (numericId > 0 && numericId <= blogs.length) {
-          setBlog(blogs[numericId - 1]);
+        if (fetchedBlog) {
+          setBlog(fetchedBlog);
         } else {
           setError("Blog not found.");
         }
@@ -61,7 +62,7 @@ export default function BlogDetailPage() {
       }
     };
     fetchBlog();
-  }, [numericId]);
+  }, [slug]);
 
   if (loading) return <p className="text-center mt-10">Loading blog...</p>;
   if (error) return <p className="text-center mt-10 text-red-600">{error}</p>;

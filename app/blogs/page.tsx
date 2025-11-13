@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 type Blog = {
   _id: string;
   title: string;
+  slug: { current: string };
   mainImage?: { asset: { url: string } };
   author?: { name: string };
   excerpt?: string;
@@ -19,6 +20,7 @@ async function getBlogs(): Promise<Blog[]> {
   const query = `*[_type=="blog"]|order(publishedAt desc)[0...50]{
     _id,
     title,
+    slug,
     "mainImage": mainImage.asset->{url},
     "author": author-> { name },
     excerpt,
@@ -59,30 +61,27 @@ export default function BlogsPage() {
       <h1 className="text-4xl font-bold text-center mb-12 text-blue-500">Blogs</h1> 
  
       <section className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 bg-black width-full px-20 pb-8">
-        {blogs.map((blog, index) => {
-          const numericId = index + 1; // Numeric ID
-          return (
-            <article key={blog._id} className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md flex flex-col">
-              {blog.mainImage?.url && (
-                <div className="relative w-full h-56">
-                  <Image src={blog.mainImage.url} alt={blog.title} fill className="object-cover" />
-                </div>
-              )}
-              <div className="p-4 flex flex-col flex-1 justify-between">
-                <h2 className="text-xl font-semibold mb-2">{blog.title}</h2>
-                {blog.excerpt && <p className="text-gray-700 line-clamp-3">{blog.excerpt}</p>}
-                <div className="mt-4">
-                  <Link
-                    href={`/blogs/${numericId}`}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm"
-                  >
-                    View Blog
-                  </Link>
-                </div>
+        {blogs.map((blog) => (
+          <article key={blog._id} className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md flex flex-col">
+            {blog.mainImage?.url && (
+              <div className="relative w-full h-56">
+                <Image src={blog.mainImage.url} alt={blog.title} fill className="object-cover" />
               </div>
-            </article>
-          );
-        })}
+            )}
+            <div className="p-4 flex flex-col flex-1 justify-between">
+              <h2 className="text-xl font-semibold mb-2">{blog.title}</h2>
+              {blog.excerpt && <p className="text-gray-700 line-clamp-3">{blog.excerpt}</p>}
+              <div className="mt-4">
+                <Link
+                  href={`/blogs/${blog.slug.current}`}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm"
+                >
+                  View Blog
+                </Link>
+              </div>
+            </div>
+          </article>
+        ))}
       </section>
     </main>
   );
