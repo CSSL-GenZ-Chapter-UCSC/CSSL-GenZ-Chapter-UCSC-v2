@@ -45,27 +45,27 @@ export const OurTeam = () => {
               and the ICT industry to shape future-ready professionals.
             </motion.p>
           </div>
-          <div className="flex flex-row justify-center items-end w-full h-full gap-30">
+          <div className="flex flex-row justify-center items-end w-full h-full gap-40">
             <motion.div
-              className="flex h-1/2 pb-5 items-start gap-2.5 flex-[1_0_0] [background:var(--bgGradient,linear-gradient(75deg,#000_-4.05%,#0F2248_74.48%,var(--darkBlue,#1E448F)_107.82%))]"
+              className="flex h-2/5 pb-5 items-start gap-2.5 flex-[1_0_0] [background:var(--bgGradient,linear-gradient(75deg,#000_-4.05%,#0F2248_74.48%,var(--darkBlue,#1E448F)_107.82%))]"
               initial={{ opacity: 0, filter: "blur(8px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.45 }}
             >
               <div className="p-5 bg-black/50 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)]">
-                <p className="text-gray-300 font-poppins text-[31px] font-semibold leading-[38px] tracking-[6px] capitalize">
+                <p className="text-gray-300 font-poppins text-[31px] font-semibold leading-[38px] tracking-[8px] capitalize">
                   50+ ACTIVE<br></br>MEMBERS
                 </p>
               </div>
             </motion.div>
             <motion.div
-              className="flex h-1/2 pb-5 items-start gap-2.5 flex-[1_0_0] [background:var(--bgGradient,linear-gradient(75deg,#000_-4.05%,#0F2248_74.48%,var(--darkBlue,#1E448F)_107.82%))]"
+              className="flex h-2/5 pb-5 items-start gap-2.5 flex-[1_0_0] [background:var(--bgGradient,linear-gradient(75deg,#000_-4.05%,#0F2248_74.48%,var(--darkBlue,#1E448F)_107.82%))]"
               initial={{ opacity: 0, filter: "blur(8px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.55 }}
             >
               <div className="p-5 bg-black/50 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)]">
-                <p className="text-gray-300 font-poppins text-[31px] font-semibold leading-[38px] tracking-[6px] capitalize">
+                <p className="text-gray-300 font-poppins text-[31px] font-semibold leading-[38px] tracking-[8px] capitalize">
                   7 WORKING<br></br>TEAMS
                 </p>
               </div>
