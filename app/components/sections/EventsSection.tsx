@@ -184,14 +184,14 @@ export default function EventsSection({ events }: EventsSectionProps) {
     }
 
     return (
-        <Container className="relative z-10 py-32 lg:py-40">
+        <Container className="relative z-10 py-16 lg:py-20">
             <div
-                className="bg-gradient-to-br from-[#000000] via-[#0F2248] to-[#1E448F] min-h-[920px] flex rounded-lg overflow-hidden"
+                className="bg-gradient-to-br from-[#000000] via-[#0F2248] to-[#1E448F] h-[80vh] flex rounded-lg overflow-hidden"
                 ref={blueContainerRef}
             >
                 {/* LEFT SECTION: Event cards */}
                 <div
-                    className="w-[53%] flex flex-col h-[920px] overflow-y-auto scrollbar-hide"
+                    className="w-[53%] flex flex-col h-[80vh] overflow-y-auto scrollbar-hide"
                     ref={scrollableContentRef}
                     id="scrollable-container"
                 >
@@ -201,12 +201,12 @@ export default function EventsSection({ events }: EventsSectionProps) {
                             ref={(el) => {
                                 eventCardRefs.current[index] = el;
                             }}
-                            className={`${event.className} flex items-center justify-between h-[705px] shrink-0 transition-all duration-300`}
+                            className={`${event.className} flex items-center justify-between h-[55vh] shrink-0 transition-all duration-300`}
                             id={`event-${index}`}
                         >
                             {/* Date section */}
                             <div
-                                className={`date-section text-white flex items-center justify-center w-[18%] h-[215px] transition-all duration-300 ${
+                                className={`date-section text-white flex items-center justify-center w-[18%] h-[18vh] transition-all duration-300 ${
                                     activeEventIndex === index
                                         ? "font-bold text-xl"
                                         : "text-base opacity-70"
@@ -217,12 +217,12 @@ export default function EventsSection({ events }: EventsSectionProps) {
 
                             {/* Event details container (replaces old title section) */}
                             <div
-                                className={`event-details-container w-[80%] h-[215px] flex flex-col transition-all duration-300 ${
+                                className={`event-details-container w-[80%] h-[18vh] flex flex-col transition-all duration-300 ${
                                     activeEventIndex === index ? "scale-105" : "scale-100"
                                 }`}
                             >
                                 {/* Logo section - 80px height */}
-                                <div className="logo-section h-20 flex items-center overflow-hidden py-2 px-2">
+                                <div className="logo-section h-[6vh] flex items-center overflow-hidden py-2 px-2">
                                     {event.logo ? (
                                         <img
                                             src={event.logo}
@@ -234,8 +234,8 @@ export default function EventsSection({ events }: EventsSectionProps) {
                                     )}
                                 </div>
 
-                                {/* Title section - 35px height */}
-                                <div className="title-section h-[35px] flex items-center text-white font-bold text-[45px] font-poppins px-3 py-2 overflow-hidden">
+                                {/* Title section */}
+                                <div className="title-section h-[4vh] flex items-center text-white font-bold text-[45px] font-poppins px-3 py-2 overflow-hidden">
                                     <span className="truncate">{event.title}</span>
                                 </div>
 
@@ -251,7 +251,7 @@ export default function EventsSection({ events }: EventsSectionProps) {
 
                     {/* Spacer div - allows last element to be centered */}
                     <div
-                        className="w-full h-[200px] shrink-0"
+                        className="w-full h-[15vh] shrink-0"
                         id="bottom-spacer"
                     >
                         {/* Empty spacer */}
@@ -260,7 +260,7 @@ export default function EventsSection({ events }: EventsSectionProps) {
 
                 {/* RIGHT SECTION: Event photos */}
                 <div
-                    className="grid grid-rows-4 grid-cols-2 gap-2 h-[920px] w-[47%] p-3"
+                    className="grid grid-rows-4 grid-cols-2 gap-1.5 h-[80vh] w-[47%] p-3"
                     id="photos-section"
                 >
                     {getActiveImages().map((image, index) => (
