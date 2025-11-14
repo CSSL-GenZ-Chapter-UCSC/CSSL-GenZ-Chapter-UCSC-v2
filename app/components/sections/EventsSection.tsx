@@ -183,6 +183,35 @@ export default function EventsSection({ events }: EventsSectionProps) {
         return EVENTS_DATA[activeEventIndex].images;
     }
 
+    function getImageLayoutClass(index: number, totalImages: number) {
+        // 4 images: original layout
+        if (totalImages === 4) {
+            if (index === 0) return "col-span-2";
+            if (index === 1) return "col-span-2 row-span-2";
+            return "";
+        }
+        
+        // 3 images: image 2 spans bottom row
+        if (totalImages === 3) {
+            if (index === 0) return "col-span-2";
+            if (index === 1) return "col-span-2 row-span-2";
+            if (index === 2) return "col-span-2";
+            return "";
+        }
+        
+        // 2 images: split vertically 50/50
+        if (totalImages === 2) {
+            return "col-span-2 row-span-2";
+        }
+        
+        // 1 image: full area
+        if (totalImages === 1) {
+            return "col-span-2 row-span-4";
+        }
+        
+        return "";
+    }
+
     return (
         <Container className="relative z-10 py-16 lg:py-20">
             <div
@@ -263,26 +292,23 @@ export default function EventsSection({ events }: EventsSectionProps) {
                     className="grid grid-rows-4 grid-cols-2 gap-1.5 h-[80vh] w-[47%] p-3"
                     id="photos-section"
                 >
-                    {getActiveImages().map((image, index) => (
+                    {getActiveImages()
+                        .filter(image => image.url) // Only show images with URLs
+                        .map((image, index, filteredArray) => (
                         <div
                             key={image.id}
                             className={`
                                 photo-item
                                 rounded-lg
                                 overflow-hidden
-                                ${index === 0 ? "col-span-2" : ""}
-                                ${index === 1 ? "col-span-2 row-span-2" : ""}
+                                ${getImageLayoutClass(index, filteredArray.length)}
                             `}
                         >
-                            {image.url ? (
-                                <img
-                                    src={image.url}
-                                    alt={image.alt || "Event image"}
-                                    className="w-full h-full object-cover"
-                                />
-                            ) : (
-                                <div className="w-full h-full bg-white/20 rounded-lg"></div>
-                            )}
+                            <img
+                                src={image.url!}
+                                alt={image.alt || "Event image"}
+                                className="w-full h-full object-cover"
+                            />
                         </div>
                     ))}
                 </div>
