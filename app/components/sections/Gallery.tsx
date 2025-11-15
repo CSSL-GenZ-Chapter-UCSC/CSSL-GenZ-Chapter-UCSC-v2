@@ -91,7 +91,7 @@ const GalleryTexts = ({
 }: {
   text1: string;
   text2: string;
-  scrollYProgress: any;
+  scrollYProgress: MotionValue<number>;
 }) => {
   const text1Words = text1.split(" ");
   const text2Words = text2.split(" ");
@@ -101,7 +101,7 @@ const GalleryTexts = ({
     <div className="absolute inset-0 flex flex-col justify-between p-8 lg:p-12">
       {/* Text 1 - Top Left */}
       <div className="relative z-20 max-w-xl mt-16 lg:mt-20">
-        <h2 className="font-bold leading-tight" style={{ fontSize: '31px' }}>
+        <h2 className="font-bold leading-tight text-3xl">
           {text1Words.map((word: string, index: number) => (
             <WordReveal
               key={`text1-${index}`}
@@ -118,7 +118,7 @@ const GalleryTexts = ({
       
       {/* Text 2 - Bottom Right */}
       <div className="relative z-20 max-w-xl self-end text-right">
-        <h2 className="font-bold leading-tight" style={{ fontSize: '22px' }}>
+        <h2 className="font-bold leading-tight text-2xl">
           {text2Words.map((word: string, index: number) => (
             <WordReveal
               key={`text2-${index}`}
@@ -149,7 +149,7 @@ const WordReveal = ({
   index: number;
   totalText1Words: number;
   totalWords: number;
-  scrollYProgress: any;
+  scrollYProgress: MotionValue<number>;
   isText2: boolean;
 }) => {
   // Calculate the scroll range for color transition
@@ -205,7 +205,7 @@ const GalleryImage = ({
   image: { src: string; alt: string };
   slideIndex: number;
   totalSlides: number;
-  scrollYProgress: any;
+  scrollYProgress: MotionValue<number>;
 }) => {
   // Calculate progress range for this slide
   const slideStart = slideIndex / totalSlides;
@@ -260,7 +260,7 @@ const GalleryImage = ({
       </motion.div>
       
       {/* Gradient overlay for depth */}
-      <div className="absolute inset-0 bg-linear-to-r from-transparent via-transparent to-[#0a0e1a]/30 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0a0e1a]/30 pointer-events-none" />
     </motion.div>
   );
 };
