@@ -1,17 +1,14 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform, MotionValue } from "motion/react";
 import Image from "next/image";
 
 // Gallery configuration - easy to modify
 const GALLERY_CONFIG = {
-  // Single text that shows throughout all images
-  text: {
-    line1: "An initiative dedicated to",
-    line2: "empowering ",
-    line2Highlight: "the next generation of IT professionals",
-  },
+  // Two separate texts
+  text1: "An initiative dedicated to empowering the next generation of IT professionals",
+  text2: "An initiative dedicated to empowering the next generation of IT professionals",
   // Images array
   images: [
     {
@@ -70,11 +67,12 @@ export const Gallery = () => {
             </div>
           </div>
 
-          {/* Right Side - Single Persistent Text */}
-          <div className="absolute right-0 top-0 w-[45%] h-full">
+          {/* Right Side - Gradient Background with Two Texts */}
+          <div className="absolute right-0 top-0 w-[45%] h-full bg-gradient-to-b from-[#0F2248] to-[#000000]">
             <div className="relative w-full h-full">
-              <GalleryText
-                text={GALLERY_CONFIG.text}
+              <GalleryTexts
+                text1={GALLERY_CONFIG.text1}
+                text2={GALLERY_CONFIG.text2}
                 scrollYProgress={scrollYProgress}
               />
             </div>
@@ -85,108 +83,112 @@ export const Gallery = () => {
   );
 };
 
-// Text component - single persistent text
-const GalleryText = ({ text, scrollYProgress }) => {
-  // Text appears with word-by-word animation at the start, then stays visible
-  const textOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.15, 1],
-    [1, 1, 1] // Always visible
-  );
-  
-  // Split text into words
-  const line1Words = text.line1.split(" ");
-  const line2Words = text.line2.split(" ");
-  const highlightWords = text.line2Highlight.split(" ");
-  const allWords = [...line1Words, ...line2Words, ...highlightWords];
+// Two texts component - one at top-left, one at bottom-right
+const GalleryTexts = ({ 
+  text1, 
+  text2, 
+  scrollYProgress 
+}: {
+  text1: string;
+  text2: string;
+  scrollYProgress: any;
+}) => {
+  const text1Words = text1.split(" ");
+  const text2Words = text2.split(" ");
+  const totalWords = text1Words.length + text2Words.length;
 
   return (
-    <motion.div
-      style={{ 
-        opacity: textOpacity,
-      }}
-      className="absolute inset-0 flex flex-col justify-center items-start px-12 lg:px-20"
-    >
-      <div className="relative z-20">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
-          {/* Line 1 */}
-          <div className="mb-2">
-            {line1Words.map((word, index) => (
-              <WordReveal
-                key={`line1-${index}`}
-                word={word}
-                index={index}
-                total={allWords.length}
-                scrollYProgress={scrollYProgress}
-                isHighlighted={false}
-              />
-            ))}
-          </div>
-          
-          {/* Line 2 */}
-          <div className="mb-2">
-            {line2Words.map((word, index) => (
-              <WordReveal
-                key={`line2-${index}`}
-                word={word}
-                index={line1Words.length + index}
-                total={allWords.length}
-                scrollYProgress={scrollYProgress}
-                isHighlighted={false}
-              />
-            ))}
-            {/* Highlighted text */}
-            {highlightWords.map((word, index) => (
-              <WordReveal
-                key={`highlight-${index}`}
-                word={word}
-                index={line1Words.length + line2Words.length + index}
-                total={allWords.length}
-                scrollYProgress={scrollYProgress}
-                isHighlighted={true}
-              />
-            ))}
-          </div>
+    <div className="absolute inset-0 flex flex-col justify-between p-8 lg:p-12">
+      {/* Text 1 - Top Left */}
+      <div className="relative z-20 max-w-xl mt-16 lg:mt-20">
+        <h2 className="font-bold leading-tight" style={{ fontSize: '31px' }}>
+          {text1Words.map((word: string, index: number) => (
+            <WordReveal
+              key={`text1-${index}`}
+              word={word}
+              index={index}
+              totalText1Words={text1Words.length}
+              totalWords={totalWords}
+              scrollYProgress={scrollYProgress}
+              isText2={false}
+            />
+          ))}
         </h2>
       </div>
-    </motion.div>
+      
+      {/* Text 2 - Bottom Right */}
+      <div className="relative z-20 max-w-xl self-end text-right">
+        <h2 className="font-bold leading-tight" style={{ fontSize: '22px' }}>
+          {text2Words.map((word: string, index: number) => (
+            <WordReveal
+              key={`text2-${index}`}
+              word={word}
+              index={index}
+              totalText1Words={text1Words.length}
+              totalWords={totalWords}
+              scrollYProgress={scrollYProgress}
+              isText2={true}
+            />
+          ))}
+        </h2>
+      </div>
+    </div>
   );
 };
 
-// Word reveal component with gradual animation
+// Word reveal component with gradual color change
 const WordReveal = ({ 
   word, 
   index, 
-  total,
+  totalText1Words,
+  totalWords,
   scrollYProgress,
-  isHighlighted 
+  isText2
+}: {
+  word: string;
+  index: number;
+  totalText1Words: number;
+  totalWords: number;
+  scrollYProgress: any;
+  isText2: boolean;
 }) => {
-  // Calculate reveal progress for each word - happens at the beginning
-  const wordStart = 0.05 + (index / total) * 0.15;
-  const wordEnd = wordStart + 0.05;
+  // Calculate the scroll range for color transition
+  // Text 1 animates in the first half of the scroll
+  // Text 2 animates in the second half
   
-  // Words appear with animation initially, then stay fully visible
-  const opacity = useTransform(
-    scrollYProgress,
-    [wordStart - 0.02, wordStart, wordEnd, 1],
-    [0, 0.3, 1, 1] // Appear gradually then stay at 1
-  );
+  let colorStart, colorEnd;
   
-  const y = useTransform(
+  if (isText2) {
+    // Text 2: starts after text 1 is complete
+    const wordProgress = index / (totalWords - totalText1Words);
+    colorStart = 0.5 + (wordProgress * 0.4);
+    colorEnd = colorStart + 0.05;
+  } else {
+    // Text 1: animates first
+    const wordProgress = index / totalText1Words;
+    colorStart = 0.1 + (wordProgress * 0.4);
+    colorEnd = colorStart + 0.05;
+  }
+  
+  // Color transition from #1B56A3 to white
+  const colorProgress = useTransform(
     scrollYProgress,
-    [wordStart, wordEnd, 1],
-    [20, 0, 0] // Slide up then stay in place
+    [colorStart, colorEnd],
+    [0, 1]
   );
 
   return (
     <motion.span
-      style={{ 
-        opacity,
-        y,
+      style={{
+        color: useTransform(colorProgress, (progress) => {
+          // Interpolate between #1B56A3 and #FFFFFF
+          const r = Math.round(27 + (255 - 27) * progress);
+          const g = Math.round(86 + (255 - 86) * progress);
+          const b = Math.round(163 + (255 - 163) * progress);
+          return `rgb(${r}, ${g}, ${b})`;
+        }),
       }}
-      className={`inline-block mr-2 md:mr-3 ${
-        isHighlighted ? "text-[#4C9DFE]" : "text-white"
-      }`}
+      className="inline-block mr-2 md:mr-3"
     >
       {word}
     </motion.span>
@@ -199,6 +201,11 @@ const GalleryImage = ({
   slideIndex,
   totalSlides,
   scrollYProgress
+}: {
+  image: { src: string; alt: string };
+  slideIndex: number;
+  totalSlides: number;
+  scrollYProgress: any;
 }) => {
   // Calculate progress range for this slide
   const slideStart = slideIndex / totalSlides;
