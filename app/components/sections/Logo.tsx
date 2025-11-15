@@ -1,75 +1,54 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
 
 export const Logo = () => {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const isClient = typeof window !== "undefined";
-  const initialReduced =
-    isClient && window.matchMedia
-      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      : false;
-  const [progress, setProgress] = useState(initialReduced ? 0.5 : 0);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const prefersReduced =
-      typeof window !== "undefined" &&
-      window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (prefersReduced) return;
-
-    const onScroll = () => {
-      const viewportH = window.innerHeight || 1;
-      const totalScrollable = section.offsetHeight - viewportH;
-      const scrolled = Math.min(
-        Math.max(window.scrollY - (section.offsetTop || 0), 0),
-        Math.max(totalScrollable, 1)
-      );
-      const p = totalScrollable > 0 ? scrolled / totalScrollable : 0;
-      const clamped = Math.min(Math.max(p, 0), 1);
-      setProgress(clamped);
-    };
-
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-
-  const gradient =
-    "linear-gradient(90deg, #1E448F 0%, #1E448F 35%, #4C9DFE 50%, #1E448F 65%, #1E448F 100%)";
-
-  const backgroundPosition = `${progress * 100}% 50%`;
+  const gradient = `linear-gradient(
+  80deg,
+  rgba(30,68,143,0) 30%,       /* transparent start */
+  #1E448F 40%,                 /* base color begins */
+  #4C9DFE 45%,                 /* highlight */
+  #1E448F 50%,                 /* base again */
+  rgba(30,68,143,0) 65%        /* fade out */
+)`;
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-black">
-      <div className="relative h-[200vh] w-full">
-        {/* Sticky pin at vertical center for entire 200vh duration */}
-        <div className="sticky top-[50vh] h-0 z-10 pointer-events-none">
-          <div className="relative -translate-y-1/2 flex items-center justify-center pointer-events-auto">
-            <h2
-              className="text-center font-[Poppins] text-[750px] font-semibold leading-[700px] opacity-15 bg-clip-text text-transparent select-none"
-              style={{
-                backgroundImage: gradient,
-                backgroundSize: "200% 100%",
-                backgroundPosition,
-                WebkitBackgroundClip: "text",
-                willChange: "background-position",
-              }}
-            >
-              CSSL
-            </h2>
-          </div>
-        </div>
-      </div>
+    <section className="relative bg-black">
+      <LogoScroll gradient={gradient} />
     </section>
+  );
+};
+
+const LogoScroll = ({ gradient }: { gradient: string }) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+
+  const bgPosition = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["0% 50%", "170% 50%"]
+  );
+
+  return (
+    <div ref={containerRef} className="relative h-[200vh] w-full">
+      <div className="h-screen sticky top-0 flex items-center justify-center overflow-hidden">
+        <motion.h2
+          className="text-center font-[Poppins] 2xl:text-[750px] xl:text-[650px] lg:text-[550px] md:text-[450px] sm:text-[350px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
+          style={{
+            backgroundImage: gradient,
+            backgroundSize: "300% 100%",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: bgPosition,
+            WebkitBackgroundClip: "text",
+          }}
+        >
+          CSSL
+        </motion.h2>
+      </div>
+    </div>
   );
 };

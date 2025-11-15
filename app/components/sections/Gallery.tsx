@@ -7,8 +7,10 @@ import Image from "next/image";
 // Gallery configuration - easy to modify
 const GALLERY_CONFIG = {
   // Two separate texts
-  text1: "An initiative dedicated to empowering the next generation of IT professionals",
-  text2: "An initiative dedicated to empowering the next generation of IT professionals",
+  text1:
+    "An initiative dedicated to empowering the next generation of IT professionals",
+  text2:
+    "An initiative dedicated to empowering the next generation of IT professionals",
   // Images array
   images: [
     {
@@ -27,16 +29,16 @@ const GALLERY_CONFIG = {
       src: "/galery/img_forest.jpg",
       alt: "CSSL Team Building",
     },
-  ]
+  ],
 };
 
 export const Gallery = () => {
   const containerRef = useRef(null);
-  
+
   // Calculate total height needed for all slides - each slide needs scroll distance
   const totalSlides = GALLERY_CONFIG.images.length;
   const heightMultiplier = totalSlides + 1; // Extra space for smooth transitions
-  
+
   // Scroll progress for the entire section
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -44,7 +46,7 @@ export const Gallery = () => {
   });
 
   return (
-    <section 
+    <section
       ref={containerRef}
       style={{ height: `${heightMultiplier * 100}vh` }}
       className="relative bg-[#0a0e1a]"
@@ -68,7 +70,7 @@ export const Gallery = () => {
           </div>
 
           {/* Right Side - Gradient Background with Two Texts */}
-          <div className="absolute right-0 top-0 w-[45%] h-full bg-gradient-to-b from-[#0F2248] to-[#000000]">
+          <div className="absolute right-0 top-0 w-[45%] h-full bg-linear-to-b from-[#0F2248] to-[#000000]">
             <div className="relative w-full h-full">
               <GalleryTexts
                 text1={GALLERY_CONFIG.text1}
@@ -84,10 +86,10 @@ export const Gallery = () => {
 };
 
 // Two texts component - one at top-left, one at bottom-right
-const GalleryTexts = ({ 
-  text1, 
-  text2, 
-  scrollYProgress 
+const GalleryTexts = ({
+  text1,
+  text2,
+  scrollYProgress,
 }: {
   text1: string;
   text2: string;
@@ -115,7 +117,7 @@ const GalleryTexts = ({
           ))}
         </h2>
       </div>
-      
+
       {/* Text 2 - Bottom Right */}
       <div className="relative z-20 max-w-xl self-end text-right">
         <h2 className="font-bold leading-tight text-2xl">
@@ -137,13 +139,13 @@ const GalleryTexts = ({
 };
 
 // Word reveal component with gradual color change
-const WordReveal = ({ 
-  word, 
-  index, 
+const WordReveal = ({
+  word,
+  index,
   totalText1Words,
   totalWords,
   scrollYProgress,
-  isText2
+  isText2,
 }: {
   word: string;
   index: number;
@@ -155,21 +157,21 @@ const WordReveal = ({
   // Calculate the scroll range for color transition
   // Text 1 animates in the first half of the scroll
   // Text 2 animates in the second half
-  
+
   let colorStart, colorEnd;
-  
+
   if (isText2) {
     // Text 2: starts after text 1 is complete
     const wordProgress = index / (totalWords - totalText1Words);
-    colorStart = 0.5 + (wordProgress * 0.4);
+    colorStart = 0.5 + wordProgress * 0.4;
     colorEnd = colorStart + 0.05;
   } else {
     // Text 1: animates first
     const wordProgress = index / totalText1Words;
-    colorStart = 0.1 + (wordProgress * 0.4);
+    colorStart = 0.1 + wordProgress * 0.4;
     colorEnd = colorStart + 0.05;
   }
-  
+
   // Color transition from #1B56A3 to white
   const colorProgress = useTransform(
     scrollYProgress,
@@ -200,7 +202,7 @@ const GalleryImage = ({
   image,
   slideIndex,
   totalSlides,
-  scrollYProgress
+  scrollYProgress,
 }: {
   image: { src: string; alt: string };
   slideIndex: number;
@@ -210,21 +212,21 @@ const GalleryImage = ({
   // Calculate progress range for this slide
   const slideStart = slideIndex / totalSlides;
   const slideEnd = (slideIndex + 1) / totalSlides;
-  
+
   // Card slides up from bottom
   const cardY = useTransform(
     scrollYProgress,
     [slideStart - 0.05, slideStart + 0.1],
     slideIndex === 0 ? ["0%", "0%"] : ["100%", "0%"]
   );
-  
+
   // Opacity - fade in current, fade out when next comes
   const opacity = useTransform(
     scrollYProgress,
     [slideStart - 0.05, slideStart, slideEnd - 0.05, slideEnd + 0.05],
     slideIndex === 0 ? [1, 1, 1, 0] : [0, 1, 1, 0]
   );
-  
+
   // Scale effect - scales up slightly when visible
   const scale = useTransform(
     scrollYProgress,
@@ -258,9 +260,9 @@ const GalleryImage = ({
           />
         </div>
       </motion.div>
-      
+
       {/* Gradient overlay for depth */}
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0a0e1a]/30 pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-r from-transparent via-transparent to-[#0a0e1a]/30 pointer-events-none" />
     </motion.div>
   );
 };

@@ -1,5 +1,5 @@
+import { Blogs } from "./components/sections/Blogs";
 import { Hero } from "./components/sections/Hero";
-import { Gallery } from "./components/sections/Gallery";
 import { Logo } from "./components/sections/Logo";
 
 export const metadata = {
@@ -13,8 +13,7 @@ export default function Home() {
     <main className="flex flex-col">
       <Hero />
       <Logo />
-      <Gallery />
-     
+      <Blogs />
     </main>
   );
 }
