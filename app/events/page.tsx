@@ -36,7 +36,7 @@ export default async function EventsPage() {
           <Container>
             <div className="relative rounded-2xl overflow-hidden h-[500px]">
               {/* Background image placeholder - you can add mainImage from event */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-900 to-black">
+              <div className="absolute inset-0 bg-linear-to-br from-blue-900 to-black">
                 {/* Placeholder for event image */}
               </div>
               
@@ -109,7 +109,7 @@ export default async function EventsPage() {
                     href={`/events/${event.slug.current}`}
                     className="group"
                   >
-                    <div className="bg-gradient-to-br from-blue-900/20 to-blue-950/20 border border-blue-500/20 rounded-xl p-6 hover:border-blue-500/50 transition-all">
+                    <div className="bg-linear-to-br from-blue-900/20 to-blue-950/20 border border-blue-500/20 rounded-xl p-6 hover:border-blue-500/50 transition-all">
                       {/* Date Badge */}
                       <div className="flex items-start justify-between mb-4">
                         <div>

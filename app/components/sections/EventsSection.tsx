@@ -215,7 +215,7 @@ export default function EventsSection({ events }: EventsSectionProps) {
     return (
         <Container className="relative z-10 py-16 lg:py-20">
             <div
-                className="bg-gradient-to-br from-[#000000] via-[#0F2248] to-[#1E448F] h-[80vh] flex rounded-lg overflow-hidden"
+                className="bg-linear-to-br from-[#000000] via-[#0F2248] to-[#1E448F] h-[80vh] flex rounded-lg overflow-hidden"
                 ref={blueContainerRef}
             >
                 {/* LEFT SECTION: Event cards */}
