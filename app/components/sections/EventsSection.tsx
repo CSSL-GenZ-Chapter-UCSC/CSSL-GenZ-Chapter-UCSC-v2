@@ -16,7 +16,7 @@ const DUMMY_EVENTS_DATA = [
         date: "Sep 2025",
         title: "INFINITELOOP 3.0",
         logo: "https://via.placeholder.com/200x80/8B5CF6/FFFFFF?text=LOGO",
-        excerpt: "Annual coding competition for developers. Join us for an exciting challenge!",
+        shortSummary: "Annual coding competition for developers. Join us for an exciting challenge!",
         className: "event-card-0",
         images: [
             { id: "1-sub", url: "https://via.placeholder.com/800x600/3B82F6/FFFFFF?text=INFINITELOOP+Main", alt: "INFINITELOOP Main" },
@@ -30,7 +30,7 @@ const DUMMY_EVENTS_DATA = [
         date: "Oct 2025",
         title: "IEEEXTREME 19.0",
         logo: "https://via.placeholder.com/200x80/14B8A6/FFFFFF?text=LOGO",
-        excerpt: "24-hour global programming competition. Test your skills against the world!",
+        shortSummary: "24-hour global programming competition. Test your skills against the world!",
         className: "event-card-1",
         images: [
             { id: "2-sub", url: "https://via.placeholder.com/800x600/10B981/FFFFFF?text=IEEEXTREME+Main", alt: "IEEEXTREME Main" },
@@ -44,7 +44,7 @@ const DUMMY_EVENTS_DATA = [
         date: "Nov 2025",
         title: "PROJECT SHIELD",
         logo: "https://via.placeholder.com/200x80/F97316/FFFFFF?text=LOGO",
-        excerpt: "Cybersecurity awareness and workshop. Learn to protect your digital assets!",
+        shortSummary: "Cybersecurity awareness and workshop. Learn to protect your digital assets!",
         className: "event-card-2",
         images: [
             { id: "3-sub", url: "https://via.placeholder.com/800x600/EAB308/FFFFFF?text=PROJECT+SHIELD+Main", alt: "PROJECT SHIELD Main" },
@@ -99,7 +99,7 @@ export default function EventsSection({ events }: EventsSectionProps) {
             }),
             title: event.title,
             logo: event.logo?.url,
-            excerpt: event.excerpt || "",
+            shortSummary: event.shortSummary || "",
             className: `event-card-${index}`,
             images,
         };
@@ -268,10 +268,10 @@ export default function EventsSection({ events }: EventsSectionProps) {
                                     <span className="truncate">{event.title}</span>
                                 </div>
 
-                                {/* Excerpt section - Remaining height (215px - 80px - 35px = 100px) */}
-                                <div className="excerpt-section flex-1 flex items-center text-white text-[15px] font-poppins px-4 py-2 overflow-hidden">
+                                {/* Short Summary section - Remaining height (215px - 80px - 35px = 100px) */}
+                                <div className="shortSummary-section flex-1 flex items-center text-white text-[15px] font-poppins px-4 py-2 overflow-hidden">
                                     <p className="line-clamp-4 text-left">
-                                        {event.excerpt}
+                                        {event.shortSummary}
                                     </p>
                                 </div>
                             </div>
