@@ -21,7 +21,12 @@ export type Event = {
     current: string;
   };
   excerpt?: string;
+  shortSummary?: string;
   startDate: string;
+  endDate?: string;
+  venue?: string;
+  is_shown?: boolean;
+  is_highlighted?: boolean;
   logo?: {
     url?: string;
     alt?: string;
@@ -42,6 +47,20 @@ export type Event = {
   otherImage2?: {
     url?: string;
     alt?: string;
+  };
+  photos?: {
+    url?: string;
+    alt?: string;
+  }[];
+  bannerImage?: {
+    url?: string;
+    alt?: string;
+  };
+  bannerText?: string;
+  cta?: boolean;
+  featuredAfter?: {
+    _ref: string;
+    _type: string;
   };
 };
 
