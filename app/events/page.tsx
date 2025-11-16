@@ -196,12 +196,20 @@ export default function EventsPage() {
       {/* Hero Section */}
       <section className="relative py-32 lg:py-40">
         <Container>
-          <h1 className="text-[120px] lg:text-[180px] font-bold leading-none tracking-tight text-blue-500">
-            EVENTS
-          </h1>
-          <p className="mt-10 text-1rem text-white/80 max-w-2xl">
-            Join us for events that inspire growth, spark creativity, and connect changemakers.
-          </p>
+          <div className="relative">
+            {/* Gradient blur circle near E */}
+            <div className="absolute -left-40 -top-10 w-75 h-100 bg-black rounded-full blur-[80px] pointer-events-none z-10" />
+            <div className="absolute left-80 -top-20 w-60 h-60 bg-black rounded-full blur-[120px] pointer-events-none z-10" />
+            
+            <h1 className="text-[120px] lg:text-[180px] font-bold leading-none tracking-tight text-blue-500 relative">
+              EVENTS
+            </h1>
+          </div>
+          <div className="z-20">
+            <p className="mt-10 text-1rem text-white/80 max-w-2xl relative z-20">
+              Join us for events that inspire growth, spark creativity, and connect changemakers.
+            </p>
+          </div>
         </Container>
       </section>
 
