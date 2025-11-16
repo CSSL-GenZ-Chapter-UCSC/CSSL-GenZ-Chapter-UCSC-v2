@@ -11,10 +11,85 @@ export const metadata = {
 export default async function EventsPage() {
   const events = await getAllEvents();
 
+  // Mock data for development/styling
+  const mockEvents: Event[] = events.length === 0 ? [
+    {
+      _id: "1",
+      title: "GenZ Launch Event",
+      slug: { _type: "slug", current: "genz-launch-event" },
+      excerpt: "We are pleased to announce the launching ceremony of the CSSL GenZ Chapter at the University of Colombo School of Computing (UCSC). This event marks the inauguration of an initiative dedicated to the next generation of tech leaders. The CSSL GenZ Chapter aims to facilitate innovation, leadership, and collaboration among students.",
+      shortSummary: "Launching ceremony of CSSL GenZ Chapter",
+      startDate: "2025-12-08T16:00:00Z",
+      venue: "New Arts Theater, University of Colombo",
+      is_shown: true,
+      is_highlighted: true,
+    },
+    {
+      _id: "2",
+      title: "Colloquium '26",
+      slug: { _type: "slug", current: "colloquium-26" },
+      excerpt: "Annual tech conference bringing together industry leaders and students",
+      shortSummary: "Annual tech conference",
+      startDate: "2026-01-04T16:00:00Z",
+      venue: "New Arts Theater",
+      is_shown: true,
+    },
+    {
+      _id: "3",
+      title: "Signature Hack",
+      slug: { _type: "slug", current: "signature-hack" },
+      excerpt: "24-hour hackathon for innovative solutions",
+      shortSummary: "24-hour hackathon",
+      startDate: "2026-03-23T16:00:00Z",
+      venue: "New Arts Theater",
+      is_shown: true,
+    },
+    {
+      _id: "4",
+      title: "AGM",
+      slug: { _type: "slug", current: "agm" },
+      excerpt: "Annual General Meeting of CSSL GenZ Chapter",
+      shortSummary: "Annual General Meeting",
+      startDate: "2026-05-07T16:00:00Z",
+      venue: "New Arts Theater",
+      is_shown: true,
+    },
+    {
+      _id: "5",
+      title: "CSSL Colloquium 2025",
+      slug: { _type: "slug", current: "cssl-colloquium-2025" },
+      excerpt: "The CSSL Colloquium 2025 organized by the Computer Society of Sri Lanka (CSSL)",
+      shortSummary: "Past tech conference",
+      startDate: "2024-07-07T16:00:00Z",
+      venue: "Colombo",
+      is_shown: true,
+    },
+    {
+      _id: "6",
+      title: "GenZ Launch Event",
+      slug: { _type: "slug", current: "genz-launch-past" },
+      excerpt: "We are pleased to announce the launching ceremony of the CSSL GenZ Chapter",
+      shortSummary: "Past launch ceremony",
+      startDate: "2024-11-16T16:00:00Z",
+      venue: "UCSC",
+      is_shown: true,
+    },
+    {
+      _id: "7",
+      title: "Physical Meetup",
+      slug: { _type: "slug", current: "physical-meetup" },
+      excerpt: "The evening brought together chapter members for an opportunity of interaction and lighthearted competition.",
+      shortSummary: "Past meetup",
+      startDate: "2024-09-15T16:00:00Z",
+      venue: "Colombo",
+      is_shown: true,
+    },
+  ] : events;
+
   // Separate upcoming and past events
   const now = new Date();
-  const upcomingEvents = events.filter(event => new Date(event.startDate) >= now);
-  const pastEvents = events.filter(event => new Date(event.startDate) < now);
+  const upcomingEvents = mockEvents.filter(event => new Date(event.startDate) >= now);
+  const pastEvents = mockEvents.filter(event => new Date(event.startDate) < now);
 
   return (
     <main className="min-h-screen bg-black text-white">
