@@ -23,7 +23,8 @@ export const event = defineType({
     }),
     defineField({
       name: "description",
-      type: "block",
+      type: 'array',
+      of: [{type: 'block'}],
       validation: (rule) => rule.required(),
     }),
     defineField({
