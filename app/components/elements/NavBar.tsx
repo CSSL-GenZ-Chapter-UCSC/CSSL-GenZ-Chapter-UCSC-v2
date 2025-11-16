@@ -8,13 +8,27 @@ import { usePathname } from "next/navigation";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => setIsOpen(false);
-    if (isOpen) window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isOpen]);
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      setLastScrollY(window.scrollY);
+      setIsOpen(false);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -26,7 +40,11 @@ export const Navbar = () => {
   ];
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40 bg-black/30 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)]">
+    <header
+      className={`fixed inset-x-0 top-0 z-40 bg-black/30 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)] transition-transform duration-300 ${
+        isVisible ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
       <Container>
         <nav className="flex items-center justify-between">
           {/* Logo */}
