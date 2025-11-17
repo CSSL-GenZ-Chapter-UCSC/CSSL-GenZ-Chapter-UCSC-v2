@@ -3,13 +3,17 @@
  * Fetches all image fields from event schema
  */
 
-// Get 10 events with all image fields (ordered by startDate desc)
-export const GET_EVENTS_QUERY = `*[_type == "event"] | order(startDate asc)[0...10]{
+// Get events for EventsSection component (only visible events, ordered by startDate asc)
+export const GET_EVENTS_QUERY = `*[_type == "event" && is_shown == true] | order(startDate asc){
   _id,
   title,
   slug,
-  excerpt,
+  shortSummary,
   startDate,
+  endDate,
+  venue,
+  is_shown,
+  is_highlighted,
   "logo": logo{
     "url": asset->url,
     "alt": alt
@@ -33,22 +37,69 @@ export const GET_EVENTS_QUERY = `*[_type == "event"] | order(startDate asc)[0...
   }
 }`;
 
-// Get all events for events listing page (without images)
-export const GET_ALL_EVENTS_QUERY = `*[_type == "event"] | order(startDate desc){
+// Get featured event (is_highlighted == true and is_shown == true, ordered by startDate asc)
+export const GET_FEATURED_EVENT_QUERY = `*[_type == "event" && is_highlighted == true && is_shown == true] | order(startDate asc)[0]{
   _id,
   title,
   slug,
-  excerpt,
-  startDate
+  shortSummary,
+  bannerText,
+  startDate,
+  endDate,
+  venue,
+  "mainImage": mainImage{
+    "url": asset->url,
+    "alt": alt,
+    "caption": caption
+  },
+  "bannerImage": bannerImage{
+    "url": asset->url,
+    "alt": alt
+  }
 }`;
 
-// Get single event by slug with all images
+// Get upcoming events (startDate >= now, is_shown == true, ordered by startDate asc)
+export const GET_UPCOMING_EVENTS_QUERY = `*[_type == "event" && startDate >= $now && is_shown == true] | order(startDate asc){
+  _id,
+  title,
+  slug,
+  startDate,
+  endDate,
+  venue,
+  "mainImage": mainImage{
+    "url": asset->url,
+    "alt": alt
+  }
+}`;
+
+// Get past events (startDate < now, is_shown == true, ordered by startDate desc, limited to 10)
+export const GET_PAST_EVENTS_QUERY = `*[_type == "event" && startDate < $now && is_shown == true] | order(startDate desc)[0...10]{
+  _id,
+  title,
+  slug,
+  shortSummary,
+  startDate,
+  venue,
+  "mainImage": mainImage{
+    "url": asset->url,
+    "alt": alt
+  }
+}`;
+
+// Get single event by slug with all fields and images
 export const GET_EVENT_BY_SLUG_QUERY = `*[_type == "event" && slug.current == $slug][0]{
   _id,
   title,
   slug,
-  excerpt,
+  shortSummary,
+  description,
+  bannerText,
+  cta,
   startDate,
+  endDate,
+  venue,
+  is_shown,
+  is_highlighted,
   "logo": logo{
     "url": asset->url,
     "alt": alt
@@ -69,5 +120,14 @@ export const GET_EVENT_BY_SLUG_QUERY = `*[_type == "event" && slug.current == $s
   "otherImage2": otherImage2{
     "url": asset->url,
     "alt": alt
-  }
+  },
+  "bannerImage": bannerImage{
+    "url": asset->url,
+    "alt": alt
+  },
+  "photos": photos[]{
+    "url": asset->url,
+    "alt": alt
+  },
+  featuredAfter
 }`;

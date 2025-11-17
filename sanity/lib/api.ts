@@ -4,14 +4,16 @@
 
 import { client } from "@/sanity/lib/client";
 import { 
-  GET_EVENTS_QUERY, 
-  GET_ALL_EVENTS_QUERY,
+  GET_EVENTS_QUERY,
+  GET_FEATURED_EVENT_QUERY,
+  GET_UPCOMING_EVENTS_QUERY,
+  GET_PAST_EVENTS_QUERY,
   GET_EVENT_BY_SLUG_QUERY 
 } from "@/sanity/queries";
 import type { Event } from "../../app/types/event";
 
 /**
- * Fetch 10 events with all images for EventSection (server-side)
+ * Fetch visible events with all images for EventSection (server-side)
  */
 export async function getEvents(): Promise<Event[]> {
   try {
@@ -24,14 +26,42 @@ export async function getEvents(): Promise<Event[]> {
 }
 
 /**
- * Fetch all events for listing page (server-side)
+ * Fetch featured event (server-side)
  */
-export async function getAllEvents(): Promise<Event[]> {
+export async function getFeaturedEvent(): Promise<Event | null> {
   try {
-    const events = await client.fetch(GET_ALL_EVENTS_QUERY);
+    const event = await client.fetch(GET_FEATURED_EVENT_QUERY);
+    return event;
+  } catch (error) {
+    console.error("Error fetching featured event:", error);
+    return null;
+  }
+}
+
+/**
+ * Fetch upcoming events (server-side)
+ */
+export async function getUpcomingEvents(): Promise<Event[]> {
+  try {
+    const now = new Date().toISOString();
+    const events = await client.fetch(GET_UPCOMING_EVENTS_QUERY, { now });
     return events;
   } catch (error) {
-    console.error("Error fetching all events:", error);
+    console.error("Error fetching upcoming events:", error);
+    return [];
+  }
+}
+
+/**
+ * Fetch past events (server-side)
+ */
+export async function getPastEvents(): Promise<Event[]> {
+  try {
+    const now = new Date().toISOString();
+    const events = await client.fetch(GET_PAST_EVENTS_QUERY, { now });
+    return events;
+  } catch (error) {
+    console.error("Error fetching past events:", error);
     return [];
   }
 }

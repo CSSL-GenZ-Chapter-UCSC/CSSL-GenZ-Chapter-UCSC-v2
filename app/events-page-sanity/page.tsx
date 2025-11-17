@@ -1,33 +1,19 @@
-'use client';
-
-import { getAllEvents } from "@/sanity/lib/api";
-import type { Event } from "../../app/types/event";
+import { getFeaturedEvent, getUpcomingEvents, getPastEvents } from "@/sanity/lib/api";
+import type { Event } from "../types/event";
 import Link from "next/link";
 import { Container } from "../components/shared/Container";
-import { useState, useEffect } from "react";
+import EventsPagination from "../components/events/EventsPagination";
 
-export default function EventsPageSanity() {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [currentPastPage, setCurrentPastPage] = useState(0);
-  
-  useEffect(() => {
-    getAllEvents().then(setEvents);
-  }, []);
+export default async function EventsPageSanity() {
+  // Fetch all data server-side
+  const featuredEvent = await getFeaturedEvent();
+  const upcomingEvents = await getUpcomingEvents();
+  const pastEvents = await getPastEvents();
 
-  // Separate upcoming and past events
-  const now = new Date();
-  const upcomingEvents = events.filter(event => new Date(event.startDate) >= now);
-  const allPastEvents = events
-    .filter(event => new Date(event.startDate) < now)
-    .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime()) // Most recent first
-    .slice(0, 10); // Limit to 10 past events
-  
-  const pastEventsPerPage = 4;
-  const totalPastPages = Math.ceil(allPastEvents.length / pastEventsPerPage);
-  const displayedPastEvents = allPastEvents.slice(
-    currentPastPage * pastEventsPerPage,
-    (currentPastPage + 1) * pastEventsPerPage
-  );
+  // Remove featured event from upcoming events if it exists
+  const nonFeaturedUpcoming = featuredEvent 
+    ? upcomingEvents.filter(event => event._id !== featuredEvent._id)
+    : upcomingEvents;
 
   return (
     <main className="min-h-screen bg-black text-white font-poppins">
@@ -52,14 +38,22 @@ export default function EventsPageSanity() {
       </section>
 
       {/* Featured Event Card */}
-      {upcomingEvents.length > 0 && (
+      {featuredEvent && (
         <section className="pb-20">
           <Container>
-            <div className="relative overflow-hidden h-[600px] -mt-15">
-              {/* Background image placeholder - you can add mainImage from event */}
-              <div className="absolute inset-0 bg-linear-to-br from-blue-900 to-black">
-                {/* Placeholder for event image */}
-              </div>
+            <div className="relative overflow-hidden h-[600px] -mt-15 rounded-lg">
+              {/* Background image from bannerImage or mainImage */}
+              {(featuredEvent.bannerImage?.url || featuredEvent.mainImage?.url) ? (
+                <div className="absolute inset-0">
+                  <img
+                    src={featuredEvent.bannerImage?.url || featuredEvent.mainImage?.url}
+                    alt={featuredEvent.bannerImage?.alt || featuredEvent.mainImage?.alt || featuredEvent.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="absolute inset-0 bg-linear-to-br from-blue-900 to-black" />
+              )}
               
               <div className="absolute inset-0 bg-black/40" />
               
@@ -69,39 +63,51 @@ export default function EventsPageSanity() {
                 </span>
                 
                 <h2 className="text-3rem lg:text-5xl mb-4">
-                  {upcomingEvents[0].title}
+                  {featuredEvent.title}
                 </h2>
                 
                 <div className="flex flex-wrap gap-6 text-1.1rem text-white/90 mb-4">
                   <div className="flex items-center gap-2">
                     <span>📅</span>
                     <span>
-                      {new Date(upcomingEvents[0].startDate).toLocaleDateString("en-US", {
+                      {new Date(featuredEvent.startDate).toLocaleDateString("en-US", {
                         day: "numeric",
                         month: "long",
                         year: "numeric",
                       })}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span>🕐</span>
-                    <span>4PM - 6PM</span>
-                  </div>
+                  {featuredEvent.endDate && (
+                    <div className="flex items-center gap-2">
+                      <span>🕐</span>
+                      <span>
+                        {new Date(featuredEvent.startDate).toLocaleTimeString("en-US", {
+                          hour: "numeric",
+                          minute: "2-digit",
+                          hour12: true
+                        })} - {new Date(featuredEvent.endDate).toLocaleTimeString("en-US", {
+                          hour: "numeric",
+                          minute: "2-digit",
+                          hour12: true
+                        })}
+                      </span>
+                    </div>
+                  )}
                   <div className="flex items-center gap-2">
                     <span>📍</span>
-                    <span>{upcomingEvents[0].venue || "New Arts Theater, University of Colombo"}</span>
+                    <span>{featuredEvent.venue || "New Arts Theater, University of Colombo"}</span>
                   </div>
                 </div>
                 
-                {upcomingEvents[0].excerpt && (
+                {(featuredEvent.bannerText || featuredEvent.shortSummary) && (
                   <p className="text-white/80 max-w-3xl mb-6 line-clamp-3 text-1.5rem">
-                    {upcomingEvents[0].excerpt}
+                    {featuredEvent.bannerText || featuredEvent.shortSummary}
                   </p>
                 )}
                 
                 <Link
-                  href={`/events/${upcomingEvents[0].slug.current}`}
-                  className="text-blue-400 hover:text-blue-300 flex items-center gap-2 justify-end"
+                  href={`/posts/${featuredEvent.slug.current}`}
+                  className="text-blue-400 hover:text-blue-300 flex items-center gap-2 justify-end transition-colors"
                 >
                   See More <span>→</span>
                 </Link>
@@ -112,22 +118,57 @@ export default function EventsPageSanity() {
       )}
 
       {/* Upcoming Events Section */}
-      {upcomingEvents.length > 1 && (
+      {nonFeaturedUpcoming.length > 0 && (
         <section className="pb-20">
           <Container>
             <h2 className="text-3xl mb-10 font-normal">Upcoming Events</h2>
             
             <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-4">
-              {upcomingEvents.slice(1).map((event, index) => {
+              {nonFeaturedUpcoming.map((event, index) => {
                 const eventDate = new Date(event.startDate);
                 const day = eventDate.getDate().toString().padStart(2, '0');
                 const month = eventDate.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
                 const isFirst = index === 0;
                 
+                // Date display logic
+                let dateDisplay = day;
+                let monthDisplay = month;
+                
+                if (event.endDate) {
+                  const endEventDate = new Date(event.endDate);
+                  const endDay = endEventDate.getDate().toString().padStart(2, '0');
+                  const endMonth = endEventDate.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
+                  
+                  // Check if same month
+                  if (month === endMonth) {
+                    dateDisplay = `${day}-${endDay}`;
+                    monthDisplay = month;
+                  } else {
+                    dateDisplay = `${day} ${month.slice(0, 3)} - ${endDay} ${endMonth.slice(0, 3)}`;
+                    monthDisplay = "";
+                  }
+                }
+                
+                // Calculate time display
+                let timeDisplay = "TBA";
+                if (event.endDate) {
+                  const startTime = new Date(event.startDate).toLocaleTimeString("en-US", {
+                    hour: "numeric",
+                    minute: "2-digit",
+                    hour12: true
+                  });
+                  const endTime = new Date(event.endDate).toLocaleTimeString("en-US", {
+                    hour: "numeric",
+                    minute: "2-digit",
+                    hour12: true
+                  });
+                  timeDisplay = `${startTime} - ${endTime}`;
+                }
+                
                 return (
                   <Link
                     key={event._id}
-                    href={`/events/${event.slug.current}`}
+                    href={`/posts/${event.slug.current}`}
                     className="group shrink-0"
                     style={{ width: 'calc(25% * 0.75 - 18px)' }}
                   >
@@ -135,20 +176,22 @@ export default function EventsPageSanity() {
                       isFirst 
                         ? "bg-linear-to-b from-[#1a4d8f] via-[#0d2847] to-[#030712]" 
                         : "bg-gray-900/50 border border-gray-800"
-                    } p-6 hover:border-blue-500/50 transition-all h-full`}>
+                    } p-6 hover:border-blue-500/50 transition-all h-full rounded-lg`}>
                       {/* Date Badge */}
                       <div className="flex items-start justify-between mb-8">
                         <div>
                           <div className={`text-3xl font-normal ${isFirst ? "text-white" : "text-white"}`}>
-                            {day}
+                            {dateDisplay}
                           </div>
-                          <div className={`text-sm font-normal ${isFirst ? "text-white/80" : "text-gray-500"}`}>
-                            {month}
-                          </div>
+                          {monthDisplay && (
+                            <div className={`text-sm font-normal ${isFirst ? "text-white/80" : "text-gray-500"}`}>
+                              {monthDisplay}
+                            </div>
+                          )}
                         </div>
-                        <button className={`${isFirst ? "text-white/80" : "text-gray-500"} hover:text-white`}>
+                        <span className={`${isFirst ? "text-white/80" : "text-gray-500"} group-hover:text-white transition-colors`}>
                           →
-                        </button>
+                        </span>
                       </div>
                       
                       {/* Event Info */}
@@ -161,7 +204,7 @@ export default function EventsPageSanity() {
                       <div className="space-y-2 text-sm font-normal">
                         <div className={`flex items-center gap-2 ${isFirst ? "text-white/80" : "text-blue-400"}`}>
                           <span>🕐</span>
-                          <span>4PM - 6PM</span>
+                          <span>{timeDisplay}</span>
                         </div>
                         <div className={`flex items-center gap-2 ${isFirst ? "text-white/80" : "text-blue-400"}`}>
                           <span>📍</span>
@@ -178,75 +221,12 @@ export default function EventsPageSanity() {
       )}
 
       {/* Past Events Section */}
-      {allPastEvents.length > 0 && (
+      {pastEvents.length > 0 && (
         <section className="pb-20">
           <Container>
             <h2 className="text-3xl font-normal mb-10">Past Events</h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              {displayedPastEvents.map((event) => (
-                <Link
-                  key={event._id}
-                  href={`/events/${event.slug.current}`}
-                  className="group"
-                >
-                  <div className="overflow-hidden bg-transparent">
-                    {/* Image placeholder */}
-                    <div className="aspect-video bg-gray-700 mb-4" />
-                    
-                    <div>
-                      <h3 className="text-lg font-normal mb-2 group-hover:text-blue-400 transition-colors">
-                        {event.title}
-                      </h3>
-                      
-                      <p className="text-sm text-white/40 mb-3 font-normal">
-                        {new Date(event.startDate).toLocaleDateString("en-US", {
-                          month: "long",
-                          day: "numeric",
-                          year: "numeric",
-                        })}
-                      </p>
-                      
-                      {event.excerpt && (
-                        <p className="text-sm text-white/60 line-clamp-2 mb-3 font-normal">
-                          {event.excerpt}
-                        </p>
-                      )}
-                      
-                      <span className="text-sm text-blue-400 group-hover:text-blue-300 font-normal">
-                        Learn More
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-            
-            {/* Navigation Buttons */}
-            {totalPastPages > 1 && (
-              <div className="flex justify-center gap-4">
-                <button
-                  onClick={() => setCurrentPastPage(prev => Math.max(0, prev - 1))}
-                  disabled={currentPastPage === 0}
-                  className="w-10 h-10 rounded-full bg-gray-800 hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
-                  aria-label="Previous page"
-                >
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
-                <button
-                  onClick={() => setCurrentPastPage(prev => Math.min(totalPastPages - 1, prev + 1))}
-                  disabled={currentPastPage === totalPastPages - 1}
-                  className="w-10 h-10 rounded-full bg-gray-800 hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
-                  aria-label="Next page"
-                >
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
-              </div>
-            )}
+            <EventsPagination events={pastEvents} />
           </Container>
         </section>
       )}

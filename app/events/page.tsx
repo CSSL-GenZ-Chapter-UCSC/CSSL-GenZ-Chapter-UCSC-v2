@@ -1,195 +1,41 @@
 'use client';
 
-import { getAllEvents } from "@/sanity/lib/api";
+import { getFeaturedEvent, getUpcomingEvents, getPastEvents } from "@/sanity/lib/api";
 import type { Event } from "../../app/types/event";
 import Link from "next/link";
 import { Container } from "../components/shared/Container";
 import { useState, useEffect } from "react";
 
 export default function EventsPage() {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [featuredEvent, setFeaturedEvent] = useState<Event | null>(null);
+  const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
+  const [pastEvents, setPastEvents] = useState<Event[]>([]);
   const [currentPastPage, setCurrentPastPage] = useState(0);
   
   useEffect(() => {
-    getAllEvents().then(setEvents);
+    // Fetch all event data
+    Promise.all([
+      getFeaturedEvent(),
+      getUpcomingEvents(),
+      getPastEvents()
+    ]).then(([featured, upcoming, past]) => {
+      setFeaturedEvent(featured);
+      // Remove featured event from upcoming if it exists
+      setUpcomingEvents(featured ? upcoming.filter(e => e._id !== featured._id) : upcoming);
+      setPastEvents(past);
+    });
   }, []);
 
-  // Mock data for development/styling
-  const mockEvents: Event[] = events.length === 0 ? [
-    {
-      _id: "1",
-      title: "GenZ Launch Event",
-      slug: { _type: "slug", current: "genz-launch-event" },
-      excerpt: "We are pleased to announce the launching ceremony of the CSSL GenZ Chapter at the University of Colombo School of Computing (UCSC). This event marks the inauguration of an initiative dedicated to the next generation of tech leaders. The CSSL GenZ Chapter aims to facilitate innovation, leadership, and collaboration among students.",
-      shortSummary: "Launching ceremony of CSSL GenZ Chapter",
-      startDate: "2025-12-08T16:00:00Z",
-      venue: "New Arts Theater, University of Colombo",
-      is_shown: true,
-      is_highlighted: true,
-    },
-    {
-      _id: "2",
-      title: "Colloquium '26",
-      slug: { _type: "slug", current: "colloquium-26" },
-      excerpt: "Annual tech conference bringing together industry leaders and students",
-      shortSummary: "Annual tech conference",
-      startDate: "2026-01-04T16:00:00Z",
-      venue: "New Arts Theater",
-      is_shown: true,
-    },
-    {
-      _id: "3",
-      title: "Signature Hack",
-      slug: { _type: "slug", current: "signature-hack" },
-      excerpt: "24-hour hackathon for innovative solutions",
-      shortSummary: "24-hour hackathon",
-      startDate: "2026-03-23T16:00:00Z",
-      venue: "New Arts Theater",
-      is_shown: true,
-    },
-    {
-      _id: "4",
-      title: "AGM",
-      slug: { _type: "slug", current: "agm" },
-      excerpt: "Annual General Meeting of CSSL GenZ Chapter",
-      shortSummary: "Annual General Meeting",
-      startDate: "2026-05-07T16:00:00Z",
-      venue: "New Arts Theater",
-      is_shown: true,
-    },
-    {
-      _id: "8",
-      title: "Tech Workshop",
-      slug: { _type: "slug", current: "tech-workshop" },
-      excerpt: "Hands-on workshop on latest technologies",
-      shortSummary: "Tech workshop",
-      startDate: "2026-06-15T16:00:00Z",
-      venue: "New Arts Theater",
-      is_shown: true,
-    },
-    {
-      _id: "9",
-      title: "Code Sprint",
-      slug: { _type: "slug", current: "code-sprint" },
-      excerpt: "Intensive coding competition",
-      shortSummary: "Coding competition",
-      startDate: "2026-07-20T16:00:00Z",
-      venue: "New Arts Theater",
-      is_shown: true,
-    },
-    {
-      _id: "10",
-      title: "AI Summit",
-      slug: { _type: "slug", current: "ai-summit" },
-      excerpt: "Summit on artificial intelligence and machine learning",
-      shortSummary: "AI summit",
-      startDate: "2026-08-10T16:00:00Z",
-      venue: "New Arts Theater",
-      is_shown: true,
-    },
-    {
-      _id: "5",
-      title: "CSSL Colloquium 2025",
-      slug: { _type: "slug", current: "cssl-colloquium-2025" },
-      excerpt: "The CSSL Colloquium 2025 organized by the Computer Society of Sri Lanka (CSSL)",
-      shortSummary: "Past tech conference",
-      startDate: "2024-07-07T16:00:00Z",
-      venue: "Colombo",
-      is_shown: true,
-    },
-    {
-      _id: "6",
-      title: "GenZ Launch Event",
-      slug: { _type: "slug", current: "genz-launch-past" },
-      excerpt: "We are pleased to announce the launching ceremony of the CSSL GenZ Chapter",
-      shortSummary: "Past launch ceremony",
-      startDate: "2024-11-16T16:00:00Z",
-      venue: "UCSC",
-      is_shown: true,
-    },
-    {
-      _id: "7",
-      title: "Physical Meetup",
-      slug: { _type: "slug", current: "physical-meetup" },
-      excerpt: "The evening brought together chapter members for an opportunity of interaction and lighthearted competition.",
-      shortSummary: "Past meetup",
-      startDate: "2024-09-15T16:00:00Z",
-      venue: "Colombo",
-      is_shown: true,
-    },
-    {
-      _id: "11",
-      title: "Web Development Workshop",
-      slug: { _type: "slug", current: "web-dev-workshop" },
-      excerpt: "A comprehensive workshop on modern web development technologies and best practices.",
-      shortSummary: "Past workshop",
-      startDate: "2024-06-20T16:00:00Z",
-      venue: "UCSC",
-      is_shown: true,
-    },
-    {
-      _id: "12",
-      title: "Coding Challenge 2024",
-      slug: { _type: "slug", current: "coding-challenge-2024" },
-      excerpt: "Annual coding competition that brought together talented programmers from various universities.",
-      shortSummary: "Past competition",
-      startDate: "2024-05-10T16:00:00Z",
-      venue: "Colombo",
-      is_shown: true,
-    },
-    {
-      _id: "13",
-      title: "Tech Talk Series",
-      slug: { _type: "slug", current: "tech-talk-series" },
-      excerpt: "Industry experts shared insights on emerging technologies and career opportunities.",
-      shortSummary: "Past tech talk",
-      startDate: "2024-04-15T16:00:00Z",
-      venue: "New Arts Theater",
-      is_shown: true,
-    },
-    {
-      _id: "14",
-      title: "Networking Night",
-      slug: { _type: "slug", current: "networking-night" },
-      excerpt: "An evening dedicated to networking and building connections within the tech community.",
-      shortSummary: "Past networking event",
-      startDate: "2024-03-25T16:00:00Z",
-      venue: "UCSC",
-      is_shown: true,
-    },
-    {
-      _id: "15",
-      title: "Mobile App Development Bootcamp",
-      slug: { _type: "slug", current: "mobile-bootcamp" },
-      excerpt: "Intensive bootcamp covering iOS and Android app development fundamentals.",
-      shortSummary: "Past bootcamp",
-      startDate: "2024-02-12T16:00:00Z",
-      venue: "Colombo",
-      is_shown: true,
-    },
-    {
-      _id: "16",
-      title: "Cyber Security Summit",
-      slug: { _type: "slug", current: "cybersec-summit" },
-      excerpt: "Summit focused on latest trends in cybersecurity and ethical hacking practices.",
-      shortSummary: "Past summit",
-      startDate: "2024-01-18T16:00:00Z",
-      venue: "New Arts Theater",
-      is_shown: true,
-    },
-  ] : events;
-
-  // Separate upcoming and past events
-  const now = new Date();
-  const upcomingEvents = mockEvents.filter(event => new Date(event.startDate) >= now);
-  const pastEvents = mockEvents.filter(event => new Date(event.startDate) < now);
-  
   const pastEventsPerPage = 4;
   const totalPastPages = Math.ceil(pastEvents.length / pastEventsPerPage);
   const displayedPastEvents = pastEvents.slice(
     currentPastPage * pastEventsPerPage,
     (currentPastPage + 1) * pastEventsPerPage
   );
+
+  // Use featured event or first upcoming event for the featured card
+  const featuredCard = featuredEvent || (upcomingEvents.length > 0 ? upcomingEvents[0] : null);
+  const remainingUpcoming = featuredEvent ? upcomingEvents : upcomingEvents.slice(1);
 
   return (
     <main className="min-h-screen bg-black text-white font-poppins">
@@ -214,14 +60,22 @@ export default function EventsPage() {
       </section>
 
       {/* Featured Event Card */}
-      {upcomingEvents.length > 0 && (
+      {featuredCard && (
         <section className="pb-20">
           <Container>
-            <div className="relative overflow-hidden h-[600px] -mt-15">
-              {/* Background image placeholder - you can add mainImage from event */}
-              <div className="absolute inset-0 bg-linear-to-br from-blue-900 to-black">
-                {/* Placeholder for event image */}
-              </div>
+            <div className="relative overflow-hidden h-[600px] -mt-15 rounded-lg">
+              {/* Background image from bannerImage or mainImage */}
+              {(featuredCard.bannerImage?.url || featuredCard.mainImage?.url) ? (
+                <div className="absolute inset-0">
+                  <img
+                    src={featuredCard.bannerImage?.url || featuredCard.mainImage?.url}
+                    alt={featuredCard.bannerImage?.alt || featuredCard.mainImage?.alt || featuredCard.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="absolute inset-0 bg-linear-to-br from-blue-900 to-black" />
+              )}
               
               <div className="absolute inset-0 bg-black/40" />
               
@@ -231,39 +85,51 @@ export default function EventsPage() {
                 </span>
                 
                 <h2 className="text-3rem lg:text-5xl mb-4">
-                  {upcomingEvents[0].title}
+                  {featuredCard.title}
                 </h2>
                 
                 <div className="flex flex-wrap gap-6 text-1.1rem text-white/90 mb-4">
                   <div className="flex items-center gap-2">
                     <span>📅</span>
                     <span>
-                      {new Date(upcomingEvents[0].startDate).toLocaleDateString("en-US", {
+                      {new Date(featuredCard.startDate).toLocaleDateString("en-US", {
                         day: "numeric",
                         month: "long",
                         year: "numeric",
                       })}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span>🕐</span>
-                    <span>4PM - 6PM</span>
-                  </div>
+                  {featuredCard.endDate && (
+                    <div className="flex items-center gap-2">
+                      <span>🕐</span>
+                      <span>
+                        {new Date(featuredCard.startDate).toLocaleTimeString("en-US", {
+                          hour: "numeric",
+                          minute: "2-digit",
+                          hour12: true
+                        })} - {new Date(featuredCard.endDate).toLocaleTimeString("en-US", {
+                          hour: "numeric",
+                          minute: "2-digit",
+                          hour12: true
+                        })}
+                      </span>
+                    </div>
+                  )}
                   <div className="flex items-center gap-2">
                     <span>📍</span>
-                    <span>New Arts Theater, University of Colombo</span>
+                    <span>{featuredCard.venue || "New Arts Theater, University of Colombo"}</span>
                   </div>
                 </div>
                 
-                {upcomingEvents[0].excerpt && (
+                {(featuredCard.bannerText || featuredCard.shortSummary) && (
                   <p className="text-white/80 max-w-3xl mb-6 line-clamp-3 text-1.5rem">
-                    {upcomingEvents[0].excerpt}
+                    {featuredCard.bannerText || featuredCard.shortSummary}
                   </p>
                 )}
                 
                 <Link
-                  href={`/events/${upcomingEvents[0].slug.current}`}
-                  className="text-blue-400 hover:text-blue-300 flex items-center gap-2 justify-end"
+                  href={`/posts/${featuredCard.slug.current}`}
+                  className="text-blue-400 hover:text-blue-300 flex items-center gap-2 justify-end transition-colors"
                 >
                   See More <span>→</span>
                 </Link>
@@ -274,22 +140,57 @@ export default function EventsPage() {
       )}
 
       {/* Upcoming Events Section */}
-      {upcomingEvents.length > 1 && (
+      {remainingUpcoming.length > 0 && (
         <section className="pb-20">
           <Container>
             <h2 className="text-3xl mb-10 font-normal">Upcoming Events</h2>
             
             <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-4">
-              {upcomingEvents.slice(1).map((event, index) => {
+              {remainingUpcoming.map((event, index) => {
                 const eventDate = new Date(event.startDate);
                 const day = eventDate.getDate().toString().padStart(2, '0');
                 const month = eventDate.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
                 const isFirst = index === 0;
                 
+                // Date display logic
+                let dateDisplay = day;
+                let monthDisplay = month;
+                
+                if (event.endDate) {
+                  const endEventDate = new Date(event.endDate);
+                  const endDay = endEventDate.getDate().toString().padStart(2, '0');
+                  const endMonth = endEventDate.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
+                  
+                  // Check if same month
+                  if (month === endMonth) {
+                    dateDisplay = `${day}-${endDay}`;
+                    monthDisplay = month;
+                  } else {
+                    dateDisplay = `${day} ${month.slice(0, 3)} - ${endDay} ${endMonth.slice(0, 3)}`;
+                    monthDisplay = "";
+                  }
+                }
+                
+                // Calculate time display
+                let timeDisplay = "TBA";
+                if (event.endDate) {
+                  const startTime = new Date(event.startDate).toLocaleTimeString("en-US", {
+                    hour: "numeric",
+                    minute: "2-digit",
+                    hour12: true
+                  });
+                  const endTime = new Date(event.endDate).toLocaleTimeString("en-US", {
+                    hour: "numeric",
+                    minute: "2-digit",
+                    hour12: true
+                  });
+                  timeDisplay = `${startTime} - ${endTime}`;
+                }
+                
                 return (
                   <Link
                     key={event._id}
-                    href={`/events/${event.slug.current}`}
+                    href={`/posts/${event.slug.current}`}
                     className="group shrink-0"
                     style={{ width: 'calc(25% * 0.75 - 18px)' }}
                   >
@@ -297,20 +198,22 @@ export default function EventsPage() {
                       isFirst 
                         ? "bg-linear-to-b from-[#1a4d8f] via-[#0d2847] to-[#030712]" 
                         : "bg-gray-900/50 border border-gray-800"
-                    } p-6 hover:border-blue-500/50 transition-all h-full`}>
+                    } p-6 hover:border-blue-500/50 transition-all h-full rounded-lg`}>
                       {/* Date Badge */}
                       <div className="flex items-start justify-between mb-8">
                         <div>
                           <div className={`text-3xl font-normal ${isFirst ? "text-white" : "text-white"}`}>
-                            {day}
+                            {dateDisplay}
                           </div>
-                          <div className={`text-sm font-normal ${isFirst ? "text-white/80" : "text-gray-500"}`}>
-                            {month}
-                          </div>
+                          {monthDisplay && (
+                            <div className={`text-sm font-normal ${isFirst ? "text-white/80" : "text-gray-500"}`}>
+                              {monthDisplay}
+                            </div>
+                          )}
                         </div>
-                        <button className={`${isFirst ? "text-white/80" : "text-gray-500"} hover:text-white`}>
+                        <span className={`${isFirst ? "text-white/80" : "text-gray-500"} group-hover:text-white transition-colors`}>
                           →
-                        </button>
+                        </span>
                       </div>
                       
                       {/* Event Info */}
@@ -323,11 +226,11 @@ export default function EventsPage() {
                       <div className="space-y-2 text-sm font-normal">
                         <div className={`flex items-center gap-2 ${isFirst ? "text-white/80" : "text-blue-400"}`}>
                           <span>🕐</span>
-                          <span>4PM - 6PM</span>
+                          <span>{timeDisplay}</span>
                         </div>
                         <div className={`flex items-center gap-2 ${isFirst ? "text-white/80" : "text-blue-400"}`}>
                           <span>📍</span>
-                          <span>New Arts Theater</span>
+                          <span>{event.venue || "New Arts Theater"}</span>
                         </div>
                       </div>
                     </div>
@@ -349,12 +252,22 @@ export default function EventsPage() {
               {displayedPastEvents.map((event) => (
                 <Link
                   key={event._id}
-                  href={`/events/${event.slug.current}`}
+                  href={`/posts/${event.slug.current}`}
                   className="group"
                 >
                   <div className="overflow-hidden bg-transparent">
-                    {/* Image placeholder */}
-                    <div className="aspect-video bg-gray-700 mb-4" />
+                    {/* Event Image */}
+                    {event.mainImage?.url ? (
+                      <div className="aspect-video bg-gray-700 mb-4 rounded-lg overflow-hidden">
+                        <img
+                          src={event.mainImage.url}
+                          alt={event.mainImage.alt || event.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    ) : (
+                      <div className="aspect-video bg-gray-700 mb-4 rounded-lg" />
+                    )}
                     
                     <div>
                       <h3 className="text-lg font-normal mb-2 group-hover:text-blue-400 transition-colors">
@@ -362,16 +275,34 @@ export default function EventsPage() {
                       </h3>
                       
                       <p className="text-sm text-white/40 mb-3 font-normal">
-                        {new Date(event.startDate).toLocaleDateString("en-US", {
-                          month: "long",
-                          day: "numeric",
-                          year: "numeric",
-                        })}
+                        {event.endDate ? (
+                          // Show date range if endDate exists
+                          <>
+                            {new Date(event.startDate).toLocaleDateString("en-US", {
+                              month: "long",
+                              day: "numeric",
+                              year: "numeric",
+                            })}
+                            {" - "}
+                            {new Date(event.endDate).toLocaleDateString("en-US", {
+                              month: "long",
+                              day: "numeric",
+                              year: "numeric",
+                            })}
+                          </>
+                        ) : (
+                          // Show only start date if no endDate
+                          new Date(event.startDate).toLocaleDateString("en-US", {
+                            month: "long",
+                            day: "numeric",
+                            year: "numeric",
+                          })
+                        )}
                       </p>
                       
-                      {event.excerpt && (
+                      {event.shortSummary && (
                         <p className="text-sm text-white/60 line-clamp-2 mb-3 font-normal">
-                          {event.excerpt}
+                          {event.shortSummary}
                         </p>
                       )}
                       

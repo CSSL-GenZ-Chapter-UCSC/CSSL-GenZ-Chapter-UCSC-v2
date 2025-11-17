@@ -20,8 +20,8 @@ export type Event = {
     _type: "slug";
     current: string;
   };
-  excerpt?: string;
   shortSummary?: string;
+  description?: any[]; // Block content array from Sanity
   startDate: string;
   endDate?: string;
   venue?: string;
