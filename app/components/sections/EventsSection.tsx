@@ -9,52 +9,6 @@ interface EventsSectionProps {
   events: Event[];
 }
 
-// Dummy data for events with images (fallback)
-const DUMMY_EVENTS_DATA = [
-    {
-        id: "1",
-        date: "Sep 2025",
-        title: "INFINITELOOP 3.0",
-        logo: "https://via.placeholder.com/200x80/8B5CF6/FFFFFF?text=LOGO",
-        shortSummary: "Annual coding competition for developers. Join us for an exciting challenge!",
-        className: "event-card-0",
-        images: [
-            { id: "1-sub", url: "https://via.placeholder.com/800x600/3B82F6/FFFFFF?text=INFINITELOOP+Main", alt: "INFINITELOOP Main" },
-            { id: "1-main", url: "https://via.placeholder.com/1600x800/8B5CF6/FFFFFF?text=INFINITELOOP+Wide", alt: "INFINITELOOP Wide" },
-            { id: "1-other1", url: "https://via.placeholder.com/800x800/EC4899/FFFFFF?text=INFINITELOOP+1", alt: "INFINITELOOP 1" },
-            { id: "1-other2", url: "https://via.placeholder.com/800x800/EF4444/FFFFFF?text=INFINITELOOP+2", alt: "INFINITELOOP 2" },
-        ],
-    },
-    {
-        id: "2",
-        date: "Oct 2025",
-        title: "IEEEXTREME 19.0",
-        logo: "https://via.placeholder.com/200x80/14B8A6/FFFFFF?text=LOGO",
-        shortSummary: "24-hour global programming competition. Test your skills against the world!",
-        className: "event-card-1",
-        images: [
-            { id: "2-sub", url: "https://via.placeholder.com/800x600/10B981/FFFFFF?text=IEEEXTREME+Main", alt: "IEEEXTREME Main" },
-            { id: "2-main", url: "https://via.placeholder.com/1600x800/14B8A6/FFFFFF?text=IEEEXTREME+Wide", alt: "IEEEXTREME Wide" },
-            { id: "2-other1", url: "https://via.placeholder.com/800x800/06B6D4/FFFFFF?text=IEEEXTREME+1", alt: "IEEEXTREME 1" },
-            { id: "2-other2", url: "https://via.placeholder.com/800x800/3B82F6/FFFFFF?text=IEEEXTREME+2", alt: "IEEEXTREME 2" },
-        ],
-    },
-    {
-        id: "3",
-        date: "Nov 2025",
-        title: "PROJECT SHIELD",
-        logo: "https://via.placeholder.com/200x80/F97316/FFFFFF?text=LOGO",
-        shortSummary: "Cybersecurity awareness and workshop. Learn to protect your digital assets!",
-        className: "event-card-2",
-        images: [
-            { id: "3-sub", url: "https://via.placeholder.com/800x600/EAB308/FFFFFF?text=PROJECT+SHIELD+Main", alt: "PROJECT SHIELD Main" },
-            { id: "3-main", url: "https://via.placeholder.com/1600x800/F97316/FFFFFF?text=PROJECT+SHIELD+Wide", alt: "PROJECT SHIELD Wide" },
-            { id: "3-other1", url: "https://via.placeholder.com/800x800/EF4444/FFFFFF?text=PROJECT+SHIELD+1", alt: "PROJECT SHIELD 1" },
-            { id: "3-other2", url: "https://via.placeholder.com/800x800/EC4899/FFFFFF?text=PROJECT+SHIELD+2", alt: "PROJECT SHIELD 2" },
-        ],
-    },
-];
-
 // 🎯 THRESHOLD: Change active element when its top is 350px from viewport top
 const ACTIVATION_THRESHOLD = 350;
 
@@ -66,7 +20,7 @@ export default function EventsSection({ events }: EventsSectionProps) {
     const eventCardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     // Transform Sanity events to component format
-    const transformedEvents = events.map((event, index) => {
+    const EVENTS_DATA = events.map((event, index) => {
         // Always return exactly four slots in a fixed order
         const images = [
             {
@@ -104,9 +58,6 @@ export default function EventsSection({ events }: EventsSectionProps) {
             images,
         };
     });
-
-    // Use transformed events or fallback to dummy data
-    const EVENTS_DATA = transformedEvents.length > 0 ? transformedEvents : DUMMY_EVENTS_DATA;
 
     useEffect(() => {
         function handleWheel(e: WheelEvent) {
@@ -210,6 +161,20 @@ export default function EventsSection({ events }: EventsSectionProps) {
         }
         
         return "";
+    }
+
+    // Show "no events" message if no events are provided
+    if (EVENTS_DATA.length === 0) {
+        return (
+            <Container className="relative z-10 py-16 lg:py-20">
+                <div className="bg-linear-to-br from-[#000000] via-[#0F2248] to-[#1E448F] h-[80vh] flex items-center justify-center rounded-lg overflow-hidden">
+                    <div className="text-center text-white">
+                        <h3 className="text-2xl font-semibold mb-2">No Events Available</h3>
+                        <p className="text-white/60">Please add events in Sanity Studio to display them here.</p>
+                    </div>
+                </div>
+            </Container>
+        );
     }
 
     return (
