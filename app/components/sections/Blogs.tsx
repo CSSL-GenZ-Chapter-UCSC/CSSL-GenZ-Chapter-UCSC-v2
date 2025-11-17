@@ -310,6 +310,36 @@ export const Blogs = () => {
                       <p className="text-[#9AA0A6] font-poppins text-[15px] font-normal leading-normal mt-10">
                         {blog.readTime} . {blog.date}
                       </p>
+                      <div className="flex flex-row justify-center items-center gap-2 mt-30">
+                        {blogs.map((b, i) => (
+                          <button
+                            key={`pager-${i}`}
+                            type="button"
+                            aria-label={`Go to slide ${i + 1}: ${b.title}`}
+                            onClick={() => setActiveIndex(i)}
+                            className="p-0 m-0 bg-transparent border-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4C9DFE] rounded"
+                          >
+                            {i === activeIndex ? (
+                              <div className="rounded-[10px] bg-[linear-gradient(90deg,#3474F5_0%,#4C9DFE_100%)] w-[52px] h-[11px]" />
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="12"
+                                height="12"
+                                viewBox="0 0 12 12"
+                                fill="none"
+                              >
+                                <circle
+                                  cx="6"
+                                  cy="6"
+                                  r="5.5"
+                                  stroke="#9AA0A6"
+                                />
+                              </svg>
+                            )}
+                          </button>
+                        ))}
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -317,6 +347,32 @@ export const Blogs = () => {
             </motion.div>
           ))}
         </motion.div>
+        {/* Mobile pagination controls */}
+        <div className="w-full md:hidden flex justify-center items-center mt-4 gap-2">
+          {blogs.map((b, i) => (
+            <button
+              key={`mobile-pager-${i}`}
+              type="button"
+              aria-label={`Go to slide ${i + 1}: ${b.title}`}
+              onClick={() => setActiveIndex(i)}
+              className="p-0 m-0 bg-transparent border-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4C9DFE] rounded"
+            >
+              {i === activeIndex ? (
+                <div className="rounded-[10px] bg-[linear-gradient(90deg,#3474F5_0%,#4C9DFE_100%)] w-9 h-2" />
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="10"
+                  height="10"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <circle cx="6" cy="6" r="5.5" stroke="#9AA0A6" />
+                </svg>
+              )}
+            </button>
+          ))}
+        </div>
       </Container>
     </section>
   );
