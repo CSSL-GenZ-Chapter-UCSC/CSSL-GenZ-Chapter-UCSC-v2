@@ -92,7 +92,6 @@ export const Work = () => {
 };
 
 const WorkActivities = () => {
-  // Image sources from public/Images; we will cycle if wrappers > images
   const images = useMemo(
     () =>
       [
