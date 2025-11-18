@@ -1,4 +1,4 @@
-import { Contact } from "../components/sections/Contact";
+import { ContactSection } from "../components/sections/ContactSection";
 
 export const metadata = {
   title: "Contact Us",
@@ -9,7 +9,7 @@ export const metadata = {
 export default function ContactUsPage() {
   return (
     <main className="flex flex-col">
-      <Contact />
+      <ContactSection />
     </main>
   );
 }
