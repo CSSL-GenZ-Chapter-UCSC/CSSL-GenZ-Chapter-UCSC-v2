@@ -33,7 +33,7 @@ export const Navbar = () => {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About Us" },
-    { href: "/events", label: "What We Do" },
+    { href: "/whatWeDo", label: "What We Do" },
     { href: "/events", label: "Events" },
     { href: "/people", label: "People" },
     { href: "/contact", label: "Contact Us" },
