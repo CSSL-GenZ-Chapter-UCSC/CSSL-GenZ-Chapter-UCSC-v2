@@ -42,7 +42,7 @@ export const Navbar = () => {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-40 bg-black/30 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)] transition-transform duration-300 ${
-        isVisible ? "translate-y-0" : "-translate-y-full"
+        isVisible ? "translate-y-0" : "-translate-y-full shadow-none"
       }`}
     >
       <Container>
@@ -63,7 +63,7 @@ export const Navbar = () => {
               <Link
                 key={link.href + link.label}
                 href={link.href}
-                className={`text-white/90 hover:text-white transition-colors text-sm font-medium relative pb-1 ${
+                className={`text-white/90 hover:text-white transition-colors text-sm font-medium relative pb-1 select-none ${
                   pathname === link.href
                     ? "after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-white"
                     : ""

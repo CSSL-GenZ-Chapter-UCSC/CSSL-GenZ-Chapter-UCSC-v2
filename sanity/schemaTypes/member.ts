@@ -33,6 +33,7 @@ export const member = defineType({
           { title: "President", value: "president" },
           { title: "Executive Committee", value: "executive" },
           { title: "Team Lead", value: "teamLead" },
+          { title: "Team Member", value: "teamMember" },
         ],
         layout: "radio",
       },
