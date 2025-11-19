@@ -82,7 +82,7 @@ export const Hero = () => {
             initial={{ opacity: 0, filter: "blur(8px)" }}
             animate={{ opacity: 1, filter: "blur(0px)" }}
             transition={{ duration: 0.3, ease: "easeOut", delay: 0.15 }}
-            className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-6 tracking-normal"
+            className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-6 tracking-normal select-none"
           >
             CSSL Gen
             <span className="text-blue-500 font-(family-name:--font-la-belle-aurore) text-6xl md:text-7xl lg:text-7xl xl:text-8xl mr-2">
@@ -98,7 +98,7 @@ export const Hero = () => {
             initial={{ opacity: 0, filter: "blur(8px)" }}
             animate={{ opacity: 1, filter: "blur(0px)" }}
             transition={{ duration: 0.3, ease: "easeOut", delay: 0.3 }}
-            className="text-lg md:text-xl lg:text-2xl text-white/80 mb-12 max-w-3xl leading-relaxed"
+            className="text-lg md:text-xl lg:text-2xl text-white/80 mb-12 max-w-3xl leading-relaxed select-none"
           >
             Where GenZ minds at UCSC turn ideas into legacies
           </motion.p>
