@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Container } from "../shared/Container";
 import Image from "next/image";
 import { motion } from "motion/react";
+import { PageTitle } from "../shared/PageTitle";
 
 export const About = () => {
   const aboutImages: { src?: string; className?: string; alt?: string }[] = [
@@ -56,14 +57,10 @@ export const About = () => {
     <section className="h-screen flex items-start justify-center bg-black text-white sm:pt-30 pt-20">
       <Container className="h-full pb-20">
         <div className="w-full h-full flex flex-col sm:items-stretch ">
-          <motion.h2
-            initial={{ opacity: 0, filter: "blur(8px)" }}
-            animate={{ opacity: 1, filter: "blur(0px)" }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-            className="flex items-center justify-start bg-[linear-gradient(87deg,rgba(0,0,0,0)_-1.81%,#0F52B4_15.92%,rgba(17,105,234,0.58)_35.57%,rgba(68,140,246,0.82)_52.17%,rgba(49,138,255,0.82)_77.28%,rgba(25,69,128,0.41)_97.86%,rgba(0,0,0,0)_97.87%)] bg-clip-text text-transparent font-[Poppins] lg:text-[213px] md:text-[125px] sm:text-[100px] text-[60px] not-italic font-semibold leading-none tracking-[12.65px] flex-1"
-          >
-            ABOUT
-          </motion.h2>
+          <PageTitle
+            text="ABOUT"
+            className="lg:text-[213px] md:text-[125px] sm:text-[100px] text-[60px]"
+          />
           <div className="flex px-2.5 justify-between items-start self-stretch flex-1">
             <motion.p
               initial={{ opacity: 0, filter: "blur(8px)" }}

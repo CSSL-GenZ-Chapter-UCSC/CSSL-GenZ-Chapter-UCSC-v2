@@ -93,7 +93,7 @@ export const Footer = () => {
     <footer className="sticky bottom-0 -z-10">
       <Background />
       <div className="w-full h-[85vh] flex items-center justify-start bg-none relative flex-col overflow-hidden">
-        <div className="w-full h-[80%] bg-black/30 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)] z-10">
+        <div className="w-full h-[90%] bg-black/30 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)] z-10">
           <FooterContent />
         </div>
         <div className="w-[90%] absolute sm:-bottom-70 bottom-0 flex items-center justify-center">
