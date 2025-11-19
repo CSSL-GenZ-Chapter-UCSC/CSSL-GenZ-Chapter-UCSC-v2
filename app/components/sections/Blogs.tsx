@@ -216,7 +216,12 @@ export const Blogs = () => {
               </motion.span>
             ))}
           </p>
-          <Button className="md:mt-auto mt-6" isSvg text="All blogs" />
+          <Button
+            className="md:mt-auto mt-6"
+            isSvg
+            text="All blogs"
+            href="/blogs"
+          />
         </div>
         {/* Mobile (below md) */}
         <div className="w-full md:hidden flex flex-col gap-6">

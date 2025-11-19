@@ -5,6 +5,7 @@ import { Container } from "../shared/Container";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { motion } from "motion/react";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +41,10 @@ export const Navbar = () => {
   ];
 
   return (
-    <header
+    <motion.header
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1, ease: "easeOut", delay: 0.75 }}
       className={`fixed inset-x-0 top-0 z-40 bg-black/30 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)] transition-transform duration-300 ${
         isVisible ? "translate-y-0" : "-translate-y-full shadow-none"
       }`}
@@ -238,6 +242,6 @@ export const Navbar = () => {
           </div>
         )}
       </Container>
-    </header>
+    </motion.header>
   );
 };
