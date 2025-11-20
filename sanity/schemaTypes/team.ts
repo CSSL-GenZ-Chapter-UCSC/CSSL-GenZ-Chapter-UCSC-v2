@@ -1,0 +1,55 @@
+import { defineField, defineType } from "sanity";
+
+export const team = defineType({
+  name: "team",
+  title: "Team",
+  type: "document",
+  fields: [
+    defineField({
+      name: "name",
+      title: "Name",
+      type: "string",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: { source: "name", maxLength: 96 },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "description",
+      title: "Description",
+      type: "text",
+      rows: 3,
+    }),
+    defineField({
+      name: "groupPhoto",
+      title: "Group Photo",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "leads",
+      title: "Leads",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "member" }] }],
+    }),
+    defineField({
+      name: "members",
+      title: "Members",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "member" }] }],
+    }),
+    defineField({
+      name: "order",
+      title: "Order",
+      type: "number",
+      description: "Lower numbers appear first",
+    }),
+  ],
+  preview: {
+    select: { title: "name", subtitle: "description", media: "groupPhoto" },
+  },
+});
