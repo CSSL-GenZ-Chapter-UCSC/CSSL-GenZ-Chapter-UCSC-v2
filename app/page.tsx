@@ -1,4 +1,8 @@
+import { Blogs } from "./components/sections/Blogs";
+import { Gallery } from "./components/sections/Gallery";
 import { Hero } from "./components/sections/Hero";
+import { Logo } from "./components/sections/Logo";
+import { Testimonial } from "./components/sections/Testimonial";
 
 export const metadata = {
   title: "CSSL GenZ Chapter",
@@ -10,6 +14,10 @@ export default function Home() {
   return (
     <main className="flex flex-col">
       <Hero />
+      <Logo />
+      <Gallery />
+      <Blogs />
+      <Testimonial />
     </main>
   );
 }

@@ -5,9 +5,12 @@ import { Container } from "../shared/Container";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { motion } from "motion/react";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname();
 
   // Hide navbar on studio routes
@@ -16,22 +19,41 @@ export const Navbar = () => {
   }
 
   useEffect(() => {
-    const handleScroll = () => setIsOpen(false);
-    if (isOpen) window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isOpen]);
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      setLastScrollY(window.scrollY);
+      setIsOpen(false);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
 
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About Us" },
-    { href: "/events", label: "What We Do" },
+    { href: "/whatWeDo", label: "What We Do" },
     { href: "/events", label: "Events" },
     { href: "/people", label: "People" },
     { href: "/contact", label: "Contact Us" },
   ];
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40">
+    <motion.header
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1, ease: "easeOut", delay: 0.75 }}
+      className={`fixed inset-x-0 top-0 z-40 bg-black/30 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)] transition-transform duration-300 ${
+        isVisible ? "translate-y-0" : "-translate-y-full shadow-none"
+      }`}
+    >
       <Container>
         <nav className="flex items-center justify-between">
           {/* Logo */}
@@ -40,7 +62,7 @@ export const Navbar = () => {
               src="/CSSL Logo final - white.png"
               alt="CSSL Logo"
               width={120}
-              height={60}
+              height={50}
             />
           </Link>
 
@@ -50,7 +72,7 @@ export const Navbar = () => {
               <Link
                 key={link.href + link.label}
                 href={link.href}
-                className={`text-white/90 hover:text-white transition-colors text-sm font-medium relative pb-1 ${
+                className={`text-white/90 hover:text-white transition-colors text-sm font-medium relative pb-1 select-none ${
                   pathname === link.href
                     ? "after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-white"
                     : ""
@@ -225,6 +247,6 @@ export const Navbar = () => {
           </div>
         )}
       </Container>
-    </header>
+    </motion.header>
   );
 };

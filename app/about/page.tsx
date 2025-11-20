@@ -1,11 +1,17 @@
+import { About } from "../components/sections/About";
+import { Vision } from "../components/sections/Vision";
+
 export const metadata = {
-  title: "About",
+  title: "About us",
+  description: "CSSL GenZ Chapter of UCSC",
+  keywords: "",
 };
 
 export default function AboutPage() {
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-3xl font-bold">About</h1>
+    <main className="flex flex-col">
+      <About />
+      <Vision />
     </main>
   );
 }
