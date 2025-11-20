@@ -12,12 +12,12 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <main className="flex flex-col">
+    <main className="flex flex-col gap-10 bg-black">
       <Hero />
       <Logo />
       <Gallery />
-      <Blogs />
       <Testimonial />
+      <Blogs />
     </main>
   );
 }
