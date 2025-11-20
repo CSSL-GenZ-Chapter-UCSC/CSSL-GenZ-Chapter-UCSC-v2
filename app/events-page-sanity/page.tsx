@@ -1,41 +1,19 @@
-'use client';
-
 import { getFeaturedEvent, getUpcomingEvents, getPastEvents } from "@/sanity/lib/api";
-import type { Event } from "../../app/types/event";
+import type { Event } from "../types/event";
 import Link from "next/link";
 import { Container } from "../components/shared/Container";
-import { useState, useEffect } from "react";
+import EventsPagination from "../components/events/EventsPagination";
 
-export default function EventsPage() {
-  const [featuredEvent, setFeaturedEvent] = useState<Event | null>(null);
-  const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
-  const [pastEvents, setPastEvents] = useState<Event[]>([]);
-  const [currentPastPage, setCurrentPastPage] = useState(0);
-  
-  useEffect(() => {
-    // Fetch all event data
-    Promise.all([
-      getFeaturedEvent(),
-      getUpcomingEvents(),
-      getPastEvents()
-    ]).then(([featured, upcoming, past]) => {
-      setFeaturedEvent(featured);
-      // Remove featured event from upcoming if it exists
-      setUpcomingEvents(featured ? upcoming.filter(e => e._id !== featured._id) : upcoming);
-      setPastEvents(past);
-    });
-  }, []);
+export default async function EventsPageSanity() {
+  // Fetch all data server-side
+  const featuredEvent = await getFeaturedEvent();
+  const upcomingEvents = await getUpcomingEvents();
+  const pastEvents = await getPastEvents();
 
-  const pastEventsPerPage = 4;
-  const totalPastPages = Math.ceil(pastEvents.length / pastEventsPerPage);
-  const displayedPastEvents = pastEvents.slice(
-    currentPastPage * pastEventsPerPage,
-    (currentPastPage + 1) * pastEventsPerPage
-  );
-
-  // Use featured event or first upcoming event for the featured card
-  const featuredCard = featuredEvent || (upcomingEvents.length > 0 ? upcomingEvents[0] : null);
-  const remainingUpcoming = featuredEvent ? upcomingEvents : upcomingEvents.slice(1);
+  // Remove featured event from upcoming events if it exists
+  const nonFeaturedUpcoming = featuredEvent 
+    ? upcomingEvents.filter(event => event._id !== featuredEvent._id)
+    : upcomingEvents;
 
   return (
     <main className="min-h-screen bg-black text-white font-poppins">
@@ -60,16 +38,16 @@ export default function EventsPage() {
       </section>
 
       {/* Featured Event Card */}
-      {featuredCard && (
+      {featuredEvent && (
         <section className="pb-20">
           <Container>
             <div className="relative overflow-hidden h-[600px] -mt-15 rounded-lg">
               {/* Background image from bannerImage or mainImage */}
-              {(featuredCard.bannerImage?.url || featuredCard.mainImage?.url) ? (
+              {(featuredEvent.bannerImage?.url || featuredEvent.mainImage?.url) ? (
                 <div className="absolute inset-0">
                   <img
-                    src={featuredCard.bannerImage?.url || featuredCard.mainImage?.url}
-                    alt={featuredCard.bannerImage?.alt || featuredCard.mainImage?.alt || featuredCard.title}
+                    src={featuredEvent.bannerImage?.url || featuredEvent.mainImage?.url}
+                    alt={featuredEvent.bannerImage?.alt || featuredEvent.mainImage?.alt || featuredEvent.title}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -85,29 +63,29 @@ export default function EventsPage() {
                 </span>
                 
                 <h2 className="text-3rem lg:text-5xl mb-4">
-                  {featuredCard.title}
+                  {featuredEvent.title}
                 </h2>
                 
                 <div className="flex flex-wrap gap-6 text-1.1rem text-white/90 mb-4">
                   <div className="flex items-center gap-2">
                     <span>📅</span>
                     <span>
-                      {new Date(featuredCard.startDate).toLocaleDateString("en-US", {
+                      {new Date(featuredEvent.startDate).toLocaleDateString("en-US", {
                         day: "numeric",
                         month: "long",
                         year: "numeric",
                       })}
                     </span>
                   </div>
-                  {featuredCard.endDate && (
+                  {featuredEvent.endDate && (
                     <div className="flex items-center gap-2">
                       <span>🕐</span>
                       <span>
-                        {new Date(featuredCard.startDate).toLocaleTimeString("en-US", {
+                        {new Date(featuredEvent.startDate).toLocaleTimeString("en-US", {
                           hour: "numeric",
                           minute: "2-digit",
                           hour12: true
-                        })} - {new Date(featuredCard.endDate).toLocaleTimeString("en-US", {
+                        })} - {new Date(featuredEvent.endDate).toLocaleTimeString("en-US", {
                           hour: "numeric",
                           minute: "2-digit",
                           hour12: true
@@ -117,18 +95,18 @@ export default function EventsPage() {
                   )}
                   <div className="flex items-center gap-2">
                     <span>📍</span>
-                    <span>{featuredCard.venue || "New Arts Theater, University of Colombo"}</span>
+                    <span>{featuredEvent.venue || "New Arts Theater, University of Colombo"}</span>
                   </div>
                 </div>
                 
-                {(featuredCard.bannerText || featuredCard.shortSummary) && (
+                {(featuredEvent.bannerText || featuredEvent.shortSummary) && (
                   <p className="text-white/80 max-w-3xl mb-6 line-clamp-3 text-1.5rem">
-                    {featuredCard.bannerText || featuredCard.shortSummary}
+                    {featuredEvent.bannerText || featuredEvent.shortSummary}
                   </p>
                 )}
                 
                 <Link
-                  href={`/posts/${featuredCard.slug.current}`}
+                  href={`/posts/${featuredEvent.slug.current}`}
                   className="text-blue-400 hover:text-blue-300 flex items-center gap-2 justify-end transition-colors"
                 >
                   See More <span>→</span>
@@ -140,13 +118,13 @@ export default function EventsPage() {
       )}
 
       {/* Upcoming Events Section */}
-      {remainingUpcoming.length > 0 && (
+      {nonFeaturedUpcoming.length > 0 && (
         <section className="pb-20">
           <Container>
             <h2 className="text-3xl mb-10 font-normal">Upcoming Events</h2>
             
             <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-4">
-              {remainingUpcoming.map((event, index) => {
+              {nonFeaturedUpcoming.map((event, index) => {
                 const eventDate = new Date(event.startDate);
                 const day = eventDate.getDate().toString().padStart(2, '0');
                 const month = eventDate.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
@@ -248,98 +226,7 @@ export default function EventsPage() {
           <Container>
             <h2 className="text-3xl font-normal mb-10">Past Events</h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              {displayedPastEvents.map((event) => (
-                <Link
-                  key={event._id}
-                  href={`/posts/${event.slug.current}`}
-                  className="group"
-                >
-                  <div className="overflow-hidden bg-transparent">
-                    {/* Event Image */}
-                    {event.mainImage?.url ? (
-                      <div className="aspect-video bg-gray-700 mb-4 rounded-lg overflow-hidden">
-                        <img
-                          src={event.mainImage.url}
-                          alt={event.mainImage.alt || event.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    ) : (
-                      <div className="aspect-video bg-gray-700 mb-4 rounded-lg" />
-                    )}
-                    
-                    <div>
-                      <h3 className="text-lg font-normal mb-2 group-hover:text-blue-400 transition-colors">
-                        {event.title}
-                      </h3>
-                      
-                      <p className="text-sm text-white/40 mb-3 font-normal">
-                        {event.endDate ? (
-                          // Show date range if endDate exists
-                          <>
-                            {new Date(event.startDate).toLocaleDateString("en-US", {
-                              month: "long",
-                              day: "numeric",
-                              year: "numeric",
-                            })}
-                            {" - "}
-                            {new Date(event.endDate).toLocaleDateString("en-US", {
-                              month: "long",
-                              day: "numeric",
-                              year: "numeric",
-                            })}
-                          </>
-                        ) : (
-                          // Show only start date if no endDate
-                          new Date(event.startDate).toLocaleDateString("en-US", {
-                            month: "long",
-                            day: "numeric",
-                            year: "numeric",
-                          })
-                        )}
-                      </p>
-                      
-                      {event.shortSummary && (
-                        <p className="text-sm text-white/60 line-clamp-2 mb-3 font-normal">
-                          {event.shortSummary}
-                        </p>
-                      )}
-                      
-                      <span className="text-sm text-blue-400 group-hover:text-blue-300 font-normal">
-                        Learn More
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-            
-            {/* Navigation Buttons */}
-            {totalPastPages > 1 && (
-              <div className="flex justify-center gap-4">
-                <button
-                  onClick={() => setCurrentPastPage(prev => Math.max(0, prev - 1))}
-                  disabled={currentPastPage === 0}
-                  className="w-10 h-10 rounded-full bg-gray-800 hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
-                  aria-label="Previous page"
-                >
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
-                <button
-                  onClick={() => setCurrentPastPage(prev => Math.min(totalPastPages - 1, prev + 1))}
-                  disabled={currentPastPage === totalPastPages - 1}
-                  className="w-10 h-10 rounded-full bg-gray-800 hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
-                  aria-label="Next page"
-                >
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
-              </div>
-            )}
+            <EventsPagination events={pastEvents} />
           </Container>
         </section>
       )}

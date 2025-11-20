@@ -32,8 +32,7 @@ export const blog = defineType({
     defineField({
       name: "author",
       title: "Author",
-      type: "reference",
-      to: [{ type: "author" }],
+      type: "string",
     }),
     defineField({
       name: "excerpt",
