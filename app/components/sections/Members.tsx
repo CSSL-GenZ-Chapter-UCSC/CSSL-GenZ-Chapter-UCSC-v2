@@ -1,21 +1,11 @@
 import { Container } from "../shared/Container";
-import Image from "next/image";
-import Link from "next/link";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { groq } from "next-sanity";
 import { TeamGroupPhoto } from "../elements/TeamGroupPhoto";
+import { MemberCardItem, MemberCardProps } from "../elements/MemberCard";
 
-type MemberCard = {
-  name: string;
-  role: string;
-  href: string;
-  bgSrc?: string;
-  fgSrc?: string;
-  bgClassName?: string;
-  fgClassName?: string;
-  cardClassName?: string; // optional wrapper class
-};
+type MemberCard = MemberCardProps;
 
 type SanityMember = {
   name: string;
@@ -142,46 +132,6 @@ async function getTeams(): Promise<
   }));
 }
 
-const MemberCardItem = ({ member }: { member: MemberCard }) => {
-  return (
-    <Link
-      href={member.href}
-      className={`flex h-full w-full flex-col items-start ${member.cardClassName || ""}`}
-    >
-      <div className="relative w-full h-[80%] bg-gray-600 shrink-0 self-stretch overflow-hidden">
-        {member.bgSrc ? (
-          <Image
-            src={member.bgSrc}
-            alt={`${member.name} background`}
-            fill
-            unoptimized
-            className={`object-cover absolute inset-0 ${member.bgClassName || ""}`}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-          />
-        ) : null}
-        {member.fgSrc ? (
-          <Image
-            src={member.fgSrc}
-            alt={member.name}
-            fill
-            unoptimized
-            className={`object-cover absolute inset-0 ${member.fgClassName || ""}`}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-          />
-        ) : null}
-      </div>
-      <div className="flex py-[9px] flex-col items-start flex-[1_0_0]">
-        <h2 className="text-white font-poppins text-[17px] font-normal tracking-[1.87px]">
-          {member.name}
-        </h2>
-        <p className="text-(--secondaryText,#E0E0E0) font-poppins text-[12px] font-light tracking-[0.72px]">
-          {member.role}
-        </p>
-      </div>
-    </Link>
-  );
-};
-
 export const Members = async () => {
   const { presidents, executiveCommittee } = await getMembers();
   const teams = await getTeams();
@@ -204,7 +154,7 @@ export const Members = async () => {
           </div>
         </div>
         {/* Executive Committee in rows of 4 */}
-        <div className="flex flex-col items-start gap-[13px] self-stretch">
+        <div className="flex flex-col items-start gap-[26px] self-stretch">
           {Array.from({ length: Math.ceil(executiveCommittee.length / 4) }).map(
             (_, rowIdx) => {
               const row = executiveCommittee.slice(rowIdx * 4, rowIdx * 4 + 4);

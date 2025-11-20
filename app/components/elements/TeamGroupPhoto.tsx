@@ -24,9 +24,9 @@ export const TeamGroupPhoto = ({
     <div className="w-full h-full ml-auto relative overflow-hidden">
       <motion.div
         className={`w-full h-full relative ${className || ""}`}
-        initial={{ scale: 0.5, opacity: 1 }}
-        whileInView={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        initial={{ scale: 0.9 }}
+        whileInView={{ scale: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
         viewport={{ amount: 0.1 }}
       >
         <Image

@@ -240,7 +240,7 @@ const WorkActivities = () => {
           src={imgAt(5).src}
           alt={imgAt(5).alt}
           fill
-          className={`object-cover ${hoveredIndex === 5 ? "brighteness-100" : "brightness-90"}`}
+          className={`object-cover brightness-90`}
           sizes="450px"
         />
       </div>
@@ -374,7 +374,7 @@ const WorkActivities = () => {
           src={imgAt(11).src}
           alt={imgAt(11).alt}
           fill
-          className={`object-cover transition-all duration-200 brightness-80 ${hoveredIndex === 11 ? "grayscale-0" : "grayscale"}`}
+          className={`object-cover transition-all duration-200 brightness-80 grayscale`}
           sizes="550px"
         />
       </div>

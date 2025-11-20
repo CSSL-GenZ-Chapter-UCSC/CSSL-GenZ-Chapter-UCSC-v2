@@ -162,7 +162,7 @@ const GalleryTexts = memo(
 
         {/* Text 2 - Bottom Right */}
         <div className="relative z-20 w-2/3 self-end text-right">
-          <h2 className="text-right font-poppins text-[22px] font-medium leading-[26px] text-gray-300">
+          <h2 className="text-right font-poppins text-[18px] font-medium leading-[26px] text-gray-300">
             {text2Words.map((word: string, index: number) => (
               <WordReveal
                 key={`text2-${index}`}
