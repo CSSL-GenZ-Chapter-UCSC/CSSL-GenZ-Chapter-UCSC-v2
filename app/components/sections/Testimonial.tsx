@@ -1,9 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container } from "../shared/Container";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
+
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset: number, velocity: number) => {
+    return Math.abs(offset) * velocity;
+};
 
 interface Testimonial {
   quote: string;
