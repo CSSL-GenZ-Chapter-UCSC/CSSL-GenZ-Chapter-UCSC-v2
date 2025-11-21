@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, memo, useMemo, useCallback } from "react";
+import { useRef, memo, useMemo } from "react";
 import {
   motion,
   useScroll,
@@ -36,16 +36,6 @@ const GALLERY_CONFIG = {
 
 export const Gallery = () => {
   const containerRef = useRef(null);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
-  // Stable handlers for hover events
-  const handleHoverStart = useCallback((index: number) => {
-    setHoveredIndex(index);
-  }, []);
-
-  const handleHoverEnd = useCallback(() => {
-    setHoveredIndex(null);
-  }, []);
 
   // Calculate total height needed for all slides - each slide needs scroll distance
   const totalSlides = GALLERY_CONFIG.images.length;
@@ -84,7 +74,7 @@ export const Gallery = () => {
           {/* Left Side - Stacked Images */}
           <motion.div
             style={{ width: width }}
-            className="absolute left-0 top-0 h-full z-50 shadow-[inset_-20px_0_30px_rgba(0,0,0,0.5)]"
+            className="absolute left-0 top-0 h-full z-50"
           >
             <motion.div className="relative w-full h-full">
               {GALLERY_CONFIG.images.map((image, slideIndex) => (
@@ -94,11 +84,10 @@ export const Gallery = () => {
                   slideIndex={slideIndex}
                   totalSlides={totalSlides}
                   scrollYProgress={scrollYProgress}
-                  isHovered={hoveredIndex === slideIndex}
-                  onHoverStart={handleHoverStart}
-                  onHoverEnd={handleHoverEnd}
                 />
               ))}
+              {/* Inner shadow overlay to simulate right side casting shadow */}
+              <div className="absolute inset-0 z-10 pointer-events-none shadow-[inset_-50px_0_50px_-10px_rgba(0,0,0,0.2)]" />
             </motion.div>
           </motion.div>
 
@@ -139,41 +128,40 @@ const GalleryTexts = memo(
   }) => {
     const text1Words = useMemo(() => text1.split(" "), [text1]);
     const text2Words = useMemo(() => text2.split(" "), [text2]);
-    const totalWords = text1Words.length + text2Words.length;
 
     return (
       <div className="absolute inset-0 flex flex-col justify-between p-8">
         {/* Text 1 - Top Left */}
         <div className="relative z-20 w-1/2">
           <h2 className="font-poppins text-[31px] font-medium leading-[37px]">
-            {text1Words.map((word: string, index: number) => (
-              <WordReveal
-                key={`text1-${index}`}
-                word={word}
-                index={index}
-                totalText1Words={text1Words.length}
-                totalWords={totalWords}
-                scrollYProgress={scrollYProgress}
-                isText2={false}
-              />
-            ))}
+            {text1Words.map((word: string, index: number) => {
+              const start = 0.1 + (index / text1Words.length) * 0.4;
+              return (
+                <WordReveal
+                  key={`text1-${index}`}
+                  word={word}
+                  start={start}
+                  scrollYProgress={scrollYProgress}
+                />
+              );
+            })}
           </h2>
         </div>
 
         {/* Text 2 - Bottom Right */}
         <div className="relative z-20 w-2/3 self-end text-right">
           <h2 className="text-right font-poppins text-[18px] font-medium leading-[26px] text-gray-300">
-            {text2Words.map((word: string, index: number) => (
-              <WordReveal
-                key={`text2-${index}`}
-                word={word}
-                index={index}
-                totalText1Words={text1Words.length}
-                totalWords={totalWords}
-                scrollYProgress={scrollYProgress}
-                isText2={true}
-              />
-            ))}
+            {text2Words.map((word: string, index: number) => {
+              const start = 0.5 + (index / text2Words.length) * 0.4;
+              return (
+                <WordReveal
+                  key={`text2-${index}`}
+                  word={word}
+                  start={start}
+                  scrollYProgress={scrollYProgress}
+                />
+              );
+            })}
           </h2>
         </div>
       </div>
@@ -183,55 +171,25 @@ const GalleryTexts = memo(
 
 GalleryTexts.displayName = "GalleryTexts";
 
-// Word reveal component with gradual opacity change
+// Word reveal component with CSS variable based opacity
 const WordReveal = memo(
   ({
     word,
-    index,
-    totalText1Words,
-    totalWords,
+    start,
     scrollYProgress,
-    isText2,
   }: {
     word: string;
-    index: number;
-    totalText1Words: number;
-    totalWords: number;
+    start: number;
     scrollYProgress: MotionValue<number>;
-    isText2: boolean;
   }) => {
-    // Calculate the scroll range for opacity transition
-    // Text 1 animates in the first half of the scroll
-    // Text 2 animates in the second half
-
-    let opacityStart, opacityEnd;
-
-    if (isText2) {
-      // Text 2: starts after text 1 is complete
-      const wordProgress = index / (totalWords - totalText1Words);
-      opacityStart = 0.5 + wordProgress * 0.4;
-      opacityEnd = opacityStart + 0.05;
-    } else {
-      // Text 1: animates first
-      const wordProgress = index / totalText1Words;
-      opacityStart = 0.1 + wordProgress * 0.4;
-      opacityEnd = opacityStart + 0.05;
-    }
-
-    // Opacity transition from 0.2 to 1
     const opacity = useTransform(
       scrollYProgress,
-      [opacityStart, opacityEnd],
+      [start, start + 0.05],
       [0.2, 1]
     );
 
     return (
-      <motion.span
-        style={{
-          opacity,
-        }}
-        className="inline-block mr-2 md:mr-3 "
-      >
+      <motion.span style={{ opacity }} className="inline-block mr-2 md:mr-3">
         {word}
       </motion.span>
     );
@@ -247,17 +205,11 @@ const GalleryImage = memo(
     slideIndex,
     totalSlides,
     scrollYProgress,
-    isHovered,
-    onHoverStart,
-    onHoverEnd,
   }: {
     image: { src: string; alt: string };
     slideIndex: number;
     totalSlides: number;
     scrollYProgress: MotionValue<number>;
-    isHovered: boolean;
-    onHoverStart: (index: number) => void;
-    onHoverEnd: () => void;
   }) => {
     // Calculate progress range for this slide
     const slideStart = slideIndex / totalSlides;
@@ -294,30 +246,22 @@ const GalleryImage = memo(
           zIndex: slideIndex,
           display,
         }}
-        className="absolute inset-0 w-full h-full overflow-hidden"
-        onMouseEnter={() => onHoverStart(slideIndex)}
-        onMouseLeave={onHoverEnd}
+        className="absolute inset-0 w-full h-full overflow-hidden group will-change-transform"
       >
         <motion.div
           style={{ scale: slideIndex === totalSlides - 1 ? 1.1 : scale }}
-          className="relative w-full h-full"
+          className="relative w-full h-full will-change-transform"
         >
           <div className="relative w-full h-full">
             <Image
               src={image.src}
               alt={image.alt}
               fill
-              className={`w-full h-full object-cover ${
-                isHovered ? "grayscale-0" : "grayscale"
-              } transition-all duration-200 brightness-80`}
-              sizes="55vw"
+              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-200 brightness-80"
+              sizes="(max-width: 768px) 100vw, 50vw"
               priority={slideIndex === 0}
             />
-            <div
-              className={`absolute w-full h-full bg-[#133769] mix-blend-color z-10 ${
-                isHovered ? "opacity-0" : "opacity-100"
-              }`}
-            ></div>
+            <div className="absolute w-full h-full bg-[#133769] mix-blend-color z-10 opacity-100 group-hover:opacity-0 transition-opacity duration-200"></div>
           </div>
         </motion.div>
       </motion.div>
