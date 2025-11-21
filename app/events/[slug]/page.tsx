@@ -93,18 +93,9 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
       {/* Hero Section */}
       <section className="relative overflow-hidden py-8 md:py-12">
         <Container className="relative z-10">
-          {event.logo?.url && (
-            <div className="mb-6 h-12 md:h-14 w-auto">
-              <img
-                src={event.logo.url}
-                alt={event.logo.alt || `${event.title} logo`}
-                className="h-full w-auto object-contain"
-              />
-            </div>
-          )}
 
           <div className="min-h-[10vh] flex items-center mb-8">
-            <h1 className="text-[4rem] font-bold font-poppins text-white leading-tight">
+            <h1 className="text-[4rem] font-bold font-poppins leading-tight bg-linear-to-r from-[#0F52B4] via-[#1169EA] to-[#318AFF] bg-clip-text text-transparent">
               {event.title}
             </h1>
           </div>
@@ -127,12 +118,6 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             </div>
           </div>
 
-          {/* Short Summary / Banner Text */}
-          {(event.bannerText || event.shortSummary) && (
-            <p className="text-lg text-white/80 max-w-3xl mb-8">
-              {event.bannerText || event.shortSummary}
-            </p>
-          )}
         </Container>
       </section>
 
