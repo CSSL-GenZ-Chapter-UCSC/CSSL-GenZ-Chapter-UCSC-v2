@@ -239,7 +239,7 @@ export const Testimonial = () => {
                                     className="space-y-8"
                                 >
                                     <motion.p
-                                        className="text-xl md:text-2xl lg:text-3xl text-white font-light leading-relaxed text-center lg:text-left"
+                                        className="text-xl md:text-2xl lg:text-3xl text-white font-light leading-relaxed mt-20 text-right lg:text-right"
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         transition={{ delay: 0.2 }}
@@ -266,7 +266,7 @@ export const Testimonial = () => {
                     </div>
 
                     {/* Navigation Dots - Fixed position */}
-                    <div className="flex items-center justify-center gap-3 mt-12 w-full">
+                    <div className="flex items-center justify-center gap-3 mt-20 w-full lg:pl-[35%]">
                         {testimonials.map((_, index) => (
                             <button
                                 key={index}
