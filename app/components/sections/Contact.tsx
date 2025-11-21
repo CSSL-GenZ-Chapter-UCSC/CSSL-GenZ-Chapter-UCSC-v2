@@ -2,6 +2,7 @@
 
 import { Container } from "../shared/Container";
 import { motion } from "motion/react";
+import { PageTitle } from "../shared/PageTitle";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -11,6 +12,7 @@ type ContactCardProps = {
   description: string;
   link: string;
   linkText: string;
+  idx?: number;
 };
 
 const contactCards: ContactCardProps[] = [
@@ -120,15 +122,10 @@ export const Contact = ({ overrides }: { overrides?: ContactOverrides }) => {
     <section className="md:h-screen h-auto flex items-start justify-center bg-black text-white sm:pt-30 pt-20">
       <Container className="h-full pb-20">
         <div className="w-full h-full flex flex-col sm:items-stretch">
-          <motion.h2
-            initial={{ opacity: 0, filter: "blur(8px)" }}
-            animate={{ opacity: 1, filter: "blur(0px)" }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-            className="flex min-h-30 md:mt-0 mt-10  items-center justify-start bg-[linear-gradient(87deg,rgba(0,0,0,0)_-1.81%,#0F52B4_15.92%,rgba(17,105,234,0.58)_35.57%,rgba(68,140,246,0.82)_52.17%,rgba(49,138,255,0.82)_77.28%,rgba(25,69,128,0.41)_97.86%,rgba(0,0,0,0)_97.87%)]
-            bg-clip-text text-transparent font-[Poppins] lg:text-[170px] md:text-[100px] sm:text-[80px] text-[40px] not-italic font-semibold leading-none tracking-[12.65px] flex-1"
-          >
-            CONTACT US
-          </motion.h2>
+          <PageTitle
+            text="CONTACT US"
+            className="min-h-30 md:mt-0 mt-10 lg:text-[170px] md:text-[100px] sm:text-[80px] text-[40px]"
+          />
           <div className="flex px-2.5 justify-between items-start self-stretch flex-1">
             <motion.p
               initial={{ opacity: 0, filter: "blur(8px)" }}
@@ -160,6 +157,7 @@ export const Contact = ({ overrides }: { overrides?: ContactOverrides }) => {
               return (
                 <ContactCard
                   key={idx}
+                  idx={idx}
                   {...card}
                   link={link}
                   linkText={linkText}
@@ -179,9 +177,19 @@ const ContactCard = ({
   description,
   link,
   linkText,
+  idx,
 }: ContactCardProps) => {
   return (
-    <div className="md:w-1/4 w-full h-full bg-(--frostedGlass,rgba(92,92,92,0.22)) p-10">
+    <motion.div
+      initial={{ opacity: 0, filter: "blur(8px)" }}
+      animate={{ opacity: 1, filter: "blur(0px)" }}
+      transition={{
+        duration: 0.35,
+        ease: "easeOut",
+        delay: idx ? idx * 0.15 + 0.3 : 0.3,
+      }}
+      className="md:w-1/4 w-full h-full bg-(--frostedGlass,rgba(92,92,92,0.22)) p-10"
+    >
       <div className="w-full h-1/2 flex flex-col justify-start items-start">
         {svg}
       </div>
@@ -196,6 +204,6 @@ const ContactCard = ({
           {linkText}
         </Link>
       </div>
-    </div>
+    </motion.div>
   );
 };

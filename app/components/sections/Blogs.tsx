@@ -177,9 +177,9 @@ export const Blogs = () => {
   };
 
   return (
-    <section className="w-full md:h-screen h-auto flex flex-col bg-black pt-30 pb-10 overflow-hidden">
+    <section className="w-full md:h-screen h-auto flex flex-col bg-black pt-10 pb-10 overflow-hidden">
       <Container className="w-full h-full flex flex-col justify-center items-center gap-15">
-        <div className="w-full md:h-[30%] h-auto flex flex-col justify-start items-start">
+        <div className="w-full md:h-[30%] h-auto flex flex-col justify-center items-center">
           <h2 className="text-white text-center font-poppins text-[48px] font-medium leading-normal">
             {headingWords.map((word, i) => (
               <motion.span
@@ -198,7 +198,7 @@ export const Blogs = () => {
               </motion.span>
             ))}
           </h2>
-          <p className="text-[#9AA0A6] font-poppins lg:text-[20px] md:text-[15px] text-[14px] font-normal leading-normal lg:w-1/2 w-full">
+          <p className="text-[#9AA0A6] font-poppins text-center lg:text-[20px] md:text-[15px] text-[14px] font-normal leading-normal lg:w-1/2 w-full">
             {descriptionWords.map((word, i) => (
               <motion.span
                 key={`desc-word-${i}-${word}`}
@@ -216,7 +216,7 @@ export const Blogs = () => {
               </motion.span>
             ))}
           </p>
-          <Button className="md:mt-auto mt-6" isSvg text="All blogs" />
+          <Button className="mt-10" isSvg text="All blogs" href="/blogs" />
         </div>
         {/* Mobile (below md) */}
         <div className="w-full md:hidden flex flex-col gap-6">
@@ -310,36 +310,6 @@ export const Blogs = () => {
                       <p className="text-[#9AA0A6] font-poppins text-[15px] font-normal leading-normal mt-10">
                         {blog.readTime} . {blog.date}
                       </p>
-                      <div className="flex flex-row justify-center items-center gap-2 mt-30">
-                        {blogs.map((b, i) => (
-                          <button
-                            key={`pager-${i}`}
-                            type="button"
-                            aria-label={`Go to slide ${i + 1}: ${b.title}`}
-                            onClick={() => setActiveIndex(i)}
-                            className="p-0 m-0 bg-transparent border-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4C9DFE] rounded"
-                          >
-                            {i === activeIndex ? (
-                              <div className="rounded-[10px] bg-[linear-gradient(90deg,#3474F5_0%,#4C9DFE_100%)] w-[52px] h-[11px]" />
-                            ) : (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="12"
-                                height="12"
-                                viewBox="0 0 12 12"
-                                fill="none"
-                              >
-                                <circle
-                                  cx="6"
-                                  cy="6"
-                                  r="5.5"
-                                  stroke="#9AA0A6"
-                                />
-                              </svg>
-                            )}
-                          </button>
-                        ))}
-                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -347,6 +317,32 @@ export const Blogs = () => {
             </motion.div>
           ))}
         </motion.div>
+        {/* Desktop pagination controls (moved below cards) */}
+        <div className="w-full hidden md:flex justify-center items-center gap-2 self-start">
+          {blogs.map((b, i) => (
+            <button
+              key={`desktop-pager-${i}`}
+              type="button"
+              aria-label={`Go to slide ${i + 1}: ${b.title}`}
+              onClick={() => setActiveIndex(i)}
+              className="p-0 m-0 bg-transparent border-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4C9DFE] rounded"
+            >
+              {i === activeIndex ? (
+                <div className="rounded-[10px] bg-[linear-gradient(90deg,#3474F5_0%,#4C9DFE_100%)] w-[52px] h-[11px]" />
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <circle cx="6" cy="6" r="5.5" stroke="#9AA0A6" />
+                </svg>
+              )}
+            </button>
+          ))}
+        </div>
         {/* Mobile pagination controls */}
         <div className="w-full md:hidden flex justify-center items-center mt-4 gap-2">
           {blogs.map((b, i) => (
