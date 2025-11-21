@@ -65,28 +65,139 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
     )
     .filter((text: string) => text && text.trim().length > 0);
 
+  // Collect all available photos (max 10)
   const gallerySources = [
     ...(event.photos || []),
     event.mainImage,
     event.subMainImage,
     event.otherImage1,
     event.otherImage2,
-  ].filter((img): img is NonNullable<typeof img> => Boolean(img?.url));
+  ].filter((img): img is NonNullable<typeof img> => Boolean(img?.url)).slice(0, 10);
 
-  const visibleGallery = gallerySources.slice(0, 5);
-  const placeholders = Array.from(
-    { length: Math.max(0, 5 - visibleGallery.length) },
-    () => null
-  );
-  const gallerySlots = [...visibleGallery, ...placeholders];
+  const photoCount = gallerySources.length;
 
-  const mosaicClasses = [
-    "md:col-span-2 md:row-span-2 min-h-[220px] md:min-h-[360px]",
-    "md:col-span-2 min-h-[180px]",
-    "md:col-span-1 min-h-[180px]",
-    "md:col-span-1 min-h-[180px]",
-    "md:col-span-1 min-h-[180px]",
-  ];
+  // Define grid layout and photo classes based on count
+  const getGalleryLayout = (count: number) => {
+    switch (count) {
+      case 1:
+        return {
+          gridClass: "grid-cols-1",
+          photoClasses: ["col-span-1 row-span-2 min-h-[400px]"]
+        };
+      case 2:
+        return {
+          gridClass: "grid-cols-2",
+          photoClasses: [
+            "col-span-1 row-span-2 min-h-[400px]",
+            "col-span-1 row-span-2 min-h-[400px]"
+          ]
+        };
+      case 3:
+        return {
+          gridClass: "grid-cols-2",
+          photoClasses: [
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-2 row-span-1 min-h-[195px]"
+          ]
+        };
+      case 4:
+        return {
+          gridClass: "grid-cols-2",
+          photoClasses: [
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]"
+          ]
+        };
+      case 5:
+        return {
+          gridClass: "grid-cols-3",
+          photoClasses: [
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-2 row-span-1 min-h-[195px]"
+          ]
+        };
+      case 6:
+        return {
+          gridClass: "grid-cols-3",
+          photoClasses: [
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]"
+          ]
+        };
+      case 7:
+        return {
+          gridClass: "grid-cols-4",
+          photoClasses: [
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-2 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]"
+          ]
+        };
+      case 8:
+        return {
+          gridClass: "grid-cols-4",
+          photoClasses: [
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]"
+          ]
+        };
+      case 9:
+        return {
+          gridClass: "grid-cols-5",
+          photoClasses: [
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-2 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]"
+          ]
+        };
+      case 10:
+        return {
+          gridClass: "grid-cols-5",
+          photoClasses: [
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[195px]"
+          ]
+        };
+      default:
+        return { gridClass: "grid-cols-1", photoClasses: [] };
+    }
+  };
+
+  const galleryLayout = getGalleryLayout(photoCount);
 
   return (
     <main className="min-h-screen bg-[#060606] text-white font-poppins overflow-x-hidden pt-24">
@@ -101,20 +212,20 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
           </div>
 
           {/* Event Info with Icons */}
-          <div className="space-y-4 mb-8">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
             <div className="flex items-center gap-3 text-[1.2rem]">
               <span className="text-2xl">📅</span>
-              <span>{dateDisplay}</span>
+              <span className="text-[#318AFF]">{dateDisplay}</span>
             </div>
-            
+
             <div className="flex items-center gap-3 text-[1.2rem]">
               <span className="text-2xl">🕐</span>
-              <span>{timeDisplay}</span>
+              <span className="text-[#318AFF]">{timeDisplay}</span>
             </div>
-            
+
             <div className="flex items-center gap-3 text-[1.2rem]">
               <span className="text-2xl">📍</span>
-              <span>{venueDisplay}</span>
+              <span className="text-[#318AFF]">{venueDisplay}</span>
             </div>
           </div>
 
@@ -123,7 +234,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
 
       {/* Description Section */}
       {descriptionBlocks.length > 0 && (
-        <section className="py-8 md:py-12">
+        <section className="py-4 md:py-4">
           <Container>
             <div className="space-y-4 text-base leading-relaxed text-white/80 max-w-4xl">
               {descriptionBlocks.map((paragraph: string, index: number) => (
@@ -160,29 +271,23 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
       )}
 
       {/* Photo Gallery Section */}
-      {gallerySlots.length > 0 && (
+      {photoCount > 0 && (
         <section className="py-12 md:py-16 border-b border-white/5">
           <Container>
             <h2 className="text-2xl md:text-3xl font-semibold mb-6 md:mb-10">
               Event Gallery
             </h2>
-            <div className="grid gap-3 md:grid-cols-4 auto-rows-[160px]">
-              {gallerySlots.map((photo, index) => (
+            <div className={`grid ${galleryLayout.gridClass} grid-rows-2 gap-3 auto-rows-fr`}>
+              {gallerySources.map((photo, index) => (
                 <div
                   key={index}
-                  className={`rounded-xl overflow-hidden border border-white/5 bg-white/5 ${mosaicClasses[index] || ""}`}
+                  className={`rounded-xl overflow-hidden border border-white/5 bg-white/5 ${galleryLayout.photoClasses[index] || ""}`}
                 >
-                  {photo?.url ? (
-                    <img
-                      src={photo.url}
-                      alt={photo.alt || `Event photo ${index + 1}`}
-                      className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center text-sm text-white/30">
-                      Coming soon
-                    </div>
-                  )}
+                  <img
+                    src={photo.url}
+                    alt={photo.alt || `Event photo ${index + 1}`}
+                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                  />
                 </div>
               ))}
             </div>
