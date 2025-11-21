@@ -16,21 +16,21 @@ export default async function EventsPageSanity() {
     : upcomingEvents;
 
   return (
-    <main className="min-h-screen bg-black text-white font-poppins">
+    <main className="min-h-screen bg-black text-white font-poppins overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative py-32 lg:py-40">
+      <section className="relative py-16 md:py-32 lg:py-40 overflow-hidden">
         <Container>
           <div className="relative">
             {/* Gradient blur circle near E */}
             <div className="absolute -left-40 -top-10 w-75 h-100 bg-black rounded-full blur-[80px] pointer-events-none z-10" />
             <div className="absolute left-80 -top-20 w-60 h-60 bg-black rounded-full blur-[120px] pointer-events-none z-10" />
             
-            <h1 className="text-[120px] lg:text-[180px] font-bold leading-none tracking-tight text-blue-500 relative">
+            <h1 className="text-[56px] md:text-[120px] lg:text-[180px] font-bold leading-none tracking-tight text-blue-500 relative">
               EVENTS
             </h1>
           </div>
           <div className="z-20">
-            <p className="mt-10 text-1rem text-white/80 max-w-2xl relative z-20">
+            <p className="mt-6 md:mt-10 text-sm md:text-base text-white/80 max-w-2xl relative z-20">
               Join us for events that inspire growth, spark creativity, and connect changemakers.
             </p>
           </div>
@@ -39,9 +39,9 @@ export default async function EventsPageSanity() {
 
       {/* Featured Event Card */}
       {featuredEvent && (
-        <section className="pb-20">
+        <section className="pb-12 md:pb-20">
           <Container>
-            <div className="relative overflow-hidden h-[600px] -mt-15 rounded-lg">
+            <div className="relative overflow-hidden h-[400px] md:h-[600px] rounded-lg">
               {/* Background image from bannerImage or mainImage */}
               {(featuredEvent.bannerImage?.url || featuredEvent.mainImage?.url) ? (
                 <div className="absolute inset-0">
@@ -57,16 +57,16 @@ export default async function EventsPageSanity() {
               
               <div className="absolute inset-0 bg-black/40" />
               
-              <div className="relative h-full flex flex-col justify-end p-12 lg:p-12">
-                <span className="inline-block px-8 py-2 bg-blue-600 text-white text-sm font-medium rounded-full w-fit mb-4">
+              <div className="relative h-full flex flex-col justify-end p-6 md:p-12">
+                <span className="inline-block px-4 py-1 md:px-8 md:py-2 bg-blue-600 text-white text-xs md:text-sm font-medium rounded-full w-fit mb-3 md:mb-4">
                   Featured
                 </span>
                 
-                <h2 className="text-3rem lg:text-5xl mb-4">
+                <h2 className="text-2xl md:text-4xl lg:text-5xl mb-3 md:mb-4 font-semibold">
                   {featuredEvent.title}
                 </h2>
                 
-                <div className="flex flex-wrap gap-6 text-1.1rem text-white/90 mb-4">
+                <div className="flex flex-wrap gap-3 md:gap-6 text-xs md:text-base text-white/90 mb-3 md:mb-4">
                   <div className="flex items-center gap-2">
                     <span>📅</span>
                     <span>
@@ -100,14 +100,14 @@ export default async function EventsPageSanity() {
                 </div>
                 
                 {(featuredEvent.bannerText || featuredEvent.shortSummary) && (
-                  <p className="text-white/80 max-w-3xl mb-6 line-clamp-3 text-1.5rem">
+                  <p className="text-white/80 max-w-3xl mb-4 md:mb-6 line-clamp-3 text-sm md:text-base">
                     {featuredEvent.bannerText || featuredEvent.shortSummary}
                   </p>
                 )}
                 
                 <Link
                   href={`/posts/${featuredEvent.slug.current}`}
-                  className="text-blue-400 hover:text-blue-300 flex items-center gap-2 justify-end transition-colors"
+                  className="text-blue-400 hover:text-blue-300 flex items-center gap-2 justify-end transition-colors text-sm md:text-base"
                 >
                   See More <span>→</span>
                 </Link>
@@ -119,11 +119,11 @@ export default async function EventsPageSanity() {
 
       {/* Upcoming Events Section */}
       {nonFeaturedUpcoming.length > 0 && (
-        <section className="pb-20">
+        <section className="pb-12 md:pb-20">
           <Container>
-            <h2 className="text-3xl mb-10 font-normal">Upcoming Events</h2>
+            <h2 className="text-xl md:text-3xl mb-6 md:mb-10 font-normal">Upcoming Events</h2>
             
-            <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-4">
+            <div className="flex flex-col md:flex-row gap-4 md:gap-6 md:overflow-x-auto md:scrollbar-hide pb-4">
               {nonFeaturedUpcoming.map((event, index) => {
                 const eventDate = new Date(event.startDate);
                 const day = eventDate.getDate().toString().padStart(2, '0');
@@ -169,39 +169,38 @@ export default async function EventsPageSanity() {
                   <Link
                     key={event._id}
                     href={`/posts/${event.slug.current}`}
-                    className="group shrink-0"
-                    style={{ width: 'calc(25% * 0.75 - 18px)' }}
+                    className="group shrink-0 w-full md:w-[calc(25%*0.75-18px)]"
                   >
                     <div className={`${
                       isFirst 
                         ? "bg-linear-to-b from-[#1a4d8f] via-[#0d2847] to-[#030712]" 
                         : "bg-gray-900/50 border border-gray-800"
-                    } p-6 hover:border-blue-500/50 transition-all h-full rounded-lg`}>
+                    } p-4 md:p-6 hover:border-blue-500/50 transition-all h-full rounded-lg`}>
                       {/* Date Badge */}
-                      <div className="flex items-start justify-between mb-8">
+                      <div className="flex items-start justify-between mb-4 md:mb-8">
                         <div>
-                          <div className={`text-3xl font-normal ${isFirst ? "text-white" : "text-white"}`}>
+                          <div className={`text-2xl md:text-3xl font-normal ${isFirst ? "text-white" : "text-white"}`}>
                             {dateDisplay}
                           </div>
                           {monthDisplay && (
-                            <div className={`text-sm font-normal ${isFirst ? "text-white/80" : "text-gray-500"}`}>
+                            <div className={`text-xs md:text-sm font-normal ${isFirst ? "text-white/80" : "text-gray-500"}`}>
                               {monthDisplay}
                             </div>
                           )}
                         </div>
-                        <span className={`${isFirst ? "text-white/80" : "text-gray-500"} group-hover:text-white transition-colors`}>
+                        <span className={`${isFirst ? "text-white/80" : "text-gray-500"} group-hover:text-white transition-colors text-lg md:text-xl`}>
                           →
                         </span>
                       </div>
                       
                       {/* Event Info */}
-                      <h3 className={`text-xl font-normal mb-3 ${
+                      <h3 className={`text-base md:text-xl font-normal mb-2 md:mb-3 ${
                         isFirst ? "text-white" : "text-white"
                       } group-hover:text-blue-400 transition-colors`}>
                         {event.title}
                       </h3>
                       
-                      <div className="space-y-2 text-sm font-normal">
+                      <div className="space-y-1.5 md:space-y-2 text-xs md:text-sm font-normal">
                         <div className={`flex items-center gap-2 ${isFirst ? "text-white/80" : "text-blue-400"}`}>
                           <span>🕐</span>
                           <span>{timeDisplay}</span>
@@ -222,9 +221,9 @@ export default async function EventsPageSanity() {
 
       {/* Past Events Section */}
       {pastEvents.length > 0 && (
-        <section className="pb-20">
+        <section className="pb-12 md:pb-20">
           <Container>
-            <h2 className="text-3xl font-normal mb-10">Past Events</h2>
+            <h2 className="text-xl md:text-3xl font-normal mb-6 md:mb-10">Past Events</h2>
             
             <EventsPagination events={pastEvents} />
           </Container>

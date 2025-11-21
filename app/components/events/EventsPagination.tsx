@@ -20,7 +20,7 @@ export default function EventsPagination({ events }: EventsPaginationProps) {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
         {displayedEvents.map((event) => (
           <Link
             key={event._id}
@@ -30,7 +30,7 @@ export default function EventsPagination({ events }: EventsPaginationProps) {
             <div className="overflow-hidden bg-transparent">
               {/* Event Image */}
               {event.mainImage?.url ? (
-                <div className="aspect-video bg-gray-700 mb-4 rounded-lg overflow-hidden">
+                <div className="aspect-video bg-gray-700 mb-3 md:mb-4 rounded-lg overflow-hidden">
                   <img
                     src={event.mainImage.url}
                     alt={event.mainImage.alt || event.title}
@@ -38,17 +38,17 @@ export default function EventsPagination({ events }: EventsPaginationProps) {
                   />
                 </div>
               ) : (
-                <div className="aspect-video bg-gray-700 mb-4 rounded-lg flex items-center justify-center">
-                  <span className="text-gray-500 text-sm">No Image</span>
+                <div className="aspect-video bg-gray-700 mb-3 md:mb-4 rounded-lg flex items-center justify-center">
+                  <span className="text-gray-500 text-xs md:text-sm">No Image</span>
                 </div>
               )}
               
               <div>
-                <h3 className="text-lg font-normal mb-2 group-hover:text-blue-400 transition-colors">
+                <h3 className="text-base md:text-lg font-normal mb-1.5 md:mb-2 group-hover:text-blue-400 transition-colors">
                   {event.title}
                 </h3>
                 
-                <p className="text-sm text-white/40 mb-3 font-normal">
+                <p className="text-xs md:text-sm text-white/40 mb-2 md:mb-3 font-normal">
                   {event.endDate ? (
                     // Show date range if endDate exists
                     <>
@@ -75,12 +75,12 @@ export default function EventsPagination({ events }: EventsPaginationProps) {
                 </p>
                 
                 {event.shortSummary && (
-                  <p className="text-sm text-white/60 line-clamp-2 mb-3 font-normal">
+                  <p className="text-xs md:text-sm text-white/60 line-clamp-2 mb-2 md:mb-3 font-normal">
                     {event.shortSummary}
                   </p>
                 )}
                 
-                <span className="text-sm text-blue-400 group-hover:text-blue-300 font-normal">
+                <span className="text-xs md:text-sm text-blue-400 group-hover:text-blue-300 font-normal">
                   Learn More
                 </span>
               </div>

@@ -34,14 +34,22 @@ export const event = defineType({
     defineField({
       name: "bannerImage",
       type: "image",
-      options: { hotspot: true },
-      validation: (rule) => rule.required(),
+      options: { 
+        hotspot: true,
+        metadata: ['blurhash', 'lqip', 'palette'],
+      },
+      validation: (rule) => rule.required().custom((image) => {
+        if (!image?.asset?._ref) return true;
+        // Note: File size validation happens at upload time via Sanity's asset pipeline
+        return true;
+      }),
       fields: [{ name: "alt", type: "string", title: "Alt text" }],
     }),
     defineField({
       name: "cta",
       type: "boolean",
-      validation: (rule) => rule.required(),
+      initialValue: false,
+      description: "Call to action toggle",
     }),
     
     // logo
@@ -49,7 +57,10 @@ export const event = defineType({
       name: "logo",
       title: "Logo",
       type: "image",
-      options: { hotspot: true },
+      options: { 
+        hotspot: true,
+        metadata: ['blurhash', 'lqip', 'palette'],
+      },
       fields: [
         {
           name: "alt",
@@ -64,7 +75,10 @@ export const event = defineType({
       name: "mainImage",
       title: "Main Image",
       type: "image",
-      options: { hotspot: true },
+      options: { 
+        hotspot: true,
+        metadata: ['blurhash', 'lqip', 'palette'],
+      },
       fields: [
         { name: "alt", type: "string", title: "Alt text" },
         { name: "caption", type: "string", title: "Caption" },
@@ -76,7 +90,10 @@ export const event = defineType({
       name: "subMainImage",
       title: "Sub Main Image",
       type: "image",
-      options: { hotspot: true },
+      options: { 
+        hotspot: true,
+        metadata: ['blurhash', 'lqip', 'palette'],
+      },
       fields: [{ name: "alt", type: "string", title: "Alt text" }],
     }),
 
@@ -85,14 +102,20 @@ export const event = defineType({
       name: "otherImage1",
       title: "Other Image 1",
       type: "image",
-      options: { hotspot: true },
+      options: { 
+        hotspot: true,
+        metadata: ['blurhash', 'lqip', 'palette'],
+      },
       fields: [{ name: "alt", type: "string", title: "Alt text" }],
     }),
     defineField({
       name: "otherImage2",
       title: "Other Image 2",
       type: "image",
-      options: { hotspot: true },
+      options: { 
+        hotspot: true,
+        metadata: ['blurhash', 'lqip', 'palette'],
+      },
       fields: [{ name: "alt", type: "string", title: "Alt text" }],
     }),
 
@@ -104,13 +127,17 @@ export const event = defineType({
       of: [
         {
           type: "image",
-          options: { hotspot: true },
+          options: { 
+            hotspot: true,
+            metadata: ['blurhash', 'lqip', 'palette'],
+          },
           fields: [
             { name: "alt", type: "string", title: "Alt text" },
           ],
         },
       ],
-      description: "Additional photos for the event detail page (no limit)",
+      validation: (rule) => rule.max(10).warning("Maximum 10 photos allowed for optimal performance"),
+      description: "Additional photos for the event detail page (maximum 10 photos, recommended max 5MB per image)",
     }),
 
     // venue

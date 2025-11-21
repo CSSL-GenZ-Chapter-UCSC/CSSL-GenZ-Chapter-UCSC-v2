@@ -3,6 +3,8 @@ import { Gallery } from "./components/sections/Gallery";
 import { Hero } from "./components/sections/Hero";
 import { Logo } from "./components/sections/Logo";
 import { Testimonial } from "./components/sections/Testimonial";
+import { EventsSection } from "./components/sections/EventsSection";
+import { getEvents } from "@/sanity/lib/api";
 
 export const metadata = {
   title: "CSSL GenZ Chapter",
@@ -10,12 +12,17 @@ export const metadata = {
   keywords: "",
 };
 
-export default function Home() {
+export default async function Home() {
+  // importing events from sanity
+  const events = await getEvents();
+
   return (
     <main className="flex flex-col gap-10 bg-black">
       <Hero />
       <Logo />
       <Gallery />
+      <EventsSection events={events} />
+      <Blogs />
       <Testimonial />
       <Blogs />
     </main>

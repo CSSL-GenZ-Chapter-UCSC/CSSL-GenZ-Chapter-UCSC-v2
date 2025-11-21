@@ -1,4 +1,4 @@
-import EventsSection from '@/app/components/sections/EventsSection';
+import { EventsSection } from '@/app/components/sections/EventsSection';
 import { getEvents } from '@/sanity/lib/api';
 
 export default async function TestEventsSanityPage() {
