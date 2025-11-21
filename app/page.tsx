@@ -17,13 +17,14 @@ export default async function Home() {
   const events = await getEvents();
 
   return (
-    <main className="flex flex-col">
+    <main className="flex flex-col gap-10 bg-black">
       <Hero />
       <Logo />
       <Gallery />
       <EventsSection events={events} />
       <Blogs />
       <Testimonial />
+      <Blogs />
     </main>
   );
 }

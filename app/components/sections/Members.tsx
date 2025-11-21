@@ -1,20 +1,11 @@
 import { Container } from "../shared/Container";
-import Image from "next/image";
-import Link from "next/link";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { groq } from "next-sanity";
+import { TeamGroupPhoto } from "../elements/TeamGroupPhoto";
+import { MemberCardItem, MemberCardProps } from "../elements/MemberCard";
 
-type MemberCard = {
-  name: string;
-  role: string;
-  href: string;
-  bgSrc?: string;
-  fgSrc?: string;
-  bgClassName?: string;
-  fgClassName?: string;
-  cardClassName?: string; // optional wrapper class
-};
+type MemberCard = MemberCardProps;
 
 type SanityMember = {
   name: string;
@@ -36,7 +27,6 @@ type SanityTeam = {
   groupPhoto?: unknown;
   order?: number;
   leads?: SanityMember[];
-  members?: SanityMember[];
 };
 
 const memberQuery = groq`*[_type == "member"] | order(category asc, order asc, name asc) {
@@ -59,17 +49,6 @@ const teamQuery = groq`*[_type == "team"] | order(order asc, name asc) {
   groupPhoto,
   order,
   leads[]->{
-    name,
-    role,
-    "slug": slug.current,
-    bgImage,
-    fgImage,
-    bgClassName,
-    fgClassName,
-    cardClassName,
-    order
-  },
-  members[]->{
     name,
     role,
     "slug": slug.current,
@@ -120,7 +99,6 @@ async function getTeams(): Promise<
     description?: string;
     groupSrc?: string;
     leads: MemberCard[];
-    members: MemberCard[];
   }>
 > {
   const teams = await client.fetch<SanityTeam[]>(teamQuery);
@@ -151,55 +129,8 @@ async function getTeams(): Promise<
           (a.order ?? 9999) - (b.order ?? 9999) || a.name.localeCompare(b.name)
       )
       .map(toCard),
-    members: (t.members || [])
-      .slice()
-      .sort(
-        (a, b) =>
-          (a.order ?? 9999) - (b.order ?? 9999) || a.name.localeCompare(b.name)
-      )
-      .map(toCard),
   }));
 }
-
-const MemberCardItem = ({ member }: { member: MemberCard }) => {
-  return (
-    <Link
-      href={member.href}
-      className={`flex h-full w-full flex-col items-start ${member.cardClassName || ""}`}
-    >
-      <div className="relative w-full h-[80%] bg-gray-600 shrink-0 self-stretch overflow-hidden">
-        {member.bgSrc ? (
-          <Image
-            src={member.bgSrc}
-            alt={`${member.name} background`}
-            fill
-            unoptimized
-            className={`object-cover absolute inset-0 ${member.bgClassName || ""}`}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-          />
-        ) : null}
-        {member.fgSrc ? (
-          <Image
-            src={member.fgSrc}
-            alt={member.name}
-            fill
-            unoptimized
-            className={`object-cover absolute inset-0 ${member.fgClassName || ""}`}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-          />
-        ) : null}
-      </div>
-      <div className="flex py-[9px] flex-col items-start flex-[1_0_0]">
-        <h2 className="text-white font-poppins text-[17px] font-normal tracking-[1.87px]">
-          {member.name}
-        </h2>
-        <p className="text-(--secondaryText,#E0E0E0) font-poppins text-[12px] font-light tracking-[0.72px]">
-          {member.role}
-        </p>
-      </div>
-    </Link>
-  );
-};
 
 export const Members = async () => {
   const { presidents, executiveCommittee } = await getMembers();
@@ -223,7 +154,7 @@ export const Members = async () => {
           </div>
         </div>
         {/* Executive Committee in rows of 4 */}
-        <div className="flex flex-col items-start gap-[13px] self-stretch">
+        <div className="flex flex-col items-start gap-[26px] self-stretch">
           {Array.from({ length: Math.ceil(executiveCommittee.length / 4) }).map(
             (_, rowIdx) => {
               const row = executiveCommittee.slice(rowIdx * 4, rowIdx * 4 + 4);
@@ -251,87 +182,60 @@ export const Members = async () => {
           )}
         </div>
 
-        {teams.map((team, teamIdx) => (
-          <div
-            key={`team-${teamIdx}`}
-            className="flex flex-col gap-8 self-stretch pt-20"
-          >
-            <div className="flex h-[45vh] items-start gap-5 self-stretch pt-10">
-              <div className="flex flex-col items-start gap-[-10px] flex-[1_0_0]">
-                <h2 className="text-white font-poppins text-[30px] font-medium leading-[38px] tracking-[3.3px]">
-                  {team.name}
-                </h2>
-                {team.description ? (
-                  <p className="text-(--secondaryText,#E0E0E0) font-poppins text-[14px] font-normal leading-[22px] tracking-[1.54px]">
-                    {team.description}
-                  </p>
-                ) : null}
-              </div>
-              <div className="flex h-full items-start gap-[15px] flex-[1_0_0]">
-                <div className="w-4/5 h-full bg-gray-600 ml-auto relative overflow-hidden">
-                  {team.groupSrc ? (
-                    <Image
-                      src={team.groupSrc}
-                      alt={`${team.name} group photo`}
-                      fill
-                      unoptimized
-                      className="object-cover absolute inset-0"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
-                    />
+        {teams.map((team, teamIdx) => {
+          const isEven = teamIdx % 2 === 0;
+          const flexDirection = isEven ? "flex-row" : "flex-row-reverse";
+          const textAlignment = isEven ? "items-start" : "items-end";
+          const originClass = isEven
+            ? "origin-bottom-right"
+            : "origin-bottom-left";
+
+          return (
+            <div
+              key={`team-${teamIdx}`}
+              className="flex flex-col gap-8 self-stretch pt-20"
+            >
+              <div
+                className={`flex h-[60vh] items-start gap-5 self-stretch pt-10 ${flexDirection}`}
+              >
+                <div
+                  className={`flex flex-col ${textAlignment} gap-[-10px] flex-2`}
+                >
+                  <h2 className="text-white font-poppins text-[30px] font-medium leading-[38px] tracking-[3.3px]">
+                    {team.name}
+                  </h2>
+                  {team.description ? (
+                    <p className="text-(--secondaryText,#E0E0E0) font-poppins text-[14px] font-normal leading-[22px] tracking-[1.54px]">
+                      {team.description}
+                    </p>
                   ) : null}
                 </div>
-              </div>
-            </div>
-
-            {team.leads.length > 0 && (
-              <div className="flex flex-col items-start gap-[13px] self-stretch">
-                <h3 className="text-white font-poppins text-[20px] font-medium tracking-[2px]">
-                  Leads
-                </h3>
-                <div className="flex h-[32vh] gap-5 w-full">
-                  {team.leads.map((m) => (
-                    <div key={m.href} className="w-1/4 h-full flex">
-                      <MemberCardItem member={m} />
-                    </div>
-                  ))}
+                <div className="flex h-full items-start gap-[15px] flex-3">
+                  <TeamGroupPhoto
+                    src={team.groupSrc}
+                    alt={`${team.name} group photo`}
+                    className={originClass}
+                  />
                 </div>
               </div>
-            )}
 
-            {team.members.length > 0 && (
-              <div className="flex flex-col items-start gap-[13px] self-stretch">
-                <h3 className="text-white font-poppins text-[20px] font-medium tracking-[2px]">
-                  Members
-                </h3>
-                {Array.from({ length: Math.ceil(team.members.length / 4) }).map(
-                  (_, rowIdx) => {
-                    const row = team.members.slice(rowIdx * 4, rowIdx * 4 + 4);
-                    return (
-                      <div
-                        key={`team-${teamIdx}-row-${rowIdx}`}
-                        className="flex h-[32vh] gap-5 w-full"
-                      >
-                        {row.map((m) => (
-                          <div key={m.href} className="w-1/4 h-full flex">
-                            <MemberCardItem member={m} />
-                          </div>
-                        ))}
-                        {row.length < 4 &&
-                          Array.from({ length: 4 - row.length }).map((_, i) => (
-                            <div
-                              key={`team-${teamIdx}-placeholder-${rowIdx}-${i}`}
-                              className="w-1/4 h-full"
-                              aria-hidden="true"
-                            />
-                          ))}
+              {team.leads.length > 0 && (
+                <div className="flex flex-col items-start gap-[13px] self-stretch">
+                  <h3 className="text-white font-poppins text-[20px] font-medium tracking-[2px]">
+                    Leads
+                  </h3>
+                  <div className="flex h-[32vh] gap-5 w-full">
+                    {team.leads.map((m) => (
+                      <div key={m.href} className="w-1/4 h-full flex">
+                        <MemberCardItem member={m} />
                       </div>
-                    );
-                  }
-                )}
-              </div>
-            )}
-          </div>
-        ))}
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </Container>
     </section>
   );

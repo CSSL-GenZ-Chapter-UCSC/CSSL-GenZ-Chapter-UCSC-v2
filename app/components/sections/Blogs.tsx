@@ -179,7 +179,7 @@ export const Blogs = () => {
   return (
     <section className="w-full md:h-screen h-auto flex flex-col bg-black pt-10 pb-10 overflow-hidden">
       <Container className="w-full h-full flex flex-col justify-center items-center gap-15">
-        <div className="w-full md:h-[30%] h-auto flex flex-col justify-start items-start">
+        <div className="w-full md:h-[30%] h-auto flex flex-col justify-center items-center">
           <h2 className="text-white text-center font-poppins text-[48px] font-medium leading-normal">
             {headingWords.map((word, i) => (
               <motion.span
@@ -198,7 +198,7 @@ export const Blogs = () => {
               </motion.span>
             ))}
           </h2>
-          <p className="text-[#9AA0A6] font-poppins lg:text-[20px] md:text-[15px] text-[14px] font-normal leading-normal lg:w-1/2 w-full">
+          <p className="text-[#9AA0A6] font-poppins text-center lg:text-[20px] md:text-[15px] text-[14px] font-normal leading-normal lg:w-1/2 w-full">
             {descriptionWords.map((word, i) => (
               <motion.span
                 key={`desc-word-${i}-${word}`}
@@ -216,7 +216,7 @@ export const Blogs = () => {
               </motion.span>
             ))}
           </p>
-          <Button className="mt-6" isSvg text="All blogs" href="/blogs" />
+          <Button className="mt-10" isSvg text="All blogs" href="/blogs" />
         </div>
         {/* Mobile (below md) */}
         <div className="w-full md:hidden flex flex-col gap-6">
@@ -318,7 +318,7 @@ export const Blogs = () => {
           ))}
         </motion.div>
         {/* Desktop pagination controls (moved below cards) */}
-        <div className="w-1/2 hidden md:flex justify-center items-center gap-2 self-start">
+        <div className="w-full hidden md:flex justify-center items-center gap-2 self-start">
           {blogs.map((b, i) => (
             <button
               key={`desktop-pager-${i}`}

@@ -13,11 +13,6 @@ export const Navbar = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname();
 
-  // Hide navbar on studio routes
-  if (pathname?.startsWith('/studio')) {
-    return null;
-  }
-
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > lastScrollY) {
@@ -35,6 +30,11 @@ export const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [lastScrollY]);
+
+  // Hide navbar on studio routes
+  if (pathname?.startsWith("/studio")) {
+    return null;
+  }
 
   const navLinks = [
     { href: "/", label: "Home" },

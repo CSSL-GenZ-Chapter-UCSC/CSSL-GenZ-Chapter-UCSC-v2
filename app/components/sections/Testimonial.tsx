@@ -59,8 +59,7 @@ export const Testimonial = () => {
       <div
         className="absolute inset-0 z-0"
         style={{
-          background:
-            "linear-gradient(90deg,rgba(0, 0, 0, 1) 36%, rgba(36, 91, 163, 1) 100%)",
+          background: "#000000",
         }}
       />
 
@@ -123,7 +122,7 @@ export const Testimonial = () => {
               transition={{ duration: 0.5, ease: "easeInOut" }}
               className="absolute inset-0 flex items-center justify-center p-1"
             >
-              <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/30">
+              <div className="relative w-full h-full rounded-3xl overflow-hidden">
                 <Image
                   src={testimonials[currentIndex].image}
                   alt={testimonials[currentIndex].author}
