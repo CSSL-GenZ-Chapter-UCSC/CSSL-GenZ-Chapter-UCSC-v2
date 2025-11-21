@@ -90,7 +90,8 @@ export const Testimonial = () => {
           transition={{ duration: 0.8 }}
           className="rounded-3xl"
           style={{
-            background: "linear-gradient(315deg, #285C97, #000000)",
+            background:
+              "radial-gradient(circle at bottom right, #285C97, #000000)",
           }}
         />
 
@@ -101,7 +102,7 @@ export const Testimonial = () => {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="rounded-3xl"
           style={{
-            background: "linear-gradient(0deg, #285C97, #000000)",
+            background: "radial-gradient(circle at bottom, #285C97, #000000)",
           }}
         />
 
@@ -112,7 +113,7 @@ export const Testimonial = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="rounded-3xl"
           style={{
-            background: "linear-gradient(270deg, #285C97, #000000)",
+            background: "radial-gradient(circle at right, #285C97, #000000)",
           }}
         />
 
@@ -123,7 +124,7 @@ export const Testimonial = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="relative rounded-3xl overflow-hidden"
           style={{
-            background: "linear-gradient(135deg, #285C97, #000000)",
+            background: "radial-gradient(circle at center, #285C97, #000000)",
             boxShadow:
               "0 0 40px rgba(40, 92, 151, 0.6), 0 0 80px rgba(40, 92, 151, 0.3)",
           }}
@@ -131,10 +132,10 @@ export const Testimonial = () => {
           <AnimatePresence>
             <motion.div
               key={currentIndex}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.1 }}
-              transition={{ duration: 0.8, ease: "easeInOut" }}
+              initial={{ opacity: 0, filter: "blur(8px)" }}
+              animate={{ opacity: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, filter: "blur(8px)" }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
               className="absolute inset-0 flex items-center justify-center p-1"
             >
               <div className="relative w-full h-full rounded-3xl overflow-hidden">
@@ -161,7 +162,8 @@ export const Testimonial = () => {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="rounded-3xl"
           style={{
-            background: "linear-gradient(225deg, #285C97, #000000)",
+            background:
+              "radial-gradient(circle at top right, #285C97, #000000)",
           }}
         />
 
@@ -172,7 +174,7 @@ export const Testimonial = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="rounded-3xl"
           style={{
-            background: "linear-gradient(180deg, #285C97, #000000)",
+            background: "radial-gradient(circle at top, #285C97, #000000)",
           }}
         />
       </motion.div>
