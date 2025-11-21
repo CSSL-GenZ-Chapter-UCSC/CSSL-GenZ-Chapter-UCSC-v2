@@ -29,8 +29,8 @@ export const Testimonial = () => {
         },
         {
             quote: "Innovation and technology are the driving forces behind our success and growth in the industry.",
-            author: "Prof. Sanduni Perera",
-            position: "Head of Research, Tech Institute",
+            author: "Dr. Chamath Keppitiyagama",
+            position: "Senior Lecturer of UCSC",
             image: "/Images/About/testimonial-2.jpg"
         },
         {
@@ -122,13 +122,13 @@ export const Testimonial = () => {
                     }}
                 >
 
-                    <AnimatePresence mode="wait">
+                    <AnimatePresence>
                         <motion.div
                             key={currentIndex}
-                            initial={{ y: 100, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            exit={{ y: -100, opacity: 0 }}
-                            transition={{ duration: 0.5, ease: "easeInOut" }}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 1.1 }}
+                            transition={{ duration: 0.8, ease: "easeInOut" }}
                             className="absolute inset-0 flex items-center justify-center p-1"
                         >
                             <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/30">
@@ -203,13 +203,13 @@ export const Testimonial = () => {
 
                     {/* Mobile Image - Only visible on mobile */}
                     <div className="lg:hidden mb-8 w-full flex justify-center relative h-48">
-                        <AnimatePresence mode="wait">
+                        <AnimatePresence>
                             <motion.div
                                 key={`mobile-${currentIndex}`}
-                                initial={{ y: 100, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                exit={{ y: -100, opacity: 0 }}
-                                transition={{ duration: 0.5, ease: "easeInOut" }}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 1.1 }}
+                                transition={{ duration: 0.8, ease: "easeInOut" }}
                                 className="absolute w-40 h-40 sm:w-48 sm:h-48 rounded-2xl overflow-hidden border-4 border-white/20"
                             >
                                 <Image
