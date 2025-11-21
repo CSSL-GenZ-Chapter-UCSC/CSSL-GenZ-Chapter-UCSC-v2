@@ -12,9 +12,11 @@ interface EventsSectionProps {
 // 🎯 THRESHOLD: Change active element when its top is 350px from viewport top
 const ACTIVATION_THRESHOLD = 350;
 
-export default function EventsSection({ events }: EventsSectionProps) {
+export function EventsSection({ events }: EventsSectionProps) {
     const [activeEventIndex, setActiveEventIndex] = useState(0);
+    const [isSticky, setIsSticky] = useState(false);
 
+    const sectionWrapperRef = useRef<HTMLDivElement>(null);
     const blueContainerRef = useRef<HTMLDivElement>(null);
     const scrollableContentRef = useRef<HTMLDivElement>(null);
     const eventCardRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -58,6 +60,31 @@ export default function EventsSection({ events }: EventsSectionProps) {
             images,
         };
     });
+
+    // Intersection Observer to control sticky behavior
+    useEffect(() => {
+        const wrapper = sectionWrapperRef.current;
+        if (!wrapper) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    // Section is sticky when it's intersecting and filling the viewport
+                    setIsSticky(entry.isIntersecting && entry.intersectionRatio >= 0.95);
+                });
+            },
+            {
+                threshold: [0, 0.95, 1],
+                rootMargin: "0px",
+            }
+        );
+
+        observer.observe(wrapper);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
 
     useEffect(() => {
         function handleWheel(e: WheelEvent) {
@@ -167,7 +194,7 @@ export default function EventsSection({ events }: EventsSectionProps) {
     if (EVENTS_DATA.length === 0) {
         return (
             <Container className="relative z-10 py-16 lg:py-20">
-                <div className="bg-linear-to-br from-[#000000] via-[#0F2248] to-[#1E448F] h-[80vh] flex items-center justify-center rounded-lg overflow-hidden">
+                <div className="bg-linear-to-br from-[#000000] via-[#0F2248] to-[#1E448F] h-[100vh] flex items-center justify-center rounded-lg overflow-hidden">
                     <div className="text-center text-white">
                         <h3 className="text-2xl font-semibold mb-2">No Events Available</h3>
                         <p className="text-white/60">Please add events in Sanity Studio to display them here.</p>
@@ -178,14 +205,17 @@ export default function EventsSection({ events }: EventsSectionProps) {
     }
 
     return (
-        <Container className="relative z-10 py-16 lg:py-20">
+        <main 
+            ref={sectionWrapperRef}
+            className={`${isSticky ? 'sticky' : 'relative'} top-0 h-[100vh]`}
+        >
             <div
-                className="bg-linear-to-br from-[#000000] via-[#0F2248] to-[#1E448F] h-[80vh] flex rounded-lg overflow-hidden"
+                className="bg-linear-to-br from-[#000000] via-[#0F2248] to-[#1E448F] h-[100vh] flex rounded-lg overflow-hidden"
                 ref={blueContainerRef}
             >
                 {/* LEFT SECTION: Event cards */}
                 <div
-                    className="w-[53%] flex flex-col h-[80vh] overflow-y-auto scrollbar-hide"
+                    className="w-[53%] flex flex-col h-[100vh] overflow-y-auto scrollbar-hide"
                     ref={scrollableContentRef}
                     id="scrollable-container"
                 >
@@ -229,12 +259,12 @@ export default function EventsSection({ events }: EventsSectionProps) {
                                 </div>
 
                                 {/* Title section */}
-                                <div className="title-section h-[4vh] flex items-center text-white font-bold text-[45px] font-poppins px-3 py-2 overflow-hidden">
+                                <div className="title-section h-[6vh] flex items-center text-white font-bold text-[45px] font-poppins px-3 py-2 overflow-hidden">
                                     <span className="truncate">{event.title}</span>
                                 </div>
 
                                 {/* Short Summary section - Remaining height (215px - 80px - 35px = 100px) */}
-                                <div className="shortSummary-section flex-1 flex items-center text-white text-[15px] font-poppins px-4 py-2 overflow-hidden">
+                                <div className="shortSummary-section flex-1 flex items-center text-white text-[15px] font-poppins px-4 py-4 overflow-hidden">
                                     <p className="line-clamp-4 text-left">
                                         {event.shortSummary}
                                     </p>
@@ -254,7 +284,7 @@ export default function EventsSection({ events }: EventsSectionProps) {
 
                 {/* RIGHT SECTION: Event photos */}
                 <div
-                    className="grid grid-rows-4 grid-cols-2 gap-1.5 h-[80vh] w-[47%] p-3"
+                    className="grid grid-rows-4 grid-cols-2 gap-1.5 h-[100vh] w-[47%] p-3"
                     id="photos-section"
                 >
                     {getActiveImages()
@@ -278,6 +308,6 @@ export default function EventsSection({ events }: EventsSectionProps) {
                     ))}
                 </div>
             </div>
-        </Container>
+        </main>
     );
 }
