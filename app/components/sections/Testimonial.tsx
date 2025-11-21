@@ -84,7 +84,7 @@ export const Testimonial = () => {
                     transition={{ duration: 0.8 }}
                     className="rounded-3xl"
                     style={{
-                        background: "linear-gradient(135deg, #285C97, #000000)",
+                        background: "linear-gradient(315deg, #285C97, #000000)",
                     }}
                 />
 
@@ -95,7 +95,7 @@ export const Testimonial = () => {
                     transition={{ duration: 0.8, delay: 0.1 }}
                     className="rounded-3xl"
                     style={{
-                        background: "linear-gradient(135deg, #285C97, #000000)"
+                        background: "linear-gradient(0deg, #285C97, #000000)"
                     }}
                 />
 
@@ -106,7 +106,7 @@ export const Testimonial = () => {
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="rounded-3xl"
                     style={{
-                        background: "linear-gradient(135deg, #285C97, #000000)"
+                        background: "linear-gradient(270deg, #285C97, #000000)"
                     }}
                 />
 
@@ -154,7 +154,7 @@ export const Testimonial = () => {
                     transition={{ duration: 0.8, delay: 0.3 }}
                     className="rounded-3xl"
                     style={{
-                        background: "linear-gradient(135deg, #285C97, #000000)"
+                        background: "linear-gradient(225deg, #285C97, #000000)"
                     }}
                 />
 
@@ -165,7 +165,7 @@ export const Testimonial = () => {
                     transition={{ duration: 0.8, delay: 0.4 }}
                     className="rounded-3xl"
                     style={{
-                        background: "linear-gradient(135deg, #285C97, #000000)"
+                        background: "linear-gradient(180deg, #285C97, #000000)"
                     }}
                 />
             </motion.div>
