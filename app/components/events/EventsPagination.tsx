@@ -24,7 +24,7 @@ export default function EventsPagination({ events }: EventsPaginationProps) {
         {displayedEvents.map((event) => (
           <Link
             key={event._id}
-            href={`/posts/${event.slug.current}`}
+            href={`/events/${event.slug.current}`}
             className="group"
           >
             <div className="overflow-hidden bg-transparent">

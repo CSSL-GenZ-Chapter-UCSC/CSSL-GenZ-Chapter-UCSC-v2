@@ -106,7 +106,7 @@ export default async function EventsPageSanity() {
                 )}
                 
                 <Link
-                  href={`/posts/${featuredEvent.slug.current}`}
+                  href={`/events/${featuredEvent.slug.current}`}
                   className="text-blue-400 hover:text-blue-300 flex items-center gap-2 justify-end transition-colors text-sm md:text-base"
                 >
                   See More <span>→</span>
@@ -168,7 +168,7 @@ export default async function EventsPageSanity() {
                 return (
                   <Link
                     key={event._id}
-                    href={`/posts/${event.slug.current}`}
+                    href={`/events/${event.slug.current}`}
                     className="group shrink-0 w-full md:w-[calc(25%*0.75-18px)]"
                   >
                     <div className={`${

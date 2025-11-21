@@ -47,9 +47,37 @@ export const event = defineType({
     }),
     defineField({
       name: "cta",
-      type: "boolean",
-      initialValue: false,
-      description: "Call to action toggle",
+      title: "Call To Action",
+      type: "object",
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
+      fields: [
+        defineField({
+          name: "title",
+          type: "string",
+          title: "CTA Title",
+        }),
+        defineField({
+          name: "description",
+          type: "text",
+          rows: 3,
+          title: "CTA Description",
+        }),
+        defineField({
+          name: "buttonText",
+          type: "string",
+          title: "Button Label",
+        }),
+        defineField({
+          name: "buttonLink",
+          type: "url",
+          title: "Button Link",
+          description: "External link or registration form",
+        }),
+      ],
+      description: "Optional CTA block shown on the event detail page",
     }),
     
     // logo
