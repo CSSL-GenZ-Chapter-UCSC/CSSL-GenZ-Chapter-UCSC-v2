@@ -57,7 +57,12 @@ export type Event = {
     alt?: string;
   };
   bannerText?: string;
-  cta?: boolean;
+  cta?: {
+    title?: string;
+    description?: string;
+    buttonText?: string;
+    buttonLink?: string;
+  };
   featuredAfter?: {
     _ref: string;
     _type: string;

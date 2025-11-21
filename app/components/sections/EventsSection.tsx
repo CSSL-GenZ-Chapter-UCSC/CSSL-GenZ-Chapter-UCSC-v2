@@ -15,6 +15,7 @@ const ACTIVATION_THRESHOLD = 350;
 export function EventsSection({ events }: EventsSectionProps) {
     const [activeEventIndex, setActiveEventIndex] = useState(0);
     const [isSticky, setIsSticky] = useState(false);
+    const [hasScrolledPast, setHasScrolledPast] = useState(false);
 
     const sectionWrapperRef = useRef<HTMLDivElement>(null);
     const blueContainerRef = useRef<HTMLDivElement>(null);
@@ -69,12 +70,27 @@ export function EventsSection({ events }: EventsSectionProps) {
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
-                    // Section is sticky when it's intersecting and filling the viewport
-                    setIsSticky(entry.isIntersecting && entry.intersectionRatio >= 0.95);
+                    const rect = entry.boundingClientRect;
+                    
+                    // Section should be sticky when it reaches the top of viewport
+                    if (rect.top <= 0 && rect.bottom > window.innerHeight) {
+                        setIsSticky(true);
+                        setHasScrolledPast(false);
+                    } 
+                    // Section has been scrolled past completely
+                    else if (rect.bottom <= window.innerHeight && rect.top < 0) {
+                        setIsSticky(false);
+                        setHasScrolledPast(true);
+                    }
+                    // Section hasn't reached top yet
+                    else if (rect.top > 0) {
+                        setIsSticky(false);
+                        setHasScrolledPast(false);
+                    }
                 });
             },
             {
-                threshold: [0, 0.95, 1],
+                threshold: Array.from({ length: 101 }, (_, i) => i / 100),
                 rootMargin: "0px",
             }
         );
@@ -207,7 +223,7 @@ export function EventsSection({ events }: EventsSectionProps) {
     return (
         <main 
             ref={sectionWrapperRef}
-            className={`${isSticky ? 'sticky' : 'relative'} top-0 h-[100vh]`}
+            className={`${isSticky && !hasScrolledPast ? 'sticky' : 'relative'} top-0 h-[100vh]`}
         >
             <div
                 className="bg-linear-to-br from-[#000000] via-[#0F2248] to-[#1E448F] h-[100vh] flex rounded-lg overflow-hidden"

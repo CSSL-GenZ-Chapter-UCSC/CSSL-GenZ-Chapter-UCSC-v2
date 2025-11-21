@@ -94,7 +94,12 @@ export const GET_EVENT_BY_SLUG_QUERY = `*[_type == "event" && slug.current == $s
   shortSummary,
   description,
   bannerText,
-  cta,
+  cta{
+    title,
+    description,
+    buttonText,
+    buttonLink
+  },
   startDate,
   endDate,
   venue,
@@ -130,4 +135,32 @@ export const GET_EVENT_BY_SLUG_QUERY = `*[_type == "event" && slug.current == $s
     "alt": alt
   },
   featuredAfter
+}`;
+
+// Get all slugs for static params
+export const GET_EVENT_SLUGS_QUERY = `*[_type == "event" && defined(slug.current)]{
+  "slug": slug.current
+}`;
+
+// Get similar events (exclude current event, same time period, limit to 3)
+export const GET_SIMILAR_EVENTS_QUERY = `*[_type == "event" && _id != $eventId && is_shown == true] | order(startDate desc)[0...3]{
+  _id,
+  title,
+  slug,
+  shortSummary,
+  startDate,
+  endDate,
+  venue,
+  "logo": logo{
+    "url": asset->url,
+    "alt": alt
+  },
+  "mainImage": mainImage{
+    "url": asset->url,
+    "alt": alt
+  },
+  "subMainImage": subMainImage{
+    "url": asset->url,
+    "alt": alt
+  }
 }`;
