@@ -185,7 +185,7 @@ export const Members = async () => {
         {teams.map((team, teamIdx) => {
           const isEven = teamIdx % 2 === 0;
           const flexDirection = isEven ? "flex-row" : "flex-row-reverse";
-          const textAlignment = isEven ? "items-start" : "items-end";
+          const textAlignment = isEven ? "items-start" : "items-end text-right";
           const originClass = isEven
             ? "origin-bottom-right"
             : "origin-bottom-left";
@@ -199,13 +199,13 @@ export const Members = async () => {
                 className={`flex h-[60vh] items-start gap-5 self-stretch pt-10 ${flexDirection}`}
               >
                 <div
-                  className={`flex flex-col ${textAlignment} gap-[-10px] flex-2`}
+                  className={`flex flex-col ${textAlignment} gap-[13px] flex-2`}
                 >
                   <h2 className="text-white font-poppins text-[30px] font-medium leading-[38px] tracking-[3.3px]">
                     {team.name}
                   </h2>
                   {team.description ? (
-                    <p className="text-(--secondaryText,#E0E0E0) font-poppins text-[14px] font-normal leading-[22px] tracking-[1.54px]">
+                    <p className="text-(--secondaryText,#E0E0E0) w-3/4 font-poppins text-[14px] font-normal leading-[22px] tracking-[1.54px]">
                       {team.description}
                     </p>
                   ) : null}

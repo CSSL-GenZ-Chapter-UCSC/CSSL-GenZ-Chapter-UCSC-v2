@@ -249,7 +249,7 @@ export const Testimonial = () => {
                   className="space-y-8"
                 >
                   <motion.p
-                    className="text-xl md:text-2xl lg:text-3xl text-white font-light leading-relaxed mt-20 text-right lg:text-right"
+                    className="text-xl md:text-2xl lg:text-3xl text-gray-300 font-light leading-relaxed mt-20 text-right lg:text-right"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}

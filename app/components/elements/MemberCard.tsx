@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
@@ -16,13 +17,20 @@ export type MemberCardProps = {
 };
 
 export const MemberCardItem = ({ member }: { member: MemberCardProps }) => {
+  const [delay, setDelay] = useState(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDelay(Math.random() * 0.5), 0);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <motion.div
       className="w-full h-full"
-      initial={{ y: 50 }}
-      whileInView={{ y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      viewport={{ amount: 0.1 }}
+      initial={{ y: 50, opacity: 0, filter: "blur(8px)" }}
+      whileInView={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+      transition={{ duration: 0.5, ease: "easeOut", delay }}
+      viewport={{ amount: 0.01 }}
     >
       <Link
         href={member.href}

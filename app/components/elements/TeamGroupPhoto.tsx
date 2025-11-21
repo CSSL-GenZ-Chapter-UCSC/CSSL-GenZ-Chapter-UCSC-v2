@@ -16,14 +16,20 @@ export const TeamGroupPhoto = ({
 }: TeamGroupPhotoProps) => {
   if (!src) {
     return (
-      <div className="w-full h-full bg-gray-600 ml-auto relative overflow-hidden" />
+      <motion.div
+        initial={{ scale: 0.9 }}
+        whileInView={{ scale: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        viewport={{ amount: 0.1 }}
+        className="w-full h-full bg-[#163168]  ml-auto relative overflow-hidden"
+      />
     );
   }
 
   return (
     <div className="w-full h-full ml-auto relative overflow-hidden">
       <motion.div
-        className={`w-full h-full relative ${className || ""}`}
+        className={`w-full h-full relative bg-[#163168] ${className || ""}`}
         initial={{ scale: 0.9 }}
         whileInView={{ scale: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}

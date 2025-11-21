@@ -24,6 +24,8 @@ export const Button = ({ className, isSvg, text, href }: ButtonProps) => {
         style={{ backgroundSize: "140% 100%", backgroundPositionX: "0%" }}
         whileHover={{ backgroundPositionX: "50%" }}
         whileTap={{ scale: 0.96 }}
+        initial={{ opacity: 0, filter: "blur(8px)", y: 20 }}
+        whileInView={{ opacity: 1, filter: "blur(0px)", y: 0 }}
         transition={{ duration: 0.35, ease: "easeOut" }}
       >
         <span

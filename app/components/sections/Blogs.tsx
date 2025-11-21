@@ -185,14 +185,10 @@ export const Blogs = () => {
               <motion.span
                 key={`heading-word-${i}-${word}`}
                 className="inline-block will-change-transform"
-                initial={{ opacity: 0, filter: "blur(8px)", y: 8 }}
-                whileInView={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-                transition={{
-                  duration: 0.35,
-                  ease: "easeOut",
-                  delay: i * 0.06,
-                }}
-                viewport={{ once: false, amount: 0.6 }}
+                initial={{ y: 10, opacity: 0, filter: "blur(8px)" }}
+                whileInView={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                viewport={{ amount: 0.01 }}
               >
                 {word}
               </motion.span>
@@ -203,14 +199,14 @@ export const Blogs = () => {
               <motion.span
                 key={`desc-word-${i}-${word}`}
                 className="inline-block will-change-transform"
-                initial={{ opacity: 0, filter: "blur(8px)", y: 8 }}
+                initial={{ opacity: 0, filter: "blur(8px)", y: 10 }}
                 whileInView={{ opacity: 1, filter: "blur(0px)", y: 0 }}
                 transition={{
                   duration: 0.3,
                   ease: "easeOut",
                   delay: i * 0.025,
                 }}
-                viewport={{ once: true, amount: 0.6 }}
+                viewport={{ amount: 0.6 }}
               >
                 {word}&nbsp;
               </motion.span>
@@ -225,7 +221,7 @@ export const Blogs = () => {
             initial={{ opacity: 0, filter: "blur(8px)" }}
             whileInView={{ opacity: 1, filter: "blur(0px)" }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ amount: 0.3 }}
           >
             {blogs.map((blog, index) => (
               <motion.div
@@ -274,7 +270,7 @@ export const Blogs = () => {
           initial={{ opacity: 0, filter: "blur(8px)" }}
           whileInView={{ opacity: 1, filter: "blur(0px)" }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ amount: 0.3 }}
         >
           {blogs.map((blog, index) => (
             <motion.div
