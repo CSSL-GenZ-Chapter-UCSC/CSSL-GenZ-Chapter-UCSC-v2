@@ -1,9 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container } from "../shared/Container";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
+
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset: number, velocity: number) => {
+    return Math.abs(offset) * velocity;
+};
 
 interface Testimonial {
     quote: string;
@@ -47,6 +52,16 @@ export const Testimonial = () => {
     const handleDotClick = (index: number) => {
         setCurrentIndex(index);
     };
+
+    const AUTO_SLIDE_DURATION = 3000;
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            handleNext();
+        }, AUTO_SLIDE_DURATION);
+
+        return () => clearInterval(timer);
+    }, [currentIndex]);
 
     return (
         <section className="relative min-h-screen w-full overflow-hidden py-20 md:py-32">
@@ -156,7 +171,21 @@ export const Testimonial = () => {
             </motion.div>
 
             <Container>
-                <div className="relative z-20 flex flex-col items-center justify-center min-h-[60vh]">
+                <motion.div
+                    className="relative z-20 flex flex-col items-center justify-center min-h-[60vh]"
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.1}
+                    onDragEnd={(e, { offset, velocity }) => {
+                        const swipe = swipePower(offset.x, velocity.x);
+
+                        if (swipe < -swipeConfidenceThreshold) {
+                            handleNext();
+                        } else if (swipe > swipeConfidenceThreshold) {
+                            handlePrev();
+                        }
+                    }}
+                >
                     {/* Header - Centered to whole section */}
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
@@ -250,43 +279,7 @@ export const Testimonial = () => {
                             />
                         ))}
                     </div>
-
-                    {/* Navigation Arrows - Fixed position */}
-                    <div className="hidden md:flex items-center justify-center gap-4 mt-8 w-full">
-                        <button
-                            onClick={handlePrev}
-                            className="w-12 h-12 rounded-full border-2 border-white/30 hover:border-white/60 hover:bg-white/10 transition-all duration-300 flex items-center justify-center text-white"
-                            aria-label="Previous testimonial"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={2}
-                                stroke="currentColor"
-                                className="w-6 h-6"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                            </svg>
-                        </button>
-                        <button
-                            onClick={handleNext}
-                            className="w-12 h-12 rounded-full border-2 border-white/30 hover:border-white/60 hover:bg-white/10 transition-all duration-300 flex items-center justify-center text-white"
-                            aria-label="Next testimonial"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={2}
-                                stroke="currentColor"
-                                className="w-6 h-6"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
+                </motion.div>
             </Container>
         </section>
     );
