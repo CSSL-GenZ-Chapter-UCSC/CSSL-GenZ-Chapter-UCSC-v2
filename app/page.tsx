@@ -20,7 +20,7 @@ export default async function Home() {
     <main className="flex flex-col gap-20 bg-black">
       <Hero />
       <Logo />
-      <Gallery />
+      {/* <Gallery /> */}
       {/* <EventsSection events={events} /> */}
       <Blogs />
       <Testimonial />
