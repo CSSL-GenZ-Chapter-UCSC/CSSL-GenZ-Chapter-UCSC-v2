@@ -148,7 +148,7 @@ export const Blogs = () => {
         scale: 1.1,
         y: "115%",
         zIndex: 20,
-        filter: "brightness(0.15)",
+        filter: "brightness(0.15) blur(8px)",
         opacity: 1,
       } as const;
     } else if (relativeIndex === 2) {
@@ -159,7 +159,7 @@ export const Blogs = () => {
         scale: 1,
         y: "180%",
         zIndex: 10,
-        filter: "brightness(0.1)",
+        filter: "brightness(0.1) blur(8px)",
         opacity: 1,
       } as const;
     } else {

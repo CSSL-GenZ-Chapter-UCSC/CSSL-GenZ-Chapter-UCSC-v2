@@ -93,14 +93,14 @@ export const Gallery = () => {
 
           {/* Right Side - Gradient Background with Two Texts */}
           <div className="absolute right-0 top-0 w-1/2 h-full z-0">
-            <div className="absolute inset-0 z-0">
+            {/* <div className="absolute inset-0 z-0">
               <Image
                 fill
                 src="/Images/bgImg.jpg"
                 alt="bgImage"
                 className="object-fill"
               />
-            </div>
+            </div> */}
             <div className="relative w-full h-full z-50">
               <GalleryTexts
                 text1={GALLERY_CONFIG.text1}
