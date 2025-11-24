@@ -73,7 +73,7 @@ export const BlogsListing = () => {
           <PageTitle
             text="BLOGS"
             className="lg:text-[213px] md:text-[125px] sm:text-[100px] text-[60px]"
-          />
+          /> 
 
           <div className="flex px-2.5 justify-between items-start self-stretch flex-1">
             <motion.p
