@@ -1,23 +1,3 @@
-<<<<<<< HEAD
-export const author = {
-  name: 'author',           // this is the type name
-  title: 'Author',          // this is what shows in Studio
-  type: 'document',         // document type
-  fields: [
-    {
-      name: 'name',
-      title: 'Name',
-      type: 'string',
-    },
-    {
-      name: 'bio',
-      title: 'Bio',
-      type: 'text',
-    },
-    // add more fields as needed
-  ],
-}
-=======
 import { defineField, defineType } from "sanity";
 
 export const author = defineType({
@@ -55,4 +35,4 @@ export const author = defineType({
     select: { title: "name", media: "image" },
   },
 });
->>>>>>> b4461b85c8ae90645766838ea684b443e742bef9
+

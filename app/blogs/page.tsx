@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { client } from "@/sanity/lib/client";
+import { BlogsListing } from "../components/sections/BlogsListing";
 import { useState, useEffect } from "react";
 
 type Blog = {
@@ -16,7 +17,7 @@ type Blog = {
 };
 
 async function getBlogs(): Promise<Blog[]> {
-  const query = `*[_type=="blog"]|order(publishedAt desc)[0...50]{
+  const query = `*[_type=="blog"]|order(publishedAt desc)[0...10]{
     _id,
     title,
     "mainImage": mainImage.asset->{url},
@@ -52,38 +53,15 @@ export default function BlogsPage() {
   if (loading) return <p className="text-center mt-10">Loading blogs...</p>;
   if (error) return <p className="text-center mt-10 text-red-600">{error}</p>;
   if (blogs.length === 0) return <p className="text-center mt-10">No blogs found.</p>;
-
-  return (
-    <main className="mx-auto w-full px-0 py-10 mt-25 bg-black -mx-1000">
-      
-      <h1 className="text-4xl font-bold text-center mb-12 text-blue-500">Blogs</h1> 
  
-      <section className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 bg-black width-full px-20 pb-8">
-        {blogs.map((blog, index) => {
-          const numericId = index + 1; // Numeric ID
-          return (
-            <article key={blog._id} className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md flex flex-col">
-              {blog.mainImage?.url && (
-                <div className="relative w-full h-56">
-                  <Image src={blog.mainImage.url} alt={blog.title} fill className="object-cover" />
-                </div>
-              )}
-              <div className="p-4 flex flex-col flex-1 justify-between">
-                <h2 className="text-xl font-semibold mb-2">{blog.title}</h2>
-                {blog.excerpt && <p className="text-gray-700 line-clamp-3">{blog.excerpt}</p>}
-                <div className="mt-4">
-                  <Link
-                    href={`/blogs/${numericId}`}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm"
-                  >
-                    View Blog
-                  </Link>
-                </div>
-              </div>
-            </article>
-          );
-        })}
-      </section>
-    </main>
+  return (
+    
+      <main className="flex flex-col">
+            <BlogsListing />
+      </main>
+
+      
+      
+
   );
 }

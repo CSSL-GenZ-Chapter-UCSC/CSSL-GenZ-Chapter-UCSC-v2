@@ -6,12 +6,6 @@ export const blog = defineType({
   type: "document",
   fields: [
     defineField({
-      name: "id",
-      title: "ID",
-      type: "string",
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
       name: "title",
       title: "Title",
       type: "string",
@@ -64,10 +58,10 @@ export const blog = defineType({
       type: "string",
       options: {
         list: [
+          { title: "Announcements", value: "Announcements" },
+          { title: "Competitions", value: "Competitions" },
           { title: "Events", value: "Events" },
           { title: "Workshops", value: "Workshops" },
-          { title: "Competitions", value: "Competitions" },
-          { title: "Announcements", value: "Announcements" },
         ],
       },
       validation: (Rule) => Rule.required(),
