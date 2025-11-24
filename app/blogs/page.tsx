@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 type Blog = {
   _id: string;
   title: string;
-  mainImage?: { asset: { url: string } };
+  mainImage?: { url: string };
   author?: { name: string };
   excerpt?: string;
   publishedAt?: string;
