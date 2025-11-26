@@ -5,10 +5,19 @@ import { Container } from "../shared/Container";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { PageTitle } from "../shared/PageTitle";
+import { h3 } from "motion/react-client";
 
 export const DynamicButtons = () => {
-  
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+ 
+  return (
+    <h3>hello</h3>
+
+  );
+
+}  
+ 
+
+{/*const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   return (
     <section className="h-screen flex items-start justify-center bg-black text-white sm:pt-30 pt-20">
       <Container className="h-full pb-20">
@@ -104,4 +113,4 @@ export const DynamicButtons = () => {
       </Container>
     </section>
   );
-};
+};*/}
