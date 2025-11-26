@@ -40,6 +40,10 @@ export const DisplayBlog = () => {
         </div>
 
         <DynamicButtons/>
+
+        <div>
+          
+        </div>
       </Container>
     </section>
   );

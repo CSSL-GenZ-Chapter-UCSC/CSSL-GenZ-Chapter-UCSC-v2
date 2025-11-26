@@ -1,11 +1,9 @@
-import { createClient } from 'next-sanity'
-
-import { apiVersion, dataset, projectId } from '../env'
+import { createClient } from "next-sanity";
 
 export const client = createClient({
-  projectId,
-  dataset,
-  apiVersion,
-  useCdn: false, // Set to false for dynamic pages to ensure fresh data
-  perspective: 'published', // Only fetch published documents
-})
+  projectId: "3aby8hgp",
+  dataset: "production",
+  apiVersion: "2023-10-01",
+  useCdn: false,
+  perspective: "published",
+});
