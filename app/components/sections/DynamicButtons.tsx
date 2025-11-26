@@ -6,52 +6,8 @@ import Image from "next/image";
 import { motion } from "motion/react";
 import { PageTitle } from "../shared/PageTitle";
 
-export const About = () => {
-  const aboutImages: { src?: string; className?: string; alt?: string }[] = [
-    {
-      src: "/Images/About/img1.jpg",
-      className: "object-cover scale-[1.6] sm:block hidden",
-      alt: "About image 1",
-    },
-    {
-      src: "/Images/About/img2.jpg",
-      className: "object-cover scale-[1.6] sm:block hidden",
-      alt: "About image 2",
-    },
-    {
-      src: "/Images/About/img3.jpg",
-      className: "object-cover scale-[1.6]",
-      alt: "About image 3",
-    },
-    {
-      src: "/Images/About/img4.jpg",
-      className: "object-cover scale-[1.6]",
-      alt: "About image 4",
-    },
-    {
-      src: "/Images/About/img1.jpg",
-      className: "object-cover [transform:scaleX(-1)_scale(1.6)]",
-      alt: "About image 1",
-    },
-    {
-      src: "/Images/About/img2.jpg",
-      className: "object-cover [transform:scaleX(-1)_scale(1.6)]",
-      alt: "About image 2",
-    },
-    {
-      src: "/Images/About/img3.jpg",
-      className:
-        "object-cover [transform:scaleX(-1)_scale(1.6)] sm:block hidden",
-      alt: "About image 3",
-    },
-    {
-      src: "/Images/About/img4.jpg",
-      className:
-        "object-cover [transform:scaleX(-1)_scale(1.6)] sm:block hidden",
-      alt: "About image 4",
-    },
-  ];
-
+export const DynamicButtons = () => {
+  
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   return (
     <section className="h-screen flex items-start justify-center bg-black text-white sm:pt-30 pt-20">

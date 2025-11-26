@@ -1,4 +1,5 @@
-import { ContactSection } from "../components/sections/ContactSection";
+import { DisplayBlog } from "../components/sections/DisplayBlogs";
+import {DynamicButtons} from "../components/sections/DynamicButtons";
 
 export const metadata = {
   title: "Blogs",
@@ -9,7 +10,8 @@ export const metadata = {
 export default function ContactUsPage() {
   return (
     <main className="flex flex-col">
-      
+      <DisplayBlog />
+      <DynamicButtons />       
     </main>
   );
 }

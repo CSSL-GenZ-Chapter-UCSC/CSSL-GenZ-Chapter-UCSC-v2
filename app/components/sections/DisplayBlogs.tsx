@@ -1,49 +1,27 @@
 "use client";
 
 import { useState,useEffect } from "react";
-import { Container } from "../shared/Container";
 import { Button } from "../shared/Button";
 import Image from "next/image";
 import { client } from "@/sanity/lib/client";
 import { motion } from "motion/react";
-import { PageTitle } from "../shared/PageTitle";
 import Link from "next/link";
+import { h1 } from "motion/react-client";
 
-type Blog = {
-  _id:string
-  title: string;
-  mainImage?: { asset: { url: string } };
-  author?: { name: string };
-  excerpt?: string;
-  publishedAt?: string;
-  category: string;
-};
 
-async function getBlogs(category?:string): Promise<Blog[]> {
-  let query = `*[_type=="blog"]`;
 
-  if (category && category !== "All") {
-    query += ` && category == "${category}"`;
-  }
 
-  query += ` | order(publishedAt desc)[0...10]{
-    _id,
-    title,
-    "mainImage": mainImage.asset->{url},
-    "author": author->{name},
-    excerpt,
-    publishedAt,
-    category
-  }`;
 
-  const blogs: Blog[] = await client.fetch(query);
-  return blogs;
+export const DisplayBlog = () => {
+
+  return(
+    <h1>hi</h1>
+  );
+
+
 }
 
-
-export const BlogsListing = () => {
-
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  {/*const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [categories, setCategories] = useState<string[]>([]);
@@ -74,6 +52,9 @@ export const BlogsListing = () => {
             text="BLOGS"
             className="lg:text-[213px] md:text-[125px] sm:text-[100px] text-[60px]"
           /> 
+
+
+
 
           <div className="flex px-2.5 justify-between items-start self-stretch flex-1">
             <motion.p
@@ -149,7 +130,7 @@ export const BlogsListing = () => {
                                   className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm"
                                 >
                                   View Blog
-                                </Link>*/}
+                                </Link>}
                               </div>
                             </div>
                           </article>
@@ -172,6 +153,6 @@ export const BlogsListing = () => {
       </Container>
     </section>
   );
-};
+};*/}
 
 
