@@ -13,7 +13,7 @@ export default function ContactUsPage() {
     <main className="flex flex-col">
       
       <DisplayBlog />
-      <DynamicButtons />       
+             
     </main>
   );
 }

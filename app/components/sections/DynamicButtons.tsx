@@ -1,116 +1,58 @@
 "use client";
 
-import { useState } from "react";
-import { Container } from "../shared/Container";
-import Image from "next/image";
-import { motion } from "motion/react";
-import { PageTitle } from "../shared/PageTitle";
-import { h3 } from "motion/react-client";
+import { useState, useEffect } from "react";
+import { getBlogs, Blog } from "@/sanity/lib/getBlogs";
+import { Button } from "../shared/Button";
 
 export const DynamicButtons = () => {
  
+  const [categories, setCategories] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setLoading(true);
+
+    getBlogs()
+        .then((data: Blog[]) => {
+            if (data.length === 0) {
+              setCategories([]);
+              return;
+            }
+            const uniqueCategories = Array.from(
+              new Set(data.map((blog) => blog.category))
+            ).sort();
+
+            setCategories(["All", ...uniqueCategories]);
+        })
+        .catch((err) => setError(err.message))
+        .finally(() => setLoading(false))
+  }, []);
+
+  if (loading) return <p>Loading categories...</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
-    <h3>hello</h3>
-
-  );
-
-}  
- 
-
-{/*const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  return (
-    <section className="h-screen flex items-start justify-center bg-black text-white sm:pt-30 pt-20">
-      <Container className="h-full pb-20">
-        <div className="w-full h-full flex flex-col sm:items-stretch ">
-          <PageTitle
-            text="ABOUT"
-            className="lg:text-[213px] md:text-[125px] sm:text-[100px] text-[60px]"
+    <div className="border border-red-500 -mt-[130px] sm:-mt-[140px] h-16 w-full mx-auto mb-15 mt-7 flex flex-row flex-wrap gap-3">
+      {categories.map((category) => (
+        <div
+          key={category}
+          onClick={() => setSelectedCategory(category)}
+          className="cursor-pointer"
+          role="button"
+          tabIndex={0}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") setSelectedCategory(category);
+          }}
+        >
+          <Button
+            text={category}
+            href="#" // or some link if needed
+            className={`px-7 py-2 rounded border ${selectedCategory === category? "bg-blue-500 text-white": "bg-white text-black"}`}
           />
-          <div className="flex px-2.5 justify-between items-start self-stretch flex-1">
-            <motion.p
-              initial={{ opacity: 0, filter: "blur(8px)" }}
-              animate={{ opacity: 1, filter: "blur(0px)" }}
-              transition={{ duration: 0.3, ease: "easeOut", delay: 0.15 }}
-              className="text-[#afafaf] font-[Poppins] sm:text-[16px] text-[12px] not-italic font-medium sm:leading-[23px] leading-4 sm:w-[274px] w-[200px]"
-            >
-              NextGen Tech, Today’s Chapter - CSSL Genz UCSC
-            </motion.p>
-            <motion.p
-              initial={{ opacity: 0, filter: "blur(8px)" }}
-              animate={{ opacity: 1, filter: "blur(0px)" }}
-              transition={{ duration: 0.3, ease: "easeOut", delay: 0.25 }}
-              className="text-[#afafaf] font-[Poppins] sm:text-[16px] text-[12px] not-italic font-medium sm:leading-[23px] leading-4 sm:w-[274px] w-[200px]"
-            >
-              CSSL GenZ - UCSC Chapter is the official representation of the
-              Computer Society of Sri Lanka at the University of Colombo School
-              of Computing.
-            </motion.p>
-            <motion.p
-              initial={{ opacity: 0, filter: "blur(8px)" }}
-              animate={{ opacity: 1, filter: "blur(0px)" }}
-              transition={{ duration: 0.3, ease: "easeOut", delay: 0.35 }}
-              className="text-[#afafaf] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] sm:w-[274px] w-[200px] sm:block hidden"
-            >
-              We strive to empower undergraduates through technology,
-              innovation, and collaboration bridging the gap between academia
-              and the ICT industry to shape future-ready professionals.
-            </motion.p>
-          </div>
-          <div className="grid grid-cols-2 gap-3 w-full mx-auto sm:max-w-none sm:flex sm:justify-between sm:items-end sm:self-stretch sm:flex-1">
-            {aboutImages.map((img, i) => (
-              <div
-                key={i}
-                onMouseEnter={() => setHoveredIndex(i)}
-                onMouseLeave={() => setHoveredIndex(null)}
-                className={`relative bg-gray-500 overflow-hidden transition-all duration-300 ease-out w-full aspect-square sm:aspect-auto ${
-                  // Hide the first two and last two tiles below sm to avoid empty boxes
-                  i === 0 || i === 1 || i === 6 || i === 7
-                    ? "hidden sm:block"
-                    : "block"
-                } ${
-                  // Only change wrapper size on hover for sm and up; mobile uses the grid cell size
-                  hoveredIndex === i
-                    ? "sm:w-[180px] sm:h-[180px]"
-                    : "sm:w-[150px] sm:h-[150px]"
-                }`}
-              >
-                {img.src ? (
-                  <motion.div
-                    initial={{ opacity: 0, filter: "blur(8px)" }}
-                    animate={{ opacity: 1, filter: "blur(0px)" }}
-                    transition={{
-                      duration: 0.35,
-                      ease: "easeOut",
-                      delay: 0.3 + i * 0.06,
-                    }}
-                    className="absolute inset-0 transition-transform duration-300 ease-out"
-                    style={{
-                      transform:
-                        hoveredIndex === i ? "scale(0.625)" : "scale(1)",
-                    }}
-                  >
-                    <Image
-                      src={img.src}
-                      alt={img.alt ?? `About image ${i + 1}`}
-                      fill
-                      className={`w-full h-full object-cover ${
-                        hoveredIndex === i ? "grayscale-0" : "grayscale"
-                      } transition-all duration-200 ${img.className ?? ""}`}
-                      sizes="(max-width: 640px) 50vw, 150px"
-                      priority={i < 2}
-                    />
-                  </motion.div>
-                ) : null}
-                <div
-                  className={`absolute inset-0 bg-[#133769] mix-blend-color z-10 ${
-                    hoveredIndex === i ? "opacity-0" : "opacity-100"
-                  }`}
-                ></div>
-              </div>
-            ))}
-          </div>
         </div>
-      </Container>
-    </section>
-  );
-};*/}
+      ))}
+    </div>
+  )  
+}
