@@ -36,3 +36,16 @@ body {
     "Apple Color Emoji",
     "Segoe UI Emoji";
 }
+
+/* hide scrollbar but keep scrolling (Chrome, Safari, Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

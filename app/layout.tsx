@@ -1,4 +1,3 @@
-
 "use client";
 
 import "./globals.css";
@@ -10,7 +9,6 @@ import { Poppins, La_Belle_Aurore } from "next/font/google";
 import { Navbar } from "./components/elements/NavBar";
 import { Footer } from "./components/elements/Footer";
 import "./globals.css";
-import { Background } from "./components/elements/Background";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -52,7 +50,6 @@ export default function RootLayout({
           ref={lenisRef}
           options={{ autoRaf: false }}
         ></ReactLenis>
-        <Background />
         <Navbar />
         {children}
         <Footer />

@@ -32,8 +32,7 @@ export const blog = defineType({
     defineField({
       name: "author",
       title: "Author",
-      type: "reference",
-      to: [{ type: "author" }],
+      type: "string",
     }),
     defineField({
       name: "excerpt",
@@ -41,12 +40,6 @@ export const blog = defineType({
       type: "text",
       rows: 3,
     }),
-    {
-      name: 'body',
-      title: 'Body',
-      type: 'array',
-      of: [{type: 'block'}]
-    },
     defineField({
       name: "publishedAt",
       title: "Published At",
@@ -58,10 +51,10 @@ export const blog = defineType({
       type: "string",
       options: {
         list: [
-          { title: "Announcements", value: "Announcements" },
-          { title: "Competitions", value: "Competitions" },
           { title: "Events", value: "Events" },
           { title: "Workshops", value: "Workshops" },
+          { title: "Competitions", value: "Competitions" },
+          { title: "Announcements", value: "Announcements" },
         ],
       },
       validation: (Rule) => Rule.required(),

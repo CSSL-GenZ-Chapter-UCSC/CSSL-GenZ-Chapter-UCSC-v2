@@ -12,8 +12,8 @@ export const contactInfo = defineType({
   },
   fields: [
     defineField({
-      name: "facebookLink",
-      title: "Facebook Profile URL",
+      name: "linkedinLink",
+      title: "LinkedIn Profile URL",
       type: "url",
       validation: (rule) => rule.uri({ scheme: ["http", "https"] }),
     }),

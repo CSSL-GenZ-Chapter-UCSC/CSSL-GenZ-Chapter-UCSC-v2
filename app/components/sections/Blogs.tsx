@@ -1,4 +1,3 @@
-
 "use client";
 import Image from "next/image";
 import { Button } from "../shared/Button";
@@ -149,7 +148,7 @@ export const Blogs = () => {
         scale: 1.1,
         y: "115%",
         zIndex: 20,
-        filter: "brightness(0.15)",
+        filter: "brightness(0.15) blur(8px)",
         opacity: 1,
       } as const;
     } else if (relativeIndex === 2) {
@@ -160,7 +159,7 @@ export const Blogs = () => {
         scale: 1,
         y: "180%",
         zIndex: 10,
-        filter: "brightness(0.1)",
+        filter: "brightness(0.1) blur(8px)",
         opacity: 1,
       } as const;
     } else {
@@ -180,44 +179,40 @@ export const Blogs = () => {
   return (
     <section className="w-full md:h-screen h-auto flex flex-col bg-black pt-10 pb-10 overflow-hidden">
       <Container className="w-full h-full flex flex-col justify-center items-center gap-15">
-        <div className="w-full md:h-[30%] h-auto flex flex-col justify-start items-start">
+        <div className="w-full md:h-[30%] h-auto flex flex-col justify-center items-center">
           <h2 className="text-white text-center font-poppins text-[48px] font-medium leading-normal">
             {headingWords.map((word, i) => (
               <motion.span
                 key={`heading-word-${i}-${word}`}
                 className="inline-block will-change-transform"
-                initial={{ opacity: 0, filter: "blur(8px)", y: 8 }}
-                whileInView={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-                transition={{
-                  duration: 0.35,
-                  ease: "easeOut",
-                  delay: i * 0.06,
-                }}
-                viewport={{ once: false, amount: 0.6 }}
+                initial={{ y: 10, opacity: 0, filter: "blur(8px)" }}
+                whileInView={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                viewport={{ amount: 0.01 }}
               >
                 {word}
               </motion.span>
             ))}
           </h2>
-          <p className="text-[#9AA0A6] font-poppins lg:text-[20px] md:text-[15px] text-[14px] font-normal leading-normal lg:w-1/2 w-full">
+          <p className="text-[#9AA0A6] font-poppins text-center lg:text-[20px] md:text-[15px] text-[14px] font-normal leading-normal lg:w-1/2 w-full">
             {descriptionWords.map((word, i) => (
               <motion.span
                 key={`desc-word-${i}-${word}`}
                 className="inline-block will-change-transform"
-                initial={{ opacity: 0, filter: "blur(8px)", y: 8 }}
+                initial={{ opacity: 0, filter: "blur(8px)", y: 10 }}
                 whileInView={{ opacity: 1, filter: "blur(0px)", y: 0 }}
                 transition={{
                   duration: 0.3,
                   ease: "easeOut",
                   delay: i * 0.025,
                 }}
-                viewport={{ once: true, amount: 0.6 }}
+                viewport={{ amount: 0.6 }}
               >
                 {word}&nbsp;
               </motion.span>
             ))}
           </p>
-          <Button className="md:mt-auto mt-6" isSvg text="All blogs" />
+          <Button className="mt-10" isSvg text="All blogs" href="/blogs" />
         </div>
         {/* Mobile (below md) */}
         <div className="w-full md:hidden flex flex-col gap-6">
@@ -226,7 +221,7 @@ export const Blogs = () => {
             initial={{ opacity: 0, filter: "blur(8px)" }}
             whileInView={{ opacity: 1, filter: "blur(0px)" }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ amount: 0.3 }}
           >
             {blogs.map((blog, index) => (
               <motion.div
@@ -275,7 +270,7 @@ export const Blogs = () => {
           initial={{ opacity: 0, filter: "blur(8px)" }}
           whileInView={{ opacity: 1, filter: "blur(0px)" }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ amount: 0.3 }}
         >
           {blogs.map((blog, index) => (
             <motion.div
@@ -319,7 +314,7 @@ export const Blogs = () => {
           ))}
         </motion.div>
         {/* Desktop pagination controls (moved below cards) */}
-        <div className="w-1/2 hidden md:flex justify-center items-center gap-2 self-start">
+        <div className="w-full hidden md:flex justify-center items-center gap-2 self-start">
           {blogs.map((b, i) => (
             <button
               key={`desktop-pager-${i}`}

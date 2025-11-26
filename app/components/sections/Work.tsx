@@ -43,7 +43,7 @@ export const Work = () => {
   const currentLetters = useMemo(() => toSeven(current).split(""), [current]);
   const nextLetters = useMemo(() => toSeven(next).split(""), [next]);
 
-  // Per-letter staggered progress derived from the segment progress
+  // Per letter staggered progress derived from the segment progress
   const letterCount = 7;
   const stagger = 0.08; // normalized stagger per letter
   const effectiveSpan = Math.max(0.0001, 1 - stagger * (letterCount - 1));
@@ -96,16 +96,17 @@ const WorkActivities = () => {
     () =>
       [
         { src: "/Images/About/img1.jpg", alt: "Work image 1" },
-        { src: "/Images/About/img2.jpg", alt: "Work image 2" },
+        { src: "/Images/work/workImg2.jpg", alt: "Work image 2" },
         { src: "/Images/About/img3.jpg", alt: "Work image 3" },
         { src: "/Images/About/img4.jpg", alt: "Work image 4" },
         { src: "/Images/About/vision1.jpg", alt: "Work image 5" },
-        { src: "/Images/About/vision2.jpg", alt: "Work image 6" },
+        { src: "/Images/work/workImg1.jpg", alt: "Work image 6" },
         { src: "/Images/About/vision3.jpg", alt: "Work image 7" },
         { src: "/Images/About/vision4.jpg", alt: "Work image 8" },
-        { src: "/Images/blogImg1.png", alt: "Work image 9" },
+        { src: "/Images/work/workImg3.jpg", alt: "Work image 9" },
         { src: "/Images/blogImg2.png", alt: "Work image 10" },
-        { src: "/Images/blogImg3.png", alt: "Work image 11" },
+        { src: "/Images/work/workImg1.jpg", alt: "Work image 6" },
+        { src: "/Images/work/workImg4.jpg", alt: "Work image 9" },
       ] as const,
     []
   );
@@ -239,12 +240,9 @@ const WorkActivities = () => {
           src={imgAt(5).src}
           alt={imgAt(5).alt}
           fill
-          className={`object-cover transition-all duration-200 brightness-80 ${hoveredIndex === 5 ? "grayscale-0" : "grayscale"}`}
+          className={`object-cover brightness-90`}
           sizes="450px"
         />
-        <div
-          className={`absolute w-full h-full bg-[#133769] mix-blend-color z-10 ${hoveredIndex === 5 ? "opacity-0" : "opacity-100"} transition-opacity duration-200`}
-        ></div>
       </div>
       <p className="flex absolute left-[70%] top-[35%] w-[310px] h-60 flex-col justify-center shrink-0 text-gray-100 font-poppins text-[16px] font-light leading-[22.2px] tracking-[0.8px]">
         The Genz chapter brings together tech-driven, curious, and ambitious
@@ -315,12 +313,9 @@ const WorkActivities = () => {
           src={imgAt(8).src}
           alt={imgAt(8).alt}
           fill
-          className={`object-cover transition-all duration-200 brightness-80 ${hoveredIndex === 8 ? "grayscale-0" : "grayscale"}`}
+          className={`object-cover transition-all duration-200 brightness-80 `}
           sizes="550px"
         />
-        <div
-          className={`absolute w-full h-full bg-[#133769] mix-blend-color z-10 ${hoveredIndex === 8 ? "opacity-0" : "opacity-100"} transition-opacity duration-200`}
-        ></div>
       </div>
       {/* 10 */}
       <div
@@ -379,12 +374,9 @@ const WorkActivities = () => {
           src={imgAt(11).src}
           alt={imgAt(11).alt}
           fill
-          className={`object-cover transition-all duration-200 brightness-80 ${hoveredIndex === 11 ? "grayscale-0" : "grayscale"}`}
+          className={`object-cover transition-all duration-200 brightness-80 grayscale`}
           sizes="550px"
         />
-        <div
-          className={`absolute w-full h-full bg-[#133769] mix-blend-color z-10 ${hoveredIndex === 11 ? "opacity-0" : "opacity-100"} transition-opacity duration-200`}
-        ></div>
       </div>
       {/* 13 */}
       <div
