@@ -8,7 +8,5 @@ import { contactInfo } from "./contactInfo";
 import { team } from "./team";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-
   types: [post, blog, event, member, author, contactInfo, team],
 };
-

@@ -1,78 +1,223 @@
 import { defineField, defineType } from "sanity";
 
-export const member = defineType({
-  name: "member",
-  title: "Member",
+export const event = defineType({
+  name: "event",
+  title: "Event",
   type: "document",
   fields: [
     defineField({
-      name: "name",
-      title: "Name",
+      name: "title",
       type: "string",
-      validation: (Rule) => Rule.required(),
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "slug",
-      title: "Slug",
       type: "slug",
-      options: { source: "name", maxLength: 96 },
-      validation: (Rule) => Rule.required(),
+      options: { source: "title", maxLength: 96 },
+      validation: (rule) => rule.required(),
     }),
     defineField({
-      name: "role",
-      title: "Role",
-      type: "string",
-      validation: (Rule) => Rule.required(),
+      name: "shortSummary",
+      type: "text",
+      rows: 3,
     }),
     defineField({
-      name: "category",
-      title: "Category",
+      name: "description",
+      type: 'array',
+      of: [{type: 'block'}],
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "bannerText",
       type: "string",
-      options: {
-        list: [
-          { title: "President", value: "president" },
-          { title: "Executive Committee", value: "executive" },
-          { title: "Team Lead", value: "teamLead" },
-        ],
-        layout: "radio",
+    }),
+    defineField({
+      name: "bannerImage",
+      type: "image",
+      options: { 
+        hotspot: true,
+        metadata: ['blurhash', 'lqip', 'palette'],
       },
-      validation: (Rule) => Rule.required(),
+      validation: (rule) => rule.required().custom((image) => {
+        if (!image?.asset?._ref) return true;
+        // Note: File size validation happens at upload time via Sanity's asset pipeline
+        return true;
+      }),
+      fields: [{ name: "alt", type: "string", title: "Alt text" }],
     }),
     defineField({
-      name: "bgImage",
-      title: "Background Image",
+      name: "cta",
+      title: "Call To Action",
+      type: "object",
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
+      fields: [
+        defineField({
+          name: "title",
+          type: "string",
+          title: "CTA Title",
+        }),
+        defineField({
+          name: "description",
+          type: "text",
+          rows: 3,
+          title: "CTA Description",
+        }),
+        defineField({
+          name: "buttonText",
+          type: "string",
+          title: "Button Label",
+        }),
+        defineField({
+          name: "buttonLink",
+          type: "url",
+          title: "Button Link",
+          description: "External link or registration form",
+        }),
+      ],
+      description: "Optional CTA block shown on the event detail page",
+    }),
+    
+    // logo
+    defineField({
+      name: "logo",
+      title: "Logo",
       type: "image",
-      options: { hotspot: true },
+      options: { 
+        hotspot: true,
+        metadata: ['blurhash', 'lqip', 'palette'],
+      },
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alt text",
+        },
+      ],
     }),
+
+    // main image
     defineField({
-      name: "fgImage",
-      title: "Foreground Image",
+      name: "mainImage",
+      title: "Main Image",
       type: "image",
-      options: { hotspot: true },
+      options: { 
+        hotspot: true,
+        metadata: ['blurhash', 'lqip', 'palette'],
+      },
+      fields: [
+        { name: "alt", type: "string", title: "Alt text" },
+        { name: "caption", type: "string", title: "Caption" },
+      ],
+    }),
+
+    // sub main image
+    defineField({
+      name: "subMainImage",
+      title: "Sub Main Image",
+      type: "image",
+      options: { 
+        hotspot: true,
+        metadata: ['blurhash', 'lqip', 'palette'],
+      },
+      fields: [{ name: "alt", type: "string", title: "Alt text" }],
+    }),
+
+    // two other images
+    defineField({
+      name: "otherImage1",
+      title: "Other Image 1",
+      type: "image",
+      options: { 
+        hotspot: true,
+        metadata: ['blurhash', 'lqip', 'palette'],
+      },
+      fields: [{ name: "alt", type: "string", title: "Alt text" }],
     }),
     defineField({
-      name: "bgClassName",
-      title: "Background Image Class",
+      name: "otherImage2",
+      title: "Other Image 2",
+      type: "image",
+      options: { 
+        hotspot: true,
+        metadata: ['blurhash', 'lqip', 'palette'],
+      },
+      fields: [{ name: "alt", type: "string", title: "Alt text" }],
+    }),
+
+    // photos array for single event page
+    defineField({
+      name: "photos",
+      title: "Photos",
+      type: "array",
+      of: [
+        {
+          type: "image",
+          options: { 
+            hotspot: true,
+            metadata: ['blurhash', 'lqip', 'palette'],
+          },
+          fields: [
+            { name: "alt", type: "string", title: "Alt text" },
+          ],
+        },
+      ],
+      validation: (rule) => rule.max(10).warning("Maximum 10 photos allowed for optimal performance"),
+      description: "Additional photos for the event detail page (maximum 10 photos, recommended max 5MB per image)",
+    }),
+
+    // venue
+    defineField({
+      name: "venue",
+      title: "Venue",
       type: "string",
+      description: "Event location/venue",
     }),
+
+    // visibility control
     defineField({
-      name: "fgClassName",
-      title: "Foreground Image Class",
-      type: "string",
+      name: "is_shown",
+      title: "Show on website",
+      type: "boolean",
+      initialValue: true,
+      validation: (rule) => rule.required(),
+      description: "Toggle to show/hide this event on the website",
     }),
+
+    // highlight control
     defineField({
-      name: "cardClassName",
-      title: "Card Container Class",
-      type: "string",
+      name: "is_highlighted",
+      title: "Highlight Event",
+      type: "boolean",
+      initialValue: false,
+      description: "Mark this event as highlighted/featured",
     }),
+
+    // start date
     defineField({
-      name: "order",
-      title: "Order",
-      type: "number",
-      description: "Lower numbers appear first",
+      name: "startDate",
+      type: "datetime",
+      validation: (rule) => rule.required(),
+    }),
+
+    defineField({
+      name: "endDate",
+      type: "datetime",
+    }),
+
+    // featured event reference - shows as dropdown of existing events
+    defineField({
+      name: "featuredAfter",
+      title: "Feature After Event",
+      type: "reference",
+      to: [{ type: "event" }],
+      description: "Optional: Select which event this should be featured after. Leave empty to feature first or not feature at all.",
+      options: {
+        filter: '_id != $id',
+        filterParams: { id: '_id' }
+      }
     }),
   ],
-  preview: {
-    select: { title: "name", subtitle: "role", media: "fgImage" },
-  },
 });
