@@ -3,6 +3,7 @@ import { Container } from "@/app/components/shared/Container";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Event } from "@/app/types/event";
+import SimilarEventsCarousel from "@/app/components/events/SimilarEventsCarousel";
 
 // Force dynamic rendering for development
 export const dynamic = 'force-dynamic';
@@ -297,51 +298,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
         <section className="py-12 md:py-16">
           <Container>
             <h2 className="text-[2rem] font-poppins text-[#909090] mb-6 md:mb-8">Similar Events</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-              {similarEvents.map((similarEvent) => (
-                <Link
-                  key={similarEvent._id}
-                  href={`/events/${similarEvent.slug.current}`}
-                  className="group"
-                >
-                  <div className="overflow-hidden">
-                    {/* Event Image */}
-                    {(similarEvent.mainImage?.url || similarEvent.subMainImage?.url) ? (
-                      <div className="aspect-video bg-gray-700 mb-4 rounded-lg overflow-hidden">
-                        <img
-                          src={similarEvent.mainImage?.url || similarEvent.subMainImage?.url}
-                          alt={similarEvent.mainImage?.alt || similarEvent.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    ) : (
-                      <div className="aspect-video bg-gray-700 mb-4 rounded-lg flex items-center justify-center">
-                        <span className="text-gray-500 text-sm">No Image</span>
-                      </div>
-                    )}
-                    
-                    <h3 className="text-lg md:text-xl font-semibold mb-2 group-hover:text-blue-400 transition-colors">
-                      {similarEvent.title}
-                    </h3>
-                    
-                    <p className="text-sm text-white/60 mb-3">
-                      {formatDate(similarEvent.startDate)}
-                      {similarEvent.endDate && ` - ${formatDate(similarEvent.endDate)}`}
-                    </p>
-                    
-                    {similarEvent.shortSummary && (
-                      <p className="text-sm text-white/70 line-clamp-2 mb-3">
-                        {similarEvent.shortSummary}
-                      </p>
-                    )}
-                    
-                    <span className="text-sm text-blue-400 group-hover:text-blue-300 inline-flex items-center gap-1">
-                      View Event <span>→</span>
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            <SimilarEventsCarousel events={similarEvents} />
           </Container>
         </section>
       )}
