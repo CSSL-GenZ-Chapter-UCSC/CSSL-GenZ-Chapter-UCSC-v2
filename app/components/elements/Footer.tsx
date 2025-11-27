@@ -133,10 +133,13 @@ export const Footer = () => {
           initial={{ y: 100 }}
           animate={controls}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="w-full h-[85%] bg-black/40 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)] z-10"
+          className="w-full h-[85%] bg-black/40 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)] z-10 hidden md:block"
         >
           <FooterContent />
         </motion.div>
+        <div className="w-full h-[85%] bg-black/40 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)] z-10 block md:hidden">
+          <FooterContent />
+        </div>
         <div className="w-[90%] absolute sm:-bottom-70 bottom-0 flex items-center justify-center">
           <h2
             className="text-center font-[Poppins] font-semibold leading-none bg-clip-text text-transparent select-none text-[50vw] sm:text-[40vw] md:text-[50vw]"
@@ -171,10 +174,10 @@ const FooterContent = () => {
         </Link>
       </div>
       <div className="w-full flex flex-col gap-6 md:gap-0 md:flex-row justify-between">
-        <p className="text-gray-300 text-sm sm:text-base md:text-lg">
+        <p className="text-gray-300 text-xs sm:text-base md:text-lg">
           2025 CSSL GenZ Chapter of UCSC
         </p>
-        <div className="h-auto flex flex-col md:flex-row gap-3 sm:gap-6 md:gap-10 lg:gap-20 md:max-w-[60%] items-start justify-center text-sm sm:text-base md:text-lg">
+        <div className="h-auto flex flex-col md:flex-row gap-3 sm:gap-6 md:gap-10 lg:gap-20 md:max-w-[60%] items-start justify-center text-xs sm:text-base md:text-lg">
           <p>cssl@gmail.com</p>
           <p>033 0929021</p>
           <p className="md:max-w-[33%]">
