@@ -197,7 +197,7 @@ const ContactCard = ({
         <h2 className="text-white font-poppins text-[18px] font-normal leading-normal">
           {title}
         </h2>
-        <p className="text-gray-400 font-poppins text-[16px] font-extralight leading-normal">
+        <p className="text-gray-400 font-poppins text-[16px] font-light leading-normal">
           {description}
         </p>
         <Link href={link} className="mt-auto underline text-gray-400">

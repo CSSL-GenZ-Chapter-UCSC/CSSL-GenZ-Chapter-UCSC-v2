@@ -136,56 +136,46 @@ export const Members = async () => {
   const { presidents, executiveCommittee } = await getMembers();
   const teams = await getTeams();
   return (
-    <section className="w-full h-auto flex flex-col bg-black pt-30">
-      <Container className="flex flex-col pb-30 gap-[35px]">
-        <div className="flex h-[32vh] items-start gap-5 self-stretch">
-          <div className="flex flex-col items-start gap-[-10px] flex-[1_0_0]">
-            <h2 className="text-white font-poppins text-[30px] font-medium leading-[38px] tracking-[3.3px]">
+    <section className="w-full h-auto flex flex-col bg-black pt-20 md:pt-30">
+      <Container className="flex flex-col pb-20 md:pb-30 gap-10 md:gap-[35px]">
+        <div className="flex flex-col lg:flex-row lg:h-[32vh] items-start gap-5 self-stretch">
+          <div className="flex flex-col items-start md:gap-2 gap-1 lg:gap-[-10px] w-full lg:flex-[1_0_0]">
+            <h2 className="text-white font-poppins text-2xl md:text-[30px] font-medium leading-tight md:leading-[38px] tracking-[2px] md:tracking-[3.3px]">
               EXECUTIVE COMMITTEE
             </h2>
-            <p className="text-(--secondaryText,#E0E0E0) font-poppins text-[14px] font-normal leading-[38px] tracking-[1.54px]">
+            <p className="text-(--secondaryText,#E0E0E0) font-poppins text-sm md:text-[14px] font-normal leading-normal md:leading-[38px] tracking-[1px] md:tracking-[1.54px]">
               Leading with vision, building legacy at UCSC
             </p>
           </div>
-          <div className="flex h-full items-start gap-5 flex-[1_0_0]">
+          <div className="grid grid-cols-2 md:gap-5 gap-3 w-full lg:flex-[1_0_0] lg:flex lg:h-full">
             {presidents.map((m) => (
-              <MemberCardItem key={m.href} member={m} />
+              <div
+                key={m.href}
+                className="w-full aspect-3/4 lg:aspect-auto lg:w-1/2 lg:h-full flex"
+              >
+                <MemberCardItem member={m} />
+              </div>
             ))}
           </div>
         </div>
-        {/* Executive Committee in rows of 4 */}
-        <div className="flex flex-col items-start gap-[26px] self-stretch">
-          {Array.from({ length: Math.ceil(executiveCommittee.length / 4) }).map(
-            (_, rowIdx) => {
-              const row = executiveCommittee.slice(rowIdx * 4, rowIdx * 4 + 4);
-              return (
-                <div
-                  key={`exec-row-${rowIdx}`}
-                  className="flex h-[32vh] items-start gap-5 w-full"
-                >
-                  {row.map((m) => (
-                    <div key={m.href} className="w-1/4 h-full flex">
-                      <MemberCardItem member={m} />
-                    </div>
-                  ))}
-                  {row.length < 4 &&
-                    Array.from({ length: 4 - row.length }).map((_, i) => (
-                      <div
-                        key={`exec-placeholder-${rowIdx}-${i}`}
-                        className="w-1/4 h-full"
-                        aria-hidden="true"
-                      />
-                    ))}
-                </div>
-              );
-            }
-          )}
+        {/* Executive Committee Grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 md:gap-5 gap-3 w-full self-stretch">
+          {executiveCommittee.map((m) => (
+            <div
+              key={m.href}
+              className="w-full aspect-3/4 lg:aspect-auto lg:h-[32vh] flex mt-10"
+            >
+              <MemberCardItem member={m} />
+            </div>
+          ))}
         </div>
 
         {teams.map((team, teamIdx) => {
           const isEven = teamIdx % 2 === 0;
-          const flexDirection = isEven ? "flex-row" : "flex-row-reverse";
-          const textAlignment = isEven ? "items-start" : "items-end text-right";
+          const flexDirection = isEven ? "lg:flex-row" : "lg:flex-row-reverse";
+          const textAlignment = isEven
+            ? "items-start"
+            : "lg:items-end lg:text-right items-start";
           const originClass = isEven
             ? "origin-bottom-right"
             : "origin-bottom-left";
@@ -193,24 +183,24 @@ export const Members = async () => {
           return (
             <div
               key={`team-${teamIdx}`}
-              className="flex flex-col gap-8 self-stretch pt-20"
+              className="flex flex-col gap-8 self-stretch pt-10 md:pt-20"
             >
               <div
-                className={`flex h-[60vh] items-start gap-5 self-stretch pt-10 ${flexDirection}`}
+                className={`flex flex-col ${flexDirection} lg:h-[60vh] items-start gap-5 self-stretch pt-5 md:pt-10`}
               >
                 <div
-                  className={`flex flex-col ${textAlignment} gap-[13px] flex-2`}
+                  className={`flex flex-col ${textAlignment} md:gap-[13px] gap-1.5 w-full lg:flex-2`}
                 >
-                  <h2 className="text-white font-poppins text-[30px] font-medium leading-[38px] tracking-[3.3px]">
+                  <h2 className="text-white font-poppins text-2xl md:text-[30px] font-medium leading-tight md:leading-[38px] tracking-[2px] md:tracking-[3.3px]">
                     {team.name}
                   </h2>
                   {team.description ? (
-                    <p className="text-(--secondaryText,#E0E0E0) w-3/4 font-poppins text-[14px] font-normal leading-[22px] tracking-[1.54px]">
+                    <p className="text-(--secondaryText,#E0E0E0) w-full lg:w-3/4 font-poppins text-[14px] md:text-[14px] font-normal leading-5 tracking-[1px] md:tracking-[1.54px]">
                       {team.description}
                     </p>
                   ) : null}
                 </div>
-                <div className="flex h-full items-start gap-[15px] flex-3">
+                <div className="flex w-full lg:h-full items-start gap-[15px] lg:flex-3 aspect-video lg:aspect-auto">
                   <TeamGroupPhoto
                     src={team.groupSrc}
                     alt={`${team.name} group photo`}
@@ -221,12 +211,15 @@ export const Members = async () => {
 
               {team.leads.length > 0 && (
                 <div className="flex flex-col items-start gap-[13px] self-stretch">
-                  <h3 className="text-white font-poppins text-[20px] font-medium tracking-[2px]">
+                  <h3 className="text-white font-poppins text-lg md:text-[20px] font-medium tracking-[1.5px] md:tracking-[2px]">
                     Leads
                   </h3>
-                  <div className="flex h-[32vh] gap-5 w-full">
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 w-full">
                     {team.leads.map((m) => (
-                      <div key={m.href} className="w-1/4 h-full flex">
+                      <div
+                        key={m.href}
+                        className="w-full aspect-3/4 lg:aspect-auto lg:h-[32vh] flex"
+                      >
                         <MemberCardItem member={m} />
                       </div>
                     ))}

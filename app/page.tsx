@@ -1,5 +1,5 @@
 import { Blogs } from "./components/sections/Blogs";
-import { Gallery } from "./components/sections/Gallery";
+// import { Gallery } from "./components/sections/Gallery";
 import { Hero } from "./components/sections/Hero";
 import { Logo } from "./components/sections/Logo";
 import { Testimonial } from "./components/sections/Testimonial";

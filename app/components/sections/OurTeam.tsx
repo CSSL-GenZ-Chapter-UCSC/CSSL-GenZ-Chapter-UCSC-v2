@@ -5,15 +5,19 @@ import { motion } from "motion/react";
 import { PageTitle } from "../shared/PageTitle";
 
 export const OurTeam = () => {
+  const stats = [
+    { lines: ["50+ ACTIVE", "MEMBERS"], delay: 0.45 },
+    { lines: ["7 WORKING", "TEAMS"], delay: 0.55 },
+  ];
   return (
     <section className="h-screen flex items-start justify-center bg-black text-white sm:pt-30 pt-20">
       <Container className="h-full pb-20">
         <div className="w-full h-full flex flex-col sm:items-stretch ">
           <PageTitle
             text="OUR TEAM"
-            className="lg:text-[213px] md:text-[125px] sm:text-[100px] text-[60px]"
+            className="lg:text-[213px] md:text-[125px] sm:text-[100px] text-[50px]"
           />
-          <div className="flex px-2.5 justify-between items-start self-stretch flex-1">
+          <div className="flex px-2.5 justify-between items-start self-stretch flex-1 mt-10 sm:mt-0">
             <motion.p
               initial={{ opacity: 0, filter: "blur(8px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
@@ -26,7 +30,7 @@ export const OurTeam = () => {
               initial={{ opacity: 0, filter: "blur(8px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.25 }}
-              className="text-[#afafaf] font-[Poppins] sm:text-[16px] text-[12px] not-italic font-medium sm:leading-[23px] leading-4 sm:w-[274px] w-[200px]"
+              className="text-[#afafaf] font-[Poppins] sm:text-[16px] text-[12px] not-italic font-medium sm:leading-[23px] leading-4 sm:w-[274px] w-[200px] mt-20 sm:mt-0"
             >
               A collective of students who bring ideas to life across event
               planning, design, media, and innovation
@@ -42,31 +46,24 @@ export const OurTeam = () => {
               and the ICT industry to shape future-ready professionals.
             </motion.p>
           </div>
-          <div className="flex flex-row justify-center items-end w-full h-full gap-40">
-            <motion.div
-              className="flex h-2/5 pb-5 items-start gap-2.5 flex-[1_0_0] [background:var(--bgGradient,linear-gradient(75deg,#000_-4.05%,#0F2248_74.48%,var(--darkBlue,#1E448F)_107.82%))]"
-              initial={{ opacity: 0, filter: "blur(8px)" }}
-              animate={{ opacity: 1, filter: "blur(0px)" }}
-              transition={{ duration: 0.3, ease: "easeOut", delay: 0.45 }}
-            >
-              <div className="p-5 bg-black/50 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)]">
-                <p className="text-gray-300 font-poppins text-[31px] font-semibold leading-[38px] tracking-[8px] capitalize">
-                  50+ ACTIVE<br></br>MEMBERS
-                </p>
-              </div>
-            </motion.div>
-            <motion.div
-              className="flex h-2/5 pb-5 items-start gap-2.5 flex-[1_0_0] [background:var(--bgGradient,linear-gradient(75deg,#000_-4.05%,#0F2248_74.48%,var(--darkBlue,#1E448F)_107.82%))]"
-              initial={{ opacity: 0, filter: "blur(8px)" }}
-              animate={{ opacity: 1, filter: "blur(0px)" }}
-              transition={{ duration: 0.3, ease: "easeOut", delay: 0.55 }}
-            >
-              <div className="p-5 bg-black/50 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)]">
-                <p className="text-gray-300 font-poppins text-[31px] font-semibold leading-[38px] tracking-[8px] capitalize">
-                  7 WORKING<br></br>TEAMS
-                </p>
-              </div>
-            </motion.div>
+          <div className="flex sm:flex-row flex-col justify-center items-end w-full h-full mt-20 sm:gap-40 gap-2">
+            {stats.map((s, idx) => (
+              <motion.div
+                key={idx}
+                className="flex pb-5 w-full items-start gap-2.5 flex-[1_0_0] [background:var(--bgGradient,linear-gradient(75deg,#000_-4.05%,#0F2248_74.48%,var(--darkBlue,#1E448F)_107.82%))]"
+                initial={{ opacity: 0, filter: "blur(8px)" }}
+                animate={{ opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 0.3, ease: "easeOut", delay: s.delay }}
+              >
+                <div className="p-5 bg-black/50 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)]">
+                  <p className="text-gray-300 font-poppins sm:text-[31px] text-[20px] font-semibold sm:leading-[38px] leading-6 tracking-[8px] capitalize">
+                    {s.lines[0]}
+                    <br />
+                    {s.lines[1]}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </Container>

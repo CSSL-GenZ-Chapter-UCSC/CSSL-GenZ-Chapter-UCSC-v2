@@ -61,8 +61,8 @@ export const Navbar = () => {
             <Image
               src="/CSSL Logo final - white.png"
               alt="CSSL Logo"
-              width={120}
-              height={50}
+              width={80}
+              height={30}
             />
           </Link>
 
