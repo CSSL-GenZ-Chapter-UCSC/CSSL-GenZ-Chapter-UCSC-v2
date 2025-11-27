@@ -212,7 +212,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
           </div>
 
           {/* Event Info with Icons */}
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-2">
             <div className="flex items-center gap-3 text-[1.2rem]">
               <span className="text-2xl">📅</span>
               <span className="text-[#318AFF]">{dateDisplay}</span>
@@ -274,9 +274,6 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
       {photoCount > 0 && (
         <section className="py-12 md:py-16 border-b border-white/5">
           <Container>
-            <h2 className="text-2xl md:text-3xl font-semibold mb-6 md:mb-10">
-              Event Gallery
-            </h2>
             <div className={`grid ${galleryLayout.gridClass} grid-rows-2 gap-3 auto-rows-fr`}>
               {gallerySources.map((photo, index) => (
                 <div
@@ -299,7 +296,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
       {similarEvents.length > 0 && (
         <section className="py-12 md:py-16">
           <Container>
-            <h2 className="text-2xl md:text-3xl font-semibold mb-6 md:mb-8">Similar Events</h2>
+            <h2 className="text-[2rem] font-poppins text-[#909090] mb-6 md:mb-8">Similar Events</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
               {similarEvents.map((similarEvent) => (
                 <Link
@@ -320,17 +317,6 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
                     ) : (
                       <div className="aspect-video bg-gray-700 mb-4 rounded-lg flex items-center justify-center">
                         <span className="text-gray-500 text-sm">No Image</span>
-                      </div>
-                    )}
-                    
-                    {/* Logo if available */}
-                    {similarEvent.logo?.url && (
-                      <div className="h-8 mb-3">
-                        <img
-                          src={similarEvent.logo.url}
-                          alt={similarEvent.logo.alt || `${similarEvent.title} logo`}
-                          className="h-full w-auto object-contain"
-                        />
                       </div>
                     )}
                     
