@@ -1,4 +1,4 @@
-import { DisplayBlog } from "../components/sections/DisplayBlogs";
+import { BlogListing } from "../components/sections/BlogListing";
 import {DynamicButtons} from "../components/sections/DynamicButtons";
 
 
@@ -12,7 +12,7 @@ export default function ContactUsPage() {
   return (
     <main className="flex flex-col">
       
-      <DisplayBlog />
+      <BlogListing />
              
     </main>
   );

@@ -10,23 +10,35 @@ export type Blog = {
   category: string;
 };
 
-
 export async function getBlogs(category?: string): Promise<Blog[]> {
-  let query = `*[_type=="blog"]`;
+  let query;
 
   if (category && category !== "All") {
-    query += ` && category == "${category}"`;
+    // FIXED: Proper GROQ syntax with filter inside brackets
+    query = `*[_type=="blog" && category == "${category}"] | order(publishedAt desc)[0...10]{
+      _id,
+      title,
+      mainImage,
+      "author": author->{name},
+      excerpt,
+      publishedAt,
+      category
+    }`;
+  } else {
+    query = `*[_type=="blog"] | order(publishedAt desc)[0...10]{
+      _id,
+      title,
+      mainImage,
+      "author": author->{name},
+      excerpt,
+      publishedAt,
+      category
+    }`;
   }
 
-  query += ` | order(publishedAt desc)[0...10]{
-    _id,
-    title,
-    mainImage,
-    "author": author->{name},
-    excerpt,
-    publishedAt,
-    category
-  }`;
-
-  return await client.fetch(query);
+  console.log("Query:", query); // Debug log
+  const result = await client.fetch(query);
+  console.log("Results:", result.length, "blogs"); // Debug log
+  
+  return result;
 }
