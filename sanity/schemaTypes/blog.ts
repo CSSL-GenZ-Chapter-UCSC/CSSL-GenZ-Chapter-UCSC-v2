@@ -46,6 +46,12 @@ export const blog = defineType({
       type: "datetime",
     }),
     defineField({
+      name: "content",
+      title: "Content",
+      type: "text",
+      rows: 10,
+    }),
+    defineField({
       name: "category",
       title: "Category",
       type: "string",
@@ -59,5 +65,16 @@ export const blog = defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "subtopic",
+      title: "Subtopic",
+      type: "string",
+    }),
+    defineField({
+      name: "subtopicDescription",  // no spaces
+      title: "Subtopic Description",
+      type: "text",
+      rows: 9
+    })
   ],
 });

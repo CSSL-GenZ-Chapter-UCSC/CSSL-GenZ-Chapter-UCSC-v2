@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getBlogs, Blog } from "@/sanity/lib/getBlogs";
+import Link from "next/link";
+import { getBlogs, type Blog } from "@/sanity/lib/getBlogs";
 import { DynamicButtons } from "./DynamicButtons";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -80,33 +81,31 @@ export const DisplayBlogs = () => {
           </div>
         ) : (
           blogs.map((blog) => (
-            <div
-              key={blog._id}
-              className="border overflow-hidden shadow-md hover:-translate-y-2 hover:shadow-xl cursor-pointer"
-            >
-              {blog.mainImage?.asset && (
-                <img
-                  src={urlFor(blog.mainImage).width(600).height(400).url()}
-                  alt={blog.title}
-                  className="w-full h-48 object-cover"
-                />
-              )}
-              <div className="p-4">
-                <h3 className="text-xl font-bold mb-2 font-thin">{blog.title}</h3>
-                {blog.excerpt && (
-                    <p className="text-[#9AA0A6] font-medium mb-4">
-                        {blog.excerpt}
+            <Link href={`/blogs/${blog._id}`} key={blog._id}>
+              <div className="border overflow-hidden shadow-md hover:-translate-y-2 hover:shadow-xl cursor-pointer">
+                {blog.mainImage?.asset && (
+                  <img
+                    src={urlFor(blog.mainImage).width(600).height(400).url()}
+                    alt={blog.title}
+                    className="w-full h-48 object-cover"
+                  />
+                )}
+                <div className="p-4">
+                  <h3 className="text-xl font-bold mb-2 font-thin">{blog.title}</h3>
+                  {blog.excerpt && (
+                      <p className="text-[#9AA0A6] font-medium mb-4">
+                          {blog.excerpt}
+                      </p>
+                  )}
+                  {blog.publishedAt && (
+                    <p className="text-[#4C9DFE] text-sm text-gray-500 mb-3">
+                      {new Date(blog.publishedAt).toLocaleDateString()}
                     </p>
-                )}
-                {blog.publishedAt && (
-                  <p className="text-[#4C9DFE] text-sm text-gray-500 mb-3">
-                    {new Date(blog.publishedAt).toLocaleDateString()}
-                  </p>
-                )}
-                
-
+                  )}
+              
+                </div>
               </div>
-            </div>
+            </Link>
           ))
         )}
       </div>

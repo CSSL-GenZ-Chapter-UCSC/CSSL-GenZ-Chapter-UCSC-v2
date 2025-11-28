@@ -7,7 +7,9 @@ export type Blog = {
   author?: { name: string };
   excerpt?: string;
   publishedAt?: string;
+  content:string;
   category: string;
+  subtopicDescription: string;
 };
 
 export async function getBlogs(category?: string): Promise<Blog[]> {
@@ -42,3 +44,10 @@ export async function getBlogs(category?: string): Promise<Blog[]> {
   
   return result;
 }
+
+export const getBlogById = async (id: string) => {
+  const query = `*[_type == "blog" && _id == $id][0]`;
+  const params = { id };
+  const blog = await client.fetch(query, params);
+  return blog;
+};
