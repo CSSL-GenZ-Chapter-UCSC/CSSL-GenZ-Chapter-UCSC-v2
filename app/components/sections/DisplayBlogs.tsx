@@ -82,7 +82,7 @@ export const DisplayBlogs = () => {
         ) : (
           blogs.map((blog) => (
             <Link href={`/blogs/${blog._id}`} key={blog._id}>
-              <div className="border overflow-hidden shadow-md hover:-translate-y-2 hover:shadow-xl cursor-pointer">
+              <div className="overflow-hidden shadow-md hover:-translate-y-2 hover:shadow-xl cursor-pointer">
                 {blog.mainImage?.asset && (
                   <img
                     src={urlFor(blog.mainImage).width(600).height(400).url()}

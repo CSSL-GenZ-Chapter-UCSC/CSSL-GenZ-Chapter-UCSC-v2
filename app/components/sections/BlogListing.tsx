@@ -11,6 +11,7 @@ import { PageTitle } from "../shared/PageTitle";
 import { Container } from "../shared/Container";
 import { getBlogs, Blog } from "@/sanity/lib/getBlogs";
 import { DisplayBlogs } from "./DisplayBlogs";
+import { Blogs } from "./Blogs";
 
 
 
@@ -39,6 +40,8 @@ export const BlogListing = () => {
             </motion.p>
           </div>     
         </div>
+
+        <Blogs />
 
         <DisplayBlogs />     
       </Container>
