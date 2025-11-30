@@ -39,31 +39,16 @@ export const member = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "bgImage",
-      title: "Background Image",
-      type: "image",
-      options: { hotspot: true },
-    }),
-    defineField({
       name: "fgImage",
       title: "Foreground Image",
       type: "image",
       options: { hotspot: true },
     }),
     defineField({
-      name: "bgClassName",
-      title: "Background Image Class",
-      type: "string",
-    }),
-    defineField({
-      name: "fgClassName",
-      title: "Foreground Image Class",
-      type: "string",
-    }),
-    defineField({
-      name: "cardClassName",
-      title: "Card Container Class",
-      type: "string",
+      name: "linkedin",
+      title: "LinkedIn URL",
+      type: "url",
+      validation: (Rule) => Rule.uri({ scheme: ["http", "https"] }),
     }),
     defineField({
       name: "order",
