@@ -275,18 +275,26 @@ export const Blogs = () => {
           {blogs.map((blog, index) => (
             <motion.div
               key={index}
-              className="absolute h-full"
+              className={`absolute h-full ${activeIndex === index ? "cursor-pointer" : ""}`}
               initial={false}
               animate={getStyle(index)}
               transition={{ duration: 1, ease: [0.4, 0.0, 0.2, 1] }}
             >
-              <div className="w-full h-full relative">
-                <Image
-                  src={blog.image}
-                  alt={blog.title}
-                  fill
-                  className="object-cover rounded-3xl"
+              <motion.div
+                className="w-full h-full relative group"
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                <div
+                  className={`absolute -inset-1 rounded-[27px] bg-[linear-gradient(90deg,#1E448F_0%,#4C9DFE_100%)] opacity-0 transition-opacity duration-300 ${activeIndex === index ? "group-hover:opacity-100" : ""}`}
                 />
+                <div className="relative w-full h-full rounded-3xl overflow-hidden">
+                  <Image
+                    src={blog.image}
+                    alt={blog.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
                 <AnimatePresence mode="wait">
                   {activeIndex === index && (
                     <motion.div
@@ -309,7 +317,7 @@ export const Blogs = () => {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             </motion.div>
           ))}
         </motion.div>
@@ -321,21 +329,21 @@ export const Blogs = () => {
               type="button"
               aria-label={`Go to slide ${i + 1}: ${b.title}`}
               onClick={() => setActiveIndex(i)}
-              className="p-0 m-0 bg-transparent border-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4C9DFE] rounded"
+              className="p-0 m-0 bg-transparent border-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4C9DFE] rounded flex items-center justify-center"
             >
-              {i === activeIndex ? (
-                <div className="rounded-[10px] bg-[linear-gradient(90deg,#3474F5_0%,#4C9DFE_100%)] w-[52px] h-[11px]" />
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                >
-                  <circle cx="6" cy="6" r="5.5" stroke="#9AA0A6" />
-                </svg>
-              )}
+              <motion.div
+                initial={false}
+                animate={{
+                  width: i === activeIndex ? 52 : 12,
+                  height: i === activeIndex ? 11 : 12,
+                }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className={`rounded-full box-border ${
+                  i === activeIndex
+                    ? "bg-[linear-gradient(90deg,#3474F5_0%,#4C9DFE_100%)] border-none"
+                    : "border border-[#666666] bg-[#666666]"
+                }`}
+              />
             </button>
           ))}
         </div>
@@ -347,21 +355,21 @@ export const Blogs = () => {
               type="button"
               aria-label={`Go to slide ${i + 1}: ${b.title}`}
               onClick={() => setActiveIndex(i)}
-              className="p-0 m-0 bg-transparent border-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4C9DFE] rounded"
+              className="p-0 m-0 bg-transparent border-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4C9DFE] rounded flex items-center justify-center"
             >
-              {i === activeIndex ? (
-                <div className="rounded-[10px] bg-[linear-gradient(90deg,#3474F5_0%,#4C9DFE_100%)] w-9 h-2" />
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="10"
-                  height="10"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                >
-                  <circle cx="6" cy="6" r="5.5" stroke="#9AA0A6" />
-                </svg>
-              )}
+              <motion.div
+                initial={false}
+                animate={{
+                  width: i === activeIndex ? 36 : 10,
+                  height: i === activeIndex ? 8 : 10,
+                }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className={`rounded-full box-border ${
+                  i === activeIndex
+                    ? "bg-[linear-gradient(90deg,#3474F5_0%,#4C9DFE_100%)] border-none"
+                    : "border border-[#9AA0A6] bg-transparent"
+                }`}
+              />
             </button>
           ))}
         </div>
