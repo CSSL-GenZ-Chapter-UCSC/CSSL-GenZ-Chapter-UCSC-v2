@@ -54,7 +54,7 @@ export const Gallery = () => {
 
   const smoothedEnterProgress = useSpring(enterProgress, {
     stiffness: 100,
-    damping: 20,
+    damping: 30,
     restDelta: 0.001,
   });
 
@@ -69,7 +69,13 @@ export const Gallery = () => {
       className="relative bg-black"
     >
       {/* Sticky container that stays in place */}
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <motion.div
+        initial={{ y: -100, opacity: 0, filter: "blur(8px)" }}
+        whileInView={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        viewport={{ amount: 0.5 }}
+        className="sticky top-0 h-screen overflow-hidden"
+      >
         <div className="relative h-full flex items-center">
           {/* Left Side - Stacked Images */}
           <motion.div
@@ -93,14 +99,14 @@ export const Gallery = () => {
 
           {/* Right Side - Gradient Background with Two Texts */}
           <div className="absolute right-0 top-0 w-1/2 h-full z-0">
-            {/* <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 mb-20 z-0">
               <Image
                 fill
                 src="/Images/bgImg.jpg"
                 alt="bgImage"
                 className="object-fill"
               />
-            </div> */}
+            </div>
             <div className="relative w-full h-full z-50">
               <GalleryTexts
                 text1={GALLERY_CONFIG.text1}
@@ -110,7 +116,7 @@ export const Gallery = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
@@ -150,7 +156,7 @@ const GalleryTexts = memo(
 
         {/* Text 2 - Bottom Right */}
         <div className="relative z-20 w-2/3 self-end text-right">
-          <h2 className="text-right font-poppins text-[18px] font-medium leading-[26px] text-gray-300">
+          <h2 className="text-right font-poppins text-[18px] font-medium leading-[23px] text-gray-300">
             {text2Words.map((word: string, index: number) => {
               const start = 0.5 + (index / text2Words.length) * 0.4;
               return (

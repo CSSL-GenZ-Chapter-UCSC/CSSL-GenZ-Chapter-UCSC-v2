@@ -1,5 +1,5 @@
 import { Blogs } from "./components/sections/Blogs";
-// import { Gallery } from "./components/sections/Gallery";
+import { Gallery } from "./components/sections/Gallery";
 import { Hero } from "./components/sections/Hero";
 import { Logo } from "./components/sections/Logo";
 import { Testimonial } from "./components/sections/Testimonial";
@@ -20,7 +20,7 @@ export default async function Home() {
     <main className="flex flex-col gap-20 bg-black">
       <Hero />
       <Logo />
-      {/* <Gallery /> */}
+      <Gallery />
       {/* <EventsSection events={events} /> */}
       <Blogs />
       <Testimonial />

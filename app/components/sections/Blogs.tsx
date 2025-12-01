@@ -185,7 +185,7 @@ export const Blogs = () => {
               <motion.span
                 key={`heading-word-${i}-${word}`}
                 className="inline-block will-change-transform"
-                initial={{ y: 10, opacity: 0, filter: "blur(8px)" }}
+                initial={{ y: 20, opacity: 0, filter: "blur(8px)" }}
                 whileInView={{ y: 0, opacity: 1, filter: "blur(0px)" }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 viewport={{ amount: 0.01 }}
@@ -199,7 +199,7 @@ export const Blogs = () => {
               <motion.span
                 key={`desc-word-${i}-${word}`}
                 className="inline-block will-change-transform"
-                initial={{ opacity: 0, filter: "blur(8px)", y: 10 }}
+                initial={{ opacity: 0, filter: "blur(8px)", y: 25 }}
                 whileInView={{ opacity: 1, filter: "blur(0px)", y: 0 }}
                 transition={{
                   duration: 0.3,
