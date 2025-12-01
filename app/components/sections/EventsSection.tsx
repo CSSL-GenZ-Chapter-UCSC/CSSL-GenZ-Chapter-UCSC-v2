@@ -257,26 +257,24 @@ export function EventsSection({ events }: EventsSectionProps) {
 
                             {/* Event details container (replaces old title section) */}
                             <div
-                                className={`event-details-container w-[80%] h-[18vh] flex flex-col transition-all duration-300 ${
+                                className={`event-details-container w-[80%] min-h-[18vh] max-h-[30vh] flex flex-col transition-all duration-300 ${
                                     activeEventIndex === index ? "scale-105" : "scale-100"
                                 }`}
                             >
                                 {/* Logo section - 80px height */}
-                                <div className="logo-section h-[6vh] flex items-center overflow-hidden py-2 px-2">
-                                    {event.logo ? (
+                                {event.logo && (
+                                    <div className="logo-section h-[6vh] flex items-center overflow-hidden py-2 px-2 shrink-0">
                                         <img
                                             src={event.logo}
                                             alt={`${event.title} logo`}
                                             className="h-full w-auto object-contain"
                                         />
-                                    ) : (
-                                        <div className="text-white text-xs">No Logo</div>
-                                    )}
-                                </div>
+                                    </div>
+                                )}
 
                                 {/* Title section */}
-                                <div className="title-section h-[6vh] flex items-center text-white font-bold text-[45px] font-poppins px-3 py-2 overflow-hidden">
-                                    <span className="truncate">{event.title}</span>
+                                <div className="title-section min-h-[6vh] flex items-center text-white font-bold text-[45px] font-poppins px-3 py-2 shrink-0">
+                                    <span className="leading-tight">{event.title}</span>
                                 </div>
 
                                 {/* Short Summary section - Remaining height (215px - 80px - 35px = 100px) */}
