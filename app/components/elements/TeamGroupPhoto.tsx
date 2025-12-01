@@ -20,7 +20,7 @@ export const TeamGroupPhoto = ({
         initial={{ scale: 0.9 }}
         whileInView={{ scale: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        viewport={{ amount: 0.1 }}
+        viewport={{ amount: 0.05 }}
         className="w-full h-full bg-[#163168]  ml-auto relative overflow-hidden"
       />
     );
@@ -30,10 +30,10 @@ export const TeamGroupPhoto = ({
     <div className="w-full h-full ml-auto relative overflow-hidden">
       <motion.div
         className={`w-full h-full relative bg-[#163168] ${className || ""}`}
-        initial={{ scale: 0.9 }}
-        whileInView={{ scale: 1 }}
+        initial={{ scale: 0.9, filter: "blur(8px)" }}
+        whileInView={{ scale: 1, filter: "blur(0px)" }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        viewport={{ amount: 0.1 }}
+        viewport={{ amount: 0.00001 }}
       >
         <Image
           src={src}

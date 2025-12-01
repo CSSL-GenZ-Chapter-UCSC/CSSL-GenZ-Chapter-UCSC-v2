@@ -12,11 +12,8 @@ type SanityMember = {
   role: string;
   slug: string;
   category: "president" | "executive" | "teamLead" | "teamMember";
-  bgImage?: unknown;
   fgImage?: unknown;
-  bgClassName?: string;
-  fgClassName?: string;
-  cardClassName?: string;
+  linkedin?: string;
   order?: number;
 };
 
@@ -34,11 +31,8 @@ const memberQuery = groq`*[_type == "member"] | order(category asc, order asc, n
   role,
   "slug": slug.current,
   category,
-  bgImage,
   fgImage,
-  bgClassName,
-  fgClassName,
-  cardClassName,
+  linkedin,
   order
 }`;
 
@@ -52,11 +46,8 @@ const teamQuery = groq`*[_type == "team"] | order(order asc, name asc) {
     name,
     role,
     "slug": slug.current,
-    bgImage,
     fgImage,
-    bgClassName,
-    fgClassName,
-    cardClassName,
+    linkedin,
     order
   }
 }`;
@@ -70,16 +61,10 @@ async function getMembers(): Promise<{
   const toCard = (m: SanityMember): MemberCard => ({
     name: m.name,
     role: m.role,
-    href: `/people/${m.slug}`,
-    bgSrc: m.bgImage
-      ? urlFor(m.bgImage).width(800).height(800).url()
-      : undefined,
+    href: m.linkedin || "#",
     fgSrc: m.fgImage
       ? urlFor(m.fgImage).width(800).height(800).url()
       : undefined,
-    bgClassName: m.bgClassName,
-    fgClassName: m.fgClassName,
-    cardClassName: m.cardClassName,
   });
 
   const presidents = docs
@@ -105,16 +90,10 @@ async function getTeams(): Promise<
   const toCard = (m: SanityMember): MemberCard => ({
     name: m.name,
     role: m.role,
-    href: `/people/${m.slug}`,
-    bgSrc: m.bgImage
-      ? urlFor(m.bgImage).width(800).height(800).url()
-      : undefined,
+    href: m.linkedin || "#",
     fgSrc: m.fgImage
       ? urlFor(m.fgImage).width(800).height(800).url()
       : undefined,
-    bgClassName: m.bgClassName,
-    fgClassName: m.fgClassName,
-    cardClassName: m.cardClassName,
   });
   return teams.map((t) => ({
     name: t.name,
@@ -150,7 +129,7 @@ export const Members = async () => {
           <div className="grid grid-cols-2 md:gap-5 gap-3 w-full lg:flex-[1_0_0] lg:flex lg:h-full">
             {presidents.map((m) => (
               <div
-                key={m.href}
+                key={m.name}
                 className="w-full aspect-3/4 lg:aspect-auto lg:w-1/2 lg:h-full flex"
               >
                 <MemberCardItem member={m} />
@@ -162,7 +141,7 @@ export const Members = async () => {
         <div className="grid grid-cols-2 lg:grid-cols-4 md:gap-5 gap-3 w-full self-stretch">
           {executiveCommittee.map((m) => (
             <div
-              key={m.href}
+              key={m.name}
               className="w-full aspect-3/4 lg:aspect-auto lg:h-[32vh] flex mt-10"
             >
               <MemberCardItem member={m} />
@@ -217,7 +196,7 @@ export const Members = async () => {
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 w-full">
                     {team.leads.map((m) => (
                       <div
-                        key={m.href}
+                        key={m.name}
                         className="w-full aspect-3/4 lg:aspect-auto lg:h-[32vh] flex"
                       >
                         <MemberCardItem member={m} />
