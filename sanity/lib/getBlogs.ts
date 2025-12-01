@@ -8,6 +8,7 @@ export type Blog = {
   excerpt?: string;
   publishedAt?: string;
   content:string;
+  readTime:string;
   category: string;
   subtopicDescription: string;
 };
@@ -24,7 +25,10 @@ export async function getBlogs(category?: string): Promise<Blog[]> {
       "author": author->{name},
       excerpt,
       publishedAt,
-      category
+      content,
+      readTime,
+      category,
+      subtopicDescription
     }`;
   } else {
     query = `*[_type=="blog"] | order(publishedAt desc)[0...10]{
@@ -34,7 +38,10 @@ export async function getBlogs(category?: string): Promise<Blog[]> {
       "author": author->{name},
       excerpt,
       publishedAt,
-      category
+      content,
+      readTime,
+      category,
+      subtopicDescription
     }`;
   }
 

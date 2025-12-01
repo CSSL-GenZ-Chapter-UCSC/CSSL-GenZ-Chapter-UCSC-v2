@@ -81,8 +81,8 @@ export const DisplayBlogs = () => {
           </div>
         ) : (
           blogs.map((blog) => (
-            <Link href={`/blogs/${blog._id}`} key={blog._id}>
-              <div className="overflow-hidden shadow-md hover:-translate-y-2 hover:shadow-xl cursor-pointer">
+            <Link href={`/blogs/${blog._id}`} key={blog._id} className="">
+              <div className="overflow-hidden shadow-md hover:-translate-y-2 hover:shadow-xl cursor-pointer flex flex-col h-full">
                 {blog.mainImage?.asset && (
                   <img
                     src={urlFor(blog.mainImage).width(600).height(400).url()}
@@ -90,19 +90,23 @@ export const DisplayBlogs = () => {
                     className="w-full h-48 object-cover"
                   />
                 )}
-                <div className="p-4">
-                  <h3 className="text-xl font-bold mb-2 font-thin">{blog.title}</h3>
-                  {blog.excerpt && (
+                <div className="p-4 flex flex-col justify-between flex-1">
+                  <div>
+                    <h3 className="text-xl font-bold mb-2 font-thin">{blog.title}</h3>
+                    {blog.excerpt && (
                       <p className="text-[#9AA0A6] font-medium mb-4">
-                          {blog.excerpt}
+                        {blog.excerpt}
                       </p>
-                  )}
-                  {blog.publishedAt && (
-                    <p className="text-[#4C9DFE] text-sm text-gray-500 mb-3">
-                      {new Date(blog.publishedAt).toLocaleDateString()}
-                    </p>
-                  )}
-              
+                    )}
+                  </div>
+                  <div className="flex justify-between mt-auto text-[#4C9DFE]">
+                    {blog.publishedAt && (
+                      <p>{new Date(blog.publishedAt).toLocaleDateString()}</p>
+                    )}
+                    {blog.category && (
+                      <p className="-mt-1">{blog.category}</p>
+                    )}
+                  </div>
                 </div>
               </div>
             </Link>

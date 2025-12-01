@@ -52,6 +52,11 @@ export const blog = defineType({
       rows: 10,
     }),
     defineField({
+      name: 'readTime',
+      title: 'Read Time',
+      type: 'string'
+    }),
+    defineField({
       name: "category",
       title: "Category",
       type: "string",

@@ -11,7 +11,7 @@ import { PageTitle } from "../shared/PageTitle";
 import { Container } from "../shared/Container";
 import { getBlogs, Blog } from "@/sanity/lib/getBlogs";
 import { DisplayBlogs } from "./DisplayBlogs";
-import { Blogs } from "./Blogs";
+import { BlogsAnimation } from "./BlogsAnimations";
 
 
 
@@ -24,7 +24,7 @@ export const BlogListing = () => {
   return (
     <section className="h- flex items-start justify-center bg-black text-white sm:pt-30 pt-20">
       <Container className="h-full pb-20">
-        <div className="mb-20 w-full h-full flex flex-col sm:items-stretch ">
+        <div className="lg:-mb-790 w-full h-full flex flex-col sm:items-stretch ">
           <PageTitle
               text="BLOGS"
               className="lg:text-[213px] md:text-[125px] sm:text-[100px] text-[60px]"
@@ -41,7 +41,7 @@ export const BlogListing = () => {
           </div>     
         </div>
 
-        <Blogs />
+        <BlogsAnimation />
 
         <DisplayBlogs />     
       </Container>
