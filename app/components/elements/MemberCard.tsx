@@ -52,7 +52,7 @@ export const MemberCardItem = ({ member }: { member: MemberCardProps }) => {
               src={member.fgSrc}
               alt={member.name}
               fill
-              className={`object-cover object-[center_15%] absolute inset-0 ${member.className || ""}`}
+              className={`object-cover object-[center_15%] scale-110 absolute inset-0 ${member.className || ""}`}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
             />
           ) : null}

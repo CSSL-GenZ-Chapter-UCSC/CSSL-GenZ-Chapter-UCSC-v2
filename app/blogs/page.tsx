@@ -1,6 +1,4 @@
 import { BlogListing } from "../components/sections/BlogListing";
-import {DynamicButtons} from "../components/sections/DynamicButtons";
-
 
 export const metadata = {
   title: "Blogs",
@@ -8,12 +6,10 @@ export const metadata = {
   keywords: "",
 };
 
-export default function ContactUsPage() {
+export default function BlogsPage() {
   return (
     <main className="flex flex-col">
-      
       <BlogListing />
-             
     </main>
   );
 }

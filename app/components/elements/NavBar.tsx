@@ -41,6 +41,7 @@ export const Navbar = () => {
     { href: "/about", label: "About Us" },
     { href: "/whatWeDo", label: "What We Do" },
     { href: "/events", label: "Events" },
+    { href: "/blogs", label: "Blogs" },
     { href: "/people", label: "People" },
     { href: "/contact", label: "Contact Us" },
   ];
