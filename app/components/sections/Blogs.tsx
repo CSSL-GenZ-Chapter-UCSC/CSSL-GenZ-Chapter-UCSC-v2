@@ -64,7 +64,7 @@ export const Blogs = () => {
         scale: 1,
         x: 0,
         zIndex: 30,
-        filter: "brightness(1)",
+        filter: "brightness(1) blur(0px)",
         opacity: 1,
       };
     } else if (relativeIndex === blogs.length - 1) {
@@ -76,7 +76,7 @@ export const Blogs = () => {
         zIndex: 50,
         width: "50%",
         height: "100%",
-        filter: "brightness(0)",
+        filter: "brightness(0) blur(8px)",
       };
     } else if (relativeIndex === 1) {
       // Next slide
@@ -86,7 +86,7 @@ export const Blogs = () => {
         scale: 1.2,
         x: "125%",
         zIndex: 20,
-        filter: "brightness(0.15)",
+        filter: "brightness(0.15) blur(8px)",
         opacity: 1,
       };
     } else if (relativeIndex === 2) {
@@ -97,7 +97,7 @@ export const Blogs = () => {
         scale: 1,
         x: "175%",
         zIndex: 10,
-        filter: "brightness(0.1)",
+        filter: "brightness(0.1) blur(8px)",
         opacity: 1,
       };
     } else {
@@ -109,7 +109,7 @@ export const Blogs = () => {
         scale: 0.5,
         x: "300%",
         zIndex: 0,
-        filter: "brightness(0)",
+        filter: "brightness(0) blur(8px)",
       };
     }
   };
@@ -126,7 +126,7 @@ export const Blogs = () => {
         scale: 1,
         y: 0,
         zIndex: 30,
-        filter: "brightness(1)",
+        filter: "brightness(1) blur(0px)",
         opacity: 1,
       } as const;
     } else if (relativeIndex === blogs.length - 1) {
@@ -138,7 +138,7 @@ export const Blogs = () => {
         zIndex: 50,
         width: "100%",
         height: "100%",
-        filter: "brightness(0)",
+        filter: "brightness(0) blur(8px)",
       } as const;
     } else if (relativeIndex === 1) {
       // Next slide (peeking below)
@@ -171,7 +171,7 @@ export const Blogs = () => {
         scale: 0.5,
         y: "300%",
         zIndex: 0,
-        filter: "brightness(0)",
+        filter: "brightness(0) blur(8px)",
       } as const;
     }
   };
