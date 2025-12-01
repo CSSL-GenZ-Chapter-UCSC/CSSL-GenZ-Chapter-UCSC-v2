@@ -6,7 +6,7 @@ export type Blog = {
   mainImage?: { asset: { _ref: string } };
   author?: { name: string };
   excerpt?: string;
-  publishedAt?: string;
+  publishedAt: string;
   content:string;
   readTime:string;
   category: string;

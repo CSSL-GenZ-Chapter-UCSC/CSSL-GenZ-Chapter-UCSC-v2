@@ -4,7 +4,7 @@ import { Button } from "../shared/Button";
 import { Container } from "../shared/Container";
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useMemo, useState } from "react";
-import { getBlogs, type Blog } from "@/sanity/lib/getBlogs";
+import { getBlogById, getBlogs, type Blog } from "@/sanity/lib/getBlogs";
 import { urlFor } from "@/sanity/lib/image";
 
 
@@ -278,12 +278,12 @@ export const BlogsAnimation = () => {
                         <p className="mt-7 text-[#9AA0A6] font-poppins text-[18px] font-normal leading-normal">
                             {blog.excerpt}
                         </p>
-                        <p className="text-red font-poppins text-[18px] font-normal leading-normal">
+                        <p className="mt-7 text-[#007FFF] font-poppins text-[18px] font-normal leading-normal">
                                 {blog.category}
                         </p>
                         <div className="mt-7 flex flex-row gap-13">
-                            <p className="text-[#0080FF] font-poppins text-[15px] font-normal leading-normal">
-                                By {blog.author?.name || "Unknown"}
+                            <p className="font-poppins text-[15px] font-normal leading-normal">
+                                By <span className="text-[#0080FF] ml-3 mr-1">{String(blog?.author || "Unknown")}</span>
                             </p>
                             <p className="text-[#9AA0A6] font-poppins text-[15px] font-normal leading-normal">
                                 {blog.readTime}.
