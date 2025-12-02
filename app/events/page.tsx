@@ -18,7 +18,7 @@ export default async function EventsPageSanity() {
   return (
     <main className="min-h-screen bg-black text-white font-poppins overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative py-16 md:py-32 lg:py-40 overflow-hidden">
+      <section className="relative pt-40 pb-16 md:py-32 lg:py-40 overflow-hidden">
         <Container>
           <div className="relative">
             {/* Gradient blur circle near E */}

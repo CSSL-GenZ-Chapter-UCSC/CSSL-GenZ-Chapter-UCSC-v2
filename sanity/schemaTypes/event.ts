@@ -51,33 +51,40 @@ export const event = defineType({
       type: "object",
       options: {
         collapsible: true,
-        collapsed: false,
+        collapsed: true,
       },
       fields: [
         defineField({
           name: "title",
           type: "string",
           title: "CTA Title",
+          description: "Optional heading for the CTA section",
         }),
         defineField({
           name: "description",
           type: "text",
           rows: 3,
           title: "CTA Description",
+          description: "Optional description text displayed before the button",
         }),
         defineField({
           name: "buttonText",
           type: "string",
-          title: "Button Label",
+          title: "Button Text",
+          description: "Text displayed on the CTA button (e.g., 'Register Now', 'Learn More')",
+          placeholder: "Register Now",
         }),
         defineField({
           name: "buttonLink",
           type: "url",
           title: "Button Link",
-          description: "External link or registration form",
+          description: "URL to navigate to when the button is clicked (registration form, external page, etc.)",
+          validation: (rule) => rule.uri({
+            scheme: ['http', 'https', 'mailto', 'tel']
+          }),
         }),
       ],
-      description: "Optional CTA block shown on the event detail page",
+      description: "Optional: Add a call-to-action section with customizable button text and link for registrations, external pages, etc.",
     }),
     
     // logo

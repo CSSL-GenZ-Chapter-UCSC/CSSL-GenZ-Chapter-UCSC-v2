@@ -3,6 +3,7 @@ import { Container } from "@/app/components/shared/Container";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Event } from "@/app/types/event";
+import SimilarEventsCarousel from "@/app/components/events/SimilarEventsCarousel";
 
 // Force dynamic rendering for development
 export const dynamic = 'force-dynamic';
@@ -82,7 +83,9 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
       case 1:
         return {
           gridClass: "grid-cols-1",
-          photoClasses: ["col-span-1 row-span-2 min-h-[400px]"]
+          photoClasses: ["col-span-1 row-span-2 min-h-[400px]"],
+          mobileGridClass: "grid-cols-1",
+          mobilePhotoClasses: ["col-span-1 min-h-[250px]"]
         };
       case 2:
         return {
@@ -90,6 +93,11 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
           photoClasses: [
             "col-span-1 row-span-2 min-h-[400px]",
             "col-span-1 row-span-2 min-h-[400px]"
+          ],
+          mobileGridClass: "grid-cols-2",
+          mobilePhotoClasses: [
+            "col-span-1 min-h-[180px]",
+            "col-span-1 min-h-[180px]"
           ]
         };
       case 3:
@@ -99,6 +107,12 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             "col-span-1 row-span-1 min-h-[195px]",
             "col-span-1 row-span-1 min-h-[195px]",
             "col-span-2 row-span-1 min-h-[195px]"
+          ],
+          mobileGridClass: "grid-cols-2",
+          mobilePhotoClasses: [
+            "col-span-1 min-h-[120px]",
+            "col-span-1 min-h-[120px]",
+            "col-span-2 min-h-[150px]"
           ]
         };
       case 4:
@@ -109,6 +123,13 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             "col-span-1 row-span-1 min-h-[195px]",
             "col-span-1 row-span-1 min-h-[195px]",
             "col-span-1 row-span-1 min-h-[195px]"
+          ],
+          mobileGridClass: "grid-cols-2",
+          mobilePhotoClasses: [
+            "col-span-1 min-h-[120px]",
+            "col-span-1 min-h-[120px]",
+            "col-span-1 min-h-[120px]",
+            "col-span-1 min-h-[120px]"
           ]
         };
       case 5:
@@ -120,6 +141,14 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             "col-span-1 row-span-1 min-h-[195px]",
             "col-span-1 row-span-1 min-h-[195px]",
             "col-span-2 row-span-1 min-h-[195px]"
+          ],
+          mobileGridClass: "grid-cols-2",
+          mobilePhotoClasses: [
+            "col-span-1 min-h-[120px]",
+            "col-span-1 min-h-[120px]",
+            "col-span-2 min-h-[150px]",
+            "col-span-1 min-h-[120px]",
+            "col-span-1 min-h-[120px]"
           ]
         };
       case 6:
@@ -132,6 +161,15 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             "col-span-1 row-span-1 min-h-[195px]",
             "col-span-1 row-span-1 min-h-[195px]",
             "col-span-1 row-span-1 min-h-[195px]"
+          ],
+          mobileGridClass: "grid-cols-3",
+          mobilePhotoClasses: [
+            "col-span-1 min-h-[100px]",
+            "col-span-1 min-h-[100px]",
+            "col-span-1 min-h-[100px]",
+            "col-span-1 min-h-[100px]",
+            "col-span-1 min-h-[100px]",
+            "col-span-1 min-h-[100px]"
           ]
         };
       case 7:
@@ -145,6 +183,16 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             "col-span-1 row-span-1 min-h-[195px]",
             "col-span-2 row-span-1 min-h-[195px]",
             "col-span-1 row-span-1 min-h-[195px]"
+          ],
+          mobileGridClass: "grid-cols-3",
+          mobilePhotoClasses: [
+            "col-span-2 min-h-[130px]",
+            "col-span-1 min-h-[130px]",
+            "col-span-1 min-h-[100px]",
+            "col-span-1 min-h-[100px]",
+            "col-span-1 min-h-[100px]",
+            "col-span-2 min-h-[120px]",
+            "col-span-1 min-h-[120px]"
           ]
         };
       case 8:
@@ -159,6 +207,16 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             "col-span-1 row-span-1 min-h-[195px]",
             "col-span-1 row-span-1 min-h-[195px]",
             "col-span-1 row-span-1 min-h-[195px]"
+          ],
+          mobileGridClass: "grid-cols-3",
+          mobilePhotoClasses: [
+            "col-span-1 min-h-[100px]",
+            "col-span-2 min-h-[100px]",
+            "col-span-2 min-h-[120px]",
+            "col-span-1 min-h-[120px]",
+            "col-span-1 min-h-[100px]",
+            "col-span-1 min-h-[100px]",
+            "col-span-1 min-h-[100px]"
           ]
         };
       case 9:
@@ -174,6 +232,18 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             "col-span-1 row-span-1 min-h-[195px]",
             "col-span-2 row-span-1 min-h-[195px]",
             "col-span-1 row-span-1 min-h-[195px]"
+          ],
+          mobileGridClass: "grid-cols-3",
+          mobilePhotoClasses: [
+            "col-span-2 min-h-[130px]",
+            "col-span-1 min-h-[130px]",
+            "col-span-1 min-h-[100px]",
+            "col-span-1 min-h-[100px]",
+            "col-span-1 min-h-[100px]",
+            "col-span-1 min-h-[100px]",
+            "col-span-2 min-h-[120px]",
+            "col-span-2 min-h-[120px]",
+            "col-span-1 min-h-[120px]"
           ]
         };
       case 10:
@@ -190,10 +260,27 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             "col-span-1 row-span-1 min-h-[195px]",
             "col-span-1 row-span-1 min-h-[195px]",
             "col-span-1 row-span-1 min-h-[195px]"
+          ],
+          mobileGridClass: "grid-cols-3",
+          mobilePhotoClasses: [
+            "col-span-1 min-h-[100px]",
+            "col-span-2 min-h-[100px]",
+            "col-span-2 min-h-[120px]",
+            "col-span-1 min-h-[120px]",
+            "col-span-1 min-h-[100px]",
+            "col-span-1 min-h-[100px]",
+            "col-span-1 min-h-[100px]",
+            "col-span-2 min-h-[120px]",
+            "col-span-1 min-h-[120px]"
           ]
         };
       default:
-        return { gridClass: "grid-cols-1", photoClasses: [] };
+        return { 
+          gridClass: "grid-cols-1", 
+          photoClasses: [],
+          mobileGridClass: "grid-cols-1",
+          mobilePhotoClasses: []
+        };
     }
   };
 
@@ -206,25 +293,35 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
         <Container className="relative z-10">
 
           <div className="min-h-[10vh] flex items-center mb-8">
-            <h1 className="text-[4rem] font-bold font-poppins leading-tight bg-linear-to-r from-[#0F52B4] via-[#1169EA] to-[#318AFF] bg-clip-text text-transparent">
+            <h1 className="text-[2rem] md:text-[4rem] font-bold font-poppins leading-tight bg-linear-to-r from-[#0F52B4] via-[#1169EA] to-[#318AFF] bg-clip-text text-transparent">
               {event.title}
             </h1>
           </div>
 
           {/* Event Info with Icons */}
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
-            <div className="flex items-center gap-3 text-[1.2rem]">
-              <span className="text-2xl">📅</span>
-              <span className="text-[#318AFF]">{dateDisplay}</span>
+          <div className="flex flex-col gap-3 mb-2">
+            {/* Date and Time on same line for mobile, all on same line for desktop */}
+            <div className="flex flex-wrap md:flex-nowrap items-center gap-4 md:gap-6">
+              <div className="flex items-center gap-3 text-[1rem] md:text-[1.2rem]">
+                <span className="text-xl md:text-2xl">📅</span>
+                <span className="text-[#318AFF]">{dateDisplay}</span>
+              </div>
+
+              <div className="flex items-center gap-3 text-[1rem] md:text-[1.2rem]">
+                <span className="text-xl md:text-2xl">🕐</span>
+                <span className="text-[#318AFF]">{timeDisplay}</span>
+              </div>
+
+              {/* Venue on desktop - same line */}
+              <div className="hidden md:flex items-center gap-3 text-[1.2rem]">
+                <span className="text-2xl">📍</span>
+                <span className="text-[#318AFF]">{venueDisplay}</span>
+              </div>
             </div>
 
-            <div className="flex items-center gap-3 text-[1.2rem]">
-              <span className="text-2xl">🕐</span>
-              <span className="text-[#318AFF]">{timeDisplay}</span>
-            </div>
-
-            <div className="flex items-center gap-3 text-[1.2rem]">
-              <span className="text-2xl">📍</span>
+            {/* Venue on mobile - separate line */}
+            <div className="flex md:hidden items-center gap-3 text-[1rem]">
+              <span className="text-xl">📍</span>
               <span className="text-[#318AFF]">{venueDisplay}</span>
             </div>
           </div>
@@ -274,14 +371,11 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
       {photoCount > 0 && (
         <section className="py-12 md:py-16 border-b border-white/5">
           <Container>
-            <h2 className="text-2xl md:text-3xl font-semibold mb-6 md:mb-10">
-              Event Gallery
-            </h2>
-            <div className={`grid ${galleryLayout.gridClass} grid-rows-2 gap-3 auto-rows-fr`}>
+            <div className={`grid ${galleryLayout.mobileGridClass} md:${galleryLayout.gridClass} md:grid-rows-2 gap-3 auto-rows-fr`}>
               {gallerySources.map((photo, index) => (
                 <div
                   key={index}
-                  className={`rounded-xl overflow-hidden border border-white/5 bg-white/5 ${galleryLayout.photoClasses[index] || ""}`}
+                  className={`rounded-xl overflow-hidden border border-white/5 bg-white/5 ${galleryLayout.mobilePhotoClasses[index] || ""} md:${galleryLayout.photoClasses[index] || ""}`}
                 >
                   <img
                     src={photo.url}
@@ -299,63 +393,8 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
       {similarEvents.length > 0 && (
         <section className="py-12 md:py-16">
           <Container>
-            <h2 className="text-2xl md:text-3xl font-semibold mb-6 md:mb-8">Similar Events</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-              {similarEvents.map((similarEvent) => (
-                <Link
-                  key={similarEvent._id}
-                  href={`/events/${similarEvent.slug.current}`}
-                  className="group"
-                >
-                  <div className="overflow-hidden">
-                    {/* Event Image */}
-                    {(similarEvent.mainImage?.url || similarEvent.subMainImage?.url) ? (
-                      <div className="aspect-video bg-gray-700 mb-4 rounded-lg overflow-hidden">
-                        <img
-                          src={similarEvent.mainImage?.url || similarEvent.subMainImage?.url}
-                          alt={similarEvent.mainImage?.alt || similarEvent.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    ) : (
-                      <div className="aspect-video bg-gray-700 mb-4 rounded-lg flex items-center justify-center">
-                        <span className="text-gray-500 text-sm">No Image</span>
-                      </div>
-                    )}
-                    
-                    {/* Logo if available */}
-                    {similarEvent.logo?.url && (
-                      <div className="h-8 mb-3">
-                        <img
-                          src={similarEvent.logo.url}
-                          alt={similarEvent.logo.alt || `${similarEvent.title} logo`}
-                          className="h-full w-auto object-contain"
-                        />
-                      </div>
-                    )}
-                    
-                    <h3 className="text-lg md:text-xl font-semibold mb-2 group-hover:text-blue-400 transition-colors">
-                      {similarEvent.title}
-                    </h3>
-                    
-                    <p className="text-sm text-white/60 mb-3">
-                      {formatDate(similarEvent.startDate)}
-                      {similarEvent.endDate && ` - ${formatDate(similarEvent.endDate)}`}
-                    </p>
-                    
-                    {similarEvent.shortSummary && (
-                      <p className="text-sm text-white/70 line-clamp-2 mb-3">
-                        {similarEvent.shortSummary}
-                      </p>
-                    )}
-                    
-                    <span className="text-sm text-blue-400 group-hover:text-blue-300 inline-flex items-center gap-1">
-                      View Event <span>→</span>
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            <h2 className="text-[2rem] font-poppins text-[#909090] mb-6 md:mb-8">Similar Events</h2>
+            <SimilarEventsCarousel events={similarEvents} />
           </Container>
         </section>
       )}
