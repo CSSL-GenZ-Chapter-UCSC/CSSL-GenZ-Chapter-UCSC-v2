@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Background } from "./Background";
+import {
+  motion,
+  useScroll,
+  useAnimation,
+  useMotionValueEvent,
+} from "motion/react";
+import { useRef, useEffect, useCallback } from "react";
 
 const gradient = `linear-gradient(
   80deg,
@@ -89,11 +95,49 @@ const socialLinks = [
 ];
 
 export const Footer = () => {
+  const containerRef = useRef(null);
+  const controls = useAnimation();
+  const { scrollY } = useScroll();
+
+  const checkScroll = useCallback(
+    (latest: number) => {
+      if (typeof window === "undefined") return;
+      const isBottom =
+        latest + window.innerHeight >= document.body.scrollHeight - 500;
+      if (isBottom) {
+        controls.start({ y: 0 });
+      } else {
+        controls.start({ y: 100 });
+      }
+    },
+    [controls]
+  );
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    checkScroll(latest);
+  });
+
+  // Initial check on mount and resize
+  useEffect(() => {
+    const handleResize = () => checkScroll(window.scrollY);
+    window.addEventListener("resize", handleResize);
+    checkScroll(window.scrollY);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [checkScroll]);
+
   return (
-    <footer className="sticky bottom-0 -z-10">
-      <Background />
-      <div className="w-full h-[85vh] flex items-center justify-start bg-none relative flex-col overflow-hidden">
-        <div className="w-full h-[90%] bg-black/30 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)] z-10">
+    <footer ref={containerRef} className="sticky bottom-0 -z-10">
+      <div className="fixed top-0 left-0 w-full h-full -z-10 bg-[linear-gradient(75deg,#000_-4.05%,#0F2248_74.48%,var(--darkBlue,#1E448F)_107.82%)]"></div>
+      <div className="w-full h-[70vh] flex items-center justify-start bg-none relative flex-col overflow-hidden">
+        <motion.div
+          initial={{ y: 100 }}
+          animate={controls}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="w-full h-[85%] bg-black/40 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)] z-10 hidden md:block"
+        >
+          <FooterContent />
+        </motion.div>
+        <div className="w-full h-[85%] bg-black/40 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)] z-10 block md:hidden">
           <FooterContent />
         </div>
         <div className="w-[90%] absolute sm:-bottom-70 bottom-0 flex items-center justify-center">
@@ -130,10 +174,10 @@ const FooterContent = () => {
         </Link>
       </div>
       <div className="w-full flex flex-col gap-6 md:gap-0 md:flex-row justify-between">
-        <p className="text-gray-300 text-sm sm:text-base md:text-lg">
+        <p className="text-gray-300 text-xs sm:text-base md:text-lg">
           2025 CSSL GenZ Chapter of UCSC
         </p>
-        <div className="h-auto flex flex-col md:flex-row gap-3 sm:gap-6 md:gap-10 lg:gap-20 md:max-w-[60%] items-start justify-center text-sm sm:text-base md:text-lg">
+        <div className="h-auto flex flex-col md:flex-row gap-3 sm:gap-6 md:gap-10 lg:gap-20 md:max-w-[60%] items-start justify-center text-xs sm:text-base md:text-lg">
           <p>cssl@gmail.com</p>
           <p>033 0929021</p>
           <p className="md:max-w-[33%]">
