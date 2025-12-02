@@ -156,7 +156,7 @@ export const Vision = () => {
             {visionImages.map((item, i) => (
               <div
                 key={i}
-                className={`w-1/6 h-full flex-none relative overflow-hidden ${
+                className={`sm:w-1/6 w-1/3 h-full flex-none relative overflow-hidden ${
                   item.containerClassName ?? ""
                 }`}
                 onMouseEnter={() => setHoveredIndex(i)}
