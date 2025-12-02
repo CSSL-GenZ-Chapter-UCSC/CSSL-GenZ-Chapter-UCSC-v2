@@ -23,42 +23,42 @@ export const Vision = () => {
     overlayClassName?: string;
   }[] = [
     {
-      src: "/Images/About/vision1.jpg",
+      src: "/Images/About/mission1.jpg",
       containerClassName: "",
       overlayClassName: "mix-blend-color",
       className: "scale-130",
       alt: "Vision image 1",
     },
     {
-      src: "/Images/About/vision2.jpg",
+      src: "/Images/About/mission2.jpg",
       containerClassName: "",
       overlayClassName: "mix-blend-color",
       className: "scale-130",
       alt: "Vision image 1",
     },
     {
-      src: "/Images/About/vision3.jpg",
+      src: "/Images/About/mission3.jpg",
       containerClassName: "",
       overlayClassName: "mix-blend-color",
       className: "scale-130",
       alt: "Vision image 1",
     },
     {
-      src: "/Images/About/vision4.jpg",
+      src: "/Images/About/mission4.jpg",
       containerClassName: "",
       overlayClassName: "mix-blend-color",
       className: "scale-130",
       alt: "Vision image 1",
     },
     {
-      src: "/Images/About/vision1.jpg",
+      src: "/Images/About/mission1.jpg",
       containerClassName: "",
       overlayClassName: "mix-blend-color",
       className: "scale-130",
       alt: "Vision image 1",
     },
     {
-      src: "/Images/About/vision2.jpg",
+      src: "/Images/About/mission2.jpg",
       containerClassName: "",
       overlayClassName: "mix-blend-color",
       className: "scale-130",

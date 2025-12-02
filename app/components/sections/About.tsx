@@ -50,6 +50,18 @@ export const About = () => {
         "object-cover [transform:scaleX(-1)_scale(1.6)] sm:block hidden",
       alt: "About image 4",
     },
+    {
+      src: "/Images/About/img4.jpg",
+      className:
+        "object-cover [transform:scaleX(-1)_scale(1.6)] sm:block hidden",
+      alt: "About image 4",
+    },
+    {
+      src: "/Images/About/img4.jpg",
+      className:
+        "object-cover [transform:scaleX(-1)_scale(1.6)] sm:block hidden",
+      alt: "About image 4",
+    },
   ];
 
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -91,22 +103,18 @@ export const About = () => {
               and the ICT industry to shape future-ready professionals.
             </motion.p>
           </div>
-          <div className="grid grid-cols-2 gap-3 w-full mx-auto sm:max-w-none sm:flex sm:justify-between sm:items-end sm:self-stretch sm:flex-1">
+          <div className="grid grid-cols-2 gap-4 w-full mx-auto sm:max-w-none sm:flex sm:justify-between sm:items-end sm:self-stretch sm:flex-1">
             {aboutImages.map((img, i) => (
               <div
                 key={i}
                 onMouseEnter={() => setHoveredIndex(i)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                className={`relative bg-gray-500 overflow-hidden transition-all duration-300 ease-out w-full aspect-square sm:aspect-auto ${
-                  // Hide the first two and last two tiles below sm to avoid empty boxes
-                  i === 0 || i === 1 || i === 6 || i === 7
-                    ? "hidden sm:block"
-                    : "block"
+                className={`relative bg-gray-500 overflow-hidden transition-all duration-300 ease-out aspect-square ${
+                  // Show only the middle 4 images (indices 2, 3, 4, 5) on mobile
+                  i < 2 || i > 5 ? "hidden sm:block" : "block"
                 } ${
                   // Only change wrapper size on hover for sm and up; mobile uses the grid cell size
-                  hoveredIndex === i
-                    ? "sm:w-[180px] sm:h-[180px]"
-                    : "sm:w-[150px] sm:h-[150px]"
+                  hoveredIndex === i ? "sm:w-[180px]" : "sm:w-[150px]"
                 }`}
               >
                 {img.src ? (
