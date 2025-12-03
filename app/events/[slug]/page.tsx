@@ -302,25 +302,25 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
           <div className="flex flex-col gap-3 mb-2">
             {/* Date and Time on same line for mobile, all on same line for desktop */}
             <div className="flex flex-wrap md:flex-nowrap items-center gap-4 md:gap-6">
-              <div className="flex items-center gap-3 text-[1rem] md:text-[1.2rem]">
+              <div className="flex items-center gap-3 text-[0.75rem] md:text-[1.2rem]">
                 <span className="text-xl md:text-2xl">📅</span>
                 <span className="text-[#318AFF]">{dateDisplay}</span>
               </div>
 
-              <div className="flex items-center gap-3 text-[1rem] md:text-[1.2rem]">
+              <div className="flex items-center gap-3 text-[0.75rem] md:text-[1.2rem]">
                 <span className="text-xl md:text-2xl">🕐</span>
                 <span className="text-[#318AFF]">{timeDisplay}</span>
               </div>
 
               {/* Venue on desktop - same line */}
-              <div className="hidden md:flex items-center gap-3 text-[1.2rem]">
+              <div className="hidden md:flex items-center gap-3 md:text-[1.2rem]">
                 <span className="text-2xl">📍</span>
                 <span className="text-[#318AFF]">{venueDisplay}</span>
               </div>
             </div>
 
             {/* Venue on mobile - separate line */}
-            <div className="flex md:hidden items-center gap-3 text-[1rem]">
+            <div className="flex md:hidden items-center gap-3 text-[0.75rem]">
               <span className="text-xl">📍</span>
               <span className="text-[#318AFF]">{venueDisplay}</span>
             </div>
