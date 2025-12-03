@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Event } from "@/app/types/event";
 import SimilarEventsCarousel from "@/app/components/events/SimilarEventsCarousel";
+import PhotoGalleryWithLightbox from "@/app/components/events/PhotoGalleryWithLightbox";
 
 // Force dynamic rendering for development
 export const dynamic = 'force-dynamic';
@@ -66,14 +67,10 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
     )
     .filter((text: string) => text && text.trim().length > 0);
 
-  // Collect all available photos (max 10)
-  const gallerySources = [
-    ...(event.photos || []),
-    event.mainImage,
-    event.subMainImage,
-    event.otherImage1,
-    event.otherImage2,
-  ].filter((img): img is NonNullable<typeof img> => Boolean(img?.url)).slice(0, 10);
+  // Collect photos from the dedicated photos array only (max 10)
+  const gallerySources = (event.photos || []).filter(
+    (img): img is NonNullable<typeof img> => Boolean(img?.url)
+  ).slice(0, 10);
 
   const photoCount = gallerySources.length;
 
@@ -371,20 +368,13 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
       {photoCount > 0 && (
         <section className="py-12 md:py-16 border-b border-white/5">
           <Container>
-            <div className={`grid ${galleryLayout.mobileGridClass} md:${galleryLayout.gridClass} md:grid-rows-2 gap-3 auto-rows-fr`}>
-              {gallerySources.map((photo, index) => (
-                <div
-                  key={index}
-                  className={`rounded-xl overflow-hidden border border-white/5 bg-white/5 ${galleryLayout.mobilePhotoClasses[index] || ""} md:${galleryLayout.photoClasses[index] || ""}`}
-                >
-                  <img
-                    src={photo.url}
-                    alt={photo.alt || `Event photo ${index + 1}`}
-                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-                  />
-                </div>
-              ))}
-            </div>
+            <PhotoGalleryWithLightbox
+              photos={gallerySources}
+              mobileGridClass={galleryLayout.mobileGridClass}
+              gridClass={galleryLayout.gridClass}
+              mobilePhotoClasses={galleryLayout.mobilePhotoClasses}
+              photoClasses={galleryLayout.photoClasses}
+            />
           </Container>
         </section>
       )}

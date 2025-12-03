@@ -142,8 +142,14 @@ export const GET_EVENT_SLUGS_QUERY = `*[_type == "event" && defined(slug.current
   "slug": slug.current
 }`;
 
-// Get similar events (exclude current event, same time period, limit to 3)
-export const GET_SIMILAR_EVENTS_QUERY = `*[_type == "event" && _id != $eventId && is_shown == true] | order(startDate desc)[0...3]{
+// Get similar events (exclude current event, within 6 months time range, limit to 3)
+export const GET_SIMILAR_EVENTS_QUERY = `*[
+  _type == "event" && 
+  _id != $eventId && 
+  is_shown == true &&
+  startDate >= $minDate &&
+  startDate <= $maxDate
+] | order(startDate desc)[0...3]{
   _id,
   title,
   slug,
