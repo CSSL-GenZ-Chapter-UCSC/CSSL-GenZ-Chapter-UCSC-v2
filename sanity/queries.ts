@@ -142,14 +142,12 @@ export const GET_EVENT_SLUGS_QUERY = `*[_type == "event" && defined(slug.current
   "slug": slug.current
 }`;
 
-// Get similar events (exclude current event, within 6 months time range, limit to 3)
+// Get similar events (only events that have featuredAfter pointing to current event)
 export const GET_SIMILAR_EVENTS_QUERY = `*[
   _type == "event" && 
-  _id != $eventId && 
   is_shown == true &&
-  startDate >= $minDate &&
-  startDate <= $maxDate
-] | order(startDate desc)[0...3]{
+  featuredAfter._ref == $eventId
+] | order(startDate asc)[0...3]{
   _id,
   title,
   slug,

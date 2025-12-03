@@ -87,31 +87,11 @@ export async function getEventBySlug(slug: string): Promise<Event | null> {
 
 /**
  * Fetch similar events (server-side)
- * Returns events within ±6 months of the given event
+ * Returns events that have featuredAfter pointing to the current event
  */
 export async function getSimilarEvents(eventId: string): Promise<Event[]> {
   try {
-    // First get the current event to find its date
-    const currentEvent = await client.fetch(
-      `*[_type == "event" && _id == $eventId][0]{ startDate }`,
-      { eventId }
-    );
-    
-    if (!currentEvent?.startDate) {
-      return [];
-    }
-
-    const eventDate = new Date(currentEvent.startDate);
-    const sixMonthsBefore = new Date(eventDate);
-    sixMonthsBefore.setMonth(eventDate.getMonth() - 6);
-    const sixMonthsAfter = new Date(eventDate);
-    sixMonthsAfter.setMonth(eventDate.getMonth() + 6);
-
-    const events = await client.fetch(GET_SIMILAR_EVENTS_QUERY, { 
-      eventId,
-      minDate: sixMonthsBefore.toISOString(),
-      maxDate: sixMonthsAfter.toISOString()
-    });
+    const events = await client.fetch(GET_SIMILAR_EVENTS_QUERY, { eventId });
     return events;
   } catch (error) {
     console.error(`Error fetching similar events for ${eventId}:`, error);
