@@ -14,8 +14,7 @@ const ACTIVATION_THRESHOLD = 350;
 
 export function EventsSection({ events }: EventsSectionProps) {
     const [activeEventIndex, setActiveEventIndex] = useState(0);
-    const [isSticky, setIsSticky] = useState(false);
-    const [hasScrolledPast, setHasScrolledPast] = useState(false);
+    const [pinHeight, setPinHeight] = useState<number>(0);
 
     const sectionWrapperRef = useRef<HTMLDivElement>(null);
     const blueContainerRef = useRef<HTMLDivElement>(null);
@@ -62,45 +61,30 @@ export function EventsSection({ events }: EventsSectionProps) {
         };
     });
 
-    // Intersection Observer to control sticky behavior
+    // Measure scrollable content height so sticky container can release naturally when done
     useEffect(() => {
-        const wrapper = sectionWrapperRef.current;
-        if (!wrapper) return;
+        const measure = () => {
+            const sc = scrollableContentRef.current;
+            if (!sc) return;
+            setPinHeight(sc.scrollHeight);
+        };
 
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    const rect = entry.boundingClientRect;
-                    
-                    // Section should be sticky when it reaches the top of viewport
-                    if (rect.top <= 0 && rect.bottom > window.innerHeight) {
-                        setIsSticky(true);
-                        setHasScrolledPast(false);
-                    } 
-                    // Section has been scrolled past completely
-                    else if (rect.bottom <= window.innerHeight && rect.top < 0) {
-                        setIsSticky(false);
-                        setHasScrolledPast(true);
-                    }
-                    // Section hasn't reached top yet
-                    else if (rect.top > 0) {
-                        setIsSticky(false);
-                        setHasScrolledPast(false);
-                    }
-                });
-            },
-            {
-                threshold: Array.from({ length: 101 }, (_, i) => i / 100),
-                rootMargin: "0px",
-            }
-        );
+        const raf = requestAnimationFrame(measure);
 
-        observer.observe(wrapper);
+        const sc = scrollableContentRef.current;
+        let ro: ResizeObserver | undefined;
+        if (sc && 'ResizeObserver' in window) {
+            ro = new ResizeObserver(() => measure());
+            ro.observe(sc);
+        }
+        window.addEventListener('resize', measure);
 
         return () => {
-            observer.disconnect();
+            cancelAnimationFrame(raf);
+            window.removeEventListener('resize', measure);
+            ro?.disconnect();
         };
-    }, []);
+    }, [events.length]);
 
     useEffect(() => {
         function handleWheel(e: WheelEvent) {
@@ -210,7 +194,7 @@ export function EventsSection({ events }: EventsSectionProps) {
     if (EVENTS_DATA.length === 0) {
         return (
             <Container className="relative z-10 py-16 lg:py-20">
-                <div className="bg-linear-to-br from-[#000000] via-[#0F2248] to-[#1E448F] h-[100vh] flex items-center justify-center rounded-lg overflow-hidden">
+                <div className="bg-linear-to-br from-[#000000] via-[#0F2248] to-[#1E448F] h-screen flex items-center justify-center rounded-lg overflow-hidden">
                     <div className="text-center text-white">
                         <h3 className="text-2xl font-semibold mb-2">No Events Available</h3>
                         <p className="text-white/60">Please add events in Sanity Studio to display them here.</p>
@@ -223,15 +207,16 @@ export function EventsSection({ events }: EventsSectionProps) {
     return (
         <main 
             ref={sectionWrapperRef}
-            className={`${isSticky && !hasScrolledPast ? 'sticky' : 'relative'} top-0 h-[100vh]`}
+            className="relative"
+            style={{ height: pinHeight ? `${pinHeight}px` : '100vh' }}
         >
             <div
-                className="bg-linear-to-br from-[#000000] via-[#0F2248] to-[#1E448F] h-[100vh] flex rounded-lg overflow-hidden"
+                className="bg-linear-to-br from-[#000000] via-[#0F2248] to-[#1E448F] sticky top-0 h-screen flex rounded-lg overflow-hidden"
                 ref={blueContainerRef}
             >
                 {/* LEFT SECTION: Event cards */}
                 <div
-                    className="w-[53%] flex flex-col h-[100vh] overflow-y-auto scrollbar-hide"
+                    className="w-[53%] flex flex-col h-screen overflow-y-auto scrollbar-hide"
                     ref={scrollableContentRef}
                     id="scrollable-container"
                 >
@@ -257,26 +242,24 @@ export function EventsSection({ events }: EventsSectionProps) {
 
                             {/* Event details container (replaces old title section) */}
                             <div
-                                className={`event-details-container w-[80%] h-[18vh] flex flex-col transition-all duration-300 ${
+                                className={`event-details-container w-[80%] min-h-[18vh] max-h-[30vh] flex flex-col transition-all duration-300 ${
                                     activeEventIndex === index ? "scale-105" : "scale-100"
                                 }`}
                             >
                                 {/* Logo section - 80px height */}
-                                <div className="logo-section h-[6vh] flex items-center overflow-hidden py-2 px-2">
-                                    {event.logo ? (
+                                {event.logo && (
+                                    <div className="logo-section h-[6vh] flex items-center overflow-hidden py-2 px-2 shrink-0">
                                         <img
                                             src={event.logo}
                                             alt={`${event.title} logo`}
                                             className="h-full w-auto object-contain"
                                         />
-                                    ) : (
-                                        <div className="text-white text-xs">No Logo</div>
-                                    )}
-                                </div>
+                                    </div>
+                                )}
 
                                 {/* Title section */}
-                                <div className="title-section h-[6vh] flex items-center text-white font-bold text-[45px] font-poppins px-3 py-2 overflow-hidden">
-                                    <span className="truncate">{event.title}</span>
+                                <div className="title-section min-h-[6vh] flex items-center text-white font-bold text-[45px] font-poppins px-3 py-2 shrink-0">
+                                    <span className="leading-tight">{event.title}</span>
                                 </div>
 
                                 {/* Short Summary section - Remaining height (215px - 80px - 35px = 100px) */}
@@ -300,7 +283,7 @@ export function EventsSection({ events }: EventsSectionProps) {
 
                 {/* RIGHT SECTION: Event photos */}
                 <div
-                    className="grid grid-rows-4 grid-cols-2 gap-1.5 h-[100vh] w-[47%] p-3"
+                    className="grid grid-rows-4 grid-cols-2 gap-1.5 h-screen w-[47%] p-3"
                     id="photos-section"
                 >
                     {getActiveImages()
