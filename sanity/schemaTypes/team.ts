@@ -37,12 +37,6 @@ export const team = defineType({
       of: [{ type: "reference", to: [{ type: "member" }] }],
     }),
     defineField({
-      name: "members",
-      title: "Members",
-      type: "array",
-      of: [{ type: "reference", to: [{ type: "member" }] }],
-    }),
-    defineField({
       name: "order",
       title: "Order",
       type: "number",

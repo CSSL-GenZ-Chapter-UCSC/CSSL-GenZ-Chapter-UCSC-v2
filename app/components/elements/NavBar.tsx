@@ -13,11 +13,6 @@ export const Navbar = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname();
 
-  // Hide navbar on studio routes
-  if (pathname?.startsWith('/studio')) {
-    return null;
-  }
-
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > lastScrollY) {
@@ -36,11 +31,17 @@ export const Navbar = () => {
     };
   }, [lastScrollY]);
 
+  // Hide navbar on studio routes
+  if (pathname?.startsWith("/studio")) {
+    return null;
+  }
+
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About Us" },
     { href: "/whatWeDo", label: "What We Do" },
     { href: "/events", label: "Events" },
+    { href: "/blogs", label: "Blogs" },
     { href: "/people", label: "People" },
     { href: "/contact", label: "Contact Us" },
   ];
@@ -61,8 +62,8 @@ export const Navbar = () => {
             <Image
               src="/CSSL Logo final - white.png"
               alt="CSSL Logo"
-              width={120}
-              height={50}
+              width={80}
+              height={30}
             />
           </Link>
 

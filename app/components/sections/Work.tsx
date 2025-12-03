@@ -55,7 +55,7 @@ export const Work = () => {
     >
       <WorkActivities />
       <div className="h-screen sticky top-0 flex items-center justify-center overflow-hidden w-full">
-        <motion.h2 className="text-(--lightBlue,#318AFF) font-poppins text-[179px] font-[550] leading-none flex items-center justify-center gap-[8.95px]">
+        <motion.h2 className="text-(--lightBlue,#318AFF) font-poppins text-[40px] md:text-[100px] lg:text-[179px] font-[550] leading-none flex items-center justify-center gap-[2.5px] md:gap-[5px] lg:gap-[8.95px]">
           {currentLetters.map((char, i) => {
             const p = Math.max(
               0,
@@ -66,8 +66,7 @@ export const Work = () => {
             return (
               <span
                 key={`slot-${i}`}
-                className="relative block overflow-hidden items-end"
-                style={{ width: "1em", height: "1em" }}
+                className="relative block overflow-hidden items-end w-[1em] h-[1em]"
               >
                 <motion.span
                   aria-hidden
@@ -117,14 +116,14 @@ const WorkActivities = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <div className="absolute w-[95%] h-[95%] z-20">
+    <div className="absolute w-[95%] sm:h-[95%] h-[99%] z-20">
       <div className="relative w-full h-full">
         {/* 1 */}
         <motion.div
           initial={{ opacity: 0, filter: "blur(8px)" }}
           animate={{ opacity: 1, filter: "blur(0px)" }}
           transition={{ duration: 0.35, ease: "easeOut", delay: 0.3 }}
-          className="absolute w-[500px] h-80 top-0 left-0 overflow-hidden"
+          className="absolute w-[200px] h-30 md:w-[500px] md:h-80 top-[2%] md:top-0 left-0 overflow-hidden"
           onMouseEnter={() => setHoveredIndex(0)}
           onMouseLeave={() => setHoveredIndex(null)}
         >
@@ -133,7 +132,7 @@ const WorkActivities = () => {
             alt={imgAt(0).alt}
             fill
             className={`object-cover transition-all duration-200 brightness-80 ${hoveredIndex === 0 ? "grayscale-0" : "grayscale"}`}
-            sizes="(max-width: 768px) 80vw, 500px"
+            sizes="(max-width: 768px) 200px, 500px"
             priority
           />
           <div
@@ -145,8 +144,8 @@ const WorkActivities = () => {
           initial={{ opacity: 0, filter: "blur(8px)" }}
           animate={{ opacity: 1, filter: "blur(0px)" }}
           transition={{ duration: 0.35, ease: "easeOut", delay: 0.45 }}
-          className="absolute w-[366px] text-white font-poppins text-[22px] font-normal 
-      leading-[26.2px] tracking-[1.1px] top-15 left-[45%]"
+          className="absolute w-[90%] md:w-[366px] text-white font-poppins text-[18px] md:text-[22px] font-medium
+      leading-[23.2px] tracking-[1.1px] top-[7%] left-[5%] md:top-15 md:left-[45%]"
         >
           Connecting with Industry Professionals and Investors through the main
           body of CSSL
@@ -156,7 +155,7 @@ const WorkActivities = () => {
           initial={{ opacity: 0, filter: "blur(8px)" }}
           animate={{ opacity: 1, filter: "blur(0px)" }}
           transition={{ duration: 0.35, ease: "easeOut", delay: 0.6 }}
-          className="absolute w-[106px] h-[106px] top-40 right-0 overflow-hidden"
+          className="absolute w-[106px] h-[106px] top-40 right-0 overflow-hidden hidden md:block"
           onMouseEnter={() => setHoveredIndex(1)}
           onMouseLeave={() => setHoveredIndex(null)}
         >
@@ -172,7 +171,7 @@ const WorkActivities = () => {
           ></div>
         </motion.div>
       </div>
-      <p className="flex absolute left-[65%] top-[13%] w-[310px] h-60 flex-col justify-center shrink-0 text-white font-poppins text-[16px] font-light leading-[22.2px] tracking-[0.8px]">
+      <p className="flex absolute left-[5%] md:left-[65%] top-[12%] md:top-[13%] w-[90%] md:w-[310px] h-auto md:h-60 flex-col justify-center shrink-0 text-white font-poppins text-[13px] md:text-[16px] font-light leading-[22.2px] tracking-[0.8px]">
         Through our affiliation with the main Computer Society of Sri Lanka
         (CSSL), students gain exclusive access to industry leaders, experts, and
         potential investors. We create opportunities for undergraduates to
@@ -181,7 +180,7 @@ const WorkActivities = () => {
       </p>
       {/* 3 */}
       <div
-        className="absolute w-[171px] h-[171px] left-[15%] top-[17%] overflow-hidden"
+        className="absolute w-[120px] h-[120px] md:w-[171px] md:h-[171px] left-[50%] md:left-[15%] top-[15%] md:top-[17%] md:block hidden overflow-hidden"
         onMouseEnter={() => setHoveredIndex(2)}
         onMouseLeave={() => setHoveredIndex(null)}
       >
@@ -190,7 +189,7 @@ const WorkActivities = () => {
           alt={imgAt(2).alt}
           fill
           className={`object-cover transition-all duration-200 brightness-80 ${hoveredIndex === 2 ? "grayscale-0" : "grayscale"}`}
-          sizes="171px"
+          sizes="(max-width: 768px) 120px, 171px"
         />
         <div
           className={`absolute w-full h-full bg-[#133769] mix-blend-color z-10 ${hoveredIndex === 2 ? "opacity-0" : "opacity-100"} transition-opacity duration-200`}
@@ -198,7 +197,7 @@ const WorkActivities = () => {
       </div>
       {/* 4 */}
       <div
-        className="absolute w-[300px] h-60 top-[25%] right-0 overflow-hidden"
+        className="absolute w-[200px] h-40 md:w-[300px] md:h-60 top-[21%] md:top-[25%] right-0 overflow-hidden"
         onMouseEnter={() => setHoveredIndex(3)}
         onMouseLeave={() => setHoveredIndex(null)}
       >
@@ -207,7 +206,7 @@ const WorkActivities = () => {
           alt={imgAt(3).alt}
           fill
           className={`object-cover transition-all duration-200 brightness-80 ${hoveredIndex === 3 ? "grayscale-0" : "grayscale"}`}
-          sizes="300px"
+          sizes="(max-width: 768px) 200px, 300px"
         />
         <div
           className={`absolute w-full h-full bg-[#133769] mix-blend-color z-10 ${hoveredIndex === 3 ? "opacity-0" : "opacity-100"} transition-opacity duration-200`}
@@ -215,7 +214,7 @@ const WorkActivities = () => {
       </div>
       {/* 5 */}
       <div
-        className="absolute w-50 h-70 top-[25%] left-10 overflow-hidden"
+        className="absolute w-50 h-70 top-[25%] left-10 overflow-hidden hidden md:block"
         onMouseEnter={() => setHoveredIndex(4)}
         onMouseLeave={() => setHoveredIndex(null)}
       >
@@ -232,7 +231,7 @@ const WorkActivities = () => {
       </div>
       {/* 6 */}
       <div
-        className="absolute w-[450px] h-70 top-[30%] left-[30%] overflow-hidden"
+        className="absolute w-[300px] h-50 md:w-[450px] md:h-70 top-[25%] md:top-[30%] left-0 md:left-[30%] hidden md:block overflow-hidden"
         onMouseEnter={() => setHoveredIndex(5)}
         onMouseLeave={() => setHoveredIndex(null)}
       >
@@ -240,25 +239,25 @@ const WorkActivities = () => {
           src={imgAt(5).src}
           alt={imgAt(5).alt}
           fill
-          className={`object-cover ${hoveredIndex === 5 ? "brighteness-100" : "brightness-90"}`}
-          sizes="450px"
+          className={`object-cover brightness-90`}
+          sizes="(max-width: 768px) 300px, 450px"
         />
       </div>
-      <p className="flex absolute left-[70%] top-[35%] w-[310px] h-60 flex-col justify-center shrink-0 text-gray-100 font-poppins text-[16px] font-light leading-[22.2px] tracking-[0.8px]">
+      <p className="flex absolute left-[5%] md:left-[70%] top-[28%] md:top-[35%] w-[90%] md:w-[310px] h-auto md:h-60 flex-col justify-center shrink-0 text-gray-100 font-poppins text-[13px] md:text-[16px] font-light leading-[22.2px] tracking-[0.8px]">
         The Genz chapter brings together tech-driven, curious, and ambitious
         students across UCSC. By fostering a collaborative environment, we help
         members form strong peer networks, share ideas, exchange knowledge, and
         grow collectively within an inspiring and supportive community.
       </p>
       <h2
-        className="absolute w-[300px] text-white font-poppins text-[22px] font-normal 
-      leading-[26.2px] tracking-[1.1px] top-[40%] left-[20%]"
+        className="absolute w-[90%] md:w-[300px] text-white font-poppins text-[18px] md:text-[22px] font-normal 
+      leading-[26.2px] tracking-[1.1px] top-[35%] md:top-[40%] left-[5%] md:left-[20%]"
       >
         Engaging and Networking with like minded peers
       </h2>
       {/* 7 */}
       <div
-        className="absolute w-[206px] h-[206px] top-[45%] right-30 overflow-hidden"
+        className="absolute w-[206px] h-[206px] top-[45%] right-30 overflow-hidden hidden md:block"
         onMouseEnter={() => setHoveredIndex(6)}
         onMouseLeave={() => setHoveredIndex(null)}
       >
@@ -275,7 +274,7 @@ const WorkActivities = () => {
       </div>
       {/* 8 */}
       <div
-        className="absolute w-[550px] h-90 top-[48%] left-0 overflow-hidden"
+        className="absolute w-[300px] h-60 md:w-[550px] md:h-90 top-[40%] md:top-[48%] left-0 overflow-hidden"
         onMouseEnter={() => setHoveredIndex(7)}
         onMouseLeave={() => setHoveredIndex(null)}
       >
@@ -284,19 +283,19 @@ const WorkActivities = () => {
           alt={imgAt(7).alt}
           fill
           className={`object-cover transition-all duration-200 brightness-80 ${hoveredIndex === 7 ? "grayscale-0" : "grayscale"}`}
-          sizes="550px"
+          sizes="(max-width: 768px) 300px, 550px"
         />
         <div
           className={`absolute w-full h-full bg-[#133769] mix-blend-color z-10 ${hoveredIndex === 7 ? "opacity-0" : "opacity-100"} transition-opacity duration-200`}
         ></div>
       </div>
       <h2
-        className="absolute w-[366px] text-white font-poppins text-[22px] font-normal 
-      leading-[26.2px] tracking-[1.1px] top-[55%] left-[60%]"
+        className="absolute w-[90%] md:w-[366px] text-white font-poppins text-[18px] md:text-[22px] font-normal 
+      leading-[26.2px] tracking-[1.1px] top-[49%] md:top-[55%] left-[5%] md:left-[60%]"
       >
         Learning & Building through Hackathons, Workshops & Competitions
       </h2>
-      <p className="flex absolute left-[60%] top-[57.5%] w-[310px] h-60 flex-col justify-center shrink-0 text-gray-100 font-poppins text-[16px] font-light leading-[22.2px] tracking-[0.8px]">
+      <p className="flex absolute left-[5%] md:left-[60%] top-[53%] md:top-[57.5%] w-[90%] md:w-[310px] h-auto md:h-60 flex-col justify-center shrink-0 text-gray-100 font-poppins text-[13px] md:text-[16px] font-light leading-[22.2px] tracking-[0.8px]">
         We organize hands-on events such as hackathons, technical workshops, and
         student friendly competitions to help undergraduates stay aligned with
         emerging technologies. These experiences allow students to build
@@ -305,7 +304,7 @@ const WorkActivities = () => {
       </p>
       {/* 9 */}
       <div
-        className="absolute w-[550px] h-90 top-[57%] left-0 overflow-hidden"
+        className="absolute w-[550px] h-90 top-[57%] left-0 overflow-hidden hidden md:block"
         onMouseEnter={() => setHoveredIndex(8)}
         onMouseLeave={() => setHoveredIndex(null)}
       >
@@ -319,7 +318,7 @@ const WorkActivities = () => {
       </div>
       {/* 10 */}
       <div
-        className="absolute w-[200px] h-60 top-[65%] right-0 overflow-hidden"
+        className="absolute w-[150px] h-40 md:w-[200px] md:h-60 top-[55%] md:top-[65%] right-0 overflow-hidden md:block hidden"
         onMouseEnter={() => setHoveredIndex(9)}
         onMouseLeave={() => setHoveredIndex(null)}
       >
@@ -328,7 +327,7 @@ const WorkActivities = () => {
           alt={imgAt(9).alt}
           fill
           className={`object-cover transition-all duration-200 brightness-80 ${hoveredIndex === 9 ? "grayscale-0" : "grayscale"}`}
-          sizes="200px"
+          sizes="(max-width: 768px) 150px, 200px"
         />
         <div
           className={`absolute w-full h-full bg-[#133769] mix-blend-color z-10 ${hoveredIndex === 9 ? "opacity-0" : "opacity-100"} transition-opacity duration-200`}
@@ -336,7 +335,7 @@ const WorkActivities = () => {
       </div>
       {/* 11 */}
       <div
-        className="absolute w-[300px] h-60 top-[70%] left-30 overflow-hidden"
+        className="absolute w-[200px] h-40 md:w-[300px] md:h-60 top-[62%] md:top-[70%] right-0 md:left-30 overflow-hidden"
         onMouseEnter={() => setHoveredIndex(10)}
         onMouseLeave={() => setHoveredIndex(null)}
       >
@@ -345,19 +344,19 @@ const WorkActivities = () => {
           alt={imgAt(10).alt}
           fill
           className={`object-cover transition-all duration-200 brightness-80 ${hoveredIndex === 10 ? "grayscale-0" : "grayscale"}`}
-          sizes="300px"
+          sizes="(max-width: 768px) 200px, 300px"
         />
         <div
           className={`absolute w-full h-full bg-[#133769] mix-blend-color z-10 ${hoveredIndex === 10 ? "opacity-0" : "opacity-100"} transition-opacity duration-200`}
         ></div>
       </div>
       <h2
-        className="absolute w-[366px] text-white font-poppins text-[22px] font-normal 
-      leading-[26.2px] tracking-[1.1px] top-[75%] left-[40%]"
+        className="absolute w-[90%] md:w-[366px] text-white font-poppins text-[18px] md:text-[22px] font-normal 
+      leading-[26.2px] tracking-[1.1px] top-[69%] md:top-[75%] left-[5%] md:left-[40%]"
       >
         Learning & Building through Hackathons, Workshops & Competitions
       </h2>
-      <p className="flex absolute left-[15%] top-[78%] w-[310px] h-60 flex-col justify-center shrink-0 text-gray-100 font-poppins text-[16px] font-light leading-[22.2px] tracking-[0.8px]">
+      <p className="flex absolute left-[5%] md:left-[15%] top-[72%] md:top-[78%] w-[90%] md:w-[310px] h-auto md:h-60 flex-col justify-center shrink-0 text-gray-100 font-poppins text-[13px] md:text-[16px] font-light leading-[22.2px] tracking-[0.8px]">
         We organize hands-on events such as hackathons, technical workshops, and
         student friendly competitions to help undergraduates stay aligned with
         emerging technologies. These experiences allow students to build
@@ -366,7 +365,7 @@ const WorkActivities = () => {
       </p>
       {/* 12 */}
       <div
-        className="absolute w-[550px] h-90 top-[82%] right-0 overflow-hidden"
+        className="absolute w-[200px] h-40 md:w-[550px] md:h-90 top-[79%] md:top-[82%] right-0 overflow-hidden"
         onMouseEnter={() => setHoveredIndex(11)}
         onMouseLeave={() => setHoveredIndex(null)}
       >
@@ -374,13 +373,13 @@ const WorkActivities = () => {
           src={imgAt(11).src}
           alt={imgAt(11).alt}
           fill
-          className={`object-cover transition-all duration-200 brightness-80 ${hoveredIndex === 11 ? "grayscale-0" : "grayscale"}`}
-          sizes="550px"
+          className={`object-cover transition-all duration-200 brightness-80 grayscale`}
+          sizes="(max-width: 768px) 300px, 550px"
         />
       </div>
       {/* 13 */}
       <div
-        className="absolute w-[450px] h-60 top-[87%] left-10 overflow-hidden"
+        className="absolute w-[250px] h-40 md:w-[450px] md:h-60 top-[85%] md:top-[87%] left-0 md:left-10 overflow-hidden"
         onMouseEnter={() => setHoveredIndex(12)}
         onMouseLeave={() => setHoveredIndex(null)}
       >
@@ -389,13 +388,13 @@ const WorkActivities = () => {
           alt={imgAt(12).alt}
           fill
           className={`object-cover transition-all duration-200 brightness-80 ${hoveredIndex === 12 ? "grayscale-0" : "grayscale"}`}
-          sizes="450px"
+          sizes="(max-width: 768px) 250px, 450px"
         />
         <div
           className={`absolute w-full h-full bg-[#133769] mix-blend-color z-10 ${hoveredIndex === 12 ? "opacity-0" : "opacity-100"} transition-opacity duration-200`}
         ></div>
       </div>
-      <p className="flex absolute left-[45%] top-[97%] w-[310px] h-60 flex-col justify-center shrink-0 text-gray-100 font-poppins text-[16px] font-light leading-[22.2px] tracking-[0.8px]">
+      <p className="flex absolute left-[5%] md:left-[45%] top-[92.5%] md:top-[97%] w-[90%] md:w-[310px] h-auto md:h-60 flex-col justify-center shrink-0 text-gray-100 font-poppins text-[13px] md:text-[16px] font-light leading-[22.2px] tracking-[0.8px]">
         Our members get the chance to volunteer at flagship CSSL events from the
         National IT Conference to Tech Talks and NSSC. This involvement enables
         them to work directly with Sri Lankan ICT professionals, contribute to
@@ -404,7 +403,7 @@ const WorkActivities = () => {
       </p>
       {/* 14 */}
       <div
-        className="absolute w-[150px] h-[150px] top-[96%] right-10 overflow-hidden"
+        className="absolute w-[150px] h-[150px] top-[96%] right-10 overflow-hidden hidden md:block"
         onMouseEnter={() => setHoveredIndex(13)}
         onMouseLeave={() => setHoveredIndex(null)}
       >
@@ -420,8 +419,8 @@ const WorkActivities = () => {
         ></div>
       </div>
       <h2
-        className="absolute w-[366px] text-white font-poppins text-[22px] font-normal 
-      leading-[26.2px] tracking-[1.1px] top-[99%] left-[10%]"
+        className="absolute w-[90%] md:w-[366px] text-white font-poppins text-[18px] md:text-[22px] font-normal 
+      leading-[26.2px] tracking-[1.1px] top-[98%] md:top-[99%] left-[5%] md:left-[10%]"
       >
         Volunteering & Collaborating with National Tech Leaders
       </h2>

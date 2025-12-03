@@ -1,9 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Container } from "../shared/Container";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
+
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset: number, velocity: number) => {
+  return Math.abs(offset) * velocity;
+};
 
 interface Testimonial {
   quote: string;
@@ -12,36 +17,36 @@ interface Testimonial {
   image: string;
 }
 
+const testimonials: Testimonial[] = [
+  {
+    quote:
+      "The future of computing in Sri Lanka is bright. And it's being built right here.",
+    author: "Dr. Ajantha Athukorala",
+    position: "Director, Computer Society of Sri Lanka (CSSL)",
+    image: "/Images/About/testimonial-1.jpg",
+  },
+  {
+    quote:
+      "Innovation and technology are the driving forces behind our success and growth in the industry.",
+    author: "Dr. Chamath Keppitiyagama",
+    position: "Senior Lecturer of UCSC",
+    image: "/Images/About/testimonial-2.jpg",
+  },
+  {
+    quote:
+      "The next generation of tech leaders is emerging from this vibrant community of learners and innovators.",
+    author: "Eng. Kasun Silva",
+    position: "CTO, Tech Solutions Lanka",
+    image: "/Images/About/testimonial-3.jpg",
+  },
+];
+
 export const Testimonial = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const testimonials: Testimonial[] = [
-    {
-      quote:
-        "The future of computing in Sri Lanka is bright. And it's being built right here.",
-      author: "Dr. Ajantha Athukorala",
-      position: "Director, Computer Society of Sri Lanka (CSSL)",
-      image: "/Images/About/testimonial-1.jpg",
-    },
-    {
-      quote:
-        "Innovation and technology are the driving forces behind our success and growth in the industry.",
-      author: "Prof. Sanduni Perera",
-      position: "Head of Research, Tech Institute",
-      image: "/Images/About/testimonial-2.jpg",
-    },
-    {
-      quote:
-        "The next generation of tech leaders is emerging from this vibrant community of learners and innovators.",
-      author: "Eng. Kasun Silva",
-      position: "CTO, Tech Solutions Lanka",
-      image: "/Images/About/testimonial-3.jpg",
-    },
-  ];
-
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  };
+  }, []);
 
   const handlePrev = () => {
     setCurrentIndex(
@@ -53,14 +58,23 @@ export const Testimonial = () => {
     setCurrentIndex(index);
   };
 
+  const AUTO_SLIDE_DURATION = 3000;
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    }, AUTO_SLIDE_DURATION);
+
+    return () => clearInterval(timer);
+  }, [currentIndex]);
+
   return (
     <section className="relative min-h-screen w-full overflow-hidden py-20 md:py-32">
       {/* /* Background Gradient  */}
       <div
         className="absolute inset-0 z-0"
         style={{
-          background:
-            "linear-gradient(90deg,rgba(0, 0, 0, 1) 36%, rgba(36, 91, 163, 1) 100%)",
+          background: "#000000",
         }}
       />
 
@@ -76,7 +90,8 @@ export const Testimonial = () => {
           transition={{ duration: 0.8 }}
           className="rounded-3xl"
           style={{
-            background: "linear-gradient(135deg, #285C97, #000000)",
+            background:
+              "radial-gradient(circle at bottom right, #285C97, #000000)",
           }}
         />
 
@@ -87,7 +102,7 @@ export const Testimonial = () => {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="rounded-3xl"
           style={{
-            background: "linear-gradient(135deg, #285C97, #000000)",
+            background: "radial-gradient(circle at bottom, #285C97, #000000)",
           }}
         />
 
@@ -98,7 +113,7 @@ export const Testimonial = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="rounded-3xl"
           style={{
-            background: "linear-gradient(135deg, #285C97, #000000)",
+            background: "radial-gradient(circle at right, #285C97, #000000)",
           }}
         />
 
@@ -109,21 +124,21 @@ export const Testimonial = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="relative rounded-3xl overflow-hidden"
           style={{
-            background: "linear-gradient(135deg, #285C97, #000000)",
+            background: "radial-gradient(circle at center, #285C97, #000000)",
             boxShadow:
               "0 0 40px rgba(40, 92, 151, 0.6), 0 0 80px rgba(40, 92, 151, 0.3)",
           }}
         >
-          <AnimatePresence mode="wait">
+          <AnimatePresence>
             <motion.div
               key={currentIndex}
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -100, opacity: 0 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
+              initial={{ opacity: 0, filter: "blur(8px)" }}
+              animate={{ opacity: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, filter: "blur(8px)" }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
               className="absolute inset-0 flex items-center justify-center p-1"
             >
-              <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-white/30">
+              <div className="relative w-full h-full rounded-3xl overflow-hidden">
                 <Image
                   src={testimonials[currentIndex].image}
                   alt={testimonials[currentIndex].author}
@@ -147,7 +162,8 @@ export const Testimonial = () => {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="rounded-3xl"
           style={{
-            background: "linear-gradient(135deg, #285C97, #000000)",
+            background:
+              "radial-gradient(circle at top right, #285C97, #000000)",
           }}
         />
 
@@ -158,13 +174,27 @@ export const Testimonial = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="rounded-3xl"
           style={{
-            background: "linear-gradient(135deg, #285C97, #000000)",
+            background: "radial-gradient(circle at top, #285C97, #000000)",
           }}
         />
       </motion.div>
 
       <Container>
-        <div className="relative z-20 flex flex-col items-center justify-center min-h-[60vh]">
+        <motion.div
+          className="relative z-20 flex flex-col items-center justify-center min-h-[60vh]"
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.1}
+          onDragEnd={(e, { offset, velocity }) => {
+            const swipe = swipePower(offset.x, velocity.x);
+
+            if (swipe < -swipeConfidenceThreshold) {
+              handleNext();
+            } else if (swipe > swipeConfidenceThreshold) {
+              handlePrev();
+            }
+          }}
+        >
           {/* Header - Centered to whole section */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -182,13 +212,13 @@ export const Testimonial = () => {
 
           {/* Mobile Image - Only visible on mobile */}
           <div className="lg:hidden mb-8 w-full flex justify-center relative h-48">
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
               <motion.div
                 key={`mobile-${currentIndex}`}
-                initial={{ y: 100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -100, opacity: 0 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.1 }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
                 className="absolute w-40 h-40 sm:w-48 sm:h-48 rounded-2xl overflow-hidden border-4 border-white/20"
               >
                 <Image
@@ -219,7 +249,7 @@ export const Testimonial = () => {
                   className="space-y-8"
                 >
                   <motion.p
-                    className="text-xl md:text-2xl lg:text-3xl text-white font-light leading-relaxed text-center lg:text-left"
+                    className="text-xl md:text-2xl lg:text-2xl text-gray-300 font-light leading-relaxed mt-20 text-right lg:text-right"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
@@ -246,7 +276,7 @@ export const Testimonial = () => {
           </div>
 
           {/* Navigation Dots - Fixed position */}
-          <div className="flex items-center justify-center gap-3 mt-12 w-full">
+          <div className="flex items-center justify-center gap-3 mt-20 w-full lg:pl-[35%]">
             {testimonials.map((_, index) => (
               <button
                 key={index}
@@ -260,51 +290,7 @@ export const Testimonial = () => {
               />
             ))}
           </div>
-
-          {/* Navigation Arrows - Fixed position */}
-          <div className="hidden md:flex items-center justify-center gap-4 mt-8 w-full">
-            <button
-              onClick={handlePrev}
-              className="w-12 h-12 rounded-full border-2 border-white/30 hover:border-white/60 hover:bg-white/10 transition-all duration-300 flex items-center justify-center text-white"
-              aria-label="Previous testimonial"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 19.5L8.25 12l7.5-7.5"
-                />
-              </svg>
-            </button>
-            <button
-              onClick={handleNext}
-              className="w-12 h-12 rounded-full border-2 border-white/30 hover:border-white/60 hover:bg-white/10 transition-all duration-300 flex items-center justify-center text-white"
-              aria-label="Next testimonial"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M8.25 4.5l7.5 7.5-7.5 7.5"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
+        </motion.div>
       </Container>
     </section>
   );

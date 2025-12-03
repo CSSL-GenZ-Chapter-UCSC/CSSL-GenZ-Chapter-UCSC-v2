@@ -33,17 +33,10 @@ export const member = defineType({
           { title: "President", value: "president" },
           { title: "Executive Committee", value: "executive" },
           { title: "Team Lead", value: "teamLead" },
-          { title: "Team Member", value: "teamMember" },
         ],
         layout: "radio",
       },
       validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: "bgImage",
-      title: "Background Image",
-      type: "image",
-      options: { hotspot: true },
     }),
     defineField({
       name: "fgImage",
@@ -52,19 +45,10 @@ export const member = defineType({
       options: { hotspot: true },
     }),
     defineField({
-      name: "bgClassName",
-      title: "Background Image Class",
-      type: "string",
-    }),
-    defineField({
-      name: "fgClassName",
-      title: "Foreground Image Class",
-      type: "string",
-    }),
-    defineField({
-      name: "cardClassName",
-      title: "Card Container Class",
-      type: "string",
+      name: "linkedin",
+      title: "LinkedIn URL",
+      type: "url",
+      validation: (Rule) => Rule.uri({ scheme: ["http", "https"] }),
     }),
     defineField({
       name: "order",
