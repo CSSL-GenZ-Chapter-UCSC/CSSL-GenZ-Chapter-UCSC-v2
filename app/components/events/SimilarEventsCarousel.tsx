@@ -11,19 +11,19 @@ interface SimilarEventsCarouselProps {
 export default function SimilarEventsCarousel({ events }: SimilarEventsCarouselProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [canScrollRight, setCanScrollRight] = useState(events.length > 1);
 
   const checkScrollPosition = () => {
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollLeft(scrollLeft > 10);
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
     }
   };
 
   const scroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
-      const scrollAmount = scrollContainerRef.current.clientWidth * 0.8;
+      const scrollAmount = scrollContainerRef.current.clientWidth;
       const newScrollLeft =
         direction === "left"
           ? scrollContainerRef.current.scrollLeft - scrollAmount
@@ -43,13 +43,14 @@ export default function SimilarEventsCarousel({ events }: SimilarEventsCarouselP
       <div
         ref={scrollContainerRef}
         onScroll={checkScrollPosition}
-        className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 overflow-x-hidden"
+        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide md:grid md:grid-cols-3 gap-6 md:gap-8"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {events.map((similarEvent) => (
           <Link
             key={similarEvent._id}
             href={`/events/${similarEvent.slug.current}`}
-            className="group"
+            className="group shrink-0 w-full snap-center md:w-auto md:shrink"
           >
             <div className="overflow-hidden">
               {/* Event Image */}
