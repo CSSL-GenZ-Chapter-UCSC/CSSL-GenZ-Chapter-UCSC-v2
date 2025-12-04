@@ -20,8 +20,8 @@ export default async function Home() {
     <main className="flex flex-col gap-20 bg-black">
       <Hero />
       <Logo />
-      <Gallery />
-      <EventsSection events={events} /> 
+      {/* <Gallery /> */}
+      <EventsSection events={events} />
       <Blogs />
       <Testimonial />
     </main>
