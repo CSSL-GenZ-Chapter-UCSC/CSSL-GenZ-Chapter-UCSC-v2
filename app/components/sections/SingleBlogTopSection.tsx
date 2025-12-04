@@ -6,7 +6,7 @@ import { useRef, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { div, p } from "motion/react-client";
 
-type Props = { blog: Blog };
+
 
 export const SingleBlogTopSection = () => {
 
@@ -47,7 +47,7 @@ export const SingleBlogTopSection = () => {
  
   return(
 
-    <div className="w-screen ml-0 lg:relative lg:-ml-25 -mt-10 bg-gradient-to-r from-[#000000] to-[#0F2248] bg-gradient-to-b from-[#0F2248] to-[#000008B]relative z-10 flex items-center justify-center h-[690px] [@media(max-width:1300px)]:flex-col [@media(max-width:1300px)]:text-center [@media(max-width:1300px)]:gap-2">
+    <div className="w-screen ml-0 lg:relative lg:-ml-23 -mt-10 bg-gradient-to-r from-[#000000] to-[#0F2248] bg-gradient-to-b from-[#0F2248] to-[#000008B]relative z-10 flex items-center justify-center h-[690px] [@media(max-width:1300px)]:flex-col [@media(max-width:1300px)]:text-center [@media(max-width:1300px)]:gap-2">
       <div className="absolute inset-0 z-0 pointer-events-none">
           <LogoScroll gradient={gradient} />
       </div>

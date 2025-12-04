@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getBlogs, type Blog } from "@/sanity/lib/getBlogs";
 import { urlFor } from "@/sanity/lib/image";
 import { usePathname } from "next/navigation";
 
 
 
-type Props = { blog: Blog };
+
 
 
 
@@ -16,18 +16,17 @@ export const SingleBlogLastSection = () => {
 
   const path = usePathname();
 
-  const [blogId, setBlogId] = useState<string | null>(null);
   const [blogs, setBlogs] = useState<Blog[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   
 
-  //const pathname = usePathname();
+  const pathname = usePathname();
   
     useEffect(() => {
       
-      setLoading(true);
+      
       
       getBlogs()
         .then((data: Blog[] | null) => {

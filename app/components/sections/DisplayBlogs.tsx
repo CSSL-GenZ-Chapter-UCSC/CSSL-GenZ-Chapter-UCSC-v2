@@ -92,7 +92,7 @@ export const DisplayBlogs = () => {
                 )}
                 <div className="p-4 flex flex-col justify-between flex-1">
                   <div>
-                    <h3 className="text-xl font-bold mb-2 font-thin">{blog.title}</h3>
+                    <h3 className="text-[#9AA0A6] text-xl font-bold mb-2 font-thin">{blog.title}</h3>
                     {blog.excerpt && (
                       <p className="text-[#9AA0A6] font-medium mb-4">
                         {blog.excerpt}

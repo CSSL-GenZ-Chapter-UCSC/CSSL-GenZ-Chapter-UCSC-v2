@@ -1,14 +1,9 @@
 "use client";
 
-import { useState,useEffect } from "react";
+
 import { motion } from "motion/react";
 import { h1 } from "motion/react-client";
-import { client } from "@/sanity/lib/client";
-import Image from "next/image";
-import Link from "next/link";
-import { Button } from "../shared/Button";
 import { PageTitle } from "../shared/PageTitle";
-import { getBlogs, Blog } from "@/sanity/lib/getBlogs";
 import { DisplayBlogs } from "./DisplayBlogs";
 import { BlogsAnimation } from "./BlogsAnimations";
 
