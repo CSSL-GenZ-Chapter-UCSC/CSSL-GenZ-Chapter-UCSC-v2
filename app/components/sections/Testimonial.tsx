@@ -69,7 +69,7 @@ export const Testimonial = () => {
   }, [currentIndex]);
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden py-20 md:py-32">
+    <section className="relative min-h-screen w-full overflow-hidden py-20 md:py-32 mb-20">
       {/* /* Background Gradient  */}
       <div
         className="absolute inset-0 z-0"

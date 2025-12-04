@@ -54,6 +54,7 @@ export const MemberCardItem = ({ member }: { member: MemberCardProps }) => {
               fill
               className={`object-cover absolute inset-0 ${member.className || ""}`}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+              loading="lazy"
             />
           ) : null}
         </div>

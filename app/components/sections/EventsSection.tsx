@@ -8,6 +8,7 @@ import {
   AnimatePresence,
   useScroll,
   useMotionValueEvent,
+  useTransform,
 } from "framer-motion";
 import type { Event } from "../../types/event";
 
@@ -21,6 +22,9 @@ const SCROLL_PER_EVENT = 50; // 100vh per event
 
 export function EventsSection({ events }: EventsSectionProps) {
   const [activeEventIndex, setActiveEventIndex] = useState(0);
+  const [hoveredImageIndex, setHoveredImageIndex] = useState<number | null>(
+    null
+  );
 
   const sectionWrapperRef = useRef<HTMLDivElement>(null);
   const blueContainerRef = useRef<HTMLDivElement>(null);
@@ -75,6 +79,21 @@ export function EventsSection({ events }: EventsSectionProps) {
     target: sectionWrapperRef,
     offset: ["start start", "end end"],
   });
+
+  const { scrollYProgress: enterProgress } = useScroll({
+    target: sectionWrapperRef,
+    offset: ["start end", "start start"],
+  });
+
+  const { scrollYProgress: exitProgress } = useScroll({
+    target: sectionWrapperRef,
+    offset: ["end end", "end start"],
+  });
+
+  const width = useTransform(
+    [enterProgress, exitProgress],
+    ([enter, exit]: number[]) => `${100 - 50 * enter + 50 * exit}%`
+  );
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     // Map 0-1 to 0-(n-1)
@@ -141,13 +160,13 @@ export function EventsSection({ events }: EventsSectionProps) {
       className="relative"
       style={{ height: `${EVENTS_DATA.length * SCROLL_PER_EVENT + 100}vh` }}
     >
-      <div
+      <motion.div
         className="bg-black sticky top-0 h-screen flex rounded-lg overflow-hidden"
         ref={blueContainerRef}
       >
         {/* LEFT SECTION: Event cards */}
         <div
-          className="w-[53%] flex flex-col h-screen overflow-hidden relative"
+          className="w-[50%] flex flex-col h-screen overflow-hidden relative"
           ref={scrollableContentRef}
           id="scrollable-container"
         >
@@ -155,7 +174,7 @@ export function EventsSection({ events }: EventsSectionProps) {
             animate={{
               y: `calc(50vh - ${activeEventIndex * 55}vh - 27.5vh)`, // Center the active card (55vh height / 2 = 27.5vh)
             }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            transition={{ type: "tween", duration: 0.6, ease: "easeOut" }}
             className="absolute w-full"
           >
             {EVENTS_DATA.map((event, index) => (
@@ -195,24 +214,25 @@ export function EventsSection({ events }: EventsSectionProps) {
                         height={0}
                         sizes="100vw"
                         className="h-full w-auto object-contain brightness-0 invert"
+                        loading="lazy"
                       />
                     </div>
                   )}
 
                   {/* Title section */}
                   <motion.div
-                    className="title-section min-h-[6vh] flex items-center font-poppins px-3 shrink-0 uppercase text-[45px] font-semibold leading-normal"
+                    className="title-section min-h-[6vh] flex items-center font-poppins px-3 shrink-0 uppercase text-[40px] font-semibold leading-normal"
                     animate={{
                       color: activeEventIndex === index ? "#ffffff" : "#318AFF",
                     }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0 }}
                   >
                     <span className="leading-tight">{event.title}</span>
                   </motion.div>
 
                   {/* Short Summary section */}
                   <div
-                    className={`shortSummary-section flex-1 flex items-center font-poppins px-4 text-[17px] font-normal leading-[23px] ${
+                    className={`shortSummary-section flex-1 flex items-center font-poppins px-4 text-[15px] font-normal leading-[23px] ${
                       activeEventIndex === index
                         ? "text-[#acacac]"
                         : "text-[#318AFF]/70"
@@ -229,8 +249,9 @@ export function EventsSection({ events }: EventsSectionProps) {
         </div>
 
         {/* RIGHT SECTION: Event photos */}
-        <div
-          className="grid grid-rows-4 grid-cols-2 gap-1.5 h-screen w-[47%] p-3"
+        <motion.div
+          style={{ width }}
+          className="absolute right-0 top-0 h-full grid grid-rows-4 grid-cols-2 gap-3 p-3 z-20"
           id="photos-section"
         >
           <AnimatePresence mode="popLayout">
@@ -252,21 +273,34 @@ export function EventsSection({ events }: EventsSectionProps) {
                                   bg-gray-200
                                   overflow-hidden
                                   relative
-                                  ${getImageLayoutClass(index, filteredArray.length)}
+                                  ${getImageLayoutClass(
+                                    index,
+                                    filteredArray.length
+                                  )}
                               `}
+                  onMouseEnter={() => setHoveredImageIndex(index)}
+                  onMouseLeave={() => setHoveredImageIndex(null)}
                 >
                   <Image
                     src={image.url!}
                     alt={image.alt || "Event image"}
                     fill
-                    className="object-cover"
+                    className={`object-cover transition-all duration-200 brightness-80 ${
+                      hoveredImageIndex === index ? "grayscale-0" : "grayscale"
+                    }`}
                     sizes="(max-width: 768px) 100vw, 50vw"
+                    loading="lazy"
                   />
+                  <div
+                    className={`absolute w-full h-full bg-[#133769] mix-blend-color z-10 transition-opacity duration-200 ${
+                      hoveredImageIndex === index ? "opacity-0" : "opacity-100"
+                    }`}
+                  ></div>
                 </motion.div>
               ))}
           </AnimatePresence>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </main>
   );
 }
