@@ -58,7 +58,7 @@ export const DynamicButtons = ({
           key={category}
           onClick={() => handleCategoryClick(category)}
           className={`
-            relative overflow-hidden inline-flex 
+            relative overflow-hidden  cursor-pointer inline-flex 
             h-11 sm:h-12 md:h-[53px] lg:h-14
             items-center justify-center gap-2.5 
             px-6 sm:px-7 md:px-8 lg:px-9 

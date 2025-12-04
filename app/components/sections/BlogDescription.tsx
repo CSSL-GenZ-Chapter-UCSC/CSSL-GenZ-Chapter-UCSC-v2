@@ -40,14 +40,14 @@ export const BlogDescription = () => {
     : [];
 
   return (
-    <div className="py-8 pl-23 border border-red-500">
+    <div className="py-8 px-25 justify-center">
   {/* Content paragraphs */}
   {contentParagraphs.length > 0 ? (
     contentParagraphs.map((p, i) => (
       <p
         key={i}
-        className={`my-2 ${
-          i === 0 ? "text-orange-500 font-semibold" : "text-[#9AA0A6]"
+        className={`mb-7 md:text-left${
+          i === 0 ? "text-white font-bold text-2xl" : "font-semibold md:text-left text-[#9AA0A6]"
         }`}
       >
         {p}
@@ -70,7 +70,7 @@ export const BlogDescription = () => {
         <img
           src={urlFor(blog.mainImage).width(1200).url()}
           alt={blog.title}
-          className="w-[693px] h-[490px] object-cover lg:-left-[33px] lg:-top-[35px] lg:relative"
+          className="w-[993px] h-[490px] object-cover lg:left-[120px] lg:top-[30px] lg:relative lg:mb-19"
         />
       )}
 
@@ -81,9 +81,11 @@ export const BlogDescription = () => {
         </p>
       ))}
 
-        <div className="flex flex-col md:flex-row justify-between items-center gap-0 text-sm text-gray-400 mt-6">
+        <div className="-ml-10 md:flex md:flex-row md:gap-1 lg:flex lg:flex-row justify-between items-center gap-1 text-sm text-gray-400 mt-6">
           {/* Last Updated */}
-          <p>
+
+          
+          <p className="ml-10 -mt-5">
             Last Updated{" "}
             <span className="text-blue-500 font-medium">
               {new Date(blog.publishedAt).toLocaleDateString("en-GB", {
@@ -96,9 +98,9 @@ export const BlogDescription = () => {
 
           {/* Category */}
           {blog.category && (
-            <p>
+            <p className="ml-74 -mt-5">
               Category{" "}
-              <span className="text-blue-500 font-medium -ml-30">{blog.category}</span>
+              <span className="text-blue-500 font-medium">{blog.category}</span>
             </p>
           )}
         </div>
@@ -107,7 +109,7 @@ export const BlogDescription = () => {
     <p className="text-white">No subtopic description</p>
   )}
 
-
+   
 
 
 
@@ -118,3 +120,23 @@ export const BlogDescription = () => {
 
   );
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
