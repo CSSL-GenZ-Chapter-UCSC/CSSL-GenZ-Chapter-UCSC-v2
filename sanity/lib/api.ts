@@ -87,6 +87,7 @@ export async function getEventBySlug(slug: string): Promise<Event | null> {
 
 /**
  * Fetch similar events (server-side)
+ * Returns events that have featuredAfter pointing to the current event
  */
 export async function getSimilarEvents(eventId: string): Promise<Event[]> {
   try {
