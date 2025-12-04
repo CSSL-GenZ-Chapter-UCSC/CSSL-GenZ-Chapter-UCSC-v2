@@ -46,7 +46,7 @@ export const BlogDescription = () => {
     contentParagraphs.map((p, i) => (
       <p
         key={i}
-        className={`mb-7 md:text-left${
+        className={`mb-4 md:text-left${
           i === 0 ? "text-white font-bold text-2xl" : "font-semibold md:text-left text-[#9AA0A6]"
         }`}
       >

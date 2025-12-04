@@ -21,9 +21,9 @@ export const SingleBlogLastSection = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  let blog:Blog;
+  
 
-  const pathname = usePathname();
+  //const pathname = usePathname();
   
     useEffect(() => {
       
@@ -82,7 +82,7 @@ export const SingleBlogLastSection = () => {
 
  
   return (
-    <div className="bg-black text-white p-8 relative z-10">
+    <div className="bg-black text-white p-1 pt-1 relative z-10">
       {/* Header Navigation */}
       <div className="text-[#318AFF] flex flex-row gap-300 [@media(max-width:800px)]:gap-[240px] [@media(max-width:1250px)]:gap-[590px]">
         <h2 className="text-2xl text-blue-400 mt-8 lg:text-xl">Read Next</h2>

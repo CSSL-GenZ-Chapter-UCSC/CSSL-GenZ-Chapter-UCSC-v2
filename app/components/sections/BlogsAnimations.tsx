@@ -178,7 +178,7 @@ export const BlogsAnimation = () => {
     
 
     return (
-        <section className="w-full md:h-screen h-auto flex flex-col bg-black pt-10 pb-10 overflow-hidden">
+        <section className="lg:mt-790 w-full md:h-screen h-full flex flex-col bg-black pt-10 pb-10 overflow-hidden">
           <Container className="w-full h-full flex flex-col justify-center items-center gap-15">
             
             {/* Mobile */}
