@@ -33,77 +33,84 @@ export const BlogDescription = () => {
 
   return (
     <div className="py-8 px-25 justify-center">
-  {/* Content paragraphs */}
-  {contentParagraphs.length > 0 ? (
-    contentParagraphs.map((p, i) => (
-      <p
-        key={i}
-        className={`mb-4 md:text-left${
-          i === 0 ? "text-white font-bold text-2xl" : "font-semibold md:text-left text-[#9AA0A6]"
-        }`}
+
+    <div className="bg-[#3462B3] flex justify-center w-12 h-10 lg:-ml-49 mt-45 -ml-26">
+      <svg
+        className="w-9 h-9 text-[#CCCCCC]"
+        fill="currentColor"
+        viewBox="0 0 24 24"
       >
-        {p}
-      </p>
-    ))
-  ) : (
-    <p className="text-white">No content</p>
-  )}
-
-  {/* Subtopic section */}
-  {subtopicParagraphs.length > 0 ? (
-    <div>
-      <h5 className="text-[#84B5FF] mt-6 mb-2">Sub Topic</h5>
-
-      {/* First subtopic */}
-      <p className="text-[#9AA0A6] my-1">{subtopicParagraphs[0]}</p>
-
-      {/* Image if exists */}
-      {blog?.mainImage?.asset && (
-        <Image
-          src={urlFor(blog.mainImage).width(1200).url()}
-          alt={blog.title}
-          width={1200}  // required
-          height={800}
-          className="w-[993px] h-[490px] object-cover lg:left-[120px] lg:top-[30px] lg:relative lg:mb-19"
-        />
-      )}
-
-      {/* Rest of subtopics (optional) */}
-      {subtopicParagraphs.slice(1).map((sub, i) => (
-        <p key={i} className="text-[#9AA0A6] my-1">
-          {sub}
-        </p>
-      ))}
-
-        <div className="-ml-10 md:flex md:flex-row md:gap-1 lg:flex lg:flex-row justify-between items-center gap-1 text-sm text-gray-400 mt-6">
-          {/* Last Updated */}
-
-          
-          <p className="ml-10 -mt-5">
-            Last Updated{" "}
-            <span className="text-blue-500 font-medium">
-              {new Date(blog.publishedAt).toLocaleDateString("en-GB", {
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-              })}
-            </span>
-          </p>
-
-          {/* Category */}
-          {blog.category && (
-            <p className="ml-74 -mt-5">
-              Category{" "}
-              <span className="text-blue-500 font-medium">{blog.category}</span>
-            </p>
-          )}
-        </div>
+        <path d="M18 16a3 3 0 0 0-2.24 1.02l-6.27-3.13a3.1 3.1 0 0 0 0-1.78l6.27-3.13A3 3 0 1 0 15 6a2.9 2.9 0 0 0 .09.71L8.8 9.84a3 3 0 1 0 0 4.32l6.29 3.13A2.9 2.9 0 0 0 15 18a3 3 0 1 0 3-2Z" />
+      </svg>
     </div>
-  ) : (
-    <p className="text-white">No subtopic description</p>
-  )}
 
-   
+
+
+  <div className="-mt-50">
+    {/* Content paragraphs */}
+    {contentParagraphs.length > 0 ? (
+      contentParagraphs.map((p, i) => (
+        <p
+          key={i}
+          className={`mb-4 md:text-left${
+            i === 0 ? "text-white font-bold text-2xl" : "font-semibold md:text-left text-[#9AA0A6]"
+          }`}
+        >
+          {p}
+        </p>
+      ))
+    ) : (
+      <p className="text-white">No content</p>
+    )}
+    {/* Subtopic section */}
+    {subtopicParagraphs.length > 0 ? (
+      <div>
+        <h5 className="text-[#84B5FF] mt-6 mb-2">Sub Topic</h5>
+        {/* First subtopic */}
+        <p className="text-[#9AA0A6] my-1">{subtopicParagraphs[0]}</p>
+        {/* Image if exists */}
+        {blog?.mainImage?.asset && (
+          <Image
+            src={urlFor(blog.mainImage).width(1200).url()}
+            alt={blog.title}
+            width={1200}  // required
+            height={800}
+            className="w-[993px] h-[490px] object-cover lg:left-[120px] lg:top-[30px] lg:relative lg:mb-19"
+          />
+        )}
+        {/* Rest of subtopics (optional) */}
+        {subtopicParagraphs.slice(1).map((sub, i) => (
+          <p key={i} className="text-[#9AA0A6] my-1">
+            {sub}
+          </p>
+        ))}
+          <div className="-ml-10 md:flex md:flex-row md:gap-1 lg:flex lg:flex-row justify-between items-center gap-1 text-sm text-gray-400 mt-6">
+            {/* Last Updated */}
+    
+            <p className="ml-10 -mt-5">
+              Last Updated{" "}
+              <span className="text-blue-500 font-medium">
+                {new Date(blog.publishedAt).toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}
+              </span>
+            </p>
+            {/* Category */}
+            {blog.category && (
+              <p className="ml-74 -mt-5">
+                Category{" "}
+                <span className="text-blue-500 font-medium">{blog.category}</span>
+              </p>
+            )}
+          </div>
+      </div>
+    ) : (
+      <p className="text-white">No subtopic description</p>
+    )}
+    
+  </div>
 
 
 
