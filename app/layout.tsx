@@ -43,15 +43,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${laBelleAurore.variable} ${poppins.className} antialiased bg-black relative`}
+        className={`${poppins.variable} ${laBelleAurore.variable} ${poppins.className} antialiased relative`}
       >
+        <div className="fixed top-0 left-0 w-full h-full -z-50 bg-[linear-gradient(75deg,#000_-4.05%,#0F2248_74.48%,var(--darkBlue,#1E448F)_107.82%)]"></div>
         <ReactLenis
           root
           ref={lenisRef}
           options={{ autoRaf: false }}
         ></ReactLenis>
         <Navbar />
-        {children}
+        <div className="relative z-10 bg-black">{children}</div>
         <Footer />
       </body>
     </html>

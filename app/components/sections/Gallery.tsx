@@ -1,13 +1,7 @@
 "use client";
 
 import { useRef, memo, useMemo } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useSpring,
-  MotionValue,
-} from "motion/react";
+import { motion, useScroll, useTransform, MotionValue } from "motion/react";
 import Image from "next/image";
 
 // Gallery configuration - easy to modify
@@ -52,13 +46,19 @@ export const Gallery = () => {
     offset: ["start end", "start start"],
   });
 
-  const smoothedEnterProgress = useSpring(enterProgress, {
-    stiffness: 100,
-    damping: 20,
-    restDelta: 0.001,
+  const { scrollYProgress: exitProgress } = useScroll({
+    target: containerRef,
+    offset: ["end end", "end start"],
   });
 
-  const width = useTransform(smoothedEnterProgress, [0, 1], ["100%", "50%"]);
+  // Optimization: Use scaleX instead of width to avoid layout thrashing (GPU friendly)
+  const widthScale = useTransform(
+    [enterProgress, exitProgress],
+    ([enter, exit]: number[]) => 1 - 0.5 * enter + 0.5 * exit
+  );
+
+  // Inverse scale for children to maintain aspect ratio
+  const inverseWidthScale = useTransform(widthScale, (s) => 1 / s);
 
   return (
     <section
@@ -69,12 +69,12 @@ export const Gallery = () => {
       className="relative bg-black"
     >
       {/* Sticky container that stays in place */}
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <motion.div className="sticky top-0 h-screen overflow-hidden">
         <div className="relative h-full flex items-center">
           {/* Left Side - Stacked Images */}
           <motion.div
-            style={{ width: width }}
-            className="absolute left-0 top-0 h-full z-50"
+            style={{ scaleX: widthScale, originX: 0 }}
+            className="absolute left-0 top-0 h-full z-50 w-full will-change-transform"
           >
             <motion.div className="relative w-full h-full">
               {GALLERY_CONFIG.images.map((image, slideIndex) => (
@@ -84,23 +84,23 @@ export const Gallery = () => {
                   slideIndex={slideIndex}
                   totalSlides={totalSlides}
                   scrollYProgress={scrollYProgress}
+                  inverseScale={inverseWidthScale}
                 />
               ))}
-              {/* Inner shadow overlay to simulate right side casting shadow */}
-              <div className="absolute inset-0 z-10 pointer-events-none shadow-[inset_-50px_0_50px_-10px_rgba(0,0,0,0.2)]" />
             </motion.div>
           </motion.div>
 
           {/* Right Side - Gradient Background with Two Texts */}
           <div className="absolute right-0 top-0 w-1/2 h-full z-0">
-            {/* <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 mb-20 z-0">
               <Image
                 fill
                 src="/Images/bgImg.jpg"
                 alt="bgImage"
                 className="object-fill"
+                loading="lazy"
               />
-            </div> */}
+            </div>
             <div className="relative w-full h-full z-50">
               <GalleryTexts
                 text1={GALLERY_CONFIG.text1}
@@ -110,7 +110,7 @@ export const Gallery = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
@@ -150,7 +150,7 @@ const GalleryTexts = memo(
 
         {/* Text 2 - Bottom Right */}
         <div className="relative z-20 w-2/3 self-end text-right">
-          <h2 className="text-right font-poppins text-[18px] font-medium leading-[26px] text-gray-300">
+          <h2 className="text-right font-poppins text-[18px] font-medium leading-[23px] text-gray-300">
             {text2Words.map((word: string, index: number) => {
               const start = 0.5 + (index / text2Words.length) * 0.4;
               return (
@@ -189,7 +189,10 @@ const WordReveal = memo(
     );
 
     return (
-      <motion.span style={{ opacity }} className="inline-block mr-2 md:mr-3">
+      <motion.span
+        style={{ opacity }}
+        className="inline-block mr-2 md:mr-3 will-change-[opacity]"
+      >
         {word}
       </motion.span>
     );
@@ -205,11 +208,13 @@ const GalleryImage = memo(
     slideIndex,
     totalSlides,
     scrollYProgress,
+    inverseScale,
   }: {
     image: { src: string; alt: string };
     slideIndex: number;
     totalSlides: number;
     scrollYProgress: MotionValue<number>;
+    inverseScale: MotionValue<number>;
   }) => {
     // Calculate progress range for this slide
     const slideStart = slideIndex / totalSlides;
@@ -223,21 +228,28 @@ const GalleryImage = memo(
     );
 
     // Scale effect - scales down from 1.1 to 1 as it goes out
+    // Optimization: Handle last slide case within the transform to keep it a MotionValue
     const scale = useTransform(
       scrollYProgress,
       [slideEnd - 0.05, slideEnd + 0.1],
-      [1.1, 1]
+      slideIndex === totalSlides - 1 ? [1.1, 1.1] : [1.1, 1]
     );
 
     // Determine visibility based on scroll progress to optimize rendering
     const display = useTransform(scrollYProgress, (progress) => {
       const currentSlide = Math.round(progress * totalSlides);
-      // Only show the current slide and the one immediately before it
-      if (slideIndex >= currentSlide - 1) {
+      // Optimization: Only show the current slide and immediate neighbors
+      if (slideIndex >= currentSlide - 1 && slideIndex <= currentSlide + 1) {
         return "block";
       }
       return "none";
     });
+
+    // Combine scales for X axis to counteract parent container scaling
+    const finalScaleX = useTransform(
+      [scale, inverseScale],
+      ([s, inv]: number[]) => s * inv
+    );
 
     return (
       <motion.div
@@ -249,7 +261,10 @@ const GalleryImage = memo(
         className="absolute inset-0 w-full h-full overflow-hidden group will-change-transform"
       >
         <motion.div
-          style={{ scale: slideIndex === totalSlides - 1 ? 1.1 : scale }}
+          style={{
+            scaleX: finalScaleX,
+            scaleY: scale,
+          }}
           className="relative w-full h-full will-change-transform"
         >
           <div className="relative w-full h-full">
@@ -259,7 +274,7 @@ const GalleryImage = memo(
               fill
               className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-200 brightness-80"
               sizes="(max-width: 768px) 100vw, 50vw"
-              priority={slideIndex === 0}
+              loading="lazy"
             />
             <div className="absolute w-full h-full bg-[#133769] mix-blend-color z-10 opacity-100 group-hover:opacity-0 transition-opacity duration-200"></div>
           </div>

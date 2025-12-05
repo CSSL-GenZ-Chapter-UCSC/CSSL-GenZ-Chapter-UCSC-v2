@@ -45,6 +45,13 @@ export const member = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "customClass",
+      title: "Custom Image Class",
+      type: "string",
+      description:
+        "Tailwind classes to apply to the member image (e.g. object-top, scale-125)",
+    }),
+    defineField({
       name: "linkedin",
       title: "LinkedIn URL",
       type: "url",

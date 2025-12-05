@@ -15,6 +15,7 @@ type SanityMember = {
   fgImage?: unknown;
   linkedin?: string;
   order?: number;
+  customClass?: string;
 };
 
 type SanityTeam = {
@@ -33,7 +34,8 @@ const memberQuery = groq`*[_type == "member"] | order(category asc, order asc, n
   category,
   fgImage,
   linkedin,
-  order
+  order,
+  customClass
 }`;
 
 const teamQuery = groq`*[_type == "team"] | order(order asc, name asc) {
@@ -48,7 +50,8 @@ const teamQuery = groq`*[_type == "team"] | order(order asc, name asc) {
     "slug": slug.current,
     fgImage,
     linkedin,
-    order
+    order,
+    customClass
   }
 }`;
 
@@ -65,6 +68,7 @@ async function getMembers(): Promise<{
     fgSrc: m.fgImage
       ? urlFor(m.fgImage).width(800).height(800).url()
       : undefined,
+    className: m.customClass,
   });
 
   const presidents = docs
@@ -90,10 +94,11 @@ async function getTeams(): Promise<
   const toCard = (m: SanityMember): MemberCard => ({
     name: m.name,
     role: m.role,
-    href: m.linkedin || "#",
+    href: m.linkedin || "",
     fgSrc: m.fgImage
       ? urlFor(m.fgImage).width(800).height(800).url()
       : undefined,
+    className: m.customClass,
   });
   return teams.map((t) => ({
     name: t.name,
