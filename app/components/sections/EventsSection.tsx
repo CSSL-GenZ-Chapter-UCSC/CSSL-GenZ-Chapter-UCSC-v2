@@ -17,8 +17,8 @@ interface EventsSectionProps {
   events: Event[];
 }
 
-// 🎯 THRESHOLD: Scroll amount required to trigger a jump
-const SCROLL_PER_EVENT = 50; // 100vh per event
+// scroll amount required to trigger a jump
+const SCROLL_PER_EVENT = 50;
 
 export function EventsSection({ events }: EventsSectionProps) {
   const [activeEventIndex, setActiveEventIndex] = useState(0);
@@ -141,16 +141,20 @@ export function EventsSection({ events }: EventsSectionProps) {
   // Show "no events" message if no events are provided
   if (EVENTS_DATA.length === 0) {
     return (
-      <Container className="relative z-10 py-16 lg:py-20">
-        <div className="bg-black h-screen flex items-center justify-center rounded-lg overflow-hidden">
-          <div className="text-center text-white">
-            <h3 className="text-2xl font-semibold mb-2">No Events Available</h3>
-            <p className="text-white/60">
-              Please add events in Sanity Studio to display them here.
-            </p>
+      <div ref={sectionWrapperRef}>
+        <Container className="relative z-10 py-16 lg:py-20">
+          <div className="bg-black h-screen flex items-center justify-center rounded-lg overflow-hidden">
+            <div className="text-center text-white">
+              <h3 className="text-2xl font-semibold mb-2">
+                No Events Available
+              </h3>
+              <p className="text-white/60">
+                Please add events in Sanity Studio to display them here.
+              </p>
+            </div>
           </div>
-        </div>
-      </Container>
+        </Container>
+      </div>
     );
   }
 
