@@ -2,13 +2,9 @@
 
 
 import { motion } from "motion/react";
-import { h1 } from "motion/react-client";
 import { PageTitle } from "../shared/PageTitle";
 import { DisplayBlogs } from "./DisplayBlogs";
 import { BlogsAnimation } from "./BlogsAnimations";
-
-
-
 
 
 

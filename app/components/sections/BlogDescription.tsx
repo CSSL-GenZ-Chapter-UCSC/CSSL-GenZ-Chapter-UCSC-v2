@@ -3,30 +3,22 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { getBlogById, type Blog } from "@/sanity/lib/getBlogs";
+import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 
 export const BlogDescription = () => {
 
   const pathname = usePathname();
+  const blogId = pathname?.split("/")[2] ?? null; // derived state
 
-  const [blogId, setBlogId] = useState<string | null>(null);
   const [blog, setBlog] = useState<Blog | null>(null);
 
-  
   useEffect(() => {
-    if (pathname) {
-      const segments = pathname.split("/"); 
-      const id = segments[2];
-      setBlogId(id);
-    }
-  }, [pathname]);
+    if (!blogId) return;
 
-  useEffect(() => {
-    if (blogId) {
-      getBlogById(blogId)
-        .then((data) => setBlog(data))
-        .catch((err) => console.error(err));
-    }
+    getBlogById(blogId)
+      .then((data) => setBlog(data))
+      .catch((err) => console.error(err));
   }, [blogId]);
 
   if (!blog) return <p>Loading...</p>;
@@ -67,9 +59,11 @@ export const BlogDescription = () => {
 
       {/* Image if exists */}
       {blog?.mainImage?.asset && (
-        <img
+        <Image
           src={urlFor(blog.mainImage).width(1200).url()}
           alt={blog.title}
+          width={1200}  // required
+          height={800}
           className="w-[993px] h-[490px] object-cover lg:left-[120px] lg:top-[30px] lg:relative lg:mb-19"
         />
       )}

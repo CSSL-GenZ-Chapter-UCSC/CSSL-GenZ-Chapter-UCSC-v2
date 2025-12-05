@@ -5,6 +5,7 @@ import Link from "next/link";
 import { getBlogs, type Blog } from "@/sanity/lib/getBlogs";
 import { DynamicButtons } from "./DynamicButtons";
 import { urlFor } from "@/sanity/lib/image";
+import Image from "next/image";
 
 export const DisplayBlogs = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -13,34 +14,33 @@ export const DisplayBlogs = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log("Fetching blogs for category:", selectedCategory);
-    setLoading(true);
-    
-    getBlogs(selectedCategory)
-      .then((data: Blog[] | null) => {
-        console.log("Raw data from getBlogs:", data);
-        
+    const fetchBlogs = async () => {
+      setLoading(true);
+      try {
+        const data = await getBlogs(selectedCategory);
         if (!data || !Array.isArray(data)) {
-          console.log("No data or not an array");
           setBlogs([]);
           return;
         }
+        setBlogs(
+          data.sort((a, b) => {
+            if (!a.publishedAt || !b.publishedAt) return 0;
+            return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
+          })
+        );
+      } catch (err: unknown) {
+        // Narrow the error type
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unknown error occurred");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        console.log(`Fetched ${data.length} blogs for category:`, selectedCategory);
-        console.log("Blog categories:", data.map(b => b.category));
-
-        const sorted = data.sort((a, b) => {
-          if (!a.publishedAt || !b.publishedAt) return 0;
-          return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
-        });
-
-        setBlogs(sorted);
-      })
-      .catch((err) => {
-        console.error("Error fetching blogs:", err);
-        setError(err.message);
-      })
-      .finally(() => setLoading(false));
+    fetchBlogs();
   }, [selectedCategory]);
 
   if (loading) {
@@ -84,9 +84,11 @@ export const DisplayBlogs = () => {
             <Link href={`/blogs/${blog._id}`} key={blog._id} className="">
               <div className="overflow-hidden shadow-md hover:-translate-y-2 hover:shadow-xl cursor-pointer flex flex-col h-full">
                 {blog.mainImage?.asset && (
-                  <img
+                  <Image
                     src={urlFor(blog.mainImage).width(600).height(400).url()}
                     alt={blog.title}
+                    width={1200}  // required
+                    height={800}
                     className="w-full h-48 object-cover"
                   />
                 )}

@@ -1,10 +1,11 @@
-import { motion, useScroll, useTransform } from "motion/react";
+"use client"
 
 import { getBlogById, type Blog } from "@/sanity/lib/getBlogs";
 import { urlFor } from "@/sanity/lib/image";
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { div, p } from "motion/react-client";
+import Image from "next/image";
+
 
 
 
@@ -12,37 +13,31 @@ export const SingleBlogTopSection = () => {
 
   const gradient = `linear-gradient(
     80deg,
-    rgba(30,68,143,0) 30%,       /* transparent start */
-    #1E448F 40%,                 /* base color begins */
-    #4C9DFE 45%,                 /* highlight */
-    #1E448F 50%,                 /* base again */
-    rgba(30,68,143,0) 65%        /* fade out */
+    #00000000 0%,       /* transparent start */
+    #0D182818 9.42%,                 /* base color begins */
+    #437ED380 50%,                 /* highlight */
+    #0C4DAC80 50%,                 /* base again */
+    #318AFF80 50%,        /* fade out */
+    #3B489F00 0%
   )`;
 
-  const [blogId, setBlogId] = useState<string | null>(null);
   const [blog, setBlog] = useState<Blog | null>(null);
-
   const pathname = usePathname();
 
+  // Fetch blog directly based on pathname
   useEffect(() => {
-    if (pathname) {
-      const segments = pathname.split("/"); 
-      const id = segments[2];
-      setBlogId(id);
-      console.log("blogId from URL:", id);
-    }
-  }, [pathname]);
+    if (!pathname) return;
 
-  useEffect(() => {
-    if (blogId) {
-      getBlogById(blogId)
-        .then((data) => {
-          setBlog(data);
-          console.log("Fetched blog:", data);
-        })
-        .catch((err) => console.error(err));
-    }
-  }, [blogId]);
+    const id = pathname.split("/")[2]; // get blog id from URL
+    if (!id) return;
+
+    getBlogById(id)
+      .then((data) => {
+        setBlog(data);
+        console.log("Fetched blog:", data);
+      })
+      .catch((err) => console.error(err));
+  }, [pathname]);
 
  
   return(
@@ -52,13 +47,15 @@ export const SingleBlogTopSection = () => {
           <LogoScroll gradient={gradient} />
       </div>
 
-      <div className="">
+      <div className="z-10">
         {/*for blog image */}
         <div className="px-2">
           {blog?.mainImage?.asset ? (
-            <img
+            <Image
               src={urlFor(blog.mainImage).width(1200).url()} // high-res image
               alt={blog.title}
+              width={1200}  // required
+              height={800}
               className="max-w-[543px] lg:-ml-22 -mt-50 -lg:ml-70 ml-181"
             />
           ) : (
@@ -110,95 +107,83 @@ export const SingleBlogTopSection = () => {
 
 
 const LogoScroll = ({ gradient }: { gradient: string }) => {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  });
+  
 
-  const bgPosition = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["0% 50%", "170% 50%"]
-  );
-
+  
   return (
-    <div ref={containerRef} className="relative h-[200vh] w-full">
-      <div className="h-screen sticky top-0 flex items-center justify-center overflow-hidden">
-        <motion.h2
-          className="text-center font-[Poppins] 2xl:text-[150px] xl:text-[120px] lg:text-[100px] md:text-[30px] sm:text-[10px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
+    <div className="-mt-28 relative h-[200vh] w-full">
+      <div className="h-screen top-0 flex items-center justify-center overflow-hidden">
+        <h2
+          className="text-center font-[Poppins] 2xl:text-[180px] xl:text-[120px] lg:text-[100px] md:text-[30px] sm:text-[10px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
             backgroundSize: "300% 100%",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: bgPosition,
+            backgroundRepeat: "no-repeat",            
             WebkitBackgroundClip: "text",
           }}
         >
           CSSL
-        </motion.h2>
-        <motion.h2
-          className="text-center font-[Poppins] 2xl:text-[150px] xl:text-[120px] lg:text-[100px] md:text-[30px] sm:text-[10px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
+        </h2>
+        <h2
+          className="text-center font-[Poppins] 2xl:text-[180px] xl:text-[120px] lg:text-[100px] md:text-[30px] sm:text-[10px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
             backgroundSize: "300% 100%",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: bgPosition,
+            backgroundRepeat: "no-repeat",            
             WebkitBackgroundClip: "text",
           }}
         >
          BLOG
-        </motion.h2>
-        <motion.h2
-          className="text-center font-[Poppins] 2xl:text-[150px] xl:text-[120px] lg:text-[100px] md:text-[30px] sm:text-[10px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
+        </h2>
+        <h2
+          className="text-center font-[Poppins] 2xl:text-[180px] xl:text-[120px] lg:text-[100px] md:text-[30px] sm:text-[10px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
             backgroundSize: "300% 100%",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: bgPosition,
+            backgroundRepeat: "no-repeat",            
             WebkitBackgroundClip: "text",
           }}
         >
           CSSL
-        </motion.h2>
+        </h2>
       </div>
-      <div className="-mt-90 h-screen sticky top-0 flex items-center justify-center overflow-hidden">
-        <motion.h2
-          className="text-center font-[Poppins] 2xl:text-[350px] xl:text-[250px] lg:text-[150px] md:text-[50px] sm:text-[20px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
+      <div className="-mt-110 h-screen top-0 flex items-center justify-center overflow-hidden">
+        <h2
+          className="text-center font-[Poppins] 2xl:text-[280px] xl:text-[250px] lg:text-[150px] md:text-[50px] sm:text-[20px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
             backgroundSize: "300% 100%",
             backgroundRepeat: "no-repeat",
-            backgroundPosition: bgPosition,
+            
             WebkitBackgroundClip: "text",
           }}
         >
           CSSL
-        </motion.h2>
-        <motion.h2
-          className="text-center font-[Poppins] 2xl:text-[350px] xl:text-[250px] lg:text-[150px] md:text-[50px] sm:text-[20px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
+        </h2>
+        <h2
+          className="text-center font-[Poppins] 2xl:text-[280px] xl:text-[250px] lg:text-[150px] md:text-[50px] sm:text-[20px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
             backgroundSize: "300% 100%",
             backgroundRepeat: "no-repeat",
-            backgroundPosition: bgPosition,
+            
             WebkitBackgroundClip: "text",
           }}
         >
          BLOG
-        </motion.h2>
-        <motion.h2
-          className="text-center font-[Poppins] 2xl:text-[350px] xl:text-[250px] lg:text-[150px] md:text-[50px] sm:text-[20px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
+        </h2>
+        <h2
+          className="text-center font-[Poppins] 2xl:text-[280px] xl:text-[250px] lg:text-[150px] md:text-[50px] sm:text-[20px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
             backgroundSize: "300% 100%",
             backgroundRepeat: "no-repeat",
-            backgroundPosition: bgPosition,
+            
             WebkitBackgroundClip: "text",
           }}
         >
           CSSL
-        </motion.h2>
+        </h2>
       </div>
     </div>
   );

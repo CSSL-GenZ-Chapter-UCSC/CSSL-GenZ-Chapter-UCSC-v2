@@ -3,8 +3,8 @@ import Image from "next/image";
 import { Button } from "../shared/Button";
 import { Container } from "../shared/Container";
 import { motion, AnimatePresence } from "motion/react";
-import { useEffect, useMemo, useState } from "react";
-import { getBlogById, getBlogs, type Blog } from "@/sanity/lib/getBlogs";
+import { useEffect, useState } from "react";
+import { getBlogs, type Blog } from "@/sanity/lib/getBlogs";
 import { urlFor } from "@/sanity/lib/image";
 
 
@@ -230,7 +230,7 @@ export const BlogsAnimation = () => {
                         <span className="text-[#9AA0A6]">By </span><span className="text-[#0080FF]">{blogs[activeIndex].author?.name || "Unknown"}</span>
                     </p>
                     <p className="text-[#9AA0A6] font-poppins text-[14px] font-normal leading-normal">
-                        {blogs[activeIndex]?.readTime} . {blogs[activeIndex].publishedAt? new Date(blogs[activeIndex].publishedAt).toLocaleDateString(): ""}
+                        {blogs[activeIndex]?.readTime}Read . {blogs[activeIndex].publishedAt? new Date(blogs[activeIndex].publishedAt).toLocaleDateString(): ""}
                     </p>
                 </div>
                 </motion.div>
@@ -282,11 +282,13 @@ export const BlogsAnimation = () => {
                                 {blog.category}
                         </p>
                         <div className="mt-7 flex flex-row gap-13">
-                            <p className="font-poppins text-[15px] font-normal leading-normal">
-                                By <span className="text-[#0080FF] ml-3 mr-1">{String(blog?.author || "Unknown")}</span>
+                            <p>
+                                By <span className="text-[#0080FF]">{blog?.author || "Unknown"}</span>
                             </p>
+
+
                             <p className="text-[#9AA0A6] font-poppins text-[15px] font-normal leading-normal">
-                                {blog.readTime}.
+                                {blog.readTime}Read.
                             
                                 {blog.publishedAt
                                 ? new Date(blog.publishedAt).toLocaleDateString()

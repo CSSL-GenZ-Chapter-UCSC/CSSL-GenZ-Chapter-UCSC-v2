@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { getBlogs, type Blog } from "@/sanity/lib/getBlogs";
 import { urlFor } from "@/sanity/lib/image";
@@ -21,12 +22,7 @@ export const SingleBlogLastSection = () => {
   const [error, setError] = useState<string | null>(null);
 
   
-
-  const pathname = usePathname();
-  
     useEffect(() => {
-      
-      
       
       getBlogs()
         .then((data: Blog[] | null) => {
@@ -54,10 +50,8 @@ export const SingleBlogLastSection = () => {
 
 
   if (loading) return <p>Loading...</p>;
-
-  if (!blogs) {
-    return <p className="text-red-500">No blogs available.</p>;
-  }
+  if (error) return <p className="text-red-500">{error}</p>;
+  if (!blogs || blogs.length === 0) return <p className="text-red-500">No blogs available.</p>;
 
   
 
@@ -101,9 +95,11 @@ export const SingleBlogLastSection = () => {
               {/* Blog image */}
               <div className="bg-gray-700 aspect-video mb-4 overflow-hidden">
                 {blog.mainImage ? (
-                  <img
+                  <Image
                     src={urlFor(blog.mainImage).width(1200).url()}
                     alt={blog.title}
+                    width={1200}  // required
+                    height={800}
                     className="w-full h-full font-[500] object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 ) : (
