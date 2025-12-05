@@ -94,7 +94,7 @@ async function getTeams(): Promise<
   const toCard = (m: SanityMember): MemberCard => ({
     name: m.name,
     role: m.role,
-    href: m.linkedin || "#",
+    href: m.linkedin || "",
     fgSrc: m.fgImage
       ? urlFor(m.fgImage).width(800).height(800).url()
       : undefined,

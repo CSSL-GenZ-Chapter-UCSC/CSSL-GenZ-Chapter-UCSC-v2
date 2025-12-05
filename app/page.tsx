@@ -6,6 +6,7 @@ import { Testimonial } from "./components/sections/Testimonial";
 
 import { EventsSection } from "@/app/components/sections/EventsSection";
 import { getEvents } from "@/sanity/lib/api";
+import { getBlogs } from "@/sanity/lib/getBlogs";
 
 export const metadata = {
   title: "CSSL GenZ Chapter",
@@ -14,7 +15,10 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const events = await getEvents();
+  const [events, blogs] = await Promise.all([
+    getEvents(),
+    getBlogs(undefined, 4),
+  ]);
 
   return (
     <main className="flex flex-col bg-black">
@@ -22,7 +26,7 @@ export default async function Home() {
       <Logo />
       <Gallery />
       <EventsSection events={events} />
-      <Blogs />
+      <Blogs blogs={blogs} />
       <Testimonial />
     </main>
   );

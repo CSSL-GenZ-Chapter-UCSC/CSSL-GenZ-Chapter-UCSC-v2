@@ -4,41 +4,17 @@ import { Button } from "../shared/Button";
 import { Container } from "../shared/Container";
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useMemo, useState } from "react";
+import { Blog } from "@/sanity/lib/getBlogs";
+import { urlFor } from "@/sanity/lib/image";
+import { useRouter } from "next/navigation";
 
-const blogs = [
-  {
-    image: "/Images/blogImg1.png",
-    title: "GenZ Launch Event",
-    description:
-      "The launch event of the CSSL GenZ chapter of University of Colombo School of Computing",
-    readTime: "5 min Read",
-    date: "Sept 2025",
-  },
-  {
-    image: "/Images/blogImg2.png",
-    title: "Second Blog Post",
-    description: "Description for the second blog post.",
-    readTime: "3 min Read",
-    date: "Oct 2025",
-  },
-  {
-    image: "/Images/blogImg3.png",
-    title: "Third Blog Post",
-    description: "Description for the third blog post.",
-    readTime: "7 min Read",
-    date: "Nov 2025",
-  },
-  {
-    image: "/Images/blogImg3.png",
-    title: "Third Blog Post",
-    description: "Description for the third blog post.",
-    readTime: "7 min Read",
-    date: "Nov 2025",
-  },
-];
+interface BlogsProps {
+  blogs?: Blog[];
+}
 
-export const Blogs = () => {
+export const Blogs = ({ blogs = [] }: BlogsProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const router = useRouter();
   const heading = "Blogs";
   const description =
     "Exploring trends, ideas, and success stories that shape the future of community and connection.";
@@ -47,11 +23,46 @@ export const Blogs = () => {
   const descriptionWords = useMemo(() => description.split(" "), [description]);
 
   useEffect(() => {
+    if (blogs.length === 0) return;
     const interval = setInterval(() => {
       setActiveIndex((prevIndex) => (prevIndex + 1) % blogs.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [blogs.length]);
+
+  if (!blogs || blogs.length === 0) {
+    return null;
+  }
+
+  const getImageUrl = (blog: Blog) => {
+    return blog.mainImage
+      ? urlFor(blog.mainImage).url()
+      : "/Images/blogImg1.png";
+  };
+
+  const formatDate = (dateString: string) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+  const truncateText = (text: string, wordLimit: number) => {
+    if (!text) return "";
+    const words = text.split(" ");
+    if (words.length <= wordLimit) return text;
+    return words.slice(0, wordLimit).join(" ") + "...";
+  };
+
+  const handleCardClick = (index: number, blogId: string) => {
+    if (index === activeIndex) {
+      router.push(`/blogs/${blogId}`);
+    } else {
+      setActiveIndex(index);
+    }
+  };
 
   const getStyle = (index: number) => {
     const relativeIndex = (index - activeIndex + blogs.length) % blogs.length;
@@ -185,7 +196,7 @@ export const Blogs = () => {
               <motion.span
                 key={`heading-word-${i}-${word}`}
                 className="inline-block will-change-transform"
-                initial={{ y: 20, opacity: 0, filter: "blur(8px)" }}
+                initial={{ y: -20, opacity: 0, filter: "blur(8px)" }}
                 whileInView={{ y: 0, opacity: 1, filter: "blur(0px)" }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 viewport={{ amount: 0.01 }}
@@ -230,10 +241,11 @@ export const Blogs = () => {
                 initial={false}
                 animate={getMobileStyle(index)}
                 transition={{ duration: 1, ease: [0.4, 0.0, 0.2, 1] }}
+                onClick={() => handleCardClick(index, blog._id)}
               >
                 <div className="w-full h-full relative">
                   <Image
-                    src={blog.image}
+                    src={getImageUrl(blog)}
                     alt={blog.title}
                     fill
                     className="object-cover rounded-3xl"
@@ -255,10 +267,16 @@ export const Blogs = () => {
                 {blogs[activeIndex]?.title}
               </h3>
               <p className="text-[#9AA0A6] font-poppins text-[15px] font-normal leading-normal mt-1">
-                {blogs[activeIndex]?.description}
+                {truncateText(
+                  blogs[activeIndex]?.subtopicDescription ||
+                    blogs[activeIndex]?.excerpt ||
+                    "",
+                  10
+                )}
               </p>
               <p className="text-[#9AA0A6] font-poppins text-[14px] font-normal leading-normal mt-4">
-                {blogs[activeIndex]?.readTime} . {blogs[activeIndex]?.date}
+                {blogs[activeIndex]?.readTime} .{" "}
+                {formatDate(blogs[activeIndex]?.publishedAt)}
               </p>
             </motion.div>
           </AnimatePresence>
@@ -279,6 +297,7 @@ export const Blogs = () => {
               initial={false}
               animate={getStyle(index)}
               transition={{ duration: 1, ease: [0.4, 0.0, 0.2, 1] }}
+              onClick={() => handleCardClick(index, blog._id)}
             >
               <motion.div
                 className="w-full h-full relative group"
@@ -289,7 +308,7 @@ export const Blogs = () => {
                 />
                 <div className="relative w-full h-full rounded-3xl overflow-hidden">
                   <Image
-                    src={blog.image}
+                    src={getImageUrl(blog)}
                     alt={blog.title}
                     fill
                     className="object-cover"
@@ -309,10 +328,13 @@ export const Blogs = () => {
                         {blog.title}
                       </h2>
                       <p className="text-[#9AA0A6] font-poppins text-[18px] font-normal leading-normal">
-                        {blog.description}
+                        {truncateText(
+                          blog.subtopicDescription || blog.excerpt || "",
+                          10
+                        )}
                       </p>
                       <p className="text-[#9AA0A6] font-poppins text-[15px] font-normal leading-normal mt-10">
-                        {blog.readTime} . {blog.date}
+                        {blog.readTime} . {formatDate(blog.publishedAt)}
                       </p>
                     </motion.div>
                   )}
