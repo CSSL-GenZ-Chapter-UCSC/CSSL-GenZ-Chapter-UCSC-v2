@@ -283,7 +283,7 @@ export const BlogsAnimation = () => {
                         </p>
                         <div className="mt-7 flex flex-row gap-13">
                             <p>
-                                By <span className="text-[#0080FF]">{blog?.author || "Unknown"}</span>
+                                By <span className="text-[#0080FF]">{blog?.author?.name || "Unknown"}</span>
                             </p>
 
 

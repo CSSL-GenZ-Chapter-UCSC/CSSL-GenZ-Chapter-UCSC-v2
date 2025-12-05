@@ -56,7 +56,7 @@ export const SingleBlogTopSection = () => {
               alt={blog.title}
               width={1200}  // required
               height={800}
-              className="max-w-[543px] lg:-ml-22 -mt-50 -lg:ml-70 ml-181"
+              className="max-w-[543px] h-[300px] lg:-ml-22 -mt-50 -lg:ml-70 ml-181"
             />
           ) : (
             <p className="text-white">Loading...</p>
