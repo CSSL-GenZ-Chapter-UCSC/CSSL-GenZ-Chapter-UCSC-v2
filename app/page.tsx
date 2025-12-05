@@ -15,8 +15,10 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const events = await getEvents();
-  const blogs = await getBlogs(undefined, 4);
+  const [events, blogs] = await Promise.all([
+    getEvents(),
+    getBlogs(undefined, 4),
+  ]);
 
   return (
     <main className="flex flex-col bg-black">
