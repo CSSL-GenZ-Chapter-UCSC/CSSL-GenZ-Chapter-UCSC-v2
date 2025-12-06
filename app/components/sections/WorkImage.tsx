@@ -40,11 +40,12 @@ export const WorkImage = ({
         src={src}
         alt={alt}
         fill
-        className={`object-cover transition-all duration-200 ${brightness} ${
+        className={`object-cover select-none  transition-all duration-200 ${brightness} ${
           isGrayscale ? (isHovered ? "grayscale-0" : "grayscale") : ""
         } ${imageClassName}`}
         sizes={sizes}
         priority={priority}
+        draggable={false}
       />
       {hasBlueFilter && (
         <div
