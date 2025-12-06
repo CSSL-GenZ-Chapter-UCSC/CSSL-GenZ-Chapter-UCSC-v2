@@ -14,15 +14,15 @@ const GALLERY_CONFIG = {
   // Images array
   images: [
     {
-      src: "/Images/About/vision1.jpg",
+      src: "/Images/gallery1.jpg",
       alt: "CSSL GenZ Chapter Team",
     },
     {
-      src: "/Images/About/vision2.jpg",
+      src: "/Images/gallery2.jpg",
       alt: "CSSL GenZ Chapter Event",
     },
     {
-      src: "/Images/About/vision4.jpg",
+      src: "/Images/gallery3.jpg",
       alt: "CSSL Learning Sessions",
     },
   ],
@@ -92,7 +92,7 @@ export const Gallery = () => {
 
           {/* Right Side - Gradient Background with Two Texts */}
           <div className="absolute right-0 top-0 w-1/2 h-full z-0">
-            <div className="absolute inset-0 mb-20 z-0">
+            {/* <div className="absolute inset-0 mb-20 z-0">
               <Image
                 fill
                 src="/Images/bgImg.jpg"
@@ -100,7 +100,7 @@ export const Gallery = () => {
                 className="object-fill"
                 loading="lazy"
               />
-            </div>
+            </div> */}
             <div className="relative w-full h-full z-50">
               <GalleryTexts
                 text1={GALLERY_CONFIG.text1}
