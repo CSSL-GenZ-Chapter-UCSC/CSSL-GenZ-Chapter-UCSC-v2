@@ -77,7 +77,7 @@ export const SingleBlogLastSection = () => {
   return (
     <div className="bg-black text-white p-1 pt-1 relative z-10">
       {/* Header Navigation */}
-      <div className="text-[#318AFF] flex flex-row gap-300 [@media(max-width:800px)]:gap-[240px] [@media(max-width:1250px)]:gap-[590px]">
+      <div className="text-[#318AFF] flex flex-row gap-200 [@media(max-width:800px)]:gap-[240px] [@media(max-width:1250px)]:gap-[590px]">
         <h2 className="text-2xl text-blue-400 mt-8 lg:text-xl">Read Next</h2>
         <Link href={`/blogs/`} className="group cursor:pointer w-[980px]">
           <button className="text-[78px] flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
