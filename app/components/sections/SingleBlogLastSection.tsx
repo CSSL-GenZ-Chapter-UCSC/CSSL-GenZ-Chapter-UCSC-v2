@@ -1,14 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState, useEffect } from "react";
+import Image from "next/image";
+import { useState, useEffect } from "react";
 import { getBlogs, type Blog } from "@/sanity/lib/getBlogs";
 import { urlFor } from "@/sanity/lib/image";
 import { usePathname } from "next/navigation";
 
 
 
-type Props = { blog: Blog };
+
 
 
 
@@ -16,18 +17,12 @@ export const SingleBlogLastSection = () => {
 
   const path = usePathname();
 
-  const [blogId, setBlogId] = useState<string | null>(null);
   const [blogs, setBlogs] = useState<Blog[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  let blog:Blog;
-
-  const pathname = usePathname();
   
     useEffect(() => {
-      
-      setLoading(true);
       
       getBlogs()
         .then((data: Blog[] | null) => {
@@ -55,10 +50,8 @@ export const SingleBlogLastSection = () => {
 
 
   if (loading) return <p>Loading...</p>;
-
-  if (!blogs) {
-    return <p className="text-red-500">No blogs available.</p>;
-  }
+  if (error) return <p className="text-red-500">{error}</p>;
+  if (!blogs || blogs.length === 0) return <p className="text-red-500">No blogs available.</p>;
 
   
 
@@ -82,7 +75,7 @@ export const SingleBlogLastSection = () => {
 
  
   return (
-    <div className="bg-black text-white p-8 relative z-10">
+    <div className="bg-black text-white p-1 pt-1 relative z-10">
       {/* Header Navigation */}
       <div className="text-[#318AFF] flex flex-row gap-300 [@media(max-width:800px)]:gap-[240px] [@media(max-width:1250px)]:gap-[590px]">
         <h2 className="text-2xl text-blue-400 mt-8 lg:text-xl">Read Next</h2>
@@ -102,9 +95,11 @@ export const SingleBlogLastSection = () => {
               {/* Blog image */}
               <div className="bg-gray-700 aspect-video mb-4 overflow-hidden">
                 {blog.mainImage ? (
-                  <img
+                  <Image
                     src={urlFor(blog.mainImage).width(1200).url()}
                     alt={blog.title}
+                    width={1200}  // required
+                    height={800}
                     className="w-full h-full font-[500] object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 ) : (

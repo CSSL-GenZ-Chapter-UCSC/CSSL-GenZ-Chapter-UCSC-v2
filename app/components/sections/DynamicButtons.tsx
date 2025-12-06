@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getBlogs, Blog } from "@/sanity/lib/getBlogs";
+import { getBlogs } from "@/sanity/lib/getBlogs";
 
 type DynamicButtonsProps = {
   selectedCategory: string;
@@ -17,16 +17,16 @@ export const DynamicButtons = ({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setLoading(true);
-    // Fetch all blogs to extract categories
-    getBlogs()
-      .then((data: Blog[] | null) => {
+    const fetchCategories = async () => {
+      try {
+        setLoading(true);
+        const data = await getBlogs();
+
         if (!data || data.length === 0) {
           setCategories(["All"]);
           return;
         }
 
-        // Extract and clean categories
         const uniqueCategories = Array.from(
           new Set(
             data
@@ -36,12 +36,18 @@ export const DynamicButtons = ({
           )
         ).sort();
 
-        console.log("Found categories:", uniqueCategories);
         setCategories(["All", ...uniqueCategories]);
-      })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
+      } catch (err: unknown) {
+        if (err instanceof Error) setError(err.message);
+        else setError("An unknown error occurred");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
   }, []);
+
 
   const handleCategoryClick = (category: string) => {
     console.log("Category clicked:", category);
