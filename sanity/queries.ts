@@ -168,3 +168,10 @@ export const GET_SIMILAR_EVENTS_QUERY = `*[
     "alt": alt
   }
 }`;
+// Get active announcements
+export const GET_ANNOUNCEMENTS_QUERY = `*[_type == "announcement" && isActive == true]{
+  _id,
+  label,
+  title,
+  message
+}`;

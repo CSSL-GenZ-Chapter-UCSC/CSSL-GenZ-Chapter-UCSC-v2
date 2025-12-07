@@ -1,22 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import Image from "next/image";
+import Link from "next/link";
 import { Container } from "../shared/Container";
-
-const WhatsAppIcon = ({ active }: { active: boolean }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="40"
-    height="40"
-    viewBox="0 0 24 24"
-    fill={active ? "#25D366" : "#414141"}
-    className={`transition-colors duration-300 ${active ? "" : "text-blue-500"}`}
-  >
-    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
-  </svg>
-);
 
 const LinkedInIcon = ({ active }: { active: boolean }) => (
   <svg
@@ -59,28 +47,22 @@ const InstagramIcon = ({ active }: { active: boolean }) => (
 
 const socialMediaData = [
   {
-    name: "WhatsApp",
-    icon: WhatsAppIcon,
-    image: "https://picsum.photos/id/1/800/600",
-    link: "#",
-  },
-  {
     name: "LinkedIn",
     icon: LinkedInIcon,
-    image: "https://picsum.photos/id/2/800/600",
-    link: "#",
+    image: "/Images/Contact/linked.png",
+    link: "https://www.linkedin.com/company/cssl-ucsc/posts/?feedView=all",
   },
   {
     name: "Facebook",
     icon: FacebookIcon,
-    image: "https://picsum.photos/id/3/800/600",
-    link: "#",
+    image: "/Images/Contact/fb.png",
+    link: "https://www.facebook.com/cssl.ucsc?rdid=t80Rnh82fYKJpoJY&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1F5rcLY4fd%2F#",
   },
   {
     name: "Instagram",
     icon: InstagramIcon,
-    image: "https://picsum.photos/id/4/800/600",
-    link: "#",
+    image: "/Images/Contact/insta.png",
+    link: "https://www.instagram.com/cssl_ucsc/#",
   },
 ];
 
@@ -99,17 +81,15 @@ export const SocialMediaSection = () => {
       <Container>
         <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
           {/* Left Side */}
-          <div className="flex-1 flex flex-col items-start space-y-6 z-10">
+          <div className="flex-[40%] flex flex-col items-start space-y-6 z-10">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-4xl md:text-5xl font-bold leading-tight font-poppins"
+              className="text-[#E0E0E0] font-[Poppins] md:text-[45px] text-[25px] not-italic font-normal md:leading-[54px] leading-[35px] tracking-[-0.52px] md:w-2/3 w-full"
             >
-              Follow Us for the
-              <br />
-              latest updates!
+              Follow Us for the latest updates
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -129,58 +109,91 @@ export const SocialMediaSection = () => {
               className="flex gap-6 mt-4"
             >
               {socialMediaData.map((social, idx) => (
-                <button
+                <Link
                   key={idx}
+                  href={social.link}
                   onClick={() => setCurrentIndex(idx)}
                   className="hover:scale-110 transition-transform duration-200"
                   aria-label={social.name}
+                  target="_blank"
                 >
                   <social.icon active={currentIndex === idx} />
-                </button>
+                </Link>
               ))}
             </motion.div>
           </div>
 
           {/* Right Side */}
-          <div className="flex-1 w-full relative flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-[600px] aspect-video">
-              {/* Background Glow */}
-              <div className="absolute -inset-4 bg-blue-500/20 blur-3xl rounded-full -z-10" />
+          <div className="flex-[60%] h-auto relative flex justify-center">
+            <div className="w-full relative overflow-hidden">
+              <Image
+                alt="mockup"
+                src={"/Images/Contact/mockup2.png"}
+                width={1500}
+                height={1000}
+                className="w-full h-auto object-cover z-30"
+              ></Image>
+              <div className="absolute bg-black w-[7.3%] h-[3.3%] top-[14.9%] rounded-full left-[49.7%] -translate-x-1/2 z-9999"></div>
+              {socialMediaData.map((social, index) => {
+                const isActive = index === currentIndex;
+                const isNext =
+                  index === (currentIndex + 1) % socialMediaData.length;
+                const isPrev =
+                  index ===
+                  (currentIndex - 1 + socialMediaData.length) %
+                    socialMediaData.length;
 
-              <AnimatePresence mode="popLayout">
-                <motion.div
-                  key={currentIndex}
-                  initial={{
-                    opacity: 0,
-                    filter: "blur(10px)",
-                    scale: 0.95,
-                  }}
-                  animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                  exit={{
-                    opacity: 0,
-                    filter: "blur(10px)",
-                    scale: 0.95,
-                  }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
-                  className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl border border-gray-800 bg-gray-900"
-                >
-                  <Image
-                    src={socialMediaData[currentIndex].image}
-                    alt={`${socialMediaData[currentIndex].name} Preview`}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
+                let variant = "hidden";
+                if (isActive) variant = "center";
+                else if (isNext) variant = "right";
+                else if (isPrev) variant = "left";
 
-                  {/* Overlay Badge */}
-                  <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 border border-white/10">
-                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-sm font-medium">
-                      {socialMediaData[currentIndex].name}
-                    </span>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
+                return (
+                  <motion.div
+                    key={social.name}
+                    initial={false}
+                    animate={variant}
+                    variants={{
+                      center: {
+                        left: "49.8%",
+                        scale: 1,
+                        filter: "blur(0px)",
+                        zIndex: 50,
+                      },
+                      right: {
+                        left: "79.8%",
+                        scale: 0.7,
+                        filter: "blur(8px)",
+                        zIndex: 40,
+                      },
+                      left: {
+                        left: "19.8%",
+                        scale: 0.7,
+                        filter: "blur(8px)",
+                        zIndex: 40,
+                      },
+                    }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    className="absolute top-[14%] -translate-x-1/2 w-[22%] h-auto overflow-hidden"
+                  >
+                    <Link
+                      href={social.link}
+                      className={`block w-full h-full ${
+                        isActive ? "cursor-pointer" : "pointer-events-none"
+                      }`}
+                      target="_blank"
+                    >
+                      <Image
+                        alt={social.name}
+                        src={social.image}
+                        className="object-cover object-top"
+                        width={328}
+                        height={716}
+                      />
+                    </Link>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </div>
