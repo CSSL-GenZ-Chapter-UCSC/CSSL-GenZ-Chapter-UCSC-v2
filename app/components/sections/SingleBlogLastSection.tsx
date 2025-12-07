@@ -55,7 +55,7 @@ export const SingleBlogLastSection = () => {
 
   
 
-  const sanitizedBlogId = path.split("/")[2];
+  const sanitizedBlogId = path?.split("/").pop();
 
   // Find index of current blog
   const currentIndex = blogs.findIndex(
@@ -65,25 +65,27 @@ export const SingleBlogLastSection = () => {
   if (currentIndex === -1) return <p>No blogs found.</p>;
 
   // Get nearest above and below blogs
-  const nearestBlogs: Blog[] = [];
-  if (currentIndex > 0 && currentIndex < blogs.length - 1) nearestBlogs.push(blogs[currentIndex + 1]); // below
-  if (currentIndex > 0 && currentIndex < blogs.length - 2) nearestBlogs.push(blogs[currentIndex + 2]);
-  if (currentIndex > 0 && currentIndex < blogs.length - 3) nearestBlogs.push(blogs[currentIndex + 3]);
+  const nearestBlogs = blogs
+    .filter((_, index) => index !== currentIndex) // remove current blog
+    .slice(currentIndex + 1, currentIndex + 4);
 
 
-  if (nearestBlogs.length === blogs.length) return <p className="text-gray-400 py-12">No other blogs.</p>;
+  if (nearestBlogs.length === 0)
+    return <p className="text-gray-400 py-12">No other blogs.</p>;
 
  
   return (
     <div className="bg-black text-white p-1 pt-1 relative z-10">
-      {/* Header Navigation */}
-      <div className="text-[#318AFF] flex flex-row gap-200 [@media(max-width:800px)]:gap-[240px] [@media(max-width:1250px)]:gap-[590px]">
-        <h2 className="text-2xl text-blue-400 mt-8 lg:text-xl">Read Next</h2>
-        <Link href={`/blogs/`} className="group cursor:pointer w-[980px]">
-          <button className="text-[78px] flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
-            &lt;
-            <span className="text-lg">Back to All Blogs</span>
-          </button>
+      <div className="flex items-center justify-between mt-8 mb-6 px-2">
+        <h2 className="text-2xl text-blue-400">Read Next</h2>
+
+        {/* 🔧 MODIFIED: Link without button inside */}
+        <Link
+          href="/blogs"
+          className="flex items-center gap-2 text-blue-400 hover:text-blue-300"
+        >
+          <span className="text-5xl">&lt;</span>
+          <span className="text-lg">Back to All Blogs</span>
         </Link>
       </div>
 
