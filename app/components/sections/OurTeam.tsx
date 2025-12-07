@@ -22,7 +22,7 @@ export const OurTeam = () => {
               initial={{ opacity: 0, filter: "blur(8px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.15 }}
-              className="text-[#afafaf] font-[Poppins] sm:text-[16px] text-[12px] not-italic font-medium sm:leading-[23px] leading-4 sm:w-[274px] w-[200px]"
+              className="text-[#afafaf] font-[Poppins] sm:text-[14px] text-[12px] not-italic font-medium sm:leading-[23px] leading-4 sm:w-[274px] w-[200px]"
             >
               The CSSL GenZ Chapter thrives through collaboration
             </motion.p>
@@ -30,7 +30,7 @@ export const OurTeam = () => {
               initial={{ opacity: 0, filter: "blur(8px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.25 }}
-              className="text-[#afafaf] font-[Poppins] sm:text-[16px] text-[12px] not-italic font-medium sm:leading-[23px] leading-4 sm:w-[274px] w-[200px] mt-20 sm:mt-0"
+              className="text-[#afafaf] font-[Poppins] sm:text-[14px] text-[12px] not-italic font-medium sm:leading-[23px] leading-4 sm:w-[274px] w-[200px] mt-20 sm:mt-0"
             >
               A collective of students who bring ideas to life across event
               planning, design, media, and innovation
@@ -39,7 +39,7 @@ export const OurTeam = () => {
               initial={{ opacity: 0, filter: "blur(8px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.35 }}
-              className="text-[#afafaf] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] sm:w-[274px] w-[200px] sm:block hidden"
+              className="text-[#afafaf] font-[Poppins] text-[14px] not-italic font-medium leading-[23px] sm:w-[274px] w-[200px] sm:block hidden"
             >
               We strive to empower undergraduates through technology,
               innovation, and collaboration bridging the gap between academia

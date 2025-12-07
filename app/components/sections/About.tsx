@@ -9,57 +9,46 @@ import { PageTitle } from "../shared/PageTitle";
 export const About = () => {
   const aboutImages: { src?: string; className?: string; alt?: string }[] = [
     {
-      src: "/Images/About/img1.jpg",
-      className: "object-cover scale-[1.6] sm:block hidden",
+      src: "/Images/About/about3.jpg",
+      className: "object-cover scale-[1.7] sm:block hidden",
       alt: "About image 1",
     },
     {
-      src: "/Images/About/img2.jpg",
-      className: "object-cover scale-[1.6] sm:block hidden",
+      src: "/Images/About/about5.jpg",
+      className: "object-cover scale-[2] sm:block hidden",
       alt: "About image 2",
     },
     {
-      src: "/Images/About/img3.jpg",
-      className: "object-cover scale-[1.6]",
+      src: "/Images/About/about1.jpg",
+      className: "object-cover scale-[2]",
       alt: "About image 3",
     },
     {
-      src: "/Images/About/img4.jpg",
-      className: "object-cover scale-[1.6]",
+      src: "/Images/About/about4.jpg",
+      className: "object-cover scale-[2]",
       alt: "About image 4",
     },
     {
-      src: "/Images/About/img1.jpg",
-      className: "object-cover [transform:scaleX(-1)_scale(1.6)]",
-      alt: "About image 1",
-    },
-    {
-      src: "/Images/About/img2.jpg",
-      className: "object-cover [transform:scaleX(-1)_scale(1.6)]",
+      src: "/Images/About/about6.jpg",
+      className: "object-cover [transform:scaleX(-1)_scale(1.5)]",
       alt: "About image 2",
     },
     {
-      src: "/Images/About/img3.jpg",
-      className:
-        "object-cover [transform:scaleX(-1)_scale(1.6)] sm:block hidden",
-      alt: "About image 3",
+      src: "/Images/About/about8.jpg",
+      className: "object-cover [transform:scaleX(1)_scale(1.75)]",
+      alt: "About image 4",
     },
+
     {
-      src: "/Images/About/img4.jpg",
+      src: "/Images/About/about7.jpg",
       className:
-        "object-cover [transform:scaleX(-1)_scale(1.6)] sm:block hidden",
+        "object-cover [transform:scaleX(-1)_scale(2.1)] sm:block hidden",
       alt: "About image 4",
     },
     {
-      src: "/Images/About/img4.jpg",
+      src: "/Images/About/about2.jpg",
       className:
-        "object-cover [transform:scaleX(-1)_scale(1.6)] sm:block hidden",
-      alt: "About image 4",
-    },
-    {
-      src: "/Images/About/img4.jpg",
-      className:
-        "object-cover [transform:scaleX(-1)_scale(1.6)] sm:block hidden",
+        "object-cover [transform:scaleX(-1)_scale(1.7)] sm:block hidden",
       alt: "About image 4",
     },
   ];
@@ -78,7 +67,7 @@ export const About = () => {
               initial={{ opacity: 0, filter: "blur(8px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.15 }}
-              className="text-[#afafaf] font-[Poppins] sm:text-[16px] text-[12px] not-italic font-medium sm:leading-[23px] leading-4 sm:w-[274px] w-[200px]"
+              className="text-[#afafaf] font-[Poppins] sm:text-[14px] text-[12px] not-italic font-medium sm:leading-[23px] leading-4 sm:w-[274px] w-[200px]"
             >
               NextGen Tech, Today’s Chapter - CSSL Genz UCSC
             </motion.p>
@@ -86,7 +75,7 @@ export const About = () => {
               initial={{ opacity: 0, filter: "blur(8px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.25 }}
-              className="text-[#afafaf] font-[Poppins] sm:text-[16px] text-[12px] not-italic font-medium sm:leading-[23px] leading-4 sm:w-[274px] w-[200px]"
+              className="text-[#afafaf] font-[Poppins] sm:text-[14px] text-[12px] not-italic font-medium sm:leading-[23px] leading-4 sm:w-[274px] w-[200px]"
             >
               CSSL GenZ - UCSC Chapter is the official representation of the
               Computer Society of Sri Lanka at the University of Colombo School
@@ -96,7 +85,7 @@ export const About = () => {
               initial={{ opacity: 0, filter: "blur(8px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.35 }}
-              className="text-[#afafaf] font-[Poppins] text-[16px] not-italic font-medium leading-[23px] sm:w-[274px] w-[200px] sm:block hidden"
+              className="text-[#afafaf] font-[Poppins] text-[14px] not-italic font-medium leading-[23px] sm:w-[274px] w-[200px] sm:block hidden"
             >
               We strive to empower undergraduates through technology,
               innovation, and collaboration bridging the gap between academia
@@ -141,6 +130,8 @@ export const About = () => {
                       } transition-all duration-200 ${img.className ?? ""}`}
                       sizes="(max-width: 640px) 50vw, 150px"
                       priority={i < 2}
+                      loading="eager"
+                      draggable={false}
                     />
                   </motion.div>
                 ) : null}
