@@ -11,6 +11,8 @@ const GALLERY_CONFIG = {
     "Sri Lanka’s leading ICT body empowering innovation, professionalism, and future talent",
   text2:
     "The CSSL GenZ Chapter at UCSC is a student-led initiative that empowers future IT innovators. Guided by Dr. Roshan Rajapaksha and supported by Dr. Manjusri Wickramasinghe, it gives undergraduates a platform to explore tech, build skills, and be creative",
+  text2Mobile:
+    "A student-led initiative at UCSC empowering future IT innovators to explore tech, build skills, and be creative.",
   images: [
     {
       src: "/Images/gallery1.jpg",
@@ -118,7 +120,9 @@ export const Gallery = () => {
             <div className="relative w-full h-full z-50">
               <GalleryTexts
                 text1={GALLERY_CONFIG.text1}
-                text2={GALLERY_CONFIG.text2}
+                text2={
+                  isMobile ? GALLERY_CONFIG.text2Mobile : GALLERY_CONFIG.text2
+                }
                 images={GALLERY_CONFIG.images}
                 scrollYProgress={scrollYProgress}
               />
@@ -147,10 +151,10 @@ const GalleryTexts = memo(
     const text2Words = useMemo(() => text2.split(" "), [text2]);
 
     return (
-      <div className="absolute inset-0 flex flex-col justify-between p-8">
+      <div className="absolute inset-0 flex flex-col justify-between md:p-8 p-2">
         {/* Text 1 - Top Left */}
         <div className="relative z-20 md:w-1/2 w-full">
-          <h2 className="font-poppins md:text-[31px] text-xl font-medium md:leading-[37px] leading-[25px]">
+          <h2 className="font-poppins md:text-[31px] text-2xl font-medium md:leading-[37px] leading-[30px]">
             {text1Words.map((word: string, index: number) => {
               const start = 0.1 + (index / text1Words.length) * 0.4;
               return (
@@ -165,7 +169,7 @@ const GalleryTexts = memo(
           </h2>
         </div>
 
-        <div className="relative z-20 bg-gray-600 w-[350px] h-[200px] self-center overflow-hidden md:block hidden">
+        <div className="relative z-20 bg-gray-600 w-[350px] h-[250px] self-center overflow-hidden md:block hidden">
           {images.map((image, index) => (
             <RightImage
               key={index}
@@ -179,7 +183,7 @@ const GalleryTexts = memo(
 
         {/* Text 2 - Bottom Right */}
         <div className="relative z-20 md:w-1/2 w-full self-end">
-          <h2 className="md:text-left text-right font-poppins md:text-[18px] text-[13px] font-medium md:leading-[23px] leading-[17px] text-gray-400">
+          <h2 className="md:text-left text-right font-poppins md:text-[18px] text-[18px] font-medium md:leading-[23px] leading-[21px] text-gray-400">
             {text2Words.map((word: string, index: number) => {
               const start = 0.5 + (index / text2Words.length) * 0.4;
               return (
