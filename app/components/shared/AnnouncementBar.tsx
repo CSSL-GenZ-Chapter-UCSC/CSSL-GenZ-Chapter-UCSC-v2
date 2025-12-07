@@ -30,7 +30,7 @@ export const AnnouncementBar = ({ announcements }: AnnouncementBarProps) => {
   if (announcements.length === 0) return null;
 
   return (
-    <div className="w-full bg-[linear-gradient(90deg,#3A7CFF80_0%,#11020200_100%)] border-t border-white/5 py-3 overflow-hidden">
+    <div className="w-full mb-17 bg-[linear-gradient(90deg,#3A7CFF80_0%,#11020200_100%)] border-t border-white/5 py-3 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative h-14 flex items-center justify-center">
         <AnimatePresence mode="wait">
           <motion.div

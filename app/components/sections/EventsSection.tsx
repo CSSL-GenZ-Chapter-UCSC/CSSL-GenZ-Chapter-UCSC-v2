@@ -143,7 +143,7 @@ export function EventsSection({ events }: EventsSectionProps) {
     return (
       <div ref={sectionWrapperRef}>
         <Container className="relative z-10 py-16 lg:py-20">
-          <div className="bg-black h-screen flex items-center justify-center rounded-lg overflow-hidden">
+          <div className="h-screen flex items-center justify-center rounded-lg overflow-hidden">
             <div className="text-center text-white">
               <h3 className="text-2xl font-semibold mb-2">
                 No Events Available
@@ -187,11 +187,14 @@ export function EventsSection({ events }: EventsSectionProps) {
                 ref={(el) => {
                   eventCardRefs.current[index] = el;
                 }}
-                className={`${event.className} flex items-center justify-start h-[55vh] shrink-0 transition-all duration-300`}
+                className={`${event.className} flex items-center justify-start h-[55vh] shrink-0`}
                 id={`event-${index}`}
                 animate={{
-                  opacity: activeEventIndex === index ? 1 : 0.5,
+                  opacity: activeEventIndex === index ? 1 : 0.3,
+                  filter:
+                    activeEventIndex === index ? "blur(0px)" : "blur(8px)",
                 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
               >
                 {/* Date section */}
                 <div
@@ -229,7 +232,7 @@ export function EventsSection({ events }: EventsSectionProps) {
                     animate={{
                       color: activeEventIndex === index ? "#ffffff" : "#318AFF",
                     }}
-                    transition={{ duration: 0 }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
                   >
                     <span className="leading-tight">{event.title}</span>
                   </motion.div>
