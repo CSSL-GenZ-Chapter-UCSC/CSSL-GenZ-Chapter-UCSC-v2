@@ -3,16 +3,18 @@
  */
 
 import { client } from "@/sanity/lib/client";
-import { 
+import {
   GET_EVENTS_QUERY,
   GET_FEATURED_EVENT_QUERY,
   GET_UPCOMING_EVENTS_QUERY,
   GET_PAST_EVENTS_QUERY,
   GET_EVENT_BY_SLUG_QUERY,
   GET_SIMILAR_EVENTS_QUERY,
-  GET_EVENT_SLUGS_QUERY
+  GET_EVENT_SLUGS_QUERY,
+  GET_ANNOUNCEMENTS_QUERY,
 } from "@/sanity/queries";
 import type { Event } from "../../app/types/event";
+import type { Announcement } from "../../app/components/shared/AnnouncementBar";
 
 export type EventSlug = {
   slug: string;
@@ -108,6 +110,26 @@ export async function getAllEventSlugs(): Promise<EventSlug[]> {
     return slugs;
   } catch (error) {
     console.error("Error fetching event slugs:", error);
+    return [];
+  }
+}
+
+/**
+ * Fetch active announcements (server-side)
+ */
+export async function getAnnouncements(): Promise<Announcement[]> {
+  try {
+    const announcements = await client.fetch(GET_ANNOUNCEMENTS_QUERY);
+    return announcements.map(
+      (a: { _id: string; label: string; title: string; message: string }) => ({
+        id: a._id,
+        label: a.label,
+        title: a.title,
+        message: a.message,
+      })
+    );
+  } catch (error) {
+    console.error("Error fetching announcements:", error);
     return [];
   }
 }
