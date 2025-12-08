@@ -13,6 +13,11 @@ export const DisplayBlogs = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+
+  const [currentPage, setCurrentPage] = useState(0); // page index
+  const blogsPerPage = 9; // number of blogs per page
+
+
   useEffect(() => {
     const fetchBlogs = async () => {
       setLoading(true);
@@ -28,6 +33,9 @@ export const DisplayBlogs = () => {
             return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
           })
         );
+
+        setCurrentPage(0);
+
       } catch (err: unknown) {
         // Narrow the error type
         if (err instanceof Error) {
@@ -67,6 +75,10 @@ export const DisplayBlogs = () => {
     );
   }
 
+  // --- ADDED: calculate start and end index for current page
+  const start = currentPage * blogsPerPage;
+  const end = start + blogsPerPage;
+
   return (
     <div className="container mx-auto px-4 py-8">
       <DynamicButtons
@@ -80,8 +92,9 @@ export const DisplayBlogs = () => {
             No blogs found for this category.
           </div>
         ) : (
-          blogs.map((blog) => (
-            <Link href={`/blogs/${blog._id}`} key={blog._id} className="">
+          // --- MODIFIED: slice blogs to show only current page
+          blogs.slice(start, end).map((blog) => (
+            <Link href={`/blogs/${blog._id}`} key={blog._id}>
               <div className="overflow-hidden shadow-md hover:-translate-y-2 hover:shadow-xl cursor-pointer flex flex-col h-full">
                 {blog.mainImage?.asset && (
                   <Image
@@ -113,6 +126,29 @@ export const DisplayBlogs = () => {
               </div>
             </Link>
           ))
+        )}
+      </div>
+
+      {/* --- ADDED: Pagination buttons */}
+      <div className="flex justify-center mt-6 gap-4">
+        {/* Previous button */}
+        {currentPage > 0 && (
+          <button
+            onClick={() => setCurrentPage((prev) => prev - 1)}
+            className="cursor-pointer bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600 transition"
+          >
+            Previous
+          </button>
+        )}
+
+        {/* Next button */}
+        {(currentPage + 1) * blogsPerPage < blogs.length && (
+          <button
+            onClick={() => setCurrentPage((prev) => prev + 1)}
+            className="cursor-pointer bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
+          >
+            Next
+          </button>
         )}
       </div>
     </div>

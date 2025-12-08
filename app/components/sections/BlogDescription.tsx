@@ -12,6 +12,37 @@ export const BlogDescription = () => {
   const blogId = pathname?.split("/")[2] ?? null; // derived state
 
   const [blog, setBlog] = useState<Blog | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  const copyLink = () => {
+    if (typeof window !== "undefined") {
+      navigator.clipboard.writeText(window.location.href);
+      setCopied(true); // show toast
+      setTimeout(() => setCopied(false), 2000); // hide after 2s
+    }
+  };
+
+  // --- Handle share button click
+  const handleShare = async () => {
+    const url = typeof window !== "undefined" ? window.location.href : "";
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: blog?.title || "Blog",
+          text: "Check out this blog!",
+          url,
+        });
+      } catch (error) {
+        console.log("Share canceled:", error);
+      }
+    } else {
+      // Fallback: copy link
+      copyLink();
+    }
+  };
+
+
 
   useEffect(() => {
     if (!blogId) return;
@@ -34,7 +65,11 @@ export const BlogDescription = () => {
   return (
     <div className="py-8 px-25 justify-center">
 
-    <div className="bg-[#3462B3] flex justify-center w-12 h-10 lg:-ml-49 mt-45 -ml-26">
+  {/* Share icon */}
+    <div 
+        className="bg-[#3462B3] fixed top-100 left-0 w-12 h-10 flex justify-center items-center shadow-lg cursor-pointer z-50"
+        onClick={handleShare}
+    >
       <svg
         className="w-9 h-9 text-[#CCCCCC]"
         fill="currentColor"
@@ -44,9 +79,17 @@ export const BlogDescription = () => {
       </svg>
     </div>
 
+    {/* Beautiful popup toast */}
+    <div
+      className={`fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-5 py-2 rounded-lg shadow-lg transition-all duration-300 
+        ${copied ? "opacity-100 scale-100" : "opacity-0 scale-90 pointer-events-none"}`}
+    >
+      Link copied!
+    </div>
 
 
-  <div className="-mt-50">
+
+  <div className="mt-8">
     {/* Content paragraphs */}
     {contentParagraphs.length > 0 ? (
       contentParagraphs.map((p, i) => (
@@ -75,7 +118,7 @@ export const BlogDescription = () => {
             alt={blog.title}
             width={1200}  // required
             height={800}
-            className="w-[993px] h-[490px] object-cover lg:left-[120px] lg:top-[30px] lg:relative lg:mb-19"
+            className="w-[993px] h-[490px] object-cover lg:left-[6px] lg:top-[30px] lg:relative lg:mb-19"
           />
         )}
         {/* Rest of subtopics (optional) */}
@@ -121,6 +164,11 @@ export const BlogDescription = () => {
 
   );
 };
+
+
+
+
+
 
 
 
