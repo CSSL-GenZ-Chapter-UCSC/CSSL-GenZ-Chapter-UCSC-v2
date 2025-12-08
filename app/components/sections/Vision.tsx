@@ -109,7 +109,7 @@ export const Vision = () => {
               {pastHalf ? (
                 <motion.p
                   key="desc-2"
-                  className="text-[#E0E0E0] font-[Poppins] md:text-[45px] text-[25px] not-italic font-normal md:leading-[54px] leading-[35px] tracking-[-0.52px] md:w-2/3 w-full"
+                  className="text-[#E0E0E0] font-[Poppins] md:text-[45px] text-[25px] not-italic font-normal md:leading-[54px] leading-[35px] tracking-[-0.52px] lg:w-2/3 w-full"
                 >
                   {renderSpans(
                     "To create a community of UCSC undergraduates passionate about technology",
@@ -119,7 +119,7 @@ export const Vision = () => {
               ) : (
                 <motion.p
                   key="desc-1"
-                  className="text-[#E0E0E0] font-[Poppins] md:text-[45px] text-[25px] not-italic font-normal md:leading-[54px] leading-[35px] tracking-[-0.52px] md:w-2/3 w-full"
+                  className="text-[#E0E0E0] font-[Poppins] md:text-[45px] text-[25px] not-italic font-normal md:leading-[54px] leading-[35px] tracking-[-0.52px] lg:w-2/3 w-full"
                 >
                   {renderSpans(
                     "To inspire the next generation of ICT leaders who have the capability to transform the digital landscape in Sri Lanka",
