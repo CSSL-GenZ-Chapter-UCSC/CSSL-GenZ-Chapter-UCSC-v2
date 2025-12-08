@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getBlogs } from "@/sanity/lib/getBlogs";
+import { fetchCategoriesAction } from "@/app/actions/sanity";
 
 type DynamicButtonsProps = {
   selectedCategory: string;
@@ -20,23 +20,15 @@ export const DynamicButtons = ({
     const fetchCategories = async () => {
       try {
         setLoading(true);
-        const data = await getBlogs();
+        const uniqueCategories = await fetchCategoriesAction();
 
-        if (!data || data.length === 0) {
+        if (!uniqueCategories || uniqueCategories.length === 0) {
           setCategories(["All"]);
           return;
         }
 
-        const uniqueCategories = Array.from(
-          new Set(
-            data
-              .map((blog) => blog.category)
-              .filter(Boolean)
-              .map((cat) => cat.trim())
-          )
-        ).sort();
-
-        setCategories(["All", ...uniqueCategories]);
+        const sortedCategories = uniqueCategories.sort();
+        setCategories(["All", ...sortedCategories]);
       } catch (err: unknown) {
         if (err instanceof Error) setError(err.message);
         else setError("An unknown error occurred");
@@ -48,14 +40,15 @@ export const DynamicButtons = ({
     fetchCategories();
   }, []);
 
-
   const handleCategoryClick = (category: string) => {
     console.log("Category clicked:", category);
     setSelectedCategory(category);
   };
 
-  if (loading) return <div className="text-center py-4">Loading categories...</div>;
-  if (error) return <div className="text-red-500 text-center py-4">Error: {error}</div>;
+  if (loading)
+    return <div className="text-center py-4">Loading categories...</div>;
+  if (error)
+    return <div className="text-red-500 text-center py-4">Error: {error}</div>;
 
   return (
     <div className="flex flex-wrap gap-4 mb-8">

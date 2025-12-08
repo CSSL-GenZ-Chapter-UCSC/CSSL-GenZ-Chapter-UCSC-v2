@@ -105,7 +105,7 @@ export const BlogDescription = ({ blog }: BlogDescriptionProps) => {
                 alt={blog.title}
                 width={1200} // required
                 height={800}
-                className="w-[993px] h-[490px] object-cover lg:left-[6px] lg:top-[30px] lg:relative lg:mb-19"
+                className="w-[993px] h-[490px] object-cover lg:left-1.5 lg:top-[30px] lg:relative lg:mb-19"
               />
             )}
             {/* Rest of subtopics (optional) */}

@@ -62,3 +62,9 @@ export const getBlogById = async (id: string) => {
   const blog = await client.fetch(query, params);
   return blog;
 };
+
+export async function getCategories(): Promise<string[]> {
+  const query = `array::unique(*[_type == "blog" && defined(category)].category)`;
+  const categories = await client.fetch(query);
+  return categories;
+}
