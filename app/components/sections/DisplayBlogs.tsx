@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { getBlogs, type Blog } from "@/sanity/lib/getBlogs";
+import { type Blog } from "@/sanity/lib/getBlogs";
+import { fetchBlogsAction } from "@/app/actions/sanity";
 import { DynamicButtons } from "./DynamicButtons";
 import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
@@ -40,20 +41,30 @@ const BlogSkeleton = () => (
   </div>
 );
 
-export const DisplayBlogs = () => {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+interface DisplayBlogsProps {
+  initialBlogs: Blog[];
+}
+
+export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
+  const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   const [currentPage, setCurrentPage] = useState(0); // page index
   const blogsPerPage = 9; // number of blogs per page
 
   useEffect(() => {
+    if (isFirstLoad && selectedCategory === "All") {
+      setIsFirstLoad(false);
+      return;
+    }
+
     const fetchBlogs = async () => {
       setLoading(true);
       try {
-        const data = await getBlogs(selectedCategory);
+        const data = await fetchBlogsAction(selectedCategory);
         if (!data || !Array.isArray(data)) {
           setBlogs([]);
           return;
