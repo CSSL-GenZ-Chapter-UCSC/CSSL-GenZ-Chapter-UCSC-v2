@@ -27,7 +27,7 @@ export const MemberCardItem = ({ member }: { member: MemberCardProps }) => {
       initial={{ y: 50, opacity: 0, filter: "blur(8px)" }}
       whileInView={{ y: 0, opacity: 1, filter: "blur(0px)" }}
       transition={{ duration: 0.5, ease: "easeOut", delay }}
-      viewport={{ amount: 0.01 }}
+      viewport={{ once: true, amount: 0.01 }}
     >
       <Link
         href={member.href}

@@ -20,7 +20,7 @@ export const TeamGroupPhoto = ({
         initial={{ scale: 0.9 }}
         whileInView={{ scale: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        viewport={{ amount: 0.05 }}
+        viewport={{ once: true, amount: 0.05 }}
         className="w-full h-full bg-[#163168]  ml-auto relative overflow-hidden"
       />
     );
@@ -33,7 +33,7 @@ export const TeamGroupPhoto = ({
         initial={{ scale: 0.9, filter: "blur(8px)" }}
         whileInView={{ scale: 1, filter: "blur(0px)" }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        viewport={{ amount: 0.00001 }}
+        viewport={{ once: true, amount: 0.00001 }}
       >
         <Image
           src={src}
