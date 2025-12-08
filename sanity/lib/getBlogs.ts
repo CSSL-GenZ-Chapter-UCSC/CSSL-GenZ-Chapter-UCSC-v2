@@ -18,10 +18,10 @@ export async function getBlogs(
   limit: number = 10
 ): Promise<Blog[]> {
   let query;
+  const params: any = { limit };
 
   if (category && category !== "All") {
-    // FIXED: Proper GROQ syntax with filter inside brackets
-    query = `*[_type=="blog" && category == "${category}"] | order(publishedAt desc)[0...${limit}]{
+    query = `*[_type=="blog" && category == $category] | order(publishedAt desc)[0...$limit]{
       _id,
       title,
       mainImage,
@@ -33,8 +33,9 @@ export async function getBlogs(
       category,
       subtopicDescription
     }`;
+    params.category = category;
   } else {
-    query = `*[_type=="blog"] | order(publishedAt desc)[0...${limit}]{
+    query = `*[_type=="blog"] | order(publishedAt desc)[0...$limit]{
       _id,
       title,
       mainImage,
@@ -49,7 +50,7 @@ export async function getBlogs(
   }
 
   console.log("Query:", query); // Debug log
-  const result = await client.fetch(query);
+  const result = await client.fetch(query, params);
   console.log("Results:", result.length, "blogs"); // Debug log
 
   return result;

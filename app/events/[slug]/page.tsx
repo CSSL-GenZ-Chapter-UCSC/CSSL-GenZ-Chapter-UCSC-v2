@@ -20,10 +20,10 @@ interface EventDetailPageProps {
   }>;
 }
 
-export async function generateStaticParams() {
-  const slugs = await getAllEventSlugs();
-  return slugs.filter((item) => item.slug).map((item) => ({ slug: item.slug }));
-}
+// export async function generateStaticParams() {
+//   const slugs = await getAllEventSlugs();
+//   return slugs.filter((item) => item.slug).map((item) => ({ slug: item.slug }));
+// }
 
 export default async function EventDetailPage({
   params,
