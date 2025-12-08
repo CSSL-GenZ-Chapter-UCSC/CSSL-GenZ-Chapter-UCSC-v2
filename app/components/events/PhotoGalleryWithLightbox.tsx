@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 interface Photo {
   url?: string;
@@ -38,22 +39,26 @@ export default function PhotoGalleryWithLightbox({
 
   return (
     <>
-      <div className={`grid ${mobileGridClass} md:${gridClass} md:grid-rows-2 gap-3 auto-rows-fr`}>
-        {photos.map((photo, index) => (
-          photo.url && (
-            <div
-              key={index}
-              onClick={() => openLightbox(index)}
-              className={`rounded-xl overflow-hidden border border-white/5 bg-white/5 cursor-pointer hover:opacity-90 transition-opacity ${mobilePhotoClasses[index] || ""} md:${photoClasses[index] || ""}`}
-            >
-              <img
-                src={photo.url}
-                alt={photo.alt || `Event photo ${index + 1}`}
-                className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-              />
-            </div>
-          )
-        ))}
+      <div
+        className={`grid ${mobileGridClass} md:${gridClass} md:grid-rows-2 gap-3 auto-rows-fr`}
+      >
+        {photos.map(
+          (photo, index) =>
+            photo.url && (
+              <div
+                key={index}
+                onClick={() => openLightbox(index)}
+                className={`rounded-xl overflow-hidden border border-white/5 bg-white/5 cursor-pointer hover:opacity-90 transition-opacity relative ${mobilePhotoClasses[index] || ""} md:${photoClasses[index] || ""}`}
+              >
+                <Image
+                  src={photo.url}
+                  alt={photo.alt || `Event photo ${index + 1}`}
+                  fill
+                  className="object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+            )
+        )}
       </div>
 
       {/* Lightbox Modal */}
@@ -68,12 +73,18 @@ export default function PhotoGalleryWithLightbox({
           >
             ×
           </button>
-          <img
-            src={photos[currentImageIndex].url!}
-            alt={photos[currentImageIndex].alt || `Event photo ${currentImageIndex + 1}`}
-            className="max-w-full max-h-full object-contain"
-            onClick={(e) => e.stopPropagation()}
-          />
+          <div className="relative w-full h-full">
+            <Image
+              src={photos[currentImageIndex].url!}
+              alt={
+                photos[currentImageIndex].alt ||
+                `Event photo ${currentImageIndex + 1}`
+              }
+              fill
+              className="object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
         </div>
       )}
     </>
