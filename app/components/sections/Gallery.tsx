@@ -15,15 +15,15 @@ const GALLERY_CONFIG = {
     "A student-led initiative at UCSC empowering future IT innovators to explore tech, build skills, and be creative.",
   images: [
     {
-      src: "/Images/gallery1.jpg",
+      src: "/Images/gallery4.jpg",
       alt: "CSSL GenZ Chapter Team",
     },
     {
-      src: "/Images/gallery2.jpg",
+      src: "/Images/gallery5.jpg",
       alt: "CSSL GenZ Chapter Event",
     },
     {
-      src: "/Images/gallery3.jpg",
+      src: "/Images/gallery6.jpg",
       alt: "CSSL Learning Sessions",
     },
   ],

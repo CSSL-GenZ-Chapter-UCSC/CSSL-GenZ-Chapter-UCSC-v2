@@ -56,7 +56,7 @@ export const SingleBlogTopSection = () => {
               alt={blog.title}
               width={1200}  // required
               height={800}
-              className="max-w-[543px] h-[300px] lg:-ml-22 -mt-50 -lg:ml-70 ml-181"
+              className="max-w-[543px] h-[300px] -mt-60 lg:ml-170 ml-181"
             />
           ) : (
             <p className="text-white">Loading...</p>
@@ -64,7 +64,7 @@ export const SingleBlogTopSection = () => {
         </div>
 
         {/*for Blog details */}
-        <div className="lg:-mt-90 lg:ml-195 ml-400 -mt-110">
+        <div className="lg:-mt-180 lg:ml-525 ml-400 -mt-110">
           
             <h1 className="text-5xl  font-[490] text-white lg:-left-[50px] lg:top-[80px] lg:relative [@media(max-width:1300px)]:relative [@media(max-width:1300px)]:top-[480px] [@media(max-width:1300px)]:-left-[800px]">
                 {blog?.title}
@@ -111,7 +111,7 @@ const LogoScroll = ({ gradient }: { gradient: string }) => {
 
   
   return (
-    <div className="-mt-28 relative h-[200vh] w-full">
+    <div className="-mt-18 relative h-[200vh] w-full">
       <div className="h-screen top-0 flex items-center justify-center overflow-hidden">
         <h2
           className="text-center font-[Poppins] 2xl:text-[180px] xl:text-[120px] lg:text-[100px] md:text-[30px] sm:text-[10px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
@@ -147,7 +147,7 @@ const LogoScroll = ({ gradient }: { gradient: string }) => {
           CSSL
         </h2>
       </div>
-      <div className="-mt-110 h-screen top-0 flex items-center justify-center overflow-hidden">
+      <div className="-mt-80 h-screen top-0 flex items-center justify-center overflow-hidden">
         <h2
           className="text-center font-[Poppins] 2xl:text-[280px] xl:text-[250px] lg:text-[150px] md:text-[50px] sm:text-[20px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
           style={{
