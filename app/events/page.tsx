@@ -1,4 +1,9 @@
 import { EventsListing } from "../components/events/EventsListing";
+import {
+  getFeaturedEvent,
+  getUpcomingEvents,
+  getPastEvents,
+} from "@/sanity/lib/api";
 
 export const metadata = {
   title: "Events | CSSL GenZ Chapter",
@@ -6,6 +11,18 @@ export const metadata = {
     "Join us for events that inspire growth, spark creativity, and connect changemakers.",
 };
 
-export default function EventsPage() {
-  return <EventsListing />;
+export default async function EventsPage() {
+  const [featuredEvent, upcomingEvents, pastEvents] = await Promise.all([
+    getFeaturedEvent(),
+    getUpcomingEvents(),
+    getPastEvents(),
+  ]);
+
+  return (
+    <EventsListing
+      featuredEvent={featuredEvent}
+      upcomingEvents={upcomingEvents}
+      pastEvents={pastEvents}
+    />
+  );
 }

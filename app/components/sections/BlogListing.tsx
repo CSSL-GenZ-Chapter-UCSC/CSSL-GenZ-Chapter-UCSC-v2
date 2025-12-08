@@ -3,8 +3,13 @@
 import { motion } from "motion/react";
 import { PageTitle } from "../shared/PageTitle";
 import { DisplayBlogs } from "./DisplayBlogs";
+import { type Blog } from "@/sanity/lib/getBlogs";
 
-export const BlogListing = () => {
+interface BlogListingProps {
+  initialBlogs: Blog[];
+}
+
+export const BlogListing = ({ initialBlogs }: BlogListingProps) => {
   return (
     <section className="pt-35 lg:px-23 relative h-full w-full bg-black flex flex-col gap-0">
       <div className="w-full flex flex-col sm:items-stretch mb-10">
@@ -25,7 +30,7 @@ export const BlogListing = () => {
         </div>
       </div>
 
-      <DisplayBlogs />
+      <DisplayBlogs initialBlogs={initialBlogs} />
     </section>
   );
 };
