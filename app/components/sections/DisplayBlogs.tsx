@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { type Blog } from "@/sanity/lib/getBlogs";
 import { fetchBlogsAction } from "@/app/actions/sanity";
@@ -50,14 +50,14 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const isFirstLoad = useRef(true);
 
   const [currentPage, setCurrentPage] = useState(0); // page index
   const blogsPerPage = 9; // number of blogs per page
 
   useEffect(() => {
-    if (isFirstLoad && selectedCategory === "All") {
-      setIsFirstLoad(false);
+    if (isFirstLoad.current && selectedCategory === "All") {
+      isFirstLoad.current = false;
       return;
     }
 
