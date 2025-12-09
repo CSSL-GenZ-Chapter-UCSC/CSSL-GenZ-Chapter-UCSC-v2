@@ -10,18 +10,22 @@ import { motion, AnimatePresence } from "motion/react";
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname();
 
   useEffect(() => {
+    let lastY = window.scrollY;
+
     const handleScroll = () => {
-      if (window.scrollY > lastScrollY) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
+      const currentY = window.scrollY;
+
+      if (currentY > lastY + 20) {
+        setIsVisible(false); // scrolling down → hide
+      } else if (currentY < lastY - 20) {
+        setIsVisible(true); // scrolling up → show
       }
-      setLastScrollY(window.scrollY);
-      setIsOpen(false);
+
+      lastY = currentY; // update inside the closure
+      setIsOpen(false); // always close menu on scroll
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -29,7 +33,7 @@ export const Navbar = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [lastScrollY]);
+  }, []);
 
   // Hide navbar on studio routes
   if (pathname?.startsWith("/studio")) {
