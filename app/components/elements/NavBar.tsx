@@ -19,9 +19,9 @@ export const Navbar = () => {
       const currentY = window.scrollY;
 
       if (currentY > lastY + 20) {
-        setIsVisible(false); // scrolling down → hide
+        setIsVisible(false); // scrolling down, hide
       } else if (currentY < lastY - 20) {
-        setIsVisible(true); // scrolling up → show
+        setIsVisible(true); // scrolling up, show
       }
 
       lastY = currentY; // update inside the closure

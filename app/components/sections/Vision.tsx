@@ -110,6 +110,7 @@ export const Vision = () => {
                 <motion.p
                   key="desc-2"
                   className="text-[#E0E0E0] font-[Poppins] md:text-[45px] text-[25px] not-italic font-normal md:leading-[50px] leading-[35px] tracking-[-0.52px] w-full"
+                  layout
                 >
                   {renderSpans(
                     "To create a community of UCSC undergraduates passionate about technology",
