@@ -99,17 +99,17 @@ export const Vision = () => {
   return (
     <section
       ref={sectionRef}
-      className="w-full h-[400vh] flex flex-col bg-black pt-30"
+      className="w-full h-[400vh] flex flex-col bg-black"
     >
-      <Container className="h-1/4 flex flex-col gap-5 pb-30 sticky top-30">
+      <Container className="h-1/4 flex flex-col gap-5 py-10 sticky top-0">
         <div className="w-full h-1/2 flex flex-row">
           <div className="md:flex hidden w-1/3 h-full justify-start items-start flex-col" />
-          <div className="md:w-2/3 w-full h-full justify-start items-start flex flex-col gap-5">
+          <div className="lg:w-2/3 w-full h-full justify-center items-start flex flex-col space-between">
             <AnimatePresence initial={false} mode="wait">
               {pastHalf ? (
                 <motion.p
                   key="desc-2"
-                  className="text-[#E0E0E0] font-[Poppins] md:text-[45px] text-[25px] not-italic font-normal md:leading-[54px] leading-[35px] tracking-[-0.52px] lg:w-2/3 w-full"
+                  className="text-[#E0E0E0] font-[Poppins] md:text-[45px] text-[25px] not-italic font-normal md:leading-[50px] leading-[35px] tracking-[-0.52px] w-full"
                 >
                   {renderSpans(
                     "To create a community of UCSC undergraduates passionate about technology",
@@ -119,7 +119,7 @@ export const Vision = () => {
               ) : (
                 <motion.p
                   key="desc-1"
-                  className="text-[#E0E0E0] font-[Poppins] md:text-[45px] text-[25px] not-italic font-normal md:leading-[54px] leading-[35px] tracking-[-0.52px] lg:w-2/3 w-full"
+                  className="text-[#E0E0E0] font-[Poppins] md:text-[40px] text-[25px] not-italic font-normal md:leading-[50px] leading-[35px] tracking-[-0.52px] lg:w-2/3 w-full"
                 >
                   {renderSpans(
                     "To inspire the next generation of ICT leaders who have the capability to transform the digital landscape in Sri Lanka",
