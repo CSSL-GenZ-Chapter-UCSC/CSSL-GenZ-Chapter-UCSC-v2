@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, memo, useMemo } from "react";
+import { useRef, memo, useMemo, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "motion/react";
 import Image from "next/image";
 
@@ -10,8 +10,9 @@ const GALLERY_CONFIG = {
   text1:
     "Sri Lanka’s leading ICT body empowering innovation, professionalism, and future talent",
   text2:
-    "The CSSL GenZ Chapter at UCSC is a student-driven initiative under the Computer Society of Sri Lanka, dedicated to empowering the next generation of IT innovators and leaders. Guided by Dr. Roshan Rajapaksha and supported by Dr. Manjusri Wickramasinghe, the chapter provides UCSC undergraduates with a platform to explore technology, develop practical skills, and unleash their creativity",
-  // Images array
+    "The CSSL GenZ Chapter at UCSC is a student-led initiative that empowers future IT innovators. Guided by Dr. Roshan Rajapaksha and supported by Dr. Manjusri Wickramasinghe, it gives undergraduates a platform to explore tech, build skills, and be creative",
+  text2Mobile:
+    "A student-led initiative at UCSC empowering future IT innovators to explore tech, build skills, and be creative.",
   images: [
     {
       src: "/Images/gallery1.jpg",
@@ -30,6 +31,14 @@ const GALLERY_CONFIG = {
 
 export const Gallery = () => {
   const containerRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Calculate total height needed for all slides - each slide needs scroll distance
   const totalSlides = GALLERY_CONFIG.images.length;
@@ -58,7 +67,8 @@ export const Gallery = () => {
   );
 
   // Inverse scale for children to maintain aspect ratio
-  const inverseWidthScale = useTransform(widthScale, (s) => 1 / s);
+  const inverseScale = useTransform(widthScale, (s) => 1 / s);
+  const staticOne = useTransform(widthScale, () => 1);
 
   return (
     <section
@@ -73,8 +83,13 @@ export const Gallery = () => {
         <div className="relative h-full flex items-center">
           {/* Left Side - Stacked Images */}
           <motion.div
-            style={{ scaleX: widthScale, originX: 0 }}
-            className="absolute left-0 top-0 h-full z-50 w-full will-change-transform"
+            style={{
+              scaleX: isMobile ? 1 : widthScale,
+              scaleY: isMobile ? widthScale : 1,
+              originX: isMobile ? 0.5 : 0,
+              originY: isMobile ? 0 : 0.5,
+            }}
+            className="absolute left-0 top-0 md:h-full z-50 md:w-full w-full h-full overflow-hidden will-change-transform"
           >
             <motion.div className="relative w-full h-full">
               {GALLERY_CONFIG.images.map((image, slideIndex) => (
@@ -84,14 +99,15 @@ export const Gallery = () => {
                   slideIndex={slideIndex}
                   totalSlides={totalSlides}
                   scrollYProgress={scrollYProgress}
-                  inverseScale={inverseWidthScale}
+                  inverseScaleX={isMobile ? staticOne : inverseScale}
+                  inverseScaleY={isMobile ? inverseScale : staticOne}
                 />
               ))}
             </motion.div>
           </motion.div>
 
           {/* Right Side - Gradient Background with Two Texts */}
-          <div className="absolute right-0 top-0 w-1/2 h-full z-0">
+          <div className="absolute right-0 md:top-0 bottom-0 md:w-1/2 w-full md:h-full h-1/2 z-0">
             {/* <div className="absolute inset-0 mb-20 z-0">
               <Image
                 fill
@@ -104,7 +120,10 @@ export const Gallery = () => {
             <div className="relative w-full h-full z-50">
               <GalleryTexts
                 text1={GALLERY_CONFIG.text1}
-                text2={GALLERY_CONFIG.text2}
+                text2={
+                  isMobile ? GALLERY_CONFIG.text2Mobile : GALLERY_CONFIG.text2
+                }
+                images={GALLERY_CONFIG.images}
                 scrollYProgress={scrollYProgress}
               />
             </div>
@@ -120,20 +139,22 @@ const GalleryTexts = memo(
   ({
     text1,
     text2,
+    images,
     scrollYProgress,
   }: {
     text1: string;
     text2: string;
+    images: { src: string; alt: string }[];
     scrollYProgress: MotionValue<number>;
   }) => {
     const text1Words = useMemo(() => text1.split(" "), [text1]);
     const text2Words = useMemo(() => text2.split(" "), [text2]);
 
     return (
-      <div className="absolute inset-0 flex flex-col justify-between p-8">
+      <div className="absolute inset-0 flex flex-col justify-between md:p-8 p-2">
         {/* Text 1 - Top Left */}
-        <div className="relative z-20 w-1/2">
-          <h2 className="font-poppins text-[31px] font-medium leading-[37px]">
+        <div className="relative z-20 md:w-1/2 w-full">
+          <h2 className="font-poppins md:text-[31px] text-2xl font-medium md:leading-[37px] leading-[30px]">
             {text1Words.map((word: string, index: number) => {
               const start = 0.1 + (index / text1Words.length) * 0.4;
               return (
@@ -148,9 +169,21 @@ const GalleryTexts = memo(
           </h2>
         </div>
 
+        <div className="relative z-20 bg-gray-600 w-[350px] h-[250px] self-center overflow-hidden md:block hidden">
+          {images.map((image, index) => (
+            <RightImage
+              key={index}
+              image={image}
+              index={index}
+              totalSlides={images.length}
+              scrollYProgress={scrollYProgress}
+            />
+          ))}
+        </div>
+
         {/* Text 2 - Bottom Right */}
-        <div className="relative z-20 w-2/3 self-end text-right">
-          <h2 className="text-right font-poppins text-[18px] font-medium leading-[23px] text-gray-300">
+        <div className="relative z-20 md:w-1/2 w-full self-end">
+          <h2 className="md:text-left text-right font-poppins md:text-[18px] text-[18px] font-medium md:leading-[23px] leading-[21px] text-gray-400">
             {text2Words.map((word: string, index: number) => {
               const start = 0.5 + (index / text2Words.length) * 0.4;
               return (
@@ -201,6 +234,51 @@ const WordReveal = memo(
 
 WordReveal.displayName = "WordReveal";
 
+// Right Side Image Component - Fades in with blur
+const RightImage = memo(
+  ({
+    image,
+    index,
+    totalSlides,
+    scrollYProgress,
+  }: {
+    image: { src: string; alt: string };
+    index: number;
+    totalSlides: number;
+    scrollYProgress: MotionValue<number>;
+  }) => {
+    const slideStart = index / totalSlides;
+
+    const opacity = useTransform(
+      scrollYProgress,
+      [slideStart - 0.05, slideStart + 0.1],
+      index === 0 ? [1, 1] : [0, 1]
+    );
+
+    const filter = useTransform(
+      scrollYProgress,
+      [slideStart - 0.05, slideStart + 0.1],
+      index === 0 ? ["blur(0px)", "blur(0px)"] : ["blur(8px)", "blur(0px)"]
+    );
+
+    return (
+      <motion.div
+        style={{ opacity, filter, zIndex: index }}
+        className="absolute inset-0 w-full h-full"
+      >
+        <Image
+          src={image.src}
+          alt={image.alt}
+          fill
+          className="object-cover brightness-90"
+        />
+      </motion.div>
+    );
+  }
+);
+
+RightImage.displayName = "RightImage";
+
 // Gallery Image Component - Cards that slide up and stack
 const GalleryImage = memo(
   ({
@@ -208,13 +286,15 @@ const GalleryImage = memo(
     slideIndex,
     totalSlides,
     scrollYProgress,
-    inverseScale,
+    inverseScaleX,
+    inverseScaleY,
   }: {
     image: { src: string; alt: string };
     slideIndex: number;
     totalSlides: number;
     scrollYProgress: MotionValue<number>;
-    inverseScale: MotionValue<number>;
+    inverseScaleX: MotionValue<number>;
+    inverseScaleY: MotionValue<number>;
   }) => {
     // Calculate progress range for this slide
     const slideStart = slideIndex / totalSlides;
@@ -247,7 +327,13 @@ const GalleryImage = memo(
 
     // Combine scales for X axis to counteract parent container scaling
     const finalScaleX = useTransform(
-      [scale, inverseScale],
+      [scale, inverseScaleX],
+      ([s, inv]: number[]) => s * inv
+    );
+
+    // Combine scales for Y axis to counteract parent container scaling
+    const finalScaleY = useTransform(
+      [scale, inverseScaleY],
       ([s, inv]: number[]) => s * inv
     );
 
@@ -263,7 +349,7 @@ const GalleryImage = memo(
         <motion.div
           style={{
             scaleX: finalScaleX,
-            scaleY: scale,
+            scaleY: finalScaleY,
           }}
           className="relative w-full h-full will-change-transform"
         >
