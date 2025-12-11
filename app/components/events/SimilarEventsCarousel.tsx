@@ -2,20 +2,24 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import type { Event } from "@/app/types/event";
 
 interface SimilarEventsCarouselProps {
   events: Event[];
 }
 
-export default function SimilarEventsCarousel({ events }: SimilarEventsCarouselProps) {
+export default function SimilarEventsCarousel({
+  events,
+}: SimilarEventsCarouselProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(events.length > 1);
 
   const checkScrollPosition = () => {
     if (scrollContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+      const { scrollLeft, scrollWidth, clientWidth } =
+        scrollContainerRef.current;
       setCanScrollLeft(scrollLeft > 10);
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
     }
@@ -44,7 +48,7 @@ export default function SimilarEventsCarousel({ events }: SimilarEventsCarouselP
         ref={scrollContainerRef}
         onScroll={checkScrollPosition}
         className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide md:grid md:grid-cols-3 gap-6 md:gap-8"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {events.map((similarEvent) => (
           <Link
@@ -54,12 +58,17 @@ export default function SimilarEventsCarousel({ events }: SimilarEventsCarouselP
           >
             <div className="overflow-hidden">
               {/* Event Image */}
-              {(similarEvent.mainImage?.url || similarEvent.subMainImage?.url) ? (
-                <div className="aspect-video bg-gray-700 mb-4 rounded-lg overflow-hidden">
-                  <img
-                    src={similarEvent.mainImage?.url || similarEvent.subMainImage?.url}
+              {similarEvent.mainImage?.url || similarEvent.subMainImage?.url ? (
+                <div className="aspect-video bg-gray-700 mb-4 rounded-lg overflow-hidden relative">
+                  <Image
+                    src={
+                      similarEvent.mainImage?.url ||
+                      similarEvent.subMainImage?.url ||
+                      ""
+                    }
                     alt={similarEvent.mainImage?.alt || similarEvent.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
               ) : (

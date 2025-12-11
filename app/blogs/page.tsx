@@ -1,4 +1,5 @@
 import { BlogListing } from "../components/sections/BlogListing";
+import { getBlogs } from "@/sanity/lib/getBlogs";
 
 export const metadata = {
   title: "Blogs",
@@ -6,10 +7,12 @@ export const metadata = {
   keywords: "",
 };
 
-export default function BlogsPage() {
+export default async function BlogsPage() {
+  const initialBlogs = await getBlogs("All");
+
   return (
     <main className="flex flex-col">
-      <BlogListing />
+      <BlogListing initialBlogs={initialBlogs} />
     </main>
   );
 }

@@ -15,15 +15,15 @@ const GALLERY_CONFIG = {
     "A student-led initiative at UCSC empowering future IT innovators to explore tech, build skills, and be creative.",
   images: [
     {
-      src: "/Images/gallery1.jpg",
+      src: "/Images/gallery4.jpg",
       alt: "CSSL GenZ Chapter Team",
     },
     {
-      src: "/Images/gallery2.jpg",
+      src: "/Images/gallery5.jpg",
       alt: "CSSL GenZ Chapter Event",
     },
     {
-      src: "/Images/gallery3.jpg",
+      src: "/Images/gallery6.jpg",
       alt: "CSSL Learning Sessions",
     },
   ],
@@ -88,6 +88,10 @@ export const Gallery = () => {
               scaleY: isMobile ? widthScale : 1,
               originX: isMobile ? 0.5 : 0,
               originY: isMobile ? 0 : 0.5,
+              // Safari optimization
+              transform: "translate3d(0,0,0)",
+              backfaceVisibility: "hidden",
+              WebkitBackfaceVisibility: "hidden",
             }}
             className="absolute left-0 top-0 md:h-full z-50 md:w-full w-full h-full overflow-hidden will-change-transform"
           >
@@ -169,7 +173,7 @@ const GalleryTexts = memo(
           </h2>
         </div>
 
-        <div className="relative z-20 bg-gray-600 w-[350px] h-[250px] self-center overflow-hidden md:block hidden">
+        <div className="relative z-20 bg-gray-600 w-[350px] h-[250px] self-center overflow-hidden md:block hidden transform-gpu">
           {images.map((image, index) => (
             <RightImage
               key={index}
@@ -223,7 +227,11 @@ const WordReveal = memo(
 
     return (
       <motion.span
-        style={{ opacity }}
+        style={{
+          opacity,
+          // Safari optimization for text rendering
+          transform: "translate3d(0,0,0)",
+        }}
         className="inline-block mr-2 md:mr-3 will-change-[opacity]"
       >
         {word}
@@ -263,14 +271,23 @@ const RightImage = memo(
 
     return (
       <motion.div
-        style={{ opacity, filter, zIndex: index }}
-        className="absolute inset-0 w-full h-full"
+        style={{
+          opacity,
+          filter,
+          zIndex: index,
+          // Safari optimizations
+          transform: "translate3d(0,0,0)", // Force hardware acceleration
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
+        }}
+        className="absolute inset-0 w-full h-full will-change-[opacity,filter]"
       >
         <Image
           src={image.src}
           alt={image.alt}
           fill
           className="object-cover brightness-90"
+          sizes="(max-width: 768px) 100vw, 350px" // Optimization: Add sizes
         />
       </motion.div>
     );
@@ -343,6 +360,10 @@ const GalleryImage = memo(
           y: cardY,
           zIndex: slideIndex,
           display,
+          // Safari optimizations
+          transform: "translate3d(0,0,0)",
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
         }}
         className="absolute inset-0 w-full h-full overflow-hidden group will-change-transform"
       >
@@ -350,6 +371,8 @@ const GalleryImage = memo(
           style={{
             scaleX: finalScaleX,
             scaleY: finalScaleY,
+            // Safari optimizations
+            transformStyle: "preserve-3d",
           }}
           className="relative w-full h-full will-change-transform"
         >
@@ -360,7 +383,8 @@ const GalleryImage = memo(
               fill
               className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-200 brightness-80"
               sizes="(max-width: 768px) 100vw, 50vw"
-              loading="lazy"
+              loading={slideIndex === 0 ? "eager" : "lazy"} // Optimization: Load first image eagerly
+              priority={slideIndex === 0} // Optimization: Prioritize first image
             />
             <div className="absolute w-full h-full bg-[#133769] mix-blend-color z-10 opacity-100 group-hover:opacity-0 transition-opacity duration-200"></div>
           </div>

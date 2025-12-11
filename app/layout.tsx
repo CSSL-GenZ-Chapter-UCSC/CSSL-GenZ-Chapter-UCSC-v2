@@ -4,7 +4,7 @@ import "./globals.css";
 import { ReactLenis } from "lenis/react";
 import type { LenisRef } from "lenis/react";
 import { frame, cancelFrame } from "framer-motion";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Poppins, La_Belle_Aurore } from "next/font/google";
 import { Navbar } from "./components/elements/NavBar";
 import { Footer } from "./components/elements/Footer";
@@ -30,8 +30,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const lenisRef = useRef<LenisRef>(null);
+  const [isIOS, setIsIOS] = useState(false);
 
   useEffect(() => {
+    // Check for iOS to disable Lenis
+    const isIOSDevice =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+      !(window as unknown as { MSStream: unknown }).MSStream;
+
+    if (isIOSDevice) {
+      // Use setTimeout to avoid synchronous setState warning
+      setTimeout(() => setIsIOS(true), 0);
+      return;
+    }
+
     function update({ timestamp }: { timestamp: number }) {
       lenisRef.current?.lenis?.raf(timestamp);
     }
@@ -41,16 +53,18 @@ export default function RootLayout({
   }, []);
 
   return (
-    <html lang="en">
+    <html lang="en" className={isIOS ? "scroll-smooth" : ""}>
       <body
         className={`${poppins.variable} ${laBelleAurore.variable} ${poppins.className} antialiased relative`}
       >
         <div className="fixed top-0 left-0 w-full h-full -z-50 bg-[linear-gradient(75deg,#000_-4.05%,#0F2248_74.48%,var(--darkBlue,#1E448F)_107.82%)]"></div>
-        <ReactLenis
-          root
-          ref={lenisRef}
-          options={{ autoRaf: false }}
-        ></ReactLenis>
+        {!isIOS && (
+          <ReactLenis
+            root
+            ref={lenisRef}
+            options={{ autoRaf: false }}
+          ></ReactLenis>
+        )}
         <Navbar />
         <div className="relative z-10 bg-black">{children}</div>
         <Footer />

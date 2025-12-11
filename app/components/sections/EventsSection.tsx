@@ -218,7 +218,13 @@ export function EventsSection({ events }: EventsSectionProps) {
               }vh - ${activeEventIndex * 55}vh - 27.5vh)`, // Center the active card (55vh height / 2 = 27.5vh)
             }}
             transition={{ type: "tween", duration: 0.6, ease: "easeOut" }}
-            className="absolute w-full"
+            style={{
+              // Safari optimization
+              transform: "translate3d(0,0,0)",
+              backfaceVisibility: "hidden",
+              WebkitBackfaceVisibility: "hidden",
+            }}
+            className="absolute w-full will-change-transform"
           >
             {EVENTS_DATA.map((event, index) => (
               <motion.div
@@ -226,12 +232,18 @@ export function EventsSection({ events }: EventsSectionProps) {
                 ref={(el) => {
                   eventCardRefs.current[index] = el;
                 }}
-                className={`${event.className} flex items-center justify-start h-[55vh] shrink-0`}
+                className={`${event.className} flex items-center justify-start h-[55vh] shrink-0 will-change-[opacity,filter]`}
                 id={`event-${index}`}
                 animate={{
                   opacity: activeEventIndex === index ? 1 : 0.7,
                   filter:
                     activeEventIndex === index ? "blur(0px)" : "blur(8px)",
+                }}
+                style={{
+                  // Safari optimization
+                  transform: "translate3d(0,0,0)",
+                  backfaceVisibility: "hidden",
+                  WebkitBackfaceVisibility: "hidden",
                 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
               >
@@ -299,6 +311,10 @@ export function EventsSection({ events }: EventsSectionProps) {
           style={{
             width: isMobile ? "100%" : dimension,
             height: isMobile ? dimension : "100%",
+            // Safari optimization
+            transform: "translate3d(0,0,0)",
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
           }}
           className={`absolute right-0 top-0 md:h-full grid ${
             isMobile ? "grid-rows-2" : "grid-rows-4"
@@ -319,7 +335,13 @@ export function EventsSection({ events }: EventsSectionProps) {
                     ease: "easeOut",
                     delay: index * 0.15,
                   }}
-                  className={` photo-item   bg-gray-200   overflow-hidden  relative ${getImageLayoutClass(index, filteredArray.length)}
+                  style={{
+                    // Safari optimization
+                    transform: "translate3d(0,0,0)",
+                    backfaceVisibility: "hidden",
+                    WebkitBackfaceVisibility: "hidden",
+                  }}
+                  className={` photo-item   bg-gray-200   overflow-hidden  relative will-change-[opacity,filter] ${getImageLayoutClass(index, filteredArray.length)}
                               `}
                   onMouseEnter={() => setHoveredImageIndex(index)}
                   onMouseLeave={() => setHoveredImageIndex(null)}
@@ -332,7 +354,8 @@ export function EventsSection({ events }: EventsSectionProps) {
                       hoveredImageIndex === index ? "grayscale-0" : "grayscale"
                     }`}
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    loading="lazy"
+                    loading={activeEventIndex === 0 ? "eager" : "lazy"}
+                    priority={activeEventIndex === 0}
                   />
                   <div
                     className={`absolute w-full h-full bg-[#133769] mix-blend-color z-10 transition-opacity duration-200 ${

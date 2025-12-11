@@ -2,78 +2,19 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { getBlogs, type Blog } from "@/sanity/lib/getBlogs";
+import { type Blog } from "@/sanity/lib/getBlogs";
 import { urlFor } from "@/sanity/lib/image";
-import { usePathname } from "next/navigation";
 
+interface SingleBlogLastSectionProps {
+  blogs: Blog[];
+}
 
-
-
-
-
-
-export const SingleBlogLastSection = () => {
-
-  const path = usePathname();
-
-  const [blogs, setBlogs] = useState<Blog[] | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  
-    useEffect(() => {
-      
-      getBlogs()
-        .then((data: Blog[] | null) => {
-          console.log("Raw data from getBlogs:", data);
-          
-          if (!data || !Array.isArray(data)) {
-            console.log("No data or not an array");
-            setBlogs([]);
-            return;
-          }
-  
-          const sorted = data
-            .filter(blog => blog.publishedAt)
-            .sort((a, b) => new Date(b.publishedAt!).getTime() - new Date(a.publishedAt!).getTime());
-
-  
-          setBlogs(sorted);
-        })
-        .catch((err) => {
-          console.error("Error fetching blogs:", err);
-          setError(err.message);
-        })
-        .finally(() => setLoading(false));
-    }, []);
-
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
-  if (!blogs || blogs.length === 0) return <p className="text-red-500">No blogs available.</p>;
-
-  
-
-  const sanitizedBlogId = path?.split("/").pop();
-
-  // Find index of current blog
-  const currentIndex = blogs.findIndex(
-    blog => blog._id === sanitizedBlogId
-  );
-
-  if (currentIndex === -1) return <p>No blogs found.</p>;
-
-  // Get nearest above and below blogs
-  const nearestBlogs = blogs
-    .filter((_, index) => index !== currentIndex) // remove current blog
-    .slice(currentIndex + 1, currentIndex + 4);
-
-
-  if (nearestBlogs.length === 0)
+export const SingleBlogLastSection = ({
+  blogs,
+}: SingleBlogLastSectionProps) => {
+  if (!blogs || blogs.length === 0)
     return <p className="text-gray-400 py-12">No other blogs.</p>;
 
- 
   return (
     <div className="bg-black text-white p-1 pt-1 relative z-10">
       <div className="flex items-center justify-between mt-8 mb-6 px-2">
@@ -91,8 +32,12 @@ export const SingleBlogLastSection = () => {
 
       {/* Blog Posts Grid */}
       <div className="flex flex-row gap-3">
-        {nearestBlogs.map(blog => (
-          <Link href={`/blogs/${blog._id}`} key={blog._id} className="group cursor:pointer w-[980px]">
+        {blogs.map((blog) => (
+          <Link
+            href={`/blogs/${blog._id}`}
+            key={blog._id}
+            className="group cursor:pointer w-[980px]"
+          >
             <div>
               {/* Blog image */}
               <div className="bg-gray-700 aspect-video mb-4 overflow-hidden">
@@ -100,9 +45,9 @@ export const SingleBlogLastSection = () => {
                   <Image
                     src={urlFor(blog.mainImage).width(1200).url()}
                     alt={blog.title}
-                    width={1200}  // required
+                    width={1200} // required
                     height={800}
-                    className="w-full h-full font-[500] object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full font-medium object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-gray-500">
@@ -114,19 +59,19 @@ export const SingleBlogLastSection = () => {
               <h3 className="text-2xl font-medium [@media(max-width:400px)]:text-xl mb-2 group-hover:text-blue-400 transition-colors">
                 {blog.title}
               </h3>
-              <p className="text-xl text-[#4C9DFE] text-sm">
-                {blog.publishedAt ? new Date(blog.publishedAt).toLocaleDateString("en-GB", {
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                }) : ""}
+              <p className="text-[#4C9DFE] text-sm">
+                {blog.publishedAt
+                  ? new Date(blog.publishedAt).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })
+                  : ""}
               </p>
             </div>
           </Link>
         ))}
       </div>
     </div>
-  )    
-}
-
-
+  );
+};
