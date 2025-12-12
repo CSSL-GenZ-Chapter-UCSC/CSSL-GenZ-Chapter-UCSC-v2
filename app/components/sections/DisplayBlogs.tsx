@@ -24,6 +24,20 @@ const item = {
   show: { opacity: 1, y: 0 },
 };
 
+
+const useIsLargeScreen = () => {
+  const [isLarge, setIsLarge] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsLarge(window.innerWidth >= 1024); // Tailwind lg = 1024px
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  return isLarge;
+};
+
 const BlogSkeleton = () => (
   <div className="overflow-hidden rounded-lg h-full flex flex-col bg-[#1a1a1a] animate-pulse">
     <div className="w-full h-48 bg-gray-800" />
@@ -59,7 +73,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
   const totalPages = Math.ceil(blogs.length / blogsPerPage);
   
 
-  
+  const isLargeScreen = useIsLargeScreen();
 
 
   useEffect(() => {
@@ -117,17 +131,25 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
   }, [currentPage, totalPages]);*/
   
 
-  // --- ADDED: calculate start and end index for current page
+  // --------------------------------------------
+  // Pagination logic (desktop only)
+  // --------------------------------------------
   const start = currentPage * blogsPerPage;
   const end = start + blogsPerPage;
   const paginatedBlogs = blogs.slice(start, end);
+
+  // --------------------------------------------
+  // ✅ Mobile shows ALL blogs
+  //    Desktop shows paginated blogs
+  // --------------------------------------------
+  const blogsToShow = isLargeScreen ? paginatedBlogs : blogs;
 
 
   console.log("currentPage:", currentPage, "start:", start, "end:", end, "blogs length:", blogs.length);
 
 
   return (
-    <div className="max-w-[2400px] px-4 sm:px-6 md:px-8 lg:px-12 mx-auto border border-green-500">
+    <div className="max-w-[2400px] px-4 pb-3 lg:pb-1 sm:px-6 md:px-8 lg:px-12 mx-auto border border-green-500">
       <div className="border border-blue-1000 max-h-[740px] max-w-[740px] mx-auto">
         <DynamicButtons
           selectedCategory={selectedCategory}
@@ -144,19 +166,20 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
       ) : error ? (
         <div className="text-red-500 text-center py-12">Error: {error}</div>
       ) : (
-        <motion.div key={currentPage}
+        <motion.div 
+          key={isLargeScreen ? currentPage : "mobile"}
           variants={container}
           initial="hidden"
           animate="show"
           className="border border-red-500 grid grid-cols-2 lg:grid-cols-3 gap-8 gap-x-3 lg:gap-x-1 lg:mt-20"
         >
-          {paginatedBlogs.length === 0 ? (
+          {blogsToShow.length === 0 ? (
             <div className="col-span-full text-center py-12 text-gray-500">
               No blogs found for this category.
             </div>
           ) : (
             // --- MODIFIED: slice blogs to show only current page
-            paginatedBlogs.map((blog) => (
+            blogsToShow.map((blog) => (
               <motion.div key={blog._id} variants={item}>
                 <Link href={`/blogs/${blog._id}`}>
                   <motion.div
@@ -178,18 +201,18 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
                     )}
                     <div className="p-4 flex flex-col justify-between flex-1">
                       <div>
-                        <h3 className="text-white text-base lg:text-[22px] font-poppins font-medium leading-snug min-h-[3.8rem]">
+                        <h3 className="text-white text-base lg:text-[20px] font-poppins font-medium leading-snug">
                           {blog.title}
                         </h3>
                         {blog.excerpt && (
-                          <p className="text-[#9AA0A6] text-[12px] lg:text-[18px] lg:text-lg font-normal font-poppins mb-4">
+                          <p className="text-[#9AA0A6] text-[10px] lg:text-[14px] lg:text-lg font-normal font-poppins mb-4">
                             {blog.excerpt}
                           </p>
                         )}
                       </div>
                       <div className="flex flex-row gap-2 lg:gap-12 font-normal lg:font-light font-poppins mt-auto text-[#4C9DFE]">
                         {blog.publishedAt && (
-                          <p className="text-[9px] lg:text-[18px] lg:float-left">
+                          <p className="text-[9px] lg:text-[14px] lg:float-left">
                             {new Date(blog.publishedAt).toLocaleDateString("en-GB", {
                               day: "2-digit",
                               month: "short", // short = Jan, Feb, Mar
@@ -199,7 +222,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
                         )}
 
                         {blog.category && (
-                          <p className="font-poppins text-[9px] lg:text-[18px] lg:float-left">{blog.category}</p>
+                          <p className="font-poppins text-[9px] lg:text-[14px] lg:float-left">{blog.category}</p>
                         )}
                       </div>
                     </div>
@@ -216,30 +239,48 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
 
 
       
-      {!loading && !error && blogs.length > 0 && (
-        <>
-          {/* Desktop Dots */}
-          <div className="w-full hidden md:flex flex-wrap justify-center items-center gap-2 mt-8">
-            {Array.from({ length: totalPages }).map((_, i) => (
-              <button key={`desktop-${i}`} onClick={() => setCurrentPage(i)} className="p-0 m-0 bg-transparent border-0 cursor-pointer">
-                <motion.div
-                  initial={false}
-                  animate={{
-                    width: i === currentPage ? 16 : 10, // <- fixed animation
-                    height: i === currentPage ? 16 : 10, // <- fixed animation
-                  }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className={`rounded-full ${
-                    i === currentPage
-                      ? "bg-[linear-gradient(90deg,#3474F5_0%,#4C9DFE_100%)] border-none"
-                      : "border border-[#666666] bg-[#666666]"
-                  }`}
-                />
-              </button>
-            ))}
-          </div>
+      {/* --------------------------------------------
+          ✅ Pagination dots ONLY on desktop
+      -------------------------------------------- */}
+      {!loading && !error && blogs.length > 0 && isLargeScreen && (
+        <div className="w-full flex justify-center items-center gap-2 mt-8">
+          {Array.from({ length: totalPages }).map((_, i) => (
+            <button key={i} onClick={() => setCurrentPage(i)}>
+              <motion.div
+                initial={false}
+                animate={{
+                  width: i === currentPage ? 16 : 10,
+                  height: i === currentPage ? 16 : 10,
+                }}
+                transition={{ duration: 0.3 }}
+                className={`rounded-full ${
+                  i === currentPage
+                    ? "bg-[linear-gradient(90deg,#3474F5,#4C9DFE)]"
+                    : "bg-[#666]"
+                }`}
+              />
+            </button>
+          ))}
+        </div>
+      )}
 
-          {/* Mobile Dots */}
+
+      
+    </div>
+  );
+};
+
+
+
+
+
+
+
+
+
+
+
+ {/* Mobile Dots 
           <div className="w-full md:hidden flex justify-center items-center mt-4 gap-2">
             {Array.from({ length: totalPages }).map((_, i) => (
               <button key={`mobile-${i}`} onClick={() => setCurrentPage(i)} className="p-0 m-0 bg-transparent border-0 cursor-pointer">
@@ -258,9 +299,4 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
                 />
               </button>
             ))}
-          </div>
-        </>
-      )}
-    </div>
-  );
-};
+          </div>*/}
