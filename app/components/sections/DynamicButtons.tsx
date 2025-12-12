@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { fetchCategoriesAction } from "@/app/actions/sanity";
+import { Button } from "../shared/Button";
 
 type DynamicButtonsProps = {
   selectedCategory: string;
@@ -53,26 +54,27 @@ export const DynamicButtons = ({
   return (
     <div className="flex flex-wrap gap-4 mb-8">
       {categories.map((category) => (
-        <button
-          key={category}
-          onClick={() => handleCategoryClick(category)}
-          className={`
-            relative overflow-hidden  cursor-pointer inline-flex 
-            h-11 sm:h-12 md:h-[53px] lg:h-14
-            items-center justify-center gap-2.5 
-            px-6 sm:px-7 md:px-8 lg:px-9 
-            rounded-[34px]
-            font-semibold text-sm sm:text-base md:text-lg
-            transition-all duration-300 
-            ${
-              selectedCategory === category
-                ? "bg-[linear-gradient(90deg,var(--darkBlue,#1E448F)_0%,#4C9DFE_100%)] text-white hover:scale-105"
-                : "bg-transparent border-2 border-[#1E448F] text-[#1E448F] hover:bg-[#1E448F] hover:text-white"
-            }
-          `}
-        >
-          {category}
-        </button>
+        <div key={category} onClick={() => handleCategoryClick(category)}>
+          <Button
+            text={category}      // <-- pass text here
+            href="#"             // <-- required by Button, can be non-functional
+            className={`
+              relative overflow-hidden cursor-pointer inline-flex text-red-500
+              h-11 sm:h-12 md:h-[53px] lg:h-14
+              items-center justify-center gap-2.5
+              px-6 sm:px-7 md:px-8 lg:px-9
+              bg-gradient-to-b from-[#1E448F] to-[#4C9DFE]
+              rounded-[34px]
+              font-semibold text-sm sm:text-base md:text-lg
+              transition-all duration-300
+              ${
+                selectedCategory === category
+                  ? "p-[2px] bg-gradient-to-r from-[#1E448F] to-[#4C9DFE] text-white hover:scale-105"
+                  : "bg-transparent border-2 border-[#1E448F] text-[#1E448F] hover:bg-[#1E448F] hover:text-white"
+              }
+            `}
+          />
+        </div>
       ))}
     </div>
   );

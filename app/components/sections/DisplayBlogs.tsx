@@ -100,11 +100,13 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
   const end = start + blogsPerPage;
 
   return (
-    <div className="container mx-auto px-4 py-8 min-h-screen">
-      <DynamicButtons
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-      />
+    <div className="max-w-[2400px] px-4 sm:px-6 md:px-8 lg:px-12 mx-auto border border-green-500">
+      <div className="border border-blue-1000 max-h-[740px] max-w-[740px] mx-auto">
+        <DynamicButtons
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
+      </div>
 
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -119,7 +121,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
           variants={container}
           initial="hidden"
           animate="show"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="border border-red-500 grid grid-cols-2 lg:grid-cols-3 gap-8 gap-x-3 lg:gap-x-1 lg:mt-20"
         >
           {blogs.length === 0 ? (
             <div className="col-span-full text-center py-12 text-gray-500">
@@ -133,7 +135,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
                   <motion.div
                     whileHover={{ y: -10, scale: 1.02 }}
                     transition={{ type: "spring", stiffness: 300 }}
-                    className="overflow-hidden shadow-md cursor-pointer flex flex-col h-full bg-[#1a1a1a] rounded-lg"
+                    className="border border-yellow-400 h-[310px] lg:h-[546px] w-99/100 lg:w-95/100 flex flex-col overflow-hidden shadow-md cursor-pointer bg-[#000000]"
                   >
                     {blog.mainImage?.asset && (
                       <Image
@@ -144,28 +146,33 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
                         alt={blog.title}
                         width={1200} // required
                         height={800}
-                        className="w-full h-48 object-cover"
+                        className="w-full h-28 lg:h-78 object-cover"
                       />
                     )}
                     <div className="p-4 flex flex-col justify-between flex-1">
                       <div>
-                        <h3 className="text-[#9AA0A6] text-xl font-bold mb-2">
+                        <h3 className="text-white text-base lg:text-[22px] font-poppins font-medium leading-snug min-h-[3.8rem]">
                           {blog.title}
                         </h3>
                         {blog.excerpt && (
-                          <p className="text-[#9AA0A6] font-medium mb-4">
+                          <p className="text-[#9AA0A6] text-[12px] lg:text-[18px] lg:text-lg font-normal font-poppins mb-4">
                             {blog.excerpt}
                           </p>
                         )}
                       </div>
-                      <div className="flex justify-between mt-auto text-[#4C9DFE]">
+                      <div className="flex flex-row gap-2 lg:gap-12 font-normal lg:font-light font-poppins mt-auto text-[#4C9DFE]">
                         {blog.publishedAt && (
-                          <p>
-                            {new Date(blog.publishedAt).toLocaleDateString("en-GB")}
+                          <p className="text-[9px] lg:text-[18px] lg:float-left">
+                            {new Date(blog.publishedAt).toLocaleDateString("en-GB", {
+                              day: "2-digit",
+                              month: "short", // short = Jan, Feb, Mar
+                              year: "numeric",
+                            })}
                           </p>
                         )}
+
                         {blog.category && (
-                          <p className="-mt-1">{blog.category}</p>
+                          <p className="font-poppins text-[9px] lg:text-[18px] lg:float-left">{blog.category}</p>
                         )}
                       </div>
                     </div>
