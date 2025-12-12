@@ -53,7 +53,14 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
   const isFirstLoad = useRef(true);
 
   const [currentPage, setCurrentPage] = useState(0); // page index
-  const blogsPerPage = 9; // number of blogs per page
+  const blogsPerPage = 2; // number of blogs per page
+
+
+  const totalPages = Math.ceil(blogs.length / blogsPerPage);
+  
+
+  
+
 
   useEffect(() => {
     if (isFirstLoad.current && selectedCategory === "All") {
@@ -63,30 +70,35 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
 
     const fetchBlogs = async () => {
       setLoading(true);
+      setError(null);
+      
       try {
         const data = await fetchBlogsAction(selectedCategory);
         if (!data || !Array.isArray(data)) {
           setBlogs([]);
+          setCurrentPage(0);
           return;
         }
-        setBlogs(
-          data.sort((a, b) => {
-            if (!a.publishedAt || !b.publishedAt) return 0;
-            return (
-              new Date(b.publishedAt).getTime() -
-              new Date(a.publishedAt).getTime()
-            );
-          })
-        );
+        
+        // Sort data by publishedAt date (newest first)
+        const sortedData = [...data].sort((a, b) => {
+          if (!a.publishedAt || !b.publishedAt) return 0;
+          return (
+            new Date(b.publishedAt).getTime() -
+            new Date(a.publishedAt).getTime()
+          );
+        });
+        setBlogs(sortedData);
+        setCurrentPage(0); // Reset to first page when category changes
 
-        setCurrentPage(0);
       } catch (err: unknown) {
-        // Narrow the error type
         if (err instanceof Error) {
           setError(err.message);
         } else {
           setError("An unknown error occurred");
         }
+        setBlogs([]);
+        setCurrentPage(0);
       } finally {
         setLoading(false);
       }
@@ -95,9 +107,24 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
     fetchBlogs();
   }, [selectedCategory]);
 
+
+
+
+  /*useEffect(() => {
+    if (currentPage >= totalPages && totalPages > 0) {
+      setCurrentPage(0);
+    }
+  }, [currentPage, totalPages]);*/
+  
+
   // --- ADDED: calculate start and end index for current page
   const start = currentPage * blogsPerPage;
   const end = start + blogsPerPage;
+  const paginatedBlogs = blogs.slice(start, end);
+
+
+  console.log("currentPage:", currentPage, "start:", start, "end:", end, "blogs length:", blogs.length);
+
 
   return (
     <div className="max-w-[2400px] px-4 sm:px-6 md:px-8 lg:px-12 mx-auto border border-green-500">
@@ -117,19 +144,19 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
       ) : error ? (
         <div className="text-red-500 text-center py-12">Error: {error}</div>
       ) : (
-        <motion.div
+        <motion.div key={currentPage}
           variants={container}
           initial="hidden"
           animate="show"
           className="border border-red-500 grid grid-cols-2 lg:grid-cols-3 gap-8 gap-x-3 lg:gap-x-1 lg:mt-20"
         >
-          {blogs.length === 0 ? (
+          {paginatedBlogs.length === 0 ? (
             <div className="col-span-full text-center py-12 text-gray-500">
               No blogs found for this category.
             </div>
           ) : (
             // --- MODIFIED: slice blogs to show only current page
-            blogs.slice(start, end).map((blog) => (
+            paginatedBlogs.map((blog) => (
               <motion.div key={blog._id} variants={item}>
                 <Link href={`/blogs/${blog._id}`}>
                   <motion.div
@@ -184,29 +211,55 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
         </motion.div>
       )}
 
-      {/* --- ADDED: Pagination buttons */}
-      {!loading && !error && blogs.length > 0 && (
-        <div className="flex justify-center mt-6 gap-4">
-          {/* Previous button */}
-          {currentPage > 0 && (
-            <button
-              onClick={() => setCurrentPage((prev) => prev - 1)}
-              className="cursor-pointer bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600 transition"
-            >
-              Previous
-            </button>
-          )}
 
-          {/* Next button */}
-          {(currentPage + 1) * blogsPerPage < blogs.length && (
-            <button
-              onClick={() => setCurrentPage((prev) => prev + 1)}
-              className="cursor-pointer bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
-            >
-              Next
-            </button>
-          )}
-        </div>
+
+
+
+      
+      {!loading && !error && blogs.length > 0 && (
+        <>
+          {/* Desktop Dots */}
+          <div className="w-full hidden md:flex flex-wrap justify-center items-center gap-2 mt-8">
+            {Array.from({ length: totalPages }).map((_, i) => (
+              <button key={`desktop-${i}`} onClick={() => setCurrentPage(i)} className="p-0 m-0 bg-transparent border-0 cursor-pointer">
+                <motion.div
+                  initial={false}
+                  animate={{
+                    width: i === currentPage ? 16 : 10, // <- fixed animation
+                    height: i === currentPage ? 16 : 10, // <- fixed animation
+                  }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className={`rounded-full ${
+                    i === currentPage
+                      ? "bg-[linear-gradient(90deg,#3474F5_0%,#4C9DFE_100%)] border-none"
+                      : "border border-[#666666] bg-[#666666]"
+                  }`}
+                />
+              </button>
+            ))}
+          </div>
+
+          {/* Mobile Dots */}
+          <div className="w-full md:hidden flex justify-center items-center mt-4 gap-2">
+            {Array.from({ length: totalPages }).map((_, i) => (
+              <button key={`mobile-${i}`} onClick={() => setCurrentPage(i)} className="p-0 m-0 bg-transparent border-0 cursor-pointer">
+                <motion.div
+                  initial={false}
+                  animate={{
+                    width: i === currentPage ? 24 : 10,
+                    height: i === currentPage ? 8 : 10,
+                  }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className={`rounded-full ${
+                    i === currentPage
+                      ? "bg-[linear-gradient(90deg,#3474F5_0%,#4C9DFE_100%)] border-none"
+                      : "border border-[#9AA0A6] bg-transparent"
+                  }`}
+                />
+              </button>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
