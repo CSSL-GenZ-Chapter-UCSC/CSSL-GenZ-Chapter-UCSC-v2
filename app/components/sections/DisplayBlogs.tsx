@@ -201,11 +201,27 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
                     )}
                     <div className="p-4 flex flex-col justify-between flex-1">
                       <div>
-                        <h3 className="text-white text-base lg:text-[20px] font-poppins font-medium leading-snug">
-                          {blog.title}
+                        <h3 className="text-white min-h-[3.5rem] text-base lg:text-[20px] font-poppins font-medium leading-snug">
+                          <span className="inline-block text-center">
+                            {(() => {
+                              const title = blog?.title || "";
+                              const splitAt = blog?.titleSplitCharCount || 7; 
+                              const firstLine = title.slice(0, splitAt);
+                              const secondLine = title.slice(splitAt);
+
+                              return (
+                                <>
+                                  <span className="inline-block md:mb-3">{firstLine}</span>
+                                  {secondLine && (
+                                    <span className="inline-block">{secondLine}</span>
+                                  )}
+                                </>
+                              ); 
+                            })()}
+                          </span>
                         </h3>
                         {blog.excerpt && (
-                          <p className="text-[#9AA0A6] text-[10px] lg:text-[14px] lg:text-lg font-normal font-poppins mb-4">
+                          <p className="text-[#9AA0A6] text-[10px] lg:text-[14px] lg:text-lg font-normal font-poppins">
                             {blog.excerpt}
                           </p>
                         )}

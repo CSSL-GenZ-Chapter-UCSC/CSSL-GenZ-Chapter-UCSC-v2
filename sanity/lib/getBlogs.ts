@@ -19,7 +19,7 @@ export async function getBlogs(
   limit: number = 10
 ): Promise<Blog[]> {
   let query;
-  const params: any = { limit };
+  const params: { limit: number; category?: string } = { limit };
 
   if (category && category !== "All") {
     query = `*[_type=="blog" && category == $category] | order(publishedAt desc)[0...$limit]{
