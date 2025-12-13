@@ -3,6 +3,7 @@ import { client } from "./client";
 export type Blog = {
   _id: string;
   title: string;
+  titleSplitCharCount?: number;
   mainImage?: { asset: { _ref: string } };
   author?: { name: string };
   excerpt?: string;
@@ -10,7 +11,7 @@ export type Blog = {
   content: string;
   readTime: string;
   category: string;
-  subtopicDescription: string;
+  subtopics?: { title: string; description: string }[];
 };
 
 export async function getBlogs(
@@ -24,6 +25,7 @@ export async function getBlogs(
     query = `*[_type=="blog" && category == $category] | order(publishedAt desc)[0...$limit]{
       _id,
       title,
+      titleSplitCharCount,
       mainImage,
       "author": author->{name},
       excerpt,
@@ -31,13 +33,14 @@ export async function getBlogs(
       content,
       readTime,
       category,
-      subtopicDescription
+      subtopics[]{title, description}
     }`;
     params.category = category;
   } else {
     query = `*[_type=="blog"] | order(publishedAt desc)[0...$limit]{
       _id,
       title,
+      titleSplitCharCount,
       mainImage,
       "author": author->{name},
       excerpt,
@@ -45,7 +48,7 @@ export async function getBlogs(
       content,
       readTime,
       category,
-      subtopicDescription
+      subtopics[]{title, description}  // CHANGED
     }`;
   }
 

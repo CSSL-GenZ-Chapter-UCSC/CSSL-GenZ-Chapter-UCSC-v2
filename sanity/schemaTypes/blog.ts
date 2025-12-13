@@ -9,7 +9,19 @@ export const blog = defineType({
       name: "title",
       title: "Title",
       type: "string",
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) =>
+        Rule.required()
+          .min(8)
+          .max(20)
+          .error("Title must be between 8 and 20 characters"), // blocks publishing
+    }),
+    defineField({
+      name: "titleSplitCharCount",
+      title: "Title Split Character Count",
+      type: "number",
+      description: "Number of characters in the first line of the title",
+      initialValue: 11, // default
+      validation: (Rule) => Rule.min(1).integer(),
     }),
     defineField({
       name: "slug",
@@ -71,15 +83,30 @@ export const blog = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "subtopic",
-      title: "Subtopic",
-      type: "string",
+      name: "subtopics", // CHANGED: new field name
+      title: "Subtopics", // CHANGED
+      type: "array", // CHANGED: now an array to allow multiple
+      of: [
+        defineField({
+          type: "object", // CHANGED: each subtopic is an object
+          name: "subtopicItem", // CHANGED
+          title: "Subtopic Item", // CHANGED
+          fields: [
+            {
+              name: "title", // CHANGED: subtopic heading
+              title: "Subtopic Title",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: "description", // CHANGED: subtopic content
+              title: "Subtopic Description",
+              type: "text",
+              rows: 5,
+            },
+          ],
+        }),
+      ],
     }),
-    defineField({
-      name: "subtopicDescription",  // no spaces
-      title: "Subtopic Description",
-      type: "text",
-      rows: 9
-    })
   ],
 });

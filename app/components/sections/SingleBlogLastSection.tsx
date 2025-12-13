@@ -16,7 +16,7 @@ export const SingleBlogLastSection = ({
     return <p className="text-gray-400 py-12">No other blogs.</p>;
 
   return (
-    <div className="bg-black text-white p-1 pt-1 relative z-10">
+    <div className="bg-black text-white overflow-hidden p-1 pt-1 relative z-10">
       <div className="flex items-center justify-between mt-8 mb-6 px-2">
         <h2 className="text-2xl text-blue-400">Read Next</h2>
 
@@ -56,7 +56,7 @@ export const SingleBlogLastSection = ({
                 )}
               </div>
               {/* Blog title and date */}
-              <h3 className="text-2xl font-medium [@media(max-width:400px)]:text-xl mb-2 group-hover:text-blue-400 transition-colors">
+              <h3 className="text-2xl font-medium">
                 {blog.title}
               </h3>
               <p className="text-[#4C9DFE] text-sm">

@@ -46,12 +46,10 @@ export const BlogDescription = ({ blog }: BlogDescriptionProps) => {
     ? blog.content.split("\n").filter(Boolean)
     : [];
 
-  const subtopicParagraphs = blog.subtopicDescription
-    ? blog.subtopicDescription.split("\n").filter(Boolean)
-    : [];
+  const subtopics = blog.subtopics || [];
 
   return (
-    <div className="py-8 px-25 justify-center">
+    <div className="py-8 justify-center">
       {/* Share icon */}
       <div
         className="bg-[#3462B3] fixed top-100 left-0 w-12 h-10 flex justify-center items-center shadow-lg cursor-pointer z-50"
@@ -93,30 +91,38 @@ export const BlogDescription = ({ blog }: BlogDescriptionProps) => {
           <p className="text-white">No content</p>
         )}
         {/* Subtopic section */}
-        {subtopicParagraphs.length > 0 ? (
+        {subtopics.length > 0 ? (
           <div>
-            <h5 className="text-[#84B5FF] mt-6 mb-2">Sub Topic</h5>
-            {/* First subtopic */}
-            <p className="text-[#9AA0A6] my-1">{subtopicParagraphs[0]}</p>
+            <h5 className="text-[#84B5FF] mt-6 mb-2">Sub Topics</h5>
+
+            {/* --- Change 1 Start: Display first subtopic only --- */}
+            <div className="mb-4">
+              <h6 className="text-[#FFFFFF] font-semibold">{subtopics[0].title}</h6>
+              <p className="text-[#9AA0A6]">{subtopics[0].description}</p>
+            </div>
+
             {/* Image if exists */}
             {blog?.mainImage?.asset && (
               <Image
                 src={urlFor(blog.mainImage).width(1200).url()}
                 alt={blog.title}
-                width={1200} // required
+                width={1200}
                 height={800}
                 className="w-[993px] h-[490px] object-cover lg:left-1.5 lg:top-[30px] lg:relative lg:mb-19"
               />
             )}
-            {/* Rest of subtopics (optional) */}
-            {subtopicParagraphs.slice(1).map((sub, i) => (
-              <p key={i} className="text-[#9AA0A6] my-1">
-                {sub}
-              </p>
+
+            {/* --- Display rest of subtopics --- */}
+            {subtopics.slice(1).map((sub, i) => (
+              <div key={i} className="mb-4">
+                <h6 className="text-[#FFFFFF] font-semibold">{sub.title}</h6>
+                <p className="text-[#9AA0A6]">{sub.description}</p>
+              </div>
             ))}
+            {/* --- End --- */}
+
             <div className="-ml-10 md:flex md:flex-row md:gap-1 lg:flex lg:flex-row justify-between items-center gap-1 text-sm text-gray-400 mt-6">
               {/* Last Updated */}
-
               <p className="ml-10 -mt-5">
                 Last Updated{" "}
                 <span className="text-blue-500 font-medium">
@@ -139,7 +145,7 @@ export const BlogDescription = ({ blog }: BlogDescriptionProps) => {
             </div>
           </div>
         ) : (
-          <p className="text-white">No subtopic description</p>
+          <p className="text-white">No subtopics available</p>
         )}
       </div>
     </div>

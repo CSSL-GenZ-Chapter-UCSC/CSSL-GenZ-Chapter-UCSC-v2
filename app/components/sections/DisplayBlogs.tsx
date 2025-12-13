@@ -67,7 +67,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
   const isFirstLoad = useRef(true);
 
   const [currentPage, setCurrentPage] = useState(0); // page index
-  const blogsPerPage = 2; // number of blogs per page
+  const blogsPerPage = 9; // number of blogs per page
 
 
   const totalPages = Math.ceil(blogs.length / blogsPerPage);
@@ -149,8 +149,8 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
 
 
   return (
-    <div className="max-w-[2400px] px-4 pb-3 lg:pb-1 sm:px-6 md:px-8 lg:px-12 mx-auto border border-green-500">
-      <div className="border border-blue-1000 max-h-[740px] max-w-[740px] mx-auto">
+    <div className="max-w-[2400px] px-4 pb-3 lg:pb-1 sm:px-6 md:px-8 lg:px-12 mx-auto">
+      <div className="max-h-[740px] max-w-[740px] mx-auto">
         <DynamicButtons
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
@@ -171,7 +171,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
           variants={container}
           initial="hidden"
           animate="show"
-          className="border border-red-500 grid grid-cols-2 lg:grid-cols-3 gap-8 gap-x-3 lg:gap-x-1 lg:mt-20"
+          className="grid grid-cols-2 lg:grid-cols-3 gap-8 gap-x-3 lg:gap-x-1 lg:mt-20"
         >
           {blogsToShow.length === 0 ? (
             <div className="col-span-full text-center py-12 text-gray-500">
@@ -185,7 +185,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
                   <motion.div
                     whileHover={{ y: -10, scale: 1.02 }}
                     transition={{ type: "spring", stiffness: 300 }}
-                    className="border border-yellow-400 h-[310px] lg:h-[546px] w-99/100 lg:w-95/100 flex flex-col overflow-hidden shadow-md cursor-pointer bg-[#000000]"
+                    className="h-[310px] lg:h-[546px] w-99/100 lg:w-95/100 flex flex-col overflow-hidden shadow-md cursor-pointer bg-[#000000]"
                   >
                     {blog.mainImage?.asset && (
                       <Image
