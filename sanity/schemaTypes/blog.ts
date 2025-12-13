@@ -48,13 +48,30 @@ export const blog = defineType({
     defineField({
       name: "content",
       title: "Content",
-      type: "text",
-      rows: 10,
+      type: "array",
+      of: [
+        {
+          type: "block",
+        },
+        {
+          type: "image",
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            {
+              name: "alt",
+              type: "string",
+              title: "Alternative Text",
+            },
+          ],
+        },
+      ],
     }),
     defineField({
-      name: 'readTime',
-      title: 'Read Time',
-      type: 'string'
+      name: "readTime",
+      title: "Read Time",
+      type: "string",
     }),
     defineField({
       name: "category",
@@ -70,16 +87,5 @@ export const blog = defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      name: "subtopic",
-      title: "Subtopic",
-      type: "string",
-    }),
-    defineField({
-      name: "subtopicDescription",  // no spaces
-      title: "Subtopic Description",
-      type: "text",
-      rows: 9
-    })
   ],
 });

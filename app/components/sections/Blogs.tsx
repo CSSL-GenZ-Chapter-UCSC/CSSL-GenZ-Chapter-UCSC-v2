@@ -267,12 +267,7 @@ export const Blogs = ({ blogs = [] }: BlogsProps) => {
                 {blogs[activeIndex]?.title}
               </h3>
               <p className="text-[#9AA0A6] font-poppins text-[15px] font-normal leading-normal mt-1">
-                {truncateText(
-                  blogs[activeIndex]?.subtopicDescription ||
-                    blogs[activeIndex]?.excerpt ||
-                    "",
-                  10
-                )}
+                {truncateText(blogs[activeIndex]?.excerpt || "", 10)}
               </p>
               <p className="text-[#9AA0A6] font-poppins text-[14px] font-normal leading-normal mt-4">
                 {blogs[activeIndex]?.readTime} .{" "}
@@ -328,10 +323,7 @@ export const Blogs = ({ blogs = [] }: BlogsProps) => {
                         {blog.title}
                       </h2>
                       <p className="text-[#9AA0A6] font-poppins text-[18px] font-normal leading-normal">
-                        {truncateText(
-                          blog.subtopicDescription || blog.excerpt || "",
-                          10
-                        )}
+                        {truncateText(blog.excerpt || "", 10)}
                       </p>
                       <p className="text-[#9AA0A6] font-poppins text-[15px] font-normal leading-normal mt-10">
                         {blog.readTime} . {formatDate(blog.publishedAt)}

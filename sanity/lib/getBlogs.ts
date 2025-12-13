@@ -1,4 +1,5 @@
 import { client } from "./client";
+import { PortableTextBlock } from "sanity";
 
 export type Blog = {
   _id: string;
@@ -7,10 +8,9 @@ export type Blog = {
   author?: { name: string };
   excerpt?: string;
   publishedAt: string;
-  content: string;
+  content: PortableTextBlock[];
   readTime: string;
   category: string;
-  subtopicDescription: string;
 };
 
 export async function getBlogs(
@@ -30,8 +30,7 @@ export async function getBlogs(
       publishedAt,
       content,
       readTime,
-      category,
-      subtopicDescription
+      category
     }`;
     params.category = category;
   } else {
@@ -44,8 +43,7 @@ export async function getBlogs(
       publishedAt,
       content,
       readTime,
-      category,
-      subtopicDescription
+      category
     }`;
   }
 
