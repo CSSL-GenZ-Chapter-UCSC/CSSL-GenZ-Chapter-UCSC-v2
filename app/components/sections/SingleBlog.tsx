@@ -16,10 +16,10 @@ export const SingleBlog = ({ blog, moreBlogs }: SingleBlogProps) => {
       <div>
         <SingleBlogTopSection blog={blog} />
       </div>
-      <div className="border border-blue-500">
+      <div className="">
         <BlogDescription blog={blog} />
       </div>
-      <div className="border-[10px] border-yellow-500">
+      <div className="">
         <SingleBlogLastSection blogs={moreBlogs} />
       </div>
     </section>
