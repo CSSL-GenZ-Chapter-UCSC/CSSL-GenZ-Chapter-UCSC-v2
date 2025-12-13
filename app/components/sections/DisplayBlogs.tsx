@@ -221,7 +221,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
                           </span>
                         </h3>
                         {blog.excerpt && (
-                          <p className="text-[#9AA0A6] text-[10px] lg:text-[14px] lg:text-lg font-normal font-poppins">
+                          <p className="text-[#9AA0A6] text-justify whitespace-normal break-words text-[10px] lg:text-[14px] lg:text-lg font-normal font-poppins">
                             {blog.excerpt}
                           </p>
                         )}
