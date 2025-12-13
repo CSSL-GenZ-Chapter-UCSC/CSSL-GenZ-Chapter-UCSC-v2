@@ -60,7 +60,7 @@ export const SingleBlogTopSection = ({ blog }: SingleBlogTopSectionProps) => {
                       <>
                         <span className="block md:mb-3">{firstLine}</span>
                         {secondLine && (
-                          <span className="block max-w-[75%] mx-auto md:mx-0 lg:mt-3">{secondLine}</span>
+                          <span className="block lg:mt-3">{secondLine}</span>
                         )}
                       </>
                     );
