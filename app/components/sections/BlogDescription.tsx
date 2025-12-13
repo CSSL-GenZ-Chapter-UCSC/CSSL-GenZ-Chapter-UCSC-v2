@@ -44,17 +44,17 @@ const components: PortableTextComponents = {
       </h1>
     ),
     h2: ({ children }) => (
-      <h2 className="text-2xl md:text-3xl font-bold text-[#84B5FF] mt-8 mb-4">
+      <h2 className="text-2xl md:text-3xl font-bold text-white mt-8 mb-4">
         {children}
       </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="text-xl md:text-2xl font-bold text-[#84B5FF] mt-6 mb-3">
+      <h3 className="text-xl md:text-2xl font-bold text-white mt-6 mb-3">
         {children}
       </h3>
     ),
     h4: ({ children }) => (
-      <h4 className="text-lg md:text-xl font-bold text-[#84B5FF] mt-6 mb-3">
+      <h4 className="text-lg md:text-xl font-bold text-white mt-6 mb-3">
         {children}
       </h4>
     ),
