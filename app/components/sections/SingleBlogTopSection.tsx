@@ -25,11 +25,11 @@ export const SingleBlogTopSection = ({ blog }: SingleBlogTopSectionProps) => {
 
       <div className="absolute inset-0 z-0 pointer-events-none bg-gradient-to-b from-[#0F2248] to-[#000000]" />
       
-      <div className="lg:inset-0 lg:z-0 lg:pointer-events-none hidden md:inline md:h-max md:ml-80 md:-mt-80">
+      <div className="lg:inset-0 lg:z-0 lg:pointer-events-none hidden md:inline md:h-max md:ml-0 md:mt-15 md:-mt-80 lg:mt-35 lg:ml-5">
           <LogoScroll gradient={gradient} />
       </div>
 
-        <div className="z-10 md:mt-9 md:grid md:grid-cols-2 md:gap-15 md:mb-28 md:-ml-207 lg:relative lg:-left-[840px] lg:mt-32 lg:gap-200">
+        <div className="z-10 md:mt-9 md:grid md:grid-cols-2 md:gap-15 md:mb-28 md:-ml-210 lg:relative lg:-left-[840px] lg:mt-20 lg:gap-200">
           {/*for blog image */}
           <div className="px-2">
             {blog?.mainImage?.asset ? (
@@ -47,8 +47,8 @@ export const SingleBlogTopSection = ({ blog }: SingleBlogTopSectionProps) => {
           </div>
 
           {/*for Blog details */}
-          <div className="text-center w-screen  md:max-h-[130px] md:w-max md:mt-14 lg:min-w-[500px] lg:min-h-[250px]">
-            <h1 className="mt-3 md:-ml-23 text-center font-[Poppins] font-medium  text-[22px] md:text-[50px] lg:text-[52px] tracking-normal text-white  lg:relative ">
+          <div className="text-center w-screen  md:max-h-[130px] md:w-max md:mt-9 lg:min-w-[500px] lg:min-h-[250px]">
+            <h1 className="mt-3 md:-ml-23 text-center font-[Poppins] font-medium  text-[22px] md:text-[34px] lg:text-[52px] tracking-normal text-white  lg:relative ">
                 <span className="inline-block text-center">
                   {(() => {
                     const title = blog?.title || "";
@@ -68,7 +68,7 @@ export const SingleBlogTopSection = ({ blog }: SingleBlogTopSectionProps) => {
                 </span>
             </h1>
 
-            <div className="mt-3 md:mt-7 flex flex-row gap-5 lg:mt-19 lg:-ml-1 lg:gap-17 w-max mx-auto text-center text-xs md:text-[24px]">
+            <div className="mt-3 md:mt-7 flex flex-row gap-5 lg:mt-19 lg:-ml-1 lg:gap-17 w-max mx-auto text-center text-xs md:text-[14px] lg:text-[22px]">
               <svg
                 className="w-9 h-9 text-[#318AFF]"
                 fill="currentColor"
@@ -110,78 +110,66 @@ export const SingleBlogTopSection = ({ blog }: SingleBlogTopSectionProps) => {
 
 const LogoScroll = ({ gradient }: { gradient: string }) => {
   return (
-    <div className="md:mt-100 lg:mt-120 md:-ml-82 relative w-screen overflow-hidden">
-      <div className="md:mb-0 max-h-[200px] top-0 flex md:gap-10 items-center justify-center overflow-hidden">
+    <div className="relative w-screen h-[360px] lg:h-[650px] overflow-hidden flex flex-col items-center justify-center">
+      <div className="flex gap-10 items-center">
         <h2
-          className="text-center font-[Poppins] 2xl:text-[180px] xl:text-[120px] lg:text-[95px] md:text-[95px] sm:text-[10px] text-[80px] font-semibold  bg-clip-text text-transparent select-none"
+          className="text-center font-[Poppins] lg:text-[95px] md:text-[75px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
-            backgroundSize: "300% 100%",
-            backgroundRepeat: "no-repeat",
             WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent"
+            WebkitTextFillColor: "transparent",
           }}
         >
           CSSL
         </h2>
         <h2
-          className="text-center font-[Poppins] 2xl:text-[180px] xl:text-[120px] lg:text-[95px] md:text-[95px] sm:text-[10px] text-[80px] font-semibold  bg-clip-text text-transparent select-none"
+          className="text-center font-[Poppins] lg:text-[95px] md:text-[75px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
-            backgroundSize: "300% 100%",
-            backgroundRepeat: "no-repeat",
             WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent"
+            WebkitTextFillColor: "transparent",
           }}
         >
           BLOG
         </h2>
         <h2
-          className="text-center font-[Poppins] 2xl:text-[180px] xl:text-[120px] lg:text-[95px] md:text-[95px] sm:text-[10px] text-[80px] font-semibold  bg-clip-text text-transparent select-none"
+          className="text-center font-[Poppins] lg:text-[95px] md:text-[75px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
-            backgroundSize: "300% 100%",
-            backgroundRepeat: "no-repeat",
             WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent"
+            WebkitTextFillColor: "transparent",
           }}
         >
           CSSL
         </h2>
       </div>
-      <div className="md:mt-3 lg:mt-0 max-h-[2200px] lg:max-h-[310px]  top-0 flex md:gap-5 lg:gap-39 items-center justify-center overflow-hidden">
+      <div className="flex gap-25 items-center">
         <h2
-          className="text-center font-[Poppins] 2xl:text-[280px] xl:text-[250px] lg:text-[150px] md:text-[170px] sm:text-[20px] text-[150px] font-semibold  bg-clip-text text-transparent select-none"
+          className="text-center font-[Poppins] lg:text-[295px] md:text-[115px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
-            backgroundSize: "300% 100%",
-            backgroundRepeat: "no-repeat",
-            
             WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
           }}
         >
           CSSL
         </h2>
         <h2
-          className="text-center font-[Poppins] 2xl:text-[280px] xl:text-[250px] lg:text-[150px] md:text-[170px] sm:text-[20px] text-[150px] font-semibold bg-clip-text text-transparent select-none"
+          className="text-center font-[Poppins] lg:text-[295px] md:text-[115px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
-            backgroundSize: "300% 100%",
-            backgroundRepeat: "no-repeat",
-
             WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
           }}
         >
           BLOG
         </h2>
         <h2
-          className="text-center font-[Poppins] 2xl:text-[280px] xl:text-[250px] lg:text-[150px] md:text-[170px] sm:text-[20px] text-[150px] font-semibold bg-clip-text text-transparent select-none"
+          className="text-center font-[Poppins] lg:text-[295px] md:text-[115px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
-            backgroundSize: "300% 100%",
-            backgroundRepeat: "no-repeat",
-
             WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
           }}
         >
           CSSL

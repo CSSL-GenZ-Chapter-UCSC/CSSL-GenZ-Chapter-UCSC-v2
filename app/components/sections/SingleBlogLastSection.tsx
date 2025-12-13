@@ -17,7 +17,7 @@ export const SingleBlogLastSection = ({
 
   return (
     <div className="bg-black text-white overflow-hidden p-1 pt-1 relative z-10">
-      <div className="flex items-center justify-between text-[14px] md:ml-20 md:mr-12 md:text-[20px] mt-8 mb-6 px-2">
+      <div className="flex items-center justify-between text-[14px] md:ml-20 md:mr-12 lg:mr-27 md:text-[20px] mt-8 mb-6 px-2">
         <h2 className=" text-blue-400">Read Next</h2>
 
         {/* 🔧 MODIFIED: Link without button inside */}
