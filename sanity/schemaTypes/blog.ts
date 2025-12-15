@@ -53,8 +53,8 @@ export const blog = defineType({
       rows: 3,
       validation: (Rule) =>
         Rule.min(88)
-            .max(326)
-            .error("Excerpt must be between 88 and 326 characters"),
+            .max(131)
+            .error("Excerpt must be between 88 and 131 characters"),
     }),
     defineField({
       name: "publishedAt",
