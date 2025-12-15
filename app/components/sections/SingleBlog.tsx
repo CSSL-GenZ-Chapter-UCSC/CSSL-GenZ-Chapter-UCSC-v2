@@ -16,10 +16,10 @@ export const SingleBlog = ({ blog, moreBlogs }: SingleBlogProps) => {
       <div>
         <SingleBlogTopSection blog={blog} />
       </div>
-      <div className="">
+      <div>
         <BlogDescription blog={blog} />
       </div>
-      <div className="">
+      <div>
         <SingleBlogLastSection blogs={moreBlogs} />
       </div>
     </section>
