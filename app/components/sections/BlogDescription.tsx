@@ -4,100 +4,10 @@ import { useState } from "react";
 import { type Blog } from "@/sanity/lib/getBlogs";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
-import { PortableText, PortableTextComponents } from "next-sanity";
 
 interface BlogDescriptionProps {
   blog: Blog | null;
 }
-
-interface PortableTextImage {
-  asset: {
-    _ref: string;
-  };
-  alt?: string;
-}
-
-const components: PortableTextComponents = {
-  types: {
-    image: ({ value }: { value: PortableTextImage }) => {
-      if (!value?.asset?._ref) {
-        return null;
-      }
-      return (
-        <div className="relative w-full my-8 flex justify-center">
-          <Image
-            src={urlFor(value).width(1200).url()}
-            alt={value.alt || "Blog Image"}
-            width={1200}
-            height={800}
-            className="rounded-lg object-cover w-full max-w-4xl h-auto"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
-          />
-        </div>
-      );
-    },
-  },
-  block: {
-    h1: ({ children }) => (
-      <h1 className="text-3xl md:text-4xl font-bold text-white mt-8 mb-4">
-        {children}
-      </h1>
-    ),
-    h2: ({ children }) => (
-      <h2 className="text-2xl md:text-3xl font-bold text-white mt-8 mb-4">
-        {children}
-      </h2>
-    ),
-    h3: ({ children }) => (
-      <h3 className="text-xl md:text-2xl font-bold text-white mt-6 mb-3">
-        {children}
-      </h3>
-    ),
-    h4: ({ children }) => (
-      <h4 className="text-lg md:text-xl font-bold text-white mt-6 mb-3">
-        {children}
-      </h4>
-    ),
-    normal: ({ children }) => (
-      <p className="text-[#9AA0A6] mb-4 leading-relaxed text-base md:text-lg">
-        {children}
-      </p>
-    ),
-    blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-[#3462B3] pl-4 italic text-gray-400 my-6">
-        {children}
-      </blockquote>
-    ),
-  },
-  list: {
-    bullet: ({ children }) => (
-      <ul className="list-disc list-inside text-[#9AA0A6] mb-4 ml-4 space-y-2">
-        {children}
-      </ul>
-    ),
-    number: ({ children }) => (
-      <ol className="list-decimal list-inside text-[#9AA0A6] mb-4 ml-4 space-y-2">
-        {children}
-      </ol>
-    ),
-  },
-  marks: {
-    link: ({ children, value }) => {
-      const rel = !value.href.startsWith("/")
-        ? "noreferrer noopener"
-        : undefined;
-      return (
-        <a
-          href={value.href}
-          rel={rel}
-          className="text-[#3462B3] hover:underline"
-        >
-          {children}
-        </a>
-      );
-    },
-  },
-};
 
 export const BlogDescription = ({ blog }: BlogDescriptionProps) => {
   const [copied, setCopied] = useState(false);
@@ -130,18 +40,23 @@ export const BlogDescription = ({ blog }: BlogDescriptionProps) => {
     }
   };
 
-  if (!blog) return <p className="text-white text-center py-10">Loading...</p>;
+  if (!blog) return <p>Loading...</p>;
+
+  const contentParagraphs = blog.content
+    ? blog.content.split("\n").filter(Boolean)
+    : [];
+
+  const subtopics = blog.subtopics || [];
 
   return (
-    <div className="py-8 px-4 md:px-12 lg:px-24 max-w-7xl mx-auto">
+    <div className="py-8 justify-center">
       {/* Share icon */}
       <div
-        className="bg-[#3462B3] fixed bottom-10 right-10 md:top-40 md:left-10 md:right-auto md:bottom-auto w-12 h-12 flex justify-center items-center shadow-lg cursor-pointer z-50 rounded-full md:rounded-none"
+        className="bg-[#3462B3] fixed top-100 left-0 w-12 h-10 flex justify-center items-center shadow-lg cursor-pointer z-50"
         onClick={handleShare}
-        title="Share"
       >
         <svg
-          className="w-6 h-6 text-[#CCCCCC]"
+          className="w-9 h-9 text-[#CCCCCC]"
           fill="currentColor"
           viewBox="0 0 24 24"
         >
@@ -151,42 +66,87 @@ export const BlogDescription = ({ blog }: BlogDescriptionProps) => {
 
       {/* Beautiful popup toast */}
       <div
-        className={`fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-5 py-2 rounded-lg shadow-lg transition-all duration-300 z-60
+        className={`fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-5 py-2 rounded-lg shadow-lg transition-all duration-300 
         ${copied ? "opacity-100 scale-100" : "opacity-0 scale-90 pointer-events-none"}`}
       >
         Link copied!
       </div>
 
       <div className="mt-8">
-        {/* Portable Text Content */}
-        {blog.content ? (
-          <div className="prose prose-invert max-w-none">
-            <PortableText value={blog.content} components={components} />
+        {/* Content paragraphs */}
+        {contentParagraphs.length > 0 ? (
+          contentParagraphs.map((p, i) => (
+            <p
+              key={i}
+              className={`mb-4 md:text-left${
+                i === 0
+                  ? "text-white font-bold text-2xl"
+                  : "font-semibold md:text-left text-[#9AA0A6]"
+              }`}
+            >
+              {p}
+            </p>
+          ))
+        ) : (
+          <p className="text-white">No content</p>
+        )}
+        {/* Subtopic section */}
+        {subtopics.length > 0 ? (
+          <div>
+            <h5 className="text-[#84B5FF] mt-6 mb-2">Sub Topics</h5>
+
+            {/* --- Change 1 Start: Display first subtopic only --- */}
+            <div className="mb-4">
+              <h6 className="text-[#FFFFFF] font-semibold">{subtopics[0].title}</h6>
+              <p className="text-[#9AA0A6]">{subtopics[0].description}</p>
+            </div>
+
+            {/* Image if exists */}
+            {blog?.mainImage?.asset && (
+              <Image
+                src={urlFor(blog.mainImage).width(1200).url()}
+                alt={blog.title}
+                width={1200}
+                height={800}
+                className="w-[993px] h-[490px] object-cover lg:left-1.5 lg:top-[30px] lg:relative lg:mb-19"
+              />
+            )}
+
+            {/* --- Display rest of subtopics --- */}
+            {subtopics.slice(1).map((sub, i) => (
+              <div key={i} className="mb-4">
+                <h6 className="text-[#FFFFFF] font-semibold">{sub.title}</h6>
+                <p className="text-[#9AA0A6]">{sub.description}</p>
+              </div>
+            ))}
+            {/* --- End --- */}
+
+            <div className="-ml-10 md:flex md:flex-row md:gap-1 lg:flex lg:flex-row justify-between items-center gap-1 text-sm text-gray-400 mt-6">
+              {/* Last Updated */}
+              <p className="ml-10 -mt-5">
+                Last Updated{" "}
+                <span className="text-blue-500 font-medium">
+                  {new Date(blog.publishedAt).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </span>
+              </p>
+              {/* Category */}
+              {blog.category && (
+                <p className="ml-74 -mt-5">
+                  Category{" "}
+                  <span className="text-blue-500 font-medium">
+                    {blog.category}
+                  </span>
+                </p>
+              )}
+            </div>
           </div>
         ) : (
-          <p className="text-white">No content available.</p>
+          <p className="text-white">No subtopics available</p>
         )}
-
-        <div className="border-t border-gray-700 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
-          {/* Last Updated */}
-          <p>
-            Last Updated{" "}
-            <span className="text-blue-500 font-medium">
-              {new Date(blog.publishedAt).toLocaleDateString("en-GB", {
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-              })}
-            </span>
-          </p>
-          {/* Category */}
-          {blog.category && (
-            <p>
-              Category{" "}
-              <span className="text-blue-500 font-medium">{blog.category}</span>
-            </p>
-          )}
-        </div>
       </div>
     </div>
   );
