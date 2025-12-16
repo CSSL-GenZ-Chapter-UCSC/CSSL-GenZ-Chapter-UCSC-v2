@@ -20,7 +20,7 @@ export const SingleBlogTopSection = ({ blog }: SingleBlogTopSectionProps) => {
   )`;
 
   return (
-    <div className="w-full max-w-full overflow-x-hidden max-h-[505px] md:max-h-[360px] lg:max-h-[650px] lg:max-w-[1685px] bg-[linear-gradient(75.37deg,#000000_-4.05%,#0F2248_74.48%,#1E448F_107.82%)] relative z-10 flex -mt-[36px]">
+    <div className="w-full max-w-full overflow-x-hidden max-h-[505px] md:max-h-[360px] lg:max-h-[650px] lg:overflow-y-hidden lg:max-w-[1685px] bg-[linear-gradient(75.37deg,#000000_-4.05%,#0F2248_74.48%,#1E448F_107.82%)] relative z-10 flex -mt-[36px]">
 
 
       <div className="absolute inset-0 z-0 pointer-events-none bg-gradient-to-b from-[#0F2248] to-[#000000]" />
@@ -113,7 +113,7 @@ const LogoScroll = ({ gradient }: { gradient: string }) => {
     <div className="relative w-screen h-[360px] lg:h-[650px] overflow-hidden flex flex-col items-center justify-center">
       <div className="flex gap-10 items-center">
         <h2
-          className="text-center font-[Poppins] lg:text-[95px] md:text-[75px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
+          className="text-center font-[Poppins] lg:text-[125px] md:text-[75px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
             WebkitBackgroundClip: "text",
@@ -123,7 +123,7 @@ const LogoScroll = ({ gradient }: { gradient: string }) => {
           CSSL
         </h2>
         <h2
-          className="text-center font-[Poppins] lg:text-[95px] md:text-[75px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
+          className="text-center font-[Poppins] lg:text-[125px] md:text-[75px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
             WebkitBackgroundClip: "text",
@@ -133,7 +133,7 @@ const LogoScroll = ({ gradient }: { gradient: string }) => {
           BLOG
         </h2>
         <h2
-          className="text-center font-[Poppins] lg:text-[95px] md:text-[75px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
+          className="text-center font-[Poppins] lg:text-[125px] md:text-[75px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
             WebkitBackgroundClip: "text",

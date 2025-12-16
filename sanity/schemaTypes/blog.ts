@@ -64,13 +64,21 @@ export const blog = defineType({
     defineField({
       name: "content",
       title: "Content",
-      type: "text",
-      rows: 10,
+      type: "string",
+      options: {
+        list: [
+          { title: "Events", value: "Events" },
+          { title: "Workshops", value: "Workshops" },
+          { title: "Competitions", value: "Competitions" },
+          { title: "Announcements", value: "Announcements" },
+        ],
+      },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'readTime',
-      title: 'Read Time',
-      type: 'string'
+      name: "readTime",
+      title: "Read Time",
+      type: "string",
     }),
     defineField({
       name: "category",
@@ -85,32 +93,6 @@ export const blog = defineType({
         ],
       },
       validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: "subtopics", // CHANGED: new field name
-      title: "Subtopics", // CHANGED
-      type: "array", // CHANGED: now an array to allow multiple
-      of: [
-        defineField({
-          type: "object", // CHANGED: each subtopic is an object
-          name: "subtopicItem", // CHANGED
-          title: "Subtopic Item", // CHANGED
-          fields: [
-            {
-              name: "title", // CHANGED: subtopic heading
-              title: "Subtopic Title",
-              type: "string",
-              validation: (Rule) => Rule.required(),
-            },
-            {
-              name: "description", // CHANGED: subtopic content
-              title: "Subtopic Description",
-              type: "text",
-              rows: 5,
-            },
-          ],
-        }),
-      ],
     }),
   ],
 });
