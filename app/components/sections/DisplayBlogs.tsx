@@ -211,7 +211,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
 
                               return (
                                 <>
-                                  <span className="inline-block md:mb-3">{firstLine}</span>
+                                  <span className="inline-block md:mb-1">{firstLine}</span>
                                   {secondLine && (
                                     <span className="inline-block">{secondLine}</span>
                                   )}
