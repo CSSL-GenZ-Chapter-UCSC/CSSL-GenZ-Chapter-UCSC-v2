@@ -1,4 +1,5 @@
 import { client } from "./client";
+import { PortableTextBlock } from "sanity";
 
 export type Blog = {
   _id: string;
@@ -8,10 +9,9 @@ export type Blog = {
   author?: { name: string };
   excerpt?: string;
   publishedAt: string;
-  content: string;
+   content: PortableTextBlock[];
   readTime: string;
   category: string;
-  subtopics?: { title: string; description: string }[];
 };
 
 export async function getBlogs(
@@ -19,7 +19,7 @@ export async function getBlogs(
   limit: number = 10
 ): Promise<Blog[]> {
   let query;
-  const params: { limit: number; category?: string } = { limit };
+  const params: any = { limit };
 
   if (category && category !== "All") {
     query = `*[_type=="blog" && category == $category] | order(publishedAt desc)[0...$limit]{
