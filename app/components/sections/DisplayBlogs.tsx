@@ -24,7 +24,6 @@ const item = {
   show: { opacity: 1, y: 0 },
 };
 
-
 const useIsLargeScreen = () => {
   const [isLarge, setIsLarge] = useState(false);
 
@@ -69,12 +68,9 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
   const [currentPage, setCurrentPage] = useState(0); // page index
   const blogsPerPage = 9; // number of blogs per page
 
-
   const totalPages = Math.ceil(blogs.length / blogsPerPage);
-  
 
   const isLargeScreen = useIsLargeScreen();
-
 
   useEffect(() => {
     if (isFirstLoad.current && selectedCategory === "All") {
@@ -85,7 +81,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
     const fetchBlogs = async () => {
       setLoading(true);
       setError(null);
-      
+
       try {
         const data = await fetchBlogsAction(selectedCategory);
         if (!data || !Array.isArray(data)) {
@@ -93,7 +89,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
           setCurrentPage(0);
           return;
         }
-        
+
         // Sort data by publishedAt date (newest first)
         const sortedData = [...data].sort((a, b) => {
           if (!a.publishedAt || !b.publishedAt) return 0;
@@ -104,7 +100,6 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
         });
         setBlogs(sortedData);
         setCurrentPage(0); // Reset to first page when category changes
-
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
@@ -121,15 +116,11 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
     fetchBlogs();
   }, [selectedCategory]);
 
-
-
-
   /*useEffect(() => {
     if (currentPage >= totalPages && totalPages > 0) {
       setCurrentPage(0);
     }
   }, [currentPage, totalPages]);*/
-  
 
   // --------------------------------------------
   // Pagination logic (desktop only)
@@ -144,13 +135,20 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
   // --------------------------------------------
   const blogsToShow = isLargeScreen ? paginatedBlogs : blogs;
 
-
-  console.log("currentPage:", currentPage, "start:", start, "end:", end, "blogs length:", blogs.length);
-
+  console.log(
+    "currentPage:",
+    currentPage,
+    "start:",
+    start,
+    "end:",
+    end,
+    "blogs length:",
+    blogs.length
+  );
 
   return (
-    <div className="max-w-[2400px] px-4 pb-3 lg:pb-1 sm:px-6 md:px-8 lg:px-12 mx-auto">
-      <div className="max-h-[740px] max-w-[740px] mx-auto">
+    <div className="px-4 pb-3 lg:pb-1 ">
+      <div className="max-h-[740px] mx-auto">
         <DynamicButtons
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
@@ -166,7 +164,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
       ) : error ? (
         <div className="text-red-500 text-center py-12">Error: {error}</div>
       ) : (
-        <motion.div 
+        <motion.div
           key={isLargeScreen ? currentPage : "mobile"}
           variants={container}
           initial="hidden"
@@ -201,27 +199,31 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
                     )}
                     <div className="p-4 flex flex-col justify-between flex-1">
                       <div>
-                        <h3 className="text-white min-h-[3.5rem] text-base lg:text-[20px] font-poppins font-medium leading-snug">
+                        <h3 className="text-white min-h-1.4 text-base lg:text-[20px] font-poppins font-medium leading-snug">
                           <span className="inline-block text-center">
                             {(() => {
                               const title = blog?.title || "";
-                              const splitAt = blog?.titleSplitCharCount || 7; 
+                              const splitAt = blog?.titleSplitCharCount || 7;
                               const firstLine = title.slice(0, splitAt);
                               const secondLine = title.slice(splitAt);
 
                               return (
                                 <>
-                                  <span className="inline-block md:mb-1">{firstLine}</span>
+                                  <span className="inline-block md:mb-1">
+                                    {firstLine}
+                                  </span>
                                   {secondLine && (
-                                    <span className="inline-block">{secondLine}</span>
+                                    <span className="inline-block">
+                                      {secondLine}
+                                    </span>
                                   )}
                                 </>
-                              ); 
+                              );
                             })()}
                           </span>
                         </h3>
                         {blog.excerpt && (
-                          <p className="text-[#9AA0A6] text-justify whitespace-normal break-words text-[10px] lg:text-[14px] lg:text-lg font-normal font-poppins">
+                          <p className="text-[#9AA0A6] text-justify whitespace-normal wrap-break-word text-[10px] lg:text-[14px] lg:text-lg font-normal font-poppins">
                             {blog.excerpt}
                           </p>
                         )}
@@ -229,16 +231,21 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
                       <div className="flex flex-row gap-2 lg:gap-12 font-normal lg:font-light font-poppins mt-auto text-[#4C9DFE]">
                         {blog.publishedAt && (
                           <p className="text-[9px] lg:text-[14px] lg:float-left">
-                            {new Date(blog.publishedAt).toLocaleDateString("en-GB", {
-                              day: "2-digit",
-                              month: "short", // short = Jan, Feb, Mar
-                              year: "numeric",
-                            })}
+                            {new Date(blog.publishedAt).toLocaleDateString(
+                              "en-GB",
+                              {
+                                day: "2-digit",
+                                month: "short", // short = Jan, Feb, Mar
+                                year: "numeric",
+                              }
+                            )}
                           </p>
                         )}
 
                         {blog.category && (
-                          <p className="font-poppins text-[9px] lg:text-[14px] lg:float-left">{blog.category}</p>
+                          <p className="font-poppins text-[9px] lg:text-[14px] lg:float-left">
+                            {blog.category}
+                          </p>
                         )}
                       </div>
                     </div>
@@ -250,11 +257,6 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
         </motion.div>
       )}
 
-
-
-
-
-      
       {/* --------------------------------------------
           ✅ Pagination dots ONLY on desktop
       -------------------------------------------- */}
@@ -279,24 +281,12 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
           ))}
         </div>
       )}
-
-
-      
     </div>
   );
 };
 
-
-
-
-
-
-
-
-
-
-
- {/* Mobile Dots 
+{
+  /* Mobile Dots 
           <div className="w-full md:hidden flex justify-center items-center mt-4 gap-2">
             {Array.from({ length: totalPages }).map((_, i) => (
               <button key={`mobile-${i}`} onClick={() => setCurrentPage(i)} className="p-0 m-0 bg-transparent border-0 cursor-pointer">
@@ -315,4 +305,5 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
                 />
               </button>
             ))}
-          </div>*/}
+          </div>*/
+}

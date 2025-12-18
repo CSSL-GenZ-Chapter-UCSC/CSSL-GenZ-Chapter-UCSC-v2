@@ -111,9 +111,14 @@ export const Hero = ({ announcements = [] }: HeroProps) => {
       </div>
 
       {/* Announcement Bar */}
-      <div className="relative z-20">
+      <motion.div
+        initial={{ opacity: 0, filter: "blur(8px)" }}
+        animate={{ opacity: 1, filter: "blur(0px)" }}
+        transition={{ duration: 0.3, ease: "easeOut", delay: 0.6 }}
+        className="relative z-20"
+      >
         <AnnouncementBar announcements={announcements} />
-      </div>
+      </motion.div>
     </section>
   );
 };
