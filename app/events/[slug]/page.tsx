@@ -1,12 +1,7 @@
-import {
-  getEventBySlug,
-  getSimilarEvents,
-  getAllEventSlugs,
-} from "@/sanity/lib/api";
+import { getEventBySlug, getSimilarEvents } from "@/sanity/lib/api";
 import { Container } from "@/app/components/shared/Container";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import type { Event } from "@/app/types/event";
 import SimilarEventsCarousel from "@/app/components/events/SimilarEventsCarousel";
 import PhotoGalleryWithLightbox from "@/app/components/events/PhotoGalleryWithLightbox";
 
@@ -55,7 +50,6 @@ export default async function EventDetailPage({
     });
   };
 
-  const heroImage = event.bannerImage?.url || event.mainImage?.url;
   const dateDisplay = event.endDate
     ? `${formatDate(event.startDate)} - ${formatDate(event.endDate)}`
     : formatDate(event.startDate);
@@ -65,10 +59,8 @@ export default async function EventDetailPage({
   const venueDisplay = event.venue || "Venue will be announced";
 
   const descriptionBlocks = (event.description || [])
-    .filter((block: any) => block._type === "block")
-    .map((block: any) =>
-      block.children?.map((child: any) => child.text).join("")
-    )
+    .filter((block) => block._type === "block")
+    .map((block) => block.children?.map((child) => child.text).join("") || "")
     .filter((text: string) => text && text.trim().length > 0);
 
   // Collect photos from the dedicated photos array only (max 10)
@@ -105,9 +97,9 @@ export default async function EventDetailPage({
         return {
           gridClass: "grid-cols-2",
           photoClasses: [
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-2 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-2 row-span-1 min-h-[300px]",
           ],
           mobileGridClass: "grid-cols-2",
           mobilePhotoClasses: [
@@ -120,10 +112,10 @@ export default async function EventDetailPage({
         return {
           gridClass: "grid-cols-2",
           photoClasses: [
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
           ],
           mobileGridClass: "grid-cols-2",
           mobilePhotoClasses: [
@@ -137,11 +129,11 @@ export default async function EventDetailPage({
         return {
           gridClass: "grid-cols-3",
           photoClasses: [
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-2 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-2 row-span-1 min-h-[300px]",
           ],
           mobileGridClass: "grid-cols-2",
           mobilePhotoClasses: [
@@ -156,12 +148,12 @@ export default async function EventDetailPage({
         return {
           gridClass: "grid-cols-3",
           photoClasses: [
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
           ],
           mobileGridClass: "grid-cols-3",
           mobilePhotoClasses: [
@@ -177,13 +169,13 @@ export default async function EventDetailPage({
         return {
           gridClass: "grid-cols-4",
           photoClasses: [
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-2 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-2 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
           ],
           mobileGridClass: "grid-cols-3",
           mobilePhotoClasses: [
@@ -200,14 +192,14 @@ export default async function EventDetailPage({
         return {
           gridClass: "grid-cols-4",
           photoClasses: [
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
           ],
           mobileGridClass: "grid-cols-3",
           mobilePhotoClasses: [
@@ -224,15 +216,15 @@ export default async function EventDetailPage({
         return {
           gridClass: "grid-cols-5",
           photoClasses: [
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-2 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-2 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
           ],
           mobileGridClass: "grid-cols-3",
           mobilePhotoClasses: [
@@ -251,16 +243,16 @@ export default async function EventDetailPage({
         return {
           gridClass: "grid-cols-5",
           photoClasses: [
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
-            "col-span-1 row-span-1 min-h-[195px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
+            "col-span-1 row-span-1 min-h-[300px]",
           ],
           mobileGridClass: "grid-cols-3",
           mobilePhotoClasses: [
