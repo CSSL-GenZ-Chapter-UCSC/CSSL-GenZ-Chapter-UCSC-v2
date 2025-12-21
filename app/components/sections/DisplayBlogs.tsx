@@ -147,7 +147,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
   );
 
   return (
-    <div className="px-4 pb-3 lg:pb-20 ">
+    <div className="pb-3 lg:pb-20 ">
       <div className="max-h-[740px] mx-auto">
         <DynamicButtons
           selectedCategory={selectedCategory}
@@ -169,7 +169,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
           variants={container}
           initial="hidden"
           animate="show"
-          className="grid grid-cols-2 lg:grid-cols-3 gap-8 gap-x-3 lg:gap-x-1 lg:mt-20"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 gap-x-3 lg:gap-x-1 lg:mt-20"
         >
           {blogsToShow.length === 0 ? (
             <div className="col-span-full text-center py-12 text-gray-500">
@@ -180,7 +180,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
             blogsToShow.map((blog) => (
               <motion.div key={blog._id} variants={item}>
                 <Link href={`/blogs/${blog._id}`}>
-                  <motion.div className="h-[310px] lg:h-[546px] w-99/100 lg:w-95/100 flex flex-col overflow-hidden shadow-md cursor-pointer bg-[#000000] hover:bg-[#101010]">
+                  <motion.div className="h-[400px] lg:h-[546px] w-full lg:w-95/100 flex flex-col overflow-hidden shadow-md cursor-pointer bg-[#000000] hover:bg-[#101010]">
                     {blog.mainImage?.asset && (
                       <Image
                         src={urlFor(blog.mainImage)
@@ -190,12 +190,12 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
                         alt={blog.title}
                         width={1200} // required
                         height={800}
-                        className="w-full h-28 lg:h-78 object-cover"
+                        className="w-full h-48 md:h-28 lg:h-78 object-cover"
                       />
                     )}
-                    <div className="p-4 flex flex-col justify-between flex-1">
-                      <div>
-                        <h3 className="text-white min-h-1.4 text-base lg:text-[20px] font-poppins font-medium leading-snug">
+                    <div className="md:p-4 p-2 flex flex-col justify-between flex-1">
+                      <div className="space-y-4">
+                        <h3 className="text-white min-h-1.4 text-lg lg:text-[20px] font-poppins font-medium leading-snug">
                           <span className="inline-block text-center">
                             {(() => {
                               const title = blog?.title || "";
@@ -219,14 +219,14 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
                           </span>
                         </h3>
                         {blog.excerpt && (
-                          <p className="text-[#9AA0A6] text-justify whitespace-normal wrap-break-word text-[10px] lg:text-[14px] lg:text-lg font-normal font-poppins">
+                          <p className="text-[#9AA0A6] text-justify whitespace-normal wrap-break-word text-[13px] lg:text-[14px] lg:text-lg font-normal font-poppins line-clamp-3">
                             {blog.excerpt}
                           </p>
                         )}
                       </div>
                       <div className="flex flex-row gap-2 lg:gap-12 font-normal lg:font-light font-poppins mt-auto text-[#4C9DFE]">
                         {blog.publishedAt && (
-                          <p className="text-[9px] lg:text-[14px] lg:float-left">
+                          <p className="text-[11px] lg:text-[14px] lg:float-left">
                             {new Date(blog.publishedAt).toLocaleDateString(
                               "en-GB",
                               {
@@ -239,7 +239,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
                         )}
 
                         {blog.category && (
-                          <p className="font-poppins text-[9px] lg:text-[14px] lg:float-left">
+                          <p className="font-poppins text-[11px] lg:text-[14px] lg:float-left">
                             {blog.category}
                           </p>
                         )}

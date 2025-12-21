@@ -123,20 +123,22 @@ export const Contact = ({ overrides }: { overrides?: ContactOverrides }) => {
       <Container className="h-full pb-20">
         <div className="w-full h-full flex flex-col sm:items-stretch">
           <PageTitle
-            text="CONTACT US"
-            className="min-h-30 md:mt-0 mt-10 lg:text-[170px] md:text-[100px] sm:text-[80px] text-[40px]"
+            text="CONTACT"
+            className="lg:text-[213px] md:text-[125px] sm:text-[100px] text-[58px] mt-10 md:mt-0 tracking-wide md:tracking-[12.65px]"
           />
-          <div className="flex px-2.5 justify-between items-start self-stretch flex-1">
+          <div className="flex md:px-2.5 px-1.5 justify-between items-start self-stretch flex-1">
             <motion.p
               initial={{ opacity: 0, filter: "blur(8px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.15 }}
-              className="text-[#afafaf] py-5 font-[Poppins] sm:text-[16px] text-[12px] not-italic font-medium sm:leading-[23px] leading-4 sm:w-[474px] w-[200px]"
+              className="text-[#afafaf] py-5 font-[Poppins] sm:text-[14px] text-[12px] not-italic font-medium sm:leading-[23px] leading-4 sm:w-[474px] w-[200px] mt-5"
             >
-              Let us know how we can help you
+              Let us know how we can help you whether you have a question, an
+              idea, or want to collaborate, we’re always open to hearing from
+              you
             </motion.p>
           </div>
-          <div className="w-full h-1/2 flex flex-col gap-[29px] md:flex-row">
+          <div className="w-full h-1/2 flex flex-col gap-[29px] md:flex-row mt-20">
             {contactCards.map((card, idx) => {
               let link = card.link;
               let linkText = card.linkText;
@@ -188,7 +190,7 @@ const ContactCard = ({
         ease: "easeOut",
         delay: idx ? idx * 0.15 + 0.3 : 0.3,
       }}
-      className="md:w-1/4 w-full md:h-full h-[250px] bg-(--frostedGlass,rgba(92,92,92,0.22)) p-10"
+      className="md:w-1/4 w-full md:h-full h-[200px] bg-(--frostedGlass,rgba(92,92,92,0.22)) md:p-10 p-5  "
     >
       <div className="w-full h-1/2 flex flex-col justify-start items-start">
         {svg}
