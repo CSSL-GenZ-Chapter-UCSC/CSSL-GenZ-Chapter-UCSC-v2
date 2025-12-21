@@ -175,3 +175,12 @@ export const GET_ANNOUNCEMENTS_QUERY = `*[_type == "announcement" && isActive ==
   title,
   message
 }`;
+
+// Get all testimonials
+export const GET_TESTIMONIALS_QUERY = `*[_type == "testimonial"]{
+  _id,
+  quote,
+  author,
+  position,
+  "image": image.asset->url
+}`;

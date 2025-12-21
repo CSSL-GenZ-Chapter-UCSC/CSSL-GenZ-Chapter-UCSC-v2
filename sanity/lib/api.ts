@@ -12,9 +12,11 @@ import {
   GET_SIMILAR_EVENTS_QUERY,
   GET_EVENT_SLUGS_QUERY,
   GET_ANNOUNCEMENTS_QUERY,
+  GET_TESTIMONIALS_QUERY,
 } from "@/sanity/queries";
 import type { Event } from "../../app/types/event";
 import type { Announcement } from "../../app/components/shared/AnnouncementBar";
+import type { TestimonialData } from "../../app/components/sections/Testimonial";
 
 export type EventSlug = {
   slug: string;
@@ -130,6 +132,19 @@ export async function getAnnouncements(): Promise<Announcement[]> {
     );
   } catch (error) {
     console.error("Error fetching announcements:", error);
+    return [];
+  }
+}
+
+/**
+ * Fetch all testimonials (server-side)
+ */
+export async function getTestimonials(): Promise<TestimonialData[]> {
+  try {
+    const testimonials = await client.fetch(GET_TESTIMONIALS_QUERY);
+    return testimonials;
+  } catch (error) {
+    console.error("Error fetching testimonials:", error);
     return [];
   }
 }

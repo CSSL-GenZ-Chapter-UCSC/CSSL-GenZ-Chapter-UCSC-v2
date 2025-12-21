@@ -10,14 +10,14 @@ const swipePower = (offset: number, velocity: number) => {
   return Math.abs(offset) * velocity;
 };
 
-interface Testimonial {
+export interface TestimonialData {
   quote: string;
   author: string;
   position: string;
   image: string;
 }
 
-const testimonials: Testimonial[] = [
+const testimonials: TestimonialData[] = [
   {
     quote:
       "The future of computing in Sri Lanka is bright. And it's being built right here.",
@@ -41,16 +41,25 @@ const testimonials: Testimonial[] = [
   },
 ];
 
-export const Testimonial = () => {
+export const Testimonial = ({
+  testimonials: initialTestimonials,
+}: {
+  testimonials?: TestimonialData[];
+}) => {
+  const displayTestimonials =
+    initialTestimonials && initialTestimonials.length > 0
+      ? initialTestimonials
+      : testimonials;
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  }, []);
+    setCurrentIndex((prev) => (prev + 1) % displayTestimonials.length);
+  }, [displayTestimonials.length]);
 
   const handlePrev = () => {
     setCurrentIndex(
-      (prev) => (prev - 1 + testimonials.length) % testimonials.length
+      (prev) =>
+        (prev - 1 + displayTestimonials.length) % displayTestimonials.length
     );
   };
 
@@ -62,11 +71,11 @@ export const Testimonial = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+      setCurrentIndex((prev) => (prev + 1) % displayTestimonials.length);
     }, AUTO_SLIDE_DURATION);
 
     return () => clearInterval(timer);
-  }, [currentIndex]);
+  }, [currentIndex, displayTestimonials.length]);
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden py-20 md:py-32 mb-20">
@@ -140,10 +149,10 @@ export const Testimonial = () => {
             >
               <div className="relative w-full h-full rounded-3xl overflow-hidden">
                 <Image
-                  src={testimonials[currentIndex].image}
-                  alt={testimonials[currentIndex].author}
+                  src={displayTestimonials[currentIndex].image}
+                  alt={displayTestimonials[currentIndex].author}
                   fill
-                  className="object-cover"
+                  className="object-cover object-top"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.src =
@@ -211,29 +220,52 @@ export const Testimonial = () => {
           </motion.div>
 
           {/* Mobile Image - Only visible on mobile */}
-          <div className="lg:hidden mb-8 w-full flex justify-center relative h-48">
-            <AnimatePresence>
-              <motion.div
-                key={`mobile-${currentIndex}`}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 1.1 }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
-                className="absolute w-40 h-40 sm:w-48 sm:h-48 rounded-2xl overflow-hidden border-4 border-white/20"
-              >
-                <Image
-                  src={testimonials[currentIndex].image}
-                  alt={testimonials[currentIndex].author}
-                  fill
-                  className="object-cover"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src =
-                      "https://via.placeholder.com/200x200?text=Avatar";
-                  }}
-                />
-              </motion.div>
-            </AnimatePresence>
+          <div className="lg:hidden mb-8 w-full flex items-center justify-center relative h-48 gap-2 sm:gap-4">
+            {/* Left Decorative Box */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              className="w-8 h-24 sm:w-12 sm:h-32 rounded-2xl"
+              style={{
+                background:
+                  "radial-gradient(circle at right, #285C97, #000000)",
+              }}
+            />
+
+            <div className="relative w-40 h-40 sm:w-48 sm:h-48">
+              <AnimatePresence>
+                <motion.div
+                  key={`mobile-${currentIndex}`}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.1 }}
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
+                  className="absolute inset-0 rounded-2xl overflow-hidden border-4 border-white/20 z-10"
+                >
+                  <Image
+                    src={displayTestimonials[currentIndex].image}
+                    alt={displayTestimonials[currentIndex].author}
+                    fill
+                    className="object-cover"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src =
+                        "https://via.placeholder.com/200x200?text=Avatar";
+                    }}
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Right Decorative Box */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              className="w-8 h-24 sm:w-12 sm:h-32 rounded-2xl"
+              style={{
+                background: "radial-gradient(circle at left, #285C97, #000000)",
+              }}
+            />
           </div>
 
           {/* Testimonial Content - Right side */}
@@ -254,7 +286,7 @@ export const Testimonial = () => {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
                   >
-                    &ldquo;{testimonials[currentIndex].quote}&rdquo;
+                    &ldquo;{displayTestimonials[currentIndex].quote}&rdquo;
                   </motion.p>
 
                   <motion.div
@@ -264,10 +296,10 @@ export const Testimonial = () => {
                     transition={{ delay: 0.3 }}
                   >
                     <p className="text-base md:text-lg text-white/90">
-                      – {testimonials[currentIndex].author}
+                      – {displayTestimonials[currentIndex].author}
                     </p>
                     <p className="text-sm md:text-base text-blue-300 mt-1">
-                      {testimonials[currentIndex].position}
+                      {displayTestimonials[currentIndex].position}
                     </p>
                   </motion.div>
                 </motion.div>
@@ -277,7 +309,7 @@ export const Testimonial = () => {
 
           {/* Navigation Dots - Fixed position */}
           <div className="flex items-center justify-center gap-3 mt-20 w-full lg:pl-[35%]">
-            {testimonials.map((_, index) => (
+            {displayTestimonials.map((_, index) => (
               <button
                 key={index}
                 onClick={() => handleDotClick(index)}
