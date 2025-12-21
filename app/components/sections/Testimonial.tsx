@@ -67,7 +67,7 @@ export const Testimonial = ({
     setCurrentIndex(index);
   };
 
-  const AUTO_SLIDE_DURATION = 3000;
+  const AUTO_SLIDE_DURATION = 6000;
 
   useEffect(() => {
     const timer = setInterval(() => {
