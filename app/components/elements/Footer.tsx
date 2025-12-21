@@ -164,7 +164,7 @@ const FooterContent = () => {
             Computing, 35, Reid Avenue, Colombo 7.
           </p>
         </div>
-        <div className="h-auto flex flex-row items-start justify-center gap-3 sm:gap-4 md:gap-5 lg:mt-0 mt-10">
+        <div className="h-auto flex flex-row items-start justify-center gap-3 sm:gap-4 md:gap-5">
           {socialLinks.map(({ href, ariaLabel, icon }) => (
             <Link
               key={ariaLabel}
