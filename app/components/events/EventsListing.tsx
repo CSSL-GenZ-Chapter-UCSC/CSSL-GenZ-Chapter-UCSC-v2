@@ -58,29 +58,25 @@ export const EventsListing = ({
   return (
     <main className="min-h-screen bg-black text-white font-poppins overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative pt-40 pb-16 md:py-32 lg:py-40 overflow-hidden">
-        <Container>
-          <div className="relative">
-            {/* Gradient blur circle near E */}
-            <div className="absolute -left-40 -top-10 w-75 h-100 bg-black rounded-full blur-[80px] pointer-events-none z-10" />
-            <div className="absolute left-80 -top-20 w-60 h-60 bg-black rounded-full blur-[120px] pointer-events-none z-10" />
-
+      <section className="md:h-[70vh] h-[50vh] flex items-start justify-center bg-black text-white sm:pt-30 pt-20">
+        <Container className="h-full pb-20">
+          <div className="w-full h-full flex flex-col sm:items-stretch ">
             <PageTitle
               text="EVENTS"
-              className="text-[56px] md:text-[120px] lg:text-[180px] font-bold leading-none tracking-tight relative z-20"
+              className="lg:text-[170px] md:text-[100px] sm:text-[80px] text-[60px]"
             />
+            <div className="flex md:px-2.5 px-1.5 justify-between items-start self-stretch flex-1">
+              <motion.p
+                initial={{ opacity: 0, filter: "blur(8px)" }}
+                animate={{ opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 0.3, ease: "easeOut", delay: 0.15 }}
+                className="text-[#afafaf] font-[Poppins] sm:text-[16px] text-[12px] not-italic font-medium sm:leading-[23px] leading-4 sm:w-[474px] w-[200px] sm:pt-auto pt-5"
+              >
+                Join us for events that inspire growth, spark creativity, and
+                connect changemakers.
+              </motion.p>
+            </div>
           </div>
-          <motion.div
-            initial={{ opacity: 0, filter: "blur(8px)" }}
-            animate={{ opacity: 1, filter: "blur(0px)" }}
-            transition={{ duration: 0.3, ease: "easeOut", delay: 0.15 }}
-            className="z-20"
-          >
-            <p className="mt-6 md:mt-10 text-sm md:text-base text-white/80 max-w-2xl relative z-20">
-              Join us for events that inspire growth, spark creativity, and
-              connect changemakers.
-            </p>
-          </motion.div>
         </Container>
       </section>
 

@@ -18,9 +18,11 @@ export const WhatWeDo = () => {
               initial={{ opacity: 0, filter: "blur(8px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.15 }}
-              className="text-[#afafaf] font-[Poppins] sm:text-[16px] text-[12px] not-italic font-medium sm:leading-[23px] leading-4 sm:w-[474px] w-[200px] sm:pt-auto pt-10"
+              className="text-[#afafaf] font-[Poppins] sm:text-[16px] text-[12px] not-italic font-medium sm:leading-[23px] leading-4 sm:w-[474px] w-[200px] mt-10 md:mt-0"
             >
-              The CSSL GenZ Chapter thrives through collaboration
+              The CSSL GenZ Chapter thrives through collaboration bringing
+              together passionate students and young professionals to share
+              knowledge, build skills
             </motion.p>
           </div>
         </div>
