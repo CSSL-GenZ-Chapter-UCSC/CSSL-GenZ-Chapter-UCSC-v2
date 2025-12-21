@@ -147,7 +147,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
   );
 
   return (
-    <div className="px-4 pb-3 lg:pb-1 ">
+    <div className="px-4 pb-3 lg:pb-20 ">
       <div className="max-h-[740px] mx-auto">
         <DynamicButtons
           selectedCategory={selectedCategory}
@@ -180,11 +180,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
             blogsToShow.map((blog) => (
               <motion.div key={blog._id} variants={item}>
                 <Link href={`/blogs/${blog._id}`}>
-                  <motion.div
-                    whileHover={{ y: -10, scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className="h-[310px] lg:h-[546px] w-99/100 lg:w-95/100 flex flex-col overflow-hidden shadow-md cursor-pointer bg-[#000000]"
-                  >
+                  <motion.div className="h-[310px] lg:h-[546px] w-99/100 lg:w-95/100 flex flex-col overflow-hidden shadow-md cursor-pointer bg-[#000000] hover:bg-[#101010]">
                     {blog.mainImage?.asset && (
                       <Image
                         src={urlFor(blog.mainImage)
@@ -260,7 +256,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
       {/* --------------------------------------------
           ✅ Pagination dots ONLY on desktop
       -------------------------------------------- */}
-      {!loading && !error && blogs.length > 0 && isLargeScreen && (
+      {!loading && !error && totalPages > 1 && isLargeScreen && (
         <div className="w-full flex justify-center items-center gap-2 mt-8">
           {Array.from({ length: totalPages }).map((_, i) => (
             <button key={i} onClick={() => setCurrentPage(i)}>

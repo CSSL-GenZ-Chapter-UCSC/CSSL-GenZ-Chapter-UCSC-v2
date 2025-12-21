@@ -20,98 +20,72 @@ export const SingleBlogTopSection = ({ blog }: SingleBlogTopSectionProps) => {
   )`;
 
   return (
-    <div className="w-full max-w-full overflow-x-hidden max-h-[505px] md:max-h-[360px] lg:max-h-[650px] lg:overflow-y-hidden lg:max-w-[1685px] bg-[linear-gradient(75.37deg,#000000_-4.05%,#0F2248_74.48%,#1E448F_107.82%)] relative z-10 flex -mt-[36px]">
+    <div className="relative w-full min-h-[500px] lg:min-h-[650px] bg-[linear-gradient(75.37deg,#000000_-4.05%,#0F2248_74.48%,#1E448F_107.82%)] overflow-hidden flex items-center py-12 lg:py-0">
+      {/* Background Gradient Overlay */}
+      <div className="absolute inset-0 z-0 pointer-events-none bg-linear-to-l from-[#0F2248] to-[#000000]" />
 
-
-      <div className="absolute inset-0 z-0 pointer-events-none bg-gradient-to-b from-[#0F2248] to-[#000000]" />
-      
-      <div className="lg:inset-0 lg:z-0 lg:pointer-events-none hidden md:inline md:h-max md:ml-0 md:mt-15 md:-mt-80 lg:mt-35 lg:ml-5">
-          <LogoScroll gradient={gradient} />
+      {/* Background Logo Text */}
+      <div className="absolute inset-0 z-0 pointer-events-none hidden md:block">
+        <LogoScroll gradient={gradient} />
       </div>
 
-        <div className="z-10 md:mt-9 md:grid md:grid-cols-2 md:gap-15 md:mb-28 md:-ml-210 lg:relative lg:-left-[840px] lg:mt-20 lg:gap-200">
-          {/*for blog image */}
-          <div className="px-2">
-            {blog?.mainImage?.asset ? (
+      {/* Main Content Container */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center gap-8 lg:gap-16">
+        {/* Blog Image */}
+        <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+          {blog?.mainImage?.asset ? (
+            <div className="relative w-full max-w-[500px] lg:max-w-[600px] aspect-4/3 md:aspect-square lg:aspect-4/3 overflow-hidden shadow-2xl">
               <Image
-                src={urlFor(blog.mainImage).width(1200).url()} // high-res image
+                src={urlFor(blog.mainImage).width(1200).url()}
                 alt={blog.title}
-                width={1200} // required
-                height={800}
-                className="max-w-[333px] h-[200px] min-[430px]:ml-9 min-[480px]:ml-13 ml-2 mt-6
-                          shadow-[0px_4px_4px_6px_rgba(0,0,0,0.79)] md:shadow-none lg:min-h-[368px] lg:min-w-[607px]"
+                fill
+                className="object-cover"
+                priority
               />
-            ) : (
-              <p className="text-white">Loading...</p>
-            )}
-          </div>
-
-          {/*for Blog details */}
-          <div className="text-center w-screen  md:max-h-[130px] md:w-max md:mt-9 lg:min-w-[500px] lg:min-h-[250px]">
-            <h1 className="mt-3 md:-ml-23 text-center font-[Poppins] font-medium  text-[22px] md:text-[34px] lg:text-[52px] tracking-normal text-white  lg:relative ">
-                <span className="inline-block text-center">
-                  {(() => {
-                    const title = blog?.title || "";
-                    const splitAt = blog?.titleSplitCharCount || 7; 
-                    const firstLine = title.slice(0, splitAt);
-                    const secondLine = title.slice(splitAt);
-
-                    return (
-                      <>
-                        <span className="block md:mb-3">{firstLine}</span>
-                        {secondLine && (
-                          <span className="block lg:mt-3">{secondLine}</span>
-                        )}
-                      </>
-                    );
-                  })()}
-                </span>
-            </h1>
-
-            <div className="mt-3 md:mt-7 flex flex-row gap-5 lg:mt-19 lg:-ml-1 lg:gap-17 w-max mx-auto text-center text-xs md:text-[14px] lg:text-[22px]">
-              <svg
-                className="w-9 h-9 text-[#318AFF]"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-              </svg>
-              <h5 className="text-[#318AFF]">
-                {blog?.publishedAt
-                ? new Date(blog.publishedAt).toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                  })
-                : ""}
-              </h5>
-              <h5 className="text-[#84B5FF]">.{blog?.category}</h5>
-              <h5 className="text-[#318AFF]">
-                By {String(blog?.author || "Unknown")}
-              </h5>
             </div>
+          ) : (
+            <div className="w-full max-w-[500px] aspect-4/3 bg-gray-800 animate-pulse rounded-lg" />
+          )}
+        </div>
+
+        {/* Blog Details */}
+        <div className="w-full md:w-1/2 text-left">
+          <h1 className="font-[Poppins] font-medium text-[28px] md:text-[34px] lg:text-[52px] leading-tight text-white mb-6">
+            {blog?.title}
+          </h1>
+
+          <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm md:text-base lg:text-[18px]">
+            <div className="flex items-center gap-2 text-[#318AFF]">
+              <span className="font-poppins">
+                -{" "}
+                {blog?.publishedAt
+                  ? new Date(blog.publishedAt).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })
+                  : ""}
+              </span>
+            </div>
+
+            <span className="text-[#84B5FF] font-poppins">
+              - {blog?.category}
+            </span>
+
+            <span className="text-[#318AFF] font-poppins">
+              - By {String(blog?.author || "Unknown")}
+            </span>
           </div>
         </div>
+      </div>
     </div>
   );
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
 const LogoScroll = ({ gradient }: { gradient: string }) => {
   return (
-    <div className="relative w-screen h-[360px] lg:h-[650px] overflow-hidden flex flex-col items-center justify-center">
-      <div className="flex gap-10 items-center">
+    <div className="relative w-full h-full overflow-hidden flex flex-col items-center justify-center opacity-30">
+      <div className="flex gap-10 items-center whitespace-nowrap">
         <h2
           className="text-center font-[Poppins] lg:text-[125px] md:text-[75px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
           style={{
@@ -143,7 +117,7 @@ const LogoScroll = ({ gradient }: { gradient: string }) => {
           CSSL
         </h2>
       </div>
-      <div className="flex gap-25 items-center">
+      <div className="flex gap-25">
         <h2
           className="text-center font-[Poppins] lg:text-[295px] md:text-[115px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
           style={{

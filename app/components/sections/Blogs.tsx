@@ -336,57 +336,61 @@ export const Blogs = ({ blogs = [] }: BlogsProps) => {
           ))}
         </motion.div>
         {/* Desktop pagination controls (moved below cards) */}
-        <div className="w-full hidden md:flex justify-center items-center gap-2 self-start">
-          {blogs.map((b, i) => (
-            <button
-              key={`desktop-pager-${i}`}
-              type="button"
-              aria-label={`Go to slide ${i + 1}: ${b.title}`}
-              onClick={() => setActiveIndex(i)}
-              className="p-0 m-0 bg-transparent border-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4C9DFE] rounded flex items-center justify-center"
-            >
-              <motion.div
-                initial={false}
-                animate={{
-                  width: i === activeIndex ? 52 : 12,
-                  height: i === activeIndex ? 11 : 12,
-                }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className={`rounded-full box-border ${
-                  i === activeIndex
-                    ? "bg-[linear-gradient(90deg,#3474F5_0%,#4C9DFE_100%)] border-none"
-                    : "border border-[#666666] bg-[#666666]"
-                }`}
-              />
-            </button>
-          ))}
-        </div>
+        {blogs.length > 1 && (
+          <div className="w-full hidden md:flex justify-center items-center gap-2 self-start">
+            {blogs.map((b, i) => (
+              <button
+                key={`desktop-pager-${i}`}
+                type="button"
+                aria-label={`Go to slide ${i + 1}: ${b.title}`}
+                onClick={() => setActiveIndex(i)}
+                className="p-0 m-0 bg-transparent border-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4C9DFE] rounded flex items-center justify-center"
+              >
+                <motion.div
+                  initial={false}
+                  animate={{
+                    width: i === activeIndex ? 52 : 12,
+                    height: i === activeIndex ? 11 : 12,
+                  }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className={`rounded-full box-border ${
+                    i === activeIndex
+                      ? "bg-[linear-gradient(90deg,#3474F5_0%,#4C9DFE_100%)] border-none"
+                      : "border border-[#666666] bg-[#666666]"
+                  }`}
+                />
+              </button>
+            ))}
+          </div>
+        )}
         {/* Mobile pagination controls */}
-        <div className="w-full md:hidden flex justify-center items-center mt-4 gap-2">
-          {blogs.map((b, i) => (
-            <button
-              key={`mobile-pager-${i}`}
-              type="button"
-              aria-label={`Go to slide ${i + 1}: ${b.title}`}
-              onClick={() => setActiveIndex(i)}
-              className="p-0 m-0 bg-transparent border-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4C9DFE] rounded flex items-center justify-center"
-            >
-              <motion.div
-                initial={false}
-                animate={{
-                  width: i === activeIndex ? 36 : 10,
-                  height: i === activeIndex ? 8 : 10,
-                }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className={`rounded-full box-border ${
-                  i === activeIndex
-                    ? "bg-[linear-gradient(90deg,#3474F5_0%,#4C9DFE_100%)] border-none"
-                    : "border border-[#9AA0A6] bg-transparent"
-                }`}
-              />
-            </button>
-          ))}
-        </div>
+        {blogs.length > 1 && (
+          <div className="w-full md:hidden flex justify-center items-center mt-4 gap-2">
+            {blogs.map((b, i) => (
+              <button
+                key={`mobile-pager-${i}`}
+                type="button"
+                aria-label={`Go to slide ${i + 1}: ${b.title}`}
+                onClick={() => setActiveIndex(i)}
+                className="p-0 m-0 bg-transparent border-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4C9DFE] rounded flex items-center justify-center"
+              >
+                <motion.div
+                  initial={false}
+                  animate={{
+                    width: i === activeIndex ? 36 : 10,
+                    height: i === activeIndex ? 8 : 10,
+                  }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className={`rounded-full box-border ${
+                    i === activeIndex
+                      ? "bg-[linear-gradient(90deg,#3474F5_0%,#4C9DFE_100%)] border-none"
+                      : "border border-[#9AA0A6] bg-transparent"
+                  }`}
+                />
+              </button>
+            ))}
+          </div>
+        )}
       </Container>
     </section>
   );

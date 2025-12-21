@@ -12,7 +12,7 @@ interface SingleBlogProps {
 
 export const SingleBlog = ({ blog, moreBlogs }: SingleBlogProps) => {
   return (
-    <section className="pt-35 h-full">
+    <section className="pt-[35px] h-full">
       <div>
         <SingleBlogTopSection blog={blog} />
       </div>

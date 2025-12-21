@@ -136,17 +136,22 @@ export const BlogDescription = ({ blog }: BlogDescriptionProps) => {
     <div className="py-8 px-4 md:px-12 lg:px-24 max-w-7xl mx-auto">
       {/* Share icon */}
       <div
-        className="bg-[#3462B3] fixed bottom-10 right-10 md:top-40 md:left-10 md:right-auto md:bottom-auto w-12 h-12 flex justify-center items-center shadow-lg cursor-pointer z-50 rounded-full md:rounded-none"
+        className="bg-[#3462B3] fixed left-0 top-1/2 -translate-y-1/2 w-12 h-12 hover:w-32 transition-all duration-300 flex items-center shadow-lg cursor-pointer z-50 rounded-r-full group overflow-hidden"
         onClick={handleShare}
         title="Share"
       >
-        <svg
-          className="w-6 h-6 text-[#CCCCCC]"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path d="M18 16a3 3 0 0 0-2.24 1.02l-6.27-3.13a3.1 3.1 0 0 0 0-1.78l6.27-3.13A3 3 0 1 0 15 6a2.9 2.9 0 0 0 .09.71L8.8 9.84a3 3 0 1 0 0 4.32l6.29 3.13A2.9 2.9 0 0 0 15 18a3 3 0 1 0 3-2Z" />
-        </svg>
+        <div className="flex items-center ml-3">
+          <svg
+            className="w-6 h-6 text-[#CCCCCC] shrink-0"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M18 16a3 3 0 0 0-2.24 1.02l-6.27-3.13a3.1 3.1 0 0 0 0-1.78l6.27-3.13A3 3 0 1 0 15 6a2.9 2.9 0 0 0 .09.71L8.8 9.84a3 3 0 1 0 0 4.32l6.29 3.13A2.9 2.9 0 0 0 15 18a3 3 0 1 0 3-2Z" />
+          </svg>
+          <span className="ml-3 text-white font-poppins font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+            Share
+          </span>
+        </div>
       </div>
 
       {/* Beautiful popup toast */}
