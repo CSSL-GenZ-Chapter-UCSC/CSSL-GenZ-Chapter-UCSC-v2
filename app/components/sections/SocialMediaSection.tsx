@@ -89,7 +89,7 @@ export const SocialMediaSection = () => {
               transition={{ duration: 0.6 }}
               className="text-[#E0E0E0] font-[Poppins] md:text-[45px] text-[25px] not-italic font-normal md:leading-[54px] leading-[35px] tracking-[-0.52px] md:w-2/3 w-full"
             >
-              Follow Us for the latest updates
+              Follow us for the latest updates
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
