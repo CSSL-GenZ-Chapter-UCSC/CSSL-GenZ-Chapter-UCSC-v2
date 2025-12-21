@@ -25,7 +25,7 @@ const socialLinks = [
     ariaLabel: "WhatsApp",
     icon: (
       <svg
-        className="w-6 h-6 text-gray-400 hover:text-white transition-colors"
+        className="lg:w-6 lg:h-6 h-5 w-5 text-gray-400 hover:text-white transition-colors"
         fill="currentColor"
         viewBox="0 0 24 24"
       >
@@ -38,7 +38,7 @@ const socialLinks = [
     ariaLabel: "LinkedIn",
     icon: (
       <svg
-        className="w-6 h-6 text-gray-400 hover:text-white transition-colors"
+        className="lg:w-6 lg:h-6 h-5 w-5 text-gray-400 hover:text-white transition-colors"
         fill="currentColor"
         viewBox="0 0 24 24"
       >
@@ -51,7 +51,7 @@ const socialLinks = [
     ariaLabel: "Facebook",
     icon: (
       <svg
-        className="w-6 h-6 text-gray-400 hover:text-white transition-colors"
+        className="lg:w-6 lg:h-6 h-5 w-5 text-gray-400 hover:text-white transition-colors"
         fill="currentColor"
         viewBox="0 0 24 24"
       >
@@ -64,7 +64,7 @@ const socialLinks = [
     ariaLabel: "Instagram",
     icon: (
       <svg
-        className="w-6 h-6 text-gray-400 hover:text-white transition-colors"
+        className="lg:w-6 lg:h-6 h-5 w-5 text-gray-400 hover:text-white transition-colors"
         fill="currentColor"
         viewBox="0 0 24 24"
       >
@@ -164,7 +164,7 @@ const FooterContent = () => {
             Computing, 35, Reid Avenue, Colombo 7.
           </p>
         </div>
-        <div className="h-auto flex flex-row items-start justify-center gap-3 sm:gap-4 md:gap-5">
+        <div className="h-auto flex flex-row items-start justify-center gap-3 sm:gap-4 md:gap-5 lg:mt-0 mt-10">
           {socialLinks.map(({ href, ariaLabel, icon }) => (
             <Link
               key={ariaLabel}

@@ -9,7 +9,19 @@ export const blog = defineType({
       name: "title",
       title: "Title",
       type: "string",
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) =>
+        Rule.required()
+          .min(8)
+          .max(20)
+          .error("Title must be between 8 and 20 characters"), // blocks publishing
+    }),
+    defineField({
+      name: "titleSplitCharCount",
+      title: "Title Split Character Count",
+      type: "number",
+      description: "Number of characters in the first line of the title",
+      initialValue: 11, // default
+      validation: (Rule) => Rule.min(1).integer(),
     }),
     defineField({
       name: "slug",
@@ -39,6 +51,10 @@ export const blog = defineType({
       title: "Excerpt",
       type: "text",
       rows: 3,
+      validation: (Rule) =>
+        Rule.min(88)
+            .max(131)
+            .error("Excerpt must be between 88 and 131 characters"),
     }),
     defineField({
       name: "publishedAt",
@@ -48,13 +64,21 @@ export const blog = defineType({
     defineField({
       name: "content",
       title: "Content",
-      type: "text",
-      rows: 10,
+      type: "string",
+      options: {
+        list: [
+          { title: "Events", value: "Events" },
+          { title: "Workshops", value: "Workshops" },
+          { title: "Competitions", value: "Competitions" },
+          { title: "Announcements", value: "Announcements" },
+        ],
+      },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'readTime',
-      title: 'Read Time',
-      type: 'string'
+      name: "readTime",
+      title: "Read Time",
+      type: "string",
     }),
     defineField({
       name: "category",
@@ -70,16 +94,5 @@ export const blog = defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      name: "subtopic",
-      title: "Subtopic",
-      type: "string",
-    }),
-    defineField({
-      name: "subtopicDescription",  // no spaces
-      title: "Subtopic Description",
-      type: "text",
-      rows: 9
-    })
   ],
 });

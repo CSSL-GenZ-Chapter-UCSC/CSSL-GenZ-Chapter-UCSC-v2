@@ -7,7 +7,18 @@ import { author } from "./author";
 import { contactInfo } from "./contactInfo";
 import { team } from "./team";
 import { announcement } from "./announcement";
+import { testimonial } from "./testimonial";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [post, blog, event, member, author, contactInfo, team, announcement],
+  types: [
+    post,
+    blog,
+    event,
+    member,
+    author,
+    contactInfo,
+    team,
+    announcement,
+    testimonial,
+  ],
 };

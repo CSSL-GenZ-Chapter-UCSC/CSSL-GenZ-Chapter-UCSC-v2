@@ -93,7 +93,7 @@ export const Hero = ({ announcements = [] }: HeroProps) => {
               initial={{ opacity: 0, filter: "blur(8px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.3 }}
-              className="text-sm md:text-xl lg:text-2xl text-white/80 mb-12 sm:max-w-3xl w-3/4 leading-relaxed select-none"
+              className="text-sm md:text-xl text-white/80 mb-12 sm:max-w-3xl w-3/4 leading-relaxed select-none"
             >
               Where GenZ minds at UCSC turn ideas into legacies
             </motion.p>
@@ -111,9 +111,14 @@ export const Hero = ({ announcements = [] }: HeroProps) => {
       </div>
 
       {/* Announcement Bar */}
-      <div className="relative z-20">
+      <motion.div
+        initial={{ opacity: 0, filter: "blur(8px)" }}
+        animate={{ opacity: 1, filter: "blur(0px)" }}
+        transition={{ duration: 0.3, ease: "easeOut", delay: 0.6 }}
+        className="relative z-20"
+      >
         <AnnouncementBar announcements={announcements} />
-      </div>
+      </motion.div>
     </section>
   );
 };

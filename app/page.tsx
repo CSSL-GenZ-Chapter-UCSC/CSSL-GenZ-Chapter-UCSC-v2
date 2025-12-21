@@ -5,7 +5,7 @@ import { Logo } from "./components/sections/Logo";
 import { Testimonial } from "./components/sections/Testimonial";
 
 import { EventsSection } from "@/app/components/sections/EventsSection";
-import { getEvents, getAnnouncements } from "@/sanity/lib/api";
+import { getEvents, getAnnouncements, getTestimonials } from "@/sanity/lib/api";
 import { getBlogs } from "@/sanity/lib/getBlogs";
 
 export const metadata = {
@@ -15,10 +15,11 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const [events, blogs, announcements] = await Promise.all([
+  const [events, blogs, announcements, testimonials] = await Promise.all([
     getEvents(),
     getBlogs(undefined, 4),
     getAnnouncements(),
+    getTestimonials(),
   ]);
 
   return (
@@ -28,7 +29,7 @@ export default async function Home() {
       <Gallery />
       <EventsSection events={events} />
       <Blogs blogs={blogs} />
-      <Testimonial />
+      <Testimonial testimonials={testimonials} />
     </main>
   );
 }

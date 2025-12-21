@@ -188,16 +188,16 @@ const ContactCard = ({
         ease: "easeOut",
         delay: idx ? idx * 0.15 + 0.3 : 0.3,
       }}
-      className="md:w-1/4 w-full h-full bg-(--frostedGlass,rgba(92,92,92,0.22)) p-10"
+      className="md:w-1/4 w-full md:h-full h-[250px] bg-(--frostedGlass,rgba(92,92,92,0.22)) p-10"
     >
       <div className="w-full h-1/2 flex flex-col justify-start items-start">
         {svg}
       </div>
       <div className="w-full h-1/2 flex flex-col items-start justify-start">
-        <h2 className="text-white font-poppins text-[18px] font-normal leading-normal">
+        <h2 className="text-white font-poppins md:text-[18px] text-[16px] font-normal leading-normal">
           {title}
         </h2>
-        <p className="text-gray-400 font-poppins text-[16px] font-light leading-normal">
+        <p className="text-gray-400 font-poppins md:text-[16px] text-[14px] font-light leading-normal">
           {description}
         </p>
         <Link href={link} className="mt-auto underline text-gray-400">

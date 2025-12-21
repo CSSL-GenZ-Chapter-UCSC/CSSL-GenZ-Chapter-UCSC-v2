@@ -13,6 +13,19 @@ export type SanityImage = {
   _type: "image";
 };
 
+export type SanityBlock = {
+  _type: string;
+  _key: string;
+  children?: Array<{
+    _type: string;
+    _key: string;
+    text: string;
+    marks?: string[];
+  }>;
+  markDefs?: unknown[];
+  style?: string;
+};
+
 export type Event = {
   _id: string;
   title: string;
@@ -21,7 +34,7 @@ export type Event = {
     current: string;
   };
   shortSummary?: string;
-  description?: any[]; // Block content array from Sanity
+  description?: SanityBlock[]; // Block content array from Sanity
   startDate: string;
   endDate?: string;
   venue?: string;

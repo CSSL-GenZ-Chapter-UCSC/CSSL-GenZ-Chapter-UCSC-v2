@@ -11,59 +11,70 @@ interface SingleBlogTopSectionProps {
 export const SingleBlogTopSection = ({ blog }: SingleBlogTopSectionProps) => {
   const gradient = `linear-gradient(
     80deg,
-    #00000000 0%,       /* transparent start */
-    #0D182818 9.42%,                 /* base color begins */
-    #437ED380 50%,                 /* highlight */
-    #0C4DAC80 50%,                 /* base again */
-    #318AFF80 50%,        /* fade out */
-    #3B489F00 0%
+    #00000000 0%,
+    #0D182818 9.42%,
+    #437ED380 50%,
+    #0C4DAC80 50%,
+    #318AFF80 50%,
+    #3B489F00 100%
   )`;
 
   return (
-    <div className="w-screen ml-0 lg:relative lg:-ml-23 -mt-10 bg-gradient-to-r from-[#000000] to-[#0F2248] bg-gradient-to-b from-[#0F2248] to-[#000008B]relative z-10 flex items-center justify-center h-[690px] [@media(max-width:1300px)]:flex-col [@media(max-width:1300px)]:text-center [@media(max-width:1300px)]:gap-2">
-      <div className="absolute inset-0 z-0 pointer-events-none">
+    <div className="relative w-full min-h-[500px] lg:min-h-[650px] bg-[linear-gradient(75.37deg,#000000_-4.05%,#0F2248_74.48%,#1E448F_107.82%)] overflow-hidden flex items-center py-12 lg:py-0">
+      {/* Background Gradient Overlay */}
+      <div className="absolute inset-0 z-0 pointer-events-none bg-linear-to-l from-[#0F2248] to-[#000000]" />
+
+      {/* Background Logo Text */}
+      <div className="absolute inset-0 z-0 pointer-events-none hidden md:block">
         <LogoScroll gradient={gradient} />
       </div>
 
-      <div className="z-10">
-        {/*for blog image */}
-        <div className="px-2">
+      {/* Main Content Container */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center gap-8 lg:gap-16">
+        {/* Blog Image */}
+        <div className="w-full md:w-1/2 flex justify-center md:justify-end">
           {blog?.mainImage?.asset ? (
-            <Image
-              src={urlFor(blog.mainImage).width(1200).url()} // high-res image
-              alt={blog.title}
-              width={1200} // required
-              height={800}
-              className="max-w-[543px] h-[300px] -mt-60 lg:ml-170 ml-181"
-            />
+            <div className="relative w-full max-w-[500px] lg:max-w-[600px] aspect-4/3 md:aspect-square lg:aspect-4/3 overflow-hidden shadow-2xl">
+              <Image
+                src={urlFor(blog.mainImage).width(1200).url()}
+                alt={blog.title}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
           ) : (
-            <p className="text-white">Loading...</p>
+            <div className="w-full max-w-[500px] aspect-4/3 bg-gray-800 animate-pulse rounded-lg" />
           )}
         </div>
 
-        {/*for Blog details */}
-        <div className="lg:-mt-180 lg:ml-525 ml-400 -mt-110">
-          <h1 className="text-5xl  font-[490] text-white lg:-left-[50px] lg:top-[80px] lg:relative [@media(max-width:1300px)]:relative [@media(max-width:1300px)]:top-[480px] [@media(max-width:1300px)]:-left-[800px]">
+        {/* Blog Details */}
+        <div className="w-full md:w-1/2 text-left">
+          <h1 className="font-[Poppins] font-medium text-[28px] md:text-[34px] lg:text-[52px] leading-tight text-white mb-6">
             {blog?.title}
           </h1>
 
-          <div className="flex flex-row gap-9 lg:-left-[70px] lg:top-[150px] lg:relative [@media(max-width:1300px)]:relative [@media(max-width:1300px)]:top-[490px] [@media(max-width:1300px)]:-left-[800px]">
-            <svg
-              className="w-9 h-9 text-[#318AFF]"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-            </svg>
-            <h5 className="text-[#318AFF]">
-              {blog?.publishedAt
-                ? new Date(blog.publishedAt).toLocaleDateString()
-                : ""}
-            </h5>
-            <h5 className="text-[#84B5FF]">{blog?.category}</h5>
-            <h5 className="text-[#318AFF]">
-              By {String(blog?.author || "Unknown")}
-            </h5>
+          <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm md:text-base lg:text-[18px]">
+            <div className="flex items-center gap-2 text-[#318AFF]">
+              <span className="font-poppins">
+                -{" "}
+                {blog?.publishedAt
+                  ? new Date(blog.publishedAt).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })
+                  : ""}
+              </span>
+            </div>
+
+            <span className="text-[#84B5FF] font-poppins">
+              - {blog?.category}
+            </span>
+
+            <span className="text-[#318AFF] font-poppins">
+              - By {String(blog?.author || "Unknown")}
+            </span>
           </div>
         </div>
       </div>
@@ -73,75 +84,66 @@ export const SingleBlogTopSection = ({ blog }: SingleBlogTopSectionProps) => {
 
 const LogoScroll = ({ gradient }: { gradient: string }) => {
   return (
-    <div className="-mt-18 relative h-[200vh] w-full">
-      <div className="h-screen top-0 flex items-center justify-center overflow-hidden">
+    <div className="relative w-full h-full overflow-hidden flex flex-col items-center justify-center opacity-30">
+      <div className="flex gap-10 items-center whitespace-nowrap">
         <h2
-          className="text-center font-[Poppins] 2xl:text-[180px] xl:text-[120px] lg:text-[100px] md:text-[30px] sm:text-[10px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
+          className="text-center font-[Poppins] lg:text-[125px] md:text-[75px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
-            backgroundSize: "300% 100%",
-            backgroundRepeat: "no-repeat",
             WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
           }}
         >
           CSSL
         </h2>
         <h2
-          className="text-center font-[Poppins] 2xl:text-[180px] xl:text-[120px] lg:text-[100px] md:text-[30px] sm:text-[10px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
+          className="text-center font-[Poppins] lg:text-[125px] md:text-[75px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
-            backgroundSize: "300% 100%",
-            backgroundRepeat: "no-repeat",
             WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
           }}
         >
           BLOG
         </h2>
         <h2
-          className="text-center font-[Poppins] 2xl:text-[180px] xl:text-[120px] lg:text-[100px] md:text-[30px] sm:text-[10px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
+          className="text-center font-[Poppins] lg:text-[125px] md:text-[75px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
-            backgroundSize: "300% 100%",
-            backgroundRepeat: "no-repeat",
             WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
           }}
         >
           CSSL
         </h2>
       </div>
-      <div className="-mt-80 h-screen top-0 flex items-center justify-center overflow-hidden">
+      <div className="flex gap-25">
         <h2
-          className="text-center font-[Poppins] 2xl:text-[280px] xl:text-[250px] lg:text-[150px] md:text-[50px] sm:text-[20px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
+          className="text-center font-[Poppins] lg:text-[295px] md:text-[115px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
-            backgroundSize: "300% 100%",
-            backgroundRepeat: "no-repeat",
-
             WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
           }}
         >
           CSSL
         </h2>
         <h2
-          className="text-center font-[Poppins] 2xl:text-[280px] xl:text-[250px] lg:text-[150px] md:text-[50px] sm:text-[20px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
+          className="text-center font-[Poppins] lg:text-[295px] md:text-[115px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
-            backgroundSize: "300% 100%",
-            backgroundRepeat: "no-repeat",
-
             WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
           }}
         >
           BLOG
         </h2>
         <h2
-          className="text-center font-[Poppins] 2xl:text-[280px] xl:text-[250px] lg:text-[150px] md:text-[50px] sm:text-[20px] text-[150px] font-semibold leading-[700px] bg-clip-text text-transparent select-none"
+          className="text-center font-[Poppins] lg:text-[295px] md:text-[115px] text-[80px] font-semibold bg-clip-text text-transparent select-none"
           style={{
             backgroundImage: gradient,
-            backgroundSize: "300% 100%",
-            backgroundRepeat: "no-repeat",
-
             WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
           }}
         >
           CSSL
