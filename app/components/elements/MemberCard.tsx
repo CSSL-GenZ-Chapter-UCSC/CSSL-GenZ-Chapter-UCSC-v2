@@ -33,9 +33,9 @@ export const MemberCardItem = ({ member }: { member: MemberCardProps }) => {
         href={member.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex h-full w-full flex-col items-start"
+        className="flex h-full w-full flex-col items-start group transition-transform duration-300 group-hover:-translate-y-2"
       >
-        <div className="relative w-full h-[80%] bg-[#163168] shrink-0 self-stretch overflow-hidden">
+        <div className="relative w-full h-[80%] bg-[#163168] shrink-0 self-stretch overflow-hidden transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-blue-900/20">
           <div className="absolute bottom-0 right-0 p-4 z-10 hidden md:block">
             {member.href && member.href.trim() !== "" ? (
               <svg className="w-7 h-7" fill="#133769" viewBox="0 0 24 24">
@@ -50,14 +50,11 @@ export const MemberCardItem = ({ member }: { member: MemberCardProps }) => {
               </svg>
             ) : null}
           </div>
-          <div className="absolute inset-0 w-full h-full bg-[#6286B8] pointer-events-none"></div>
+          <div
+            className={`absolute inset-0 w-full h-full bg-[#6286B8] pointer-events-none transition-colors duration-300 group-hover:bg-[#5189d8]`}
+          ></div>
           {member.fgSrc ? (
-            <motion.div
-              className="w-full h-full"
-              whileHover={{
-                scale: member.href && member.href.trim() !== "" ? 1.05 : 1,
-              }}
-            >
+            <div className="w-full h-full overflow-hidden">
               <Image
                 src={member.fgSrc}
                 alt={member.name}
@@ -67,10 +64,10 @@ export const MemberCardItem = ({ member }: { member: MemberCardProps }) => {
                 loading="lazy"
                 draggable={false}
               />
-            </motion.div>
+            </div>
           ) : null}
         </div>
-        <div className="flex py-[9px] flex-col items-start flex-[1_0_0]">
+        <div className="flex py-[9px] flex-col items-start flex-[1_0_0] transition-transform duration-300 group-hover:translate-x-1">
           <h2 className="text-white font-poppins text-sm md:text-[17px] font-normal tracking-[1px] md:tracking-[1.87px] leading-tight">
             {member.name}
           </h2>
