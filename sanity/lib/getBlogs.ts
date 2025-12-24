@@ -54,7 +54,9 @@ export async function getBlogs(
   }
 
   console.log("Query:", query); // Debug log
-  const result = await client.fetch(query, params);
+  const result = await client.fetch(query, params, {
+    next: { revalidate: 60 }, // Revalidate every 60 seconds
+  });
   console.log("Results:", result.length, "blogs"); // Debug log
 
   return result;
@@ -73,20 +75,34 @@ export const getBlogById = async (id: string): Promise<Blog | null> => {
     "category": category->{ _id, title, description }
   }`;
   const params = { id };
-  const blog = await client.fetch(query, params);
+  const blog = await client.fetch(query, params, {
+    next: { revalidate: 60 }, // Revalidate every 60 seconds
+  });
   return blog;
 };
 
 export async function getCategories(): Promise<string[]> {
   // Fetch only categories that have at least one blog
   const query = `array::unique(*[_type == "blog" && defined(category)]{ "title": category->title }.title)`;
-  const categories: string[] = await client.fetch(query);
+  const categories: string[] = await client.fetch(
+    query,
+    {},
+    {
+      next: { revalidate: 60 }, // Revalidate every 60 seconds
+    }
+  );
   // Sort alphabetically and filter out null/undefined values
   return categories.filter(Boolean).sort();
 }
 
 export async function getAllCategories(): Promise<Category[]> {
   const query = `*[_type == "category"] | order(title asc) { _id, title, description }`;
-  const categories: Category[] = await client.fetch(query);
+  const categories: Category[] = await client.fetch(
+    query,
+    {},
+    {
+      next: { revalidate: 60 }, // Revalidate every 60 seconds
+    }
+  );
   return categories;
 }

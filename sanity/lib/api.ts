@@ -27,7 +27,13 @@ export type EventSlug = {
  */
 export async function getEvents(): Promise<Event[]> {
   try {
-    const events = await client.fetch(GET_EVENTS_QUERY);
+    const events = await client.fetch(
+      GET_EVENTS_QUERY,
+      {},
+      {
+        next: { revalidate: 60 }, // Revalidate every 60 seconds
+      }
+    );
     return events;
   } catch (error) {
     console.error("Error fetching events:", error);
@@ -40,7 +46,13 @@ export async function getEvents(): Promise<Event[]> {
  */
 export async function getFeaturedEvent(): Promise<Event | null> {
   try {
-    const event = await client.fetch(GET_FEATURED_EVENT_QUERY);
+    const event = await client.fetch(
+      GET_FEATURED_EVENT_QUERY,
+      {},
+      {
+        next: { revalidate: 60 }, // Revalidate every 60 seconds
+      }
+    );
     return event;
   } catch (error) {
     console.error("Error fetching featured event:", error);
@@ -54,7 +66,13 @@ export async function getFeaturedEvent(): Promise<Event | null> {
 export async function getUpcomingEvents(): Promise<Event[]> {
   try {
     const now = new Date().toISOString();
-    const events = await client.fetch(GET_UPCOMING_EVENTS_QUERY, { now });
+    const events = await client.fetch(
+      GET_UPCOMING_EVENTS_QUERY,
+      { now },
+      {
+        next: { revalidate: 60 }, // Revalidate every 60 seconds
+      }
+    );
     return events;
   } catch (error) {
     console.error("Error fetching upcoming events:", error);
@@ -68,7 +86,13 @@ export async function getUpcomingEvents(): Promise<Event[]> {
 export async function getPastEvents(): Promise<Event[]> {
   try {
     const now = new Date().toISOString();
-    const events = await client.fetch(GET_PAST_EVENTS_QUERY, { now });
+    const events = await client.fetch(
+      GET_PAST_EVENTS_QUERY,
+      { now },
+      {
+        next: { revalidate: 60 }, // Revalidate every 60 seconds
+      }
+    );
     return events;
   } catch (error) {
     console.error("Error fetching past events:", error);
@@ -81,7 +105,13 @@ export async function getPastEvents(): Promise<Event[]> {
  */
 export async function getEventBySlug(slug: string): Promise<Event | null> {
   try {
-    const event = await client.fetch(GET_EVENT_BY_SLUG_QUERY, { slug });
+    const event = await client.fetch(
+      GET_EVENT_BY_SLUG_QUERY,
+      { slug },
+      {
+        next: { revalidate: 60 }, // Revalidate every 60 seconds
+      }
+    );
     return event;
   } catch (error) {
     console.error(`Error fetching event with slug ${slug}:`, error);
@@ -95,7 +125,13 @@ export async function getEventBySlug(slug: string): Promise<Event | null> {
  */
 export async function getSimilarEvents(eventId: string): Promise<Event[]> {
   try {
-    const events = await client.fetch(GET_SIMILAR_EVENTS_QUERY, { eventId });
+    const events = await client.fetch(
+      GET_SIMILAR_EVENTS_QUERY,
+      { eventId },
+      {
+        next: { revalidate: 60 }, // Revalidate every 60 seconds
+      }
+    );
     return events;
   } catch (error) {
     console.error(`Error fetching similar events for ${eventId}:`, error);
@@ -108,7 +144,13 @@ export async function getSimilarEvents(eventId: string): Promise<Event[]> {
  */
 export async function getAllEventSlugs(): Promise<EventSlug[]> {
   try {
-    const slugs = await client.fetch(GET_EVENT_SLUGS_QUERY);
+    const slugs = await client.fetch(
+      GET_EVENT_SLUGS_QUERY,
+      {},
+      {
+        next: { revalidate: 60 }, // Revalidate every 60 seconds
+      }
+    );
     return slugs;
   } catch (error) {
     console.error("Error fetching event slugs:", error);
@@ -121,7 +163,13 @@ export async function getAllEventSlugs(): Promise<EventSlug[]> {
  */
 export async function getAnnouncements(): Promise<Announcement[]> {
   try {
-    const announcements = await client.fetch(GET_ANNOUNCEMENTS_QUERY);
+    const announcements = await client.fetch(
+      GET_ANNOUNCEMENTS_QUERY,
+      {},
+      {
+        next: { revalidate: 60 }, // Revalidate every 60 seconds
+      }
+    );
     return announcements.map(
       (a: { _id: string; label: string; title: string; message: string }) => ({
         id: a._id,
@@ -141,7 +189,13 @@ export async function getAnnouncements(): Promise<Announcement[]> {
  */
 export async function getTestimonials(): Promise<TestimonialData[]> {
   try {
-    const testimonials = await client.fetch(GET_TESTIMONIALS_QUERY);
+    const testimonials = await client.fetch(
+      GET_TESTIMONIALS_QUERY,
+      {},
+      {
+        next: { revalidate: 60 }, // Revalidate every 60 seconds
+      }
+    );
     return testimonials;
   } catch (error) {
     console.error("Error fetching testimonials:", error);
