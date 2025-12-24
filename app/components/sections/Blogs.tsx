@@ -270,7 +270,6 @@ export const Blogs = ({ blogs = [] }: BlogsProps) => {
                 {truncateText(blogs[activeIndex]?.excerpt || "", 10)}
               </p>
               <p className="text-[#9AA0A6] font-poppins text-[14px] font-normal leading-normal mt-4">
-                {blogs[activeIndex]?.readTime} .{" "}
                 {formatDate(blogs[activeIndex]?.publishedAt)}
               </p>
             </motion.div>
@@ -322,11 +321,11 @@ export const Blogs = ({ blogs = [] }: BlogsProps) => {
                       <h2 className="text-white font-poppins text-[24px] font-medium leading-normal">
                         {blog.title}
                       </h2>
-                      <p className="text-[#9AA0A6] font-poppins text-[18px] font-normal leading-normal">
-                        {truncateText(blog.excerpt || "", 10)}
+                      <p className="text-[#9AA0A6] font-poppins text-[18px] w-2/3 font-normal leading-normal">
+                        {truncateText(blog.excerpt || "", 20)}
                       </p>
                       <p className="text-[#9AA0A6] font-poppins text-[15px] font-normal leading-normal mt-10">
-                        {blog.readTime} . {formatDate(blog.publishedAt)}
+                        {formatDate(blog.publishedAt)}
                       </p>
                     </motion.div>
                   )}
