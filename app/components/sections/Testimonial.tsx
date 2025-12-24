@@ -212,10 +212,10 @@ export const Testimonial = ({
             className="text-center mb-12 w-full"
           >
             <p className="text-sm md:text-base uppercase tracking-widest text-blue-300 mb-2">
-              TESTIMONIALS
+              LEADERSHIP VOICES
             </p>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-medium text-white">
-              Trusted Industry Voices
+              Words That Guide
             </h2>
           </motion.div>
 
