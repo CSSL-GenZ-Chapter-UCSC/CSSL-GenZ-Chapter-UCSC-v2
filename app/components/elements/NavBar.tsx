@@ -25,7 +25,7 @@ export const Navbar = () => {
       }
 
       lastY = currentY; // update inside the closure
-      setIsOpen(false); // always close menu on scroll
+      setIsOpen(false);
     };
 
     window.addEventListener("scroll", handleScroll);

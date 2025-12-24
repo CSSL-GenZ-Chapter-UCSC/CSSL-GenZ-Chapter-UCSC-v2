@@ -316,9 +316,9 @@ export function EventsSection({ events }: EventsSectionProps) {
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",
           }}
-          className={`absolute right-0 top-0 md:h-full grid ${
-            isMobile ? "grid-rows-2" : "grid-rows-4"
-          } grid-cols-2 gap-3 p-3 z-20`}
+          className={`absolute right-0 top-0 md:h-full bg-black grid ${
+            isMobile ? "grid-rows-2 px-3 py-0" : "grid-rows-4"
+          } grid-cols-2 gap-3 py-3 z-20`}
           id="photos-section"
         >
           <AnimatePresence mode="popLayout">
