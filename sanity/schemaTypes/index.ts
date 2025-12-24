@@ -8,6 +8,7 @@ import { contactInfo } from "./contactInfo";
 import { team } from "./team";
 import { announcement } from "./announcement";
 import { testimonial } from "./testimonial";
+import { category } from "./category";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -20,5 +21,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     team,
     announcement,
     testimonial,
+    category,
   ],
 };
