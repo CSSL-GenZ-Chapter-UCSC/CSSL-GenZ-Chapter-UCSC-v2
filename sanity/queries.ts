@@ -23,15 +23,7 @@ export const GET_EVENTS_QUERY = `*[_type == "event" && is_shown == true] | order
     "alt": alt,
     "caption": caption
   },
-  "subMainImage": subMainImage{
-    "url": asset->url,
-    "alt": alt
-  },
-  "otherImage1": otherImage1{
-    "url": asset->url,
-    "alt": alt
-  },
-  "otherImage2": otherImage2{
+  "photos": photos[]{
     "url": asset->url,
     "alt": alt
   }
@@ -114,18 +106,6 @@ export const GET_EVENT_BY_SLUG_QUERY = `*[_type == "event" && slug.current == $s
     "alt": alt,
     "caption": caption
   },
-  "subMainImage": subMainImage{
-    "url": asset->url,
-    "alt": alt
-  },
-  "otherImage1": otherImage1{
-    "url": asset->url,
-    "alt": alt
-  },
-  "otherImage2": otherImage2{
-    "url": asset->url,
-    "alt": alt
-  },
   "bannerImage": bannerImage{
     "url": asset->url,
     "alt": alt
@@ -163,7 +143,7 @@ export const GET_SIMILAR_EVENTS_QUERY = `*[
     "url": asset->url,
     "alt": alt
   },
-  "subMainImage": subMainImage{
+  "photos": photos[]{
     "url": asset->url,
     "alt": alt
   }
