@@ -30,7 +30,7 @@ const components: PortableTextComponents = {
             alt={value.alt || "Blog Image"}
             width={1200}
             height={800}
-            className="rounded-lg object-cover w-full max-w-4xl h-auto"
+            className="object-cover w-full max-w-4xl h-auto"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
           />
         </div>
@@ -39,24 +39,16 @@ const components: PortableTextComponents = {
   },
   block: {
     h1: ({ children }) => (
-      <h1 className="text-3xl md:text-4xl font-bold text-white mt-8 mb-4">
-        {children}
-      </h1>
+      <h1 className="text-3xl md:text-4xl text-white mt-8 mb-4">{children}</h1>
     ),
     h2: ({ children }) => (
-      <h2 className="text-2xl md:text-3xl font-bold text-white mt-8 mb-4">
-        {children}
-      </h2>
+      <h2 className="text-2xl md:text-3xl text-white mt-8 mb-4">{children}</h2>
     ),
     h3: ({ children }) => (
-      <h3 className="text-xl md:text-2xl font-bold text-white mt-6 mb-3">
-        {children}
-      </h3>
+      <h3 className="text-xl md:text-2xl text-white mt-6 mb-3">{children}</h3>
     ),
     h4: ({ children }) => (
-      <h4 className="text-lg md:text-xl font-bold text-white mt-6 mb-3">
-        {children}
-      </h4>
+      <h4 className="text-lg md:text-xl text-white mt-6 mb-3">{children}</h4>
     ),
     normal: ({ children }) => (
       <p className="text-[#9AA0A6] mb-4 leading-relaxed text-base md:text-lg">
@@ -164,9 +156,9 @@ export const BlogDescription = ({ blog }: BlogDescriptionProps) => {
 
       <div className="mt-8">
         {/* Portable Text Content */}
-        {blog.content ? (
+        {blog.body ? (
           <div className="prose prose-invert max-w-none">
-            <PortableText value={blog.content} components={components} />
+            <PortableText value={blog.body} components={components} />
           </div>
         ) : (
           <p className="text-white">No content available.</p>
@@ -188,7 +180,9 @@ export const BlogDescription = ({ blog }: BlogDescriptionProps) => {
           {blog.category && (
             <p>
               Category{" "}
-              <span className="text-blue-500 font-medium">{blog.category}</span>
+              <span className="text-blue-500 font-medium">
+                {blog.category.title}
+              </span>
             </p>
           )}
         </div>
