@@ -26,9 +26,9 @@ export default function EventsPagination({ events }: EventsPaginationProps) {
           <Link
             key={event._id}
             href={`/events/${event.slug.current}`}
-            className="group"
+            className="group block"
           >
-            <div className="overflow-hidden bg-transparent">
+            <div className="overflow-hidden bg-transparent p-3 -m-3 transition-all duration-300 hover:bg-white/7">
               {/* Event Image */}
               {event.mainImage?.url ? (
                 <div className="aspect-video bg-gray-700 mb-3 md:mb-4 rounded-lg overflow-hidden relative">
@@ -36,11 +36,11 @@ export default function EventsPagination({ events }: EventsPaginationProps) {
                     src={event.mainImage.url}
                     alt={event.mainImage.alt || event.title}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="object-cover"
                   />
                 </div>
               ) : (
-                <div className="aspect-video bg-gray-700 mb-3 md:mb-4 rounded-lg flex items-center justify-center">
+                <div className="aspect-video bg-gray-700 mb-3 md:mb-4 rounded-lg flex items-center justify-center group-hover:bg-gray-600 transition-colors duration-300">
                   <span className="text-gray-500 text-xs md:text-sm">
                     No Image
                   </span>
@@ -48,11 +48,11 @@ export default function EventsPagination({ events }: EventsPaginationProps) {
               )}
 
               <div>
-                <h3 className="text-base md:text-lg font-normal mb-1.5 md:mb-2 group-hover:text-blue-400 transition-colors">
+                <h3 className="text-base md:text-lg font-normal mb-1.5 md:mb-2 transition-colors duration-300 group-hover:text-blue-400">
                   {event.title}
                 </h3>
 
-                <p className="text-xs md:text-sm text-white/40 mb-2 md:mb-3 font-normal">
+                <p className="text-xs md:text-sm text-white/40 mb-2 md:mb-3 font-normal transition-colors duration-300 group-hover:text-white/60">
                   {event.endDate ? (
                     // Show date range if endDate exists
                     <>
@@ -79,13 +79,26 @@ export default function EventsPagination({ events }: EventsPaginationProps) {
                 </p>
 
                 {event.shortSummary && (
-                  <p className="text-xs md:text-sm text-white/60 line-clamp-2 mb-2 md:mb-3 font-normal">
+                  <p className="text-xs md:text-sm text-white/60 line-clamp-2 mb-2 md:mb-3 font-normal transition-colors duration-300 group-hover:text-white/80">
                     {event.shortSummary}
                   </p>
                 )}
 
-                <span className="text-xs md:text-sm text-blue-400 group-hover:text-blue-300 font-normal">
+                <span className="inline-flex items-center gap-1 text-xs md:text-sm text-blue-400 font-normal transition-all duration-300 group-hover:text-blue-300 group-hover:gap-2">
                   Learn More
+                  <svg
+                    className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
                 </span>
               </div>
             </div>

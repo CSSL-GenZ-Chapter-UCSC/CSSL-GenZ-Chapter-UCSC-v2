@@ -23,8 +23,8 @@ export const event = defineType({
     }),
     defineField({
       name: "description",
-      type: 'array',
-      of: [{type: 'block'}],
+      type: "array",
+      of: [{ type: "block" }],
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -34,15 +34,16 @@ export const event = defineType({
     defineField({
       name: "bannerImage",
       type: "image",
-      options: { 
+      options: {
         hotspot: true,
-        metadata: ['blurhash', 'lqip', 'palette'],
+        metadata: ["blurhash", "lqip", "palette"],
       },
-      validation: (rule) => rule.required().custom((image) => {
-        if (!image?.asset?._ref) return true;
-        // Note: File size validation happens at upload time via Sanity's asset pipeline
-        return true;
-      }),
+      validation: (rule) =>
+        rule.required().custom((image) => {
+          if (!image?.asset?._ref) return true;
+          // Note: File size validation happens at upload time via Sanity's asset pipeline
+          return true;
+        }),
       fields: [{ name: "alt", type: "string", title: "Alt text" }],
     }),
     defineField({
@@ -71,30 +72,34 @@ export const event = defineType({
           name: "buttonText",
           type: "string",
           title: "Button Text",
-          description: "Text displayed on the CTA button (e.g., 'Register Now', 'Learn More')",
+          description:
+            "Text displayed on the CTA button (e.g., 'Register Now', 'Learn More')",
           placeholder: "Register Now",
         }),
         defineField({
           name: "buttonLink",
           type: "url",
           title: "Button Link",
-          description: "URL to navigate to when the button is clicked (registration form, external page, etc.)",
-          validation: (rule) => rule.uri({
-            scheme: ['http', 'https', 'mailto', 'tel']
-          }),
+          description:
+            "URL to navigate to when the button is clicked (registration form, external page, etc.)",
+          validation: (rule) =>
+            rule.uri({
+              scheme: ["http", "https", "mailto", "tel"],
+            }),
         }),
       ],
-      description: "Optional: Add a call-to-action section with customizable button text and link for registrations, external pages, etc.",
+      description:
+        "Optional: Add a call-to-action section with customizable button text and link for registrations, external pages, etc.",
     }),
-    
+
     // logo
     defineField({
       name: "logo",
       title: "Logo",
       type: "image",
-      options: { 
+      options: {
         hotspot: true,
-        metadata: ['blurhash', 'lqip', 'palette'],
+        metadata: ["blurhash", "lqip", "palette"],
       },
       fields: [
         {
@@ -110,9 +115,9 @@ export const event = defineType({
       name: "mainImage",
       title: "Main Image",
       type: "image",
-      options: { 
+      options: {
         hotspot: true,
-        metadata: ['blurhash', 'lqip', 'palette'],
+        metadata: ["blurhash", "lqip", "palette"],
       },
       fields: [
         { name: "alt", type: "string", title: "Alt text" },
@@ -120,59 +125,27 @@ export const event = defineType({
       ],
     }),
 
-    // sub main image
-    defineField({
-      name: "subMainImage",
-      title: "Sub Main Image",
-      type: "image",
-      options: { 
-        hotspot: true,
-        metadata: ['blurhash', 'lqip', 'palette'],
-      },
-      fields: [{ name: "alt", type: "string", title: "Alt text" }],
-    }),
-
-    // two other images
-    defineField({
-      name: "otherImage1",
-      title: "Other Image 1",
-      type: "image",
-      options: { 
-        hotspot: true,
-        metadata: ['blurhash', 'lqip', 'palette'],
-      },
-      fields: [{ name: "alt", type: "string", title: "Alt text" }],
-    }),
-    defineField({
-      name: "otherImage2",
-      title: "Other Image 2",
-      type: "image",
-      options: { 
-        hotspot: true,
-        metadata: ['blurhash', 'lqip', 'palette'],
-      },
-      fields: [{ name: "alt", type: "string", title: "Alt text" }],
-    }),
-
-    // photos array for single event page
+    // photos array - used for homepage grid (first 3) and event detail gallery
     defineField({
       name: "photos",
-      title: "Photos",
+      title: "Event Photos",
       type: "array",
       of: [
         {
           type: "image",
-          options: { 
+          options: {
             hotspot: true,
-            metadata: ['blurhash', 'lqip', 'palette'],
+            metadata: ["blurhash", "lqip", "palette"],
           },
-          fields: [
-            { name: "alt", type: "string", title: "Alt text" },
-          ],
+          fields: [{ name: "alt", type: "string", title: "Alt text" }],
         },
       ],
-      validation: (rule) => rule.max(10).warning("Maximum 10 photos allowed for optimal performance"),
-      description: "Additional photos for the event detail page (maximum 10 photos, recommended max 5MB per image)",
+      validation: (rule) =>
+        rule
+          .max(10)
+          .warning("Maximum 10 photos allowed for optimal performance"),
+      description:
+        "Event photos: First 3 photos are used in homepage grid, all photos appear in detail page gallery (max 10)",
     }),
 
     // venue
@@ -220,11 +193,12 @@ export const event = defineType({
       title: "Feature After Event",
       type: "reference",
       to: [{ type: "event" }],
-      description: "Optional: Select which event this should be featured after. Leave empty to feature first or not feature at all.",
+      description:
+        "Optional: Select which event this should be featured after. Leave empty to feature first or not feature at all.",
       options: {
-        filter: '_id != $id',
-        filterParams: { id: '_id' }
-      }
+        filter: "_id != $id",
+        filterParams: { id: "_id" },
+      },
     }),
   ],
 });

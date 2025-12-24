@@ -43,28 +43,20 @@ export function EventsSection({ events }: EventsSectionProps) {
   const EVENTS_DATA = useMemo(
     () =>
       events.map((event, index) => {
-        // Always return exactly four slots in a fixed order
+        // Build images array from mainImage + photos (first 3 photos)
         const images = [
-          {
-            id: `${event._id}-sub`,
-            url: event.subMainImage?.url ?? null,
-            alt: event.subMainImage?.alt || event.title,
-          },
+          // Main image in slot 1
           {
             id: `${event._id}-main`,
             url: event.mainImage?.url ?? null,
             alt: event.mainImage?.alt || event.title,
           },
-          {
-            id: `${event._id}-other1`,
-            url: event.otherImage1?.url ?? null,
-            alt: event.otherImage1?.alt || event.title,
-          },
-          {
-            id: `${event._id}-other2`,
-            url: event.otherImage2?.url ?? null,
-            alt: event.otherImage2?.alt || event.title,
-          },
+          // Photos from array fill remaining slots
+          ...(event.photos || []).slice(0, 3).map((photo, i) => ({
+            id: `${event._id}-photo-${i}`,
+            url: photo?.url ?? null,
+            alt: photo?.alt || event.title,
+          })),
         ];
 
         const truncateText = (text: string, limit: number) => {

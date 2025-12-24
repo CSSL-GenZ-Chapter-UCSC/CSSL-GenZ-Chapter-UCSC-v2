@@ -49,18 +49,6 @@ export type Event = {
     alt?: string;
     caption?: string;
   };
-  subMainImage?: {
-    url?: string;
-    alt?: string;
-  };
-  otherImage1?: {
-    url?: string;
-    alt?: string;
-  };
-  otherImage2?: {
-    url?: string;
-    alt?: string;
-  };
   photos?: {
     url?: string;
     alt?: string;
