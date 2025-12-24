@@ -5,10 +5,10 @@ import { ReactLenis } from "lenis/react";
 import type { LenisRef } from "lenis/react";
 import { frame, cancelFrame } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Poppins, La_Belle_Aurore } from "next/font/google";
 import { Navbar } from "./components/elements/NavBar";
 import { Footer } from "./components/elements/Footer";
-import "./globals.css";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -31,6 +31,8 @@ export default function RootLayout({
 }>) {
   const lenisRef = useRef<LenisRef>(null);
   const [isIOS, setIsIOS] = useState(false);
+  const pathname = usePathname();
+  const isStudio = pathname?.startsWith("/studio");
 
   useEffect(() => {
     // Check for iOS to disable Lenis
@@ -65,9 +67,9 @@ export default function RootLayout({
             options={{ autoRaf: false }}
           ></ReactLenis>
         )}
-        <Navbar />
+        {!isStudio && <Navbar />}
         <div className="relative z-10 bg-black">{children}</div>
-        <Footer />
+        {!isStudio && <Footer />}
       </body>
     </html>
   );
