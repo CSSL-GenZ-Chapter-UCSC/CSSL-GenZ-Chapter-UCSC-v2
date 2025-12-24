@@ -197,25 +197,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
                       <div className="space-y-4">
                         <h3 className="text-white min-h-1.4 text-lg lg:text-[20px] font-poppins font-medium leading-snug">
                           <span className="inline-block text-center">
-                            {(() => {
-                              const title = blog?.title || "";
-                              const splitAt = blog?.titleSplitCharCount || 7;
-                              const firstLine = title.slice(0, splitAt);
-                              const secondLine = title.slice(splitAt);
-
-                              return (
-                                <>
-                                  <span className="inline-block md:mb-1">
-                                    {firstLine}
-                                  </span>
-                                  {secondLine && (
-                                    <span className="inline-block">
-                                      {secondLine}
-                                    </span>
-                                  )}
-                                </>
-                              );
-                            })()}
+                            {blog.title}
                           </span>
                         </h3>
                         {blog.excerpt && (
@@ -240,7 +222,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
 
                         {blog.category && (
                           <p className="font-poppins text-[11px] lg:text-[14px] lg:float-left">
-                            {blog.category}
+                            {blog.category.title}
                           </p>
                         )}
                       </div>

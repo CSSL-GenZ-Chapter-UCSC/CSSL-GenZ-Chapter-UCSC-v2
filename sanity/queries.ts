@@ -184,3 +184,38 @@ export const GET_TESTIMONIALS_QUERY = `*[_type == "testimonial"]{
   position,
   "image": image.asset->url
 }`;
+
+// Get all blog categories
+export const GET_BLOG_CATEGORIES_QUERY = `*[_type == "category"] | order(title asc){
+  _id,
+  title,
+  slug,
+  description,
+  color
+}`;
+
+// Get blogs with category reference expanded
+export const GET_BLOGS_QUERY = `*[_type == "blog"] | order(publishedAt desc){
+  _id,
+  title,
+  slug,
+  mainImage,
+  "author": author->{name},
+  excerpt,
+  publishedAt,
+  body,
+  "category": category->{ _id, title, description }
+}`;
+
+// Get blogs by category title
+export const GET_BLOGS_BY_CATEGORY_QUERY = `*[_type == "blog" && category->title == $categoryTitle] | order(publishedAt desc){
+  _id,
+  title,
+  slug,
+  mainImage,
+  "author": author->{name},
+  excerpt,
+  publishedAt,
+  body,
+  "category": category->{ _id, title, description }
+}`;

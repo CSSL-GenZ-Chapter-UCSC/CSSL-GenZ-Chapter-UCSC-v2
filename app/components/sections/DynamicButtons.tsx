@@ -61,7 +61,10 @@ export const DynamicButtons = ({
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           className="w-auto gap-5 flex items-center justify-between pl-6 pr-4 h-11 sm:h-12 rounded-[34px] font-normal cursor-pointer text-sm sm:text-base transition-all duration-300 bg-[linear-gradient(90deg,var(--darkBlue,#1E448F)_0%,#4C9DFE_100%)] text-white hover:scale-105"
         >
-          <span>{selectedCategory}</span>
+          <span>
+            {selectedCategory.charAt(0).toUpperCase() +
+              selectedCategory.slice(1)}
+          </span>
           <svg
             className={`w-4 h-4 transition-transform duration-300 ${
               isDropdownOpen ? "rotate-180" : ""
@@ -115,7 +118,7 @@ export const DynamicButtons = ({
                       : "text-[#1E448F]"
                   }`}
                 >
-                  {category}
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
                 </motion.button>
               ))}
             </motion.div>
@@ -144,7 +147,7 @@ export const DynamicButtons = ({
             }
           `}
           >
-            {category}
+            {category.charAt(0).toUpperCase() + category.slice(1)}
           </button>
         ))}
       </div>

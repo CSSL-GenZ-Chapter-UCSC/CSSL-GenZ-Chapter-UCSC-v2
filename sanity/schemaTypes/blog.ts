@@ -9,19 +9,7 @@ export const blog = defineType({
       name: "title",
       title: "Title",
       type: "string",
-      validation: (Rule) =>
-        Rule.required()
-          .min(8)
-          .max(20)
-          .error("Title must be between 8 and 20 characters"), // blocks publishing
-    }),
-    defineField({
-      name: "titleSplitCharCount",
-      title: "Title Split Character Count",
-      type: "number",
-      description: "Number of characters in the first line of the title",
-      initialValue: 11, // default
-      validation: (Rule) => Rule.min(1).integer(),
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
@@ -44,17 +32,15 @@ export const blog = defineType({
     defineField({
       name: "author",
       title: "Author",
-      type: "string",
+      type: "reference",
+      to: [{ type: "author" }],
     }),
     defineField({
       name: "excerpt",
       title: "Excerpt",
       type: "text",
-      rows: 3,
-      validation: (Rule) =>
-        Rule.min(88)
-            .max(131)
-            .error("Excerpt must be between 88 and 131 characters"),
+      description: "A short summary of the blog post",
+      validation: (Rule) => Rule.max(200),
     }),
     defineField({
       name: "publishedAt",
@@ -62,37 +48,70 @@ export const blog = defineType({
       type: "datetime",
     }),
     defineField({
-      name: "content",
-      title: "Content",
-      type: "string",
-      options: {
-        list: [
-          { title: "Events", value: "Events" },
-          { title: "Workshops", value: "Workshops" },
-          { title: "Competitions", value: "Competitions" },
-          { title: "Announcements", value: "Announcements" },
-        ],
-      },
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: "readTime",
-      title: "Read Time",
-      type: "string",
-    }),
-    defineField({
       name: "category",
       title: "Category",
-      type: "string",
-      options: {
-        list: [
-          { title: "Events", value: "Events" },
-          { title: "Workshops", value: "Workshops" },
-          { title: "Competitions", value: "Competitions" },
-          { title: "Announcements", value: "Announcements" },
-        ],
-      },
+      type: "reference",
+      to: [{ type: "category" }],
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "body",
+      title: "Body",
+      type: "array",
+      of: [
+        {
+          type: "block",
+          styles: [
+            { title: "Normal", value: "normal" },
+            { title: "H1", value: "h1" },
+            { title: "H2", value: "h2" },
+            { title: "H3", value: "h3" },
+            { title: "H4", value: "h4" },
+            { title: "Quote", value: "blockquote" },
+          ],
+          lists: [
+            { title: "Bullet", value: "bullet" },
+            { title: "Numbered", value: "number" },
+          ],
+          marks: {
+            decorators: [
+              { title: "Strong", value: "strong" },
+              { title: "Emphasis", value: "em" },
+              { title: "Underline", value: "underline" },
+              { title: "Strike", value: "strike-through" },
+            ],
+            annotations: [
+              {
+                name: "link",
+                type: "object",
+                title: "Link",
+                fields: [
+                  {
+                    name: "href",
+                    type: "url",
+                    title: "URL",
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          type: "image",
+          options: { hotspot: true },
+        },
+      ],
+    }),
   ],
+  preview: {
+    select: {
+      title: "title",
+      author: "author.name",
+      media: "mainImage",
+    },
+    prepare(selection) {
+      const { author } = selection;
+      return { ...selection, subtitle: author && `by ${author}` };
+    },
+  },
 });

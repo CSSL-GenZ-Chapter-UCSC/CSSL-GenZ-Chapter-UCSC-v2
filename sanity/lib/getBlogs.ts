@@ -1,54 +1,55 @@
 import { client } from "./client";
 import { PortableTextBlock } from "sanity";
 
+export type Category = {
+  _id: string;
+  title: string;
+  description?: string;
+};
+
 export type Blog = {
   _id: string;
   title: string;
-  titleSplitCharCount?: number;
+  slug?: { current: string };
   mainImage?: { asset: { _ref: string } };
   author?: { name: string };
   excerpt?: string;
   publishedAt: string;
-   content: PortableTextBlock[];
-  readTime: string;
-  category: string;
+  body: PortableTextBlock[];
+  category?: Category;
 };
 
 export async function getBlogs(
-  category?: string,
+  categoryTitle?: string,
   limit: number = 10
 ): Promise<Blog[]> {
   let query;
-  const params: any = { limit };
+  const params: Record<string, unknown> = { limit };
 
-  if (category && category !== "All") {
-    query = `*[_type=="blog" && category == $category] | order(publishedAt desc)[0...$limit]{
+  if (categoryTitle && categoryTitle !== "All") {
+    query = `*[_type=="blog" && category->title == $categoryTitle] | order(publishedAt desc)[0...$limit]{
       _id,
       title,
-      titleSplitCharCount,
+      slug,
       mainImage,
       "author": author->{name},
       excerpt,
       publishedAt,
-      content,
-      readTime,
-      category,
-      subtopics[]{title, description}
+      body,
+      "category": category->{ _id, title, description }
     }`;
-    params.category = category;
+    params.categoryTitle = categoryTitle;
   } else {
     query = `*[_type=="blog"] | order(publishedAt desc)[0...$limit]{
       _id,
       title,
-      titleSplitCharCount,
+      slug,
       mainImage,
       "author": author->{name},
       excerpt,
       publishedAt,
-      content,
-      readTime,
-      category,
-      subtopics[]{title, description}  // CHANGED
+      body,
+      "category": category->{ _id, title, description }
     }`;
   }
 
@@ -59,15 +60,33 @@ export async function getBlogs(
   return result;
 }
 
-export const getBlogById = async (id: string) => {
-  const query = `*[_type == "blog" && _id == $id][0]`;
+export const getBlogById = async (id: string): Promise<Blog | null> => {
+  const query = `*[_type == "blog" && _id == $id][0]{
+    _id,
+    title,
+    slug,
+    mainImage,
+    "author": author->{name},
+    excerpt,
+    publishedAt,
+    body,
+    "category": category->{ _id, title, description }
+  }`;
   const params = { id };
   const blog = await client.fetch(query, params);
   return blog;
 };
 
 export async function getCategories(): Promise<string[]> {
-  const query = `array::unique(*[_type == "blog" && defined(category)].category)`;
-  const categories = await client.fetch(query);
+  // Fetch only categories that have at least one blog
+  const query = `array::unique(*[_type == "blog" && defined(category)]{ "title": category->title }.title)`;
+  const categories: string[] = await client.fetch(query);
+  // Sort alphabetically and filter out null/undefined values
+  return categories.filter(Boolean).sort();
+}
+
+export async function getAllCategories(): Promise<Category[]> {
+  const query = `*[_type == "category"] | order(title asc) { _id, title, description }`;
+  const categories: Category[] = await client.fetch(query);
   return categories;
 }
