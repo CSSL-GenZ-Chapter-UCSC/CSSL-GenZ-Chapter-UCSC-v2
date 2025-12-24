@@ -42,11 +42,11 @@ export const Navbar = () => {
 
   const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/about", label: "About Us" },
     { href: "/whatWeDo", label: "What We Do" },
     { href: "/events", label: "Events" },
     { href: "/blogs", label: "Blogs" },
     { href: "/people", label: "People" },
+    { href: "/about", label: "About Us" },
     { href: "/contact", label: "Contact Us" },
   ];
 
