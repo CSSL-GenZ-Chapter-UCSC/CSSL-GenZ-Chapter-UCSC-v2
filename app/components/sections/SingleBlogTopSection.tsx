@@ -69,11 +69,11 @@ export const SingleBlogTopSection = ({ blog }: SingleBlogTopSectionProps) => {
             </div>
 
             <span className="text-[#84B5FF] font-poppins">
-              - {blog?.category}
+              - {blog?.category?.title || ""}
             </span>
 
             <span className="text-[#318AFF] font-poppins">
-              - By {String(blog?.author || "Unknown")}
+              - By {blog?.author?.name || "Unknown"}
             </span>
           </div>
         </div>
