@@ -58,12 +58,12 @@ export default function SimilarEventsCarousel({
           >
             <div className="overflow-hidden">
               {/* Event Image */}
-              {similarEvent.mainImage?.url || similarEvent.subMainImage?.url ? (
+              {similarEvent.mainImage?.url || similarEvent.photos?.[0]?.url ? (
                 <div className="aspect-video bg-gray-700 mb-4 rounded-lg overflow-hidden relative">
                   <Image
                     src={
                       similarEvent.mainImage?.url ||
-                      similarEvent.subMainImage?.url ||
+                      similarEvent.photos?.[0]?.url ||
                       ""
                     }
                     alt={similarEvent.mainImage?.alt || similarEvent.title}
