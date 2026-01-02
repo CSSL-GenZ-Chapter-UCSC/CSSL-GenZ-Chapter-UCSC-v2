@@ -179,7 +179,7 @@ export const DisplayBlogs = ({ initialBlogs }: DisplayBlogsProps) => {
             // --- MODIFIED: slice blogs to show only current page
             blogsToShow.map((blog) => (
               <motion.div key={blog._id} variants={item}>
-                <Link href={`/blogs/${blog._id}`}>
+                <Link href={`/blogs/${blog.slug?.current}`}>
                   <motion.div className="h-[400px] lg:h-[546px] w-full lg:w-95/100 flex flex-col overflow-hidden shadow-md cursor-pointer bg-[#000000] hover:bg-[#101010]">
                     {blog.mainImage?.asset && (
                       <Image

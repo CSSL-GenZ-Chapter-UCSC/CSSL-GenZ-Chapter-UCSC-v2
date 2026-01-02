@@ -56,9 +56,9 @@ export const Blogs = ({ blogs = [] }: BlogsProps) => {
     return words.slice(0, wordLimit).join(" ") + "...";
   };
 
-  const handleCardClick = (index: number, blogId: string) => {
+  const handleCardClick = (index: number, blogSlug: string) => {
     if (index === activeIndex) {
-      router.push(`/blogs/${blogId}`);
+      router.push(`/blogs/${blogSlug}`);
     } else {
       setActiveIndex(index);
     }
@@ -241,7 +241,7 @@ export const Blogs = ({ blogs = [] }: BlogsProps) => {
                 initial={false}
                 animate={getMobileStyle(index)}
                 transition={{ duration: 1, ease: [0.4, 0.0, 0.2, 1] }}
-                onClick={() => handleCardClick(index, blog._id)}
+                onClick={() => handleCardClick(index, blog.slug?.current || "")}
               >
                 <div className="w-full h-full relative">
                   <Image
@@ -291,7 +291,7 @@ export const Blogs = ({ blogs = [] }: BlogsProps) => {
               initial={false}
               animate={getStyle(index)}
               transition={{ duration: 1, ease: [0.4, 0.0, 0.2, 1] }}
-              onClick={() => handleCardClick(index, blog._id)}
+              onClick={() => handleCardClick(index, blog.slug?.current || "")}
             >
               <motion.div
                 className="w-full h-full relative group"

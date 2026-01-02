@@ -37,7 +37,7 @@ export const SingleBlogLastSection = ({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogs.map((blog) => (
             <Link
-              href={`/blogs/${blog._id}`}
+              href={`/blogs/${blog.slug?.current}`}
               key={blog._id}
               className="group flex flex-col h-full"
             >
