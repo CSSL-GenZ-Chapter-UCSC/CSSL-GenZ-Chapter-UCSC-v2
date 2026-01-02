@@ -1,21 +1,14 @@
 import { client } from "@/sanity/lib/client";
-import { Contact } from "./Contact";
-
-type ContactInfoDoc = {
-  facebookLink?: string | null;
-  email?: string | null;
-  mapsLink?: string | null;
-  phoneNumber?: string | null;
-};
+import { Contact, ContactInfo } from "./Contact";
 
 export async function ContactSection() {
-  const data = await client.fetch<ContactInfoDoc>(
+  const data = await client.fetch<ContactInfo>(
     `*[_type == "contactInfo"][0]{
-      facebookLink,
+      linkedinLink,
       email,
       mapsLink,
       phoneNumber
     }`
   );
-  return <Contact overrides={data ?? {}} />;
+  return <Contact contactInfo={data ?? {}} />;
 }

@@ -40,11 +40,26 @@ export const structure: StructureResolver = (S) =>
             ])
         ),
       S.divider(),
-      // Other document types
+      // Contact Info singleton - only one document, no create/delete
+      S.listItem()
+        .title("Contact Info")
+        .child(
+          S.document()
+            .schemaType("contactInfo")
+            .documentId("contactInfo")
+            .title("Contact Info")
+        ),
+      S.divider(),
+      // Other document types (excluding singletons and grouped items)
       ...S.documentTypeListItems().filter(
         (item) =>
-          !["blog", "category", "author", "member", "team"].includes(
-            item.getId() ?? ""
-          )
+          ![
+            "blog",
+            "category",
+            "author",
+            "member",
+            "team",
+            "contactInfo",
+          ].includes(item.getId() ?? "")
       ),
     ]);
