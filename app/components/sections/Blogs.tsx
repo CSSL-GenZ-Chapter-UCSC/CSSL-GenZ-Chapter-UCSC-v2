@@ -188,7 +188,7 @@ export const Blogs = ({ blogs = [] }: BlogsProps) => {
   };
 
   return (
-    <section className="w-full md:h-screen h-auto flex flex-col bg-black pt-10 pb-10 overflow-hidden mb-20 md:mt-50 mt-10">
+    <section className="w-full md:h-screen h-auto flex flex-col bg-black pt-10 pb-10 overflow-hidden mb-20 md:mt-20 mt-10">
       <Container className="w-full h-full flex flex-col justify-center items-center gap-15">
         <div className="w-full md:h-[30%] h-auto flex flex-col justify-center items-center">
           <h2 className="text-white text-center font-poppins md:text-[48px] text-3xl font-medium leading-normal">
