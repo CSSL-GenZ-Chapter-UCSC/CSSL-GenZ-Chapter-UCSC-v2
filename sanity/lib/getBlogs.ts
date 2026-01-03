@@ -81,6 +81,25 @@ export const getBlogById = async (id: string): Promise<Blog | null> => {
   return blog;
 };
 
+export const getBlogBySlug = async (slug: string): Promise<Blog | null> => {
+  const query = `*[_type == "blog" && slug.current == $slug][0]{
+    _id,
+    title,
+    slug,
+    mainImage,
+    "author": author->{name},
+    excerpt,
+    publishedAt,
+    body,
+    "category": category->{ _id, title, description }
+  }`;
+  const params = { slug };
+  const blog = await client.fetch(query, params, {
+    next: { revalidate: 60 }, // Revalidate every 60 seconds
+  });
+  return blog;
+};
+
 export async function getCategories(): Promise<string[]> {
   // Fetch only categories that have at least one blog
   const query = `array::unique(*[_type == "blog" && defined(category)]{ "title": category->title }.title)`;

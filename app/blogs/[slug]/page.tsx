@@ -1,22 +1,24 @@
 import { SingleBlog } from "../../components/sections/SingleBlog";
-import { getBlogById, getBlogs } from "@/sanity/lib/getBlogs";
+import { getBlogBySlug, getBlogs } from "@/sanity/lib/getBlogs";
 
 interface BlogDetailPageProps {
   params: Promise<{
-    id: string;
+    slug: string;
   }>;
 }
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
-  const { id } = await params;
-  const blog = await getBlogById(id);
+  const { slug } = await params;
+  const blog = await getBlogBySlug(slug);
 
   // Fetch all blogs to find related ones
   // Ideally we should have a more efficient query for "related blogs"
   const allBlogs = await getBlogs();
 
   // Filter out current blog and take 3
-  const moreBlogs = allBlogs.filter((b) => b._id !== id).slice(0, 3);
+  const moreBlogs = allBlogs
+    .filter((b) => b.slug?.current !== slug)
+    .slice(0, 3);
 
   return (
     <main className="flex flex-col">
