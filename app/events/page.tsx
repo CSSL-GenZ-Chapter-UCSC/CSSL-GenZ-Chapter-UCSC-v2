@@ -6,7 +6,7 @@ import {
 } from "@/sanity/lib/api";
 
 export const metadata = {
-  title: "Events | CSSL GenZ Chapter",
+  title: "Events",
   description:
     "Join us for events that inspire growth, spark creativity, and connect changemakers.",
 };
