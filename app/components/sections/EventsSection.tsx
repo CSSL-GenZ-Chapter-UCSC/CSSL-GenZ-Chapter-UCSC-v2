@@ -23,7 +23,7 @@ const SCROLL_PER_EVENT = 50;
 export function EventsSection({ events }: EventsSectionProps) {
   const [activeEventIndex, setActiveEventIndex] = useState(0);
   const [hoveredImageIndex, setHoveredImageIndex] = useState<number | null>(
-    null
+    null,
   );
   const [isMobile, setIsMobile] = useState(false);
 
@@ -79,7 +79,7 @@ export function EventsSection({ events }: EventsSectionProps) {
           images,
         };
       }),
-    [events]
+    [events],
   );
 
   const { scrollYProgress } = useScroll({
@@ -99,14 +99,14 @@ export function EventsSection({ events }: EventsSectionProps) {
 
   const dimension = useTransform(
     [enterProgress, exitProgress],
-    ([enter, exit]: number[]) => `${100 - 50 * enter + 50 * exit}%`
+    ([enter, exit]: number[]) => `${100 - 50 * enter + 50 * exit}%`,
   );
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     // Map 0-1 to 0-(n-1)
     const newIndex = Math.min(
       Math.floor(latest * EVENTS_DATA.length),
-      EVENTS_DATA.length - 1
+      EVENTS_DATA.length - 1,
     );
     setActiveEventIndex(newIndex);
   });
@@ -224,12 +224,10 @@ export function EventsSection({ events }: EventsSectionProps) {
                 ref={(el) => {
                   eventCardRefs.current[index] = el;
                 }}
-                className={`${event.className} flex items-center justify-start h-[55vh] shrink-0 will-change-[opacity,filter]`}
+                className={`${event.className} flex items-center justify-start h-[55vh] shrink-0 will-change-[opacity]`}
                 id={`event-${index}`}
                 animate={{
                   opacity: activeEventIndex === index ? 1 : 0.7,
-                  filter:
-                    activeEventIndex === index ? "blur(0px)" : "blur(8px)",
                 }}
                 style={{
                   // Safari optimization
@@ -319,9 +317,9 @@ export function EventsSection({ events }: EventsSectionProps) {
               .map((image, index, filteredArray) => (
                 <motion.div
                   key={image.id}
-                  initial={{ opacity: 0, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, filter: "blur(8px)" }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                   transition={{
                     duration: 0.5,
                     ease: "easeOut",
@@ -333,7 +331,7 @@ export function EventsSection({ events }: EventsSectionProps) {
                     backfaceVisibility: "hidden",
                     WebkitBackfaceVisibility: "hidden",
                   }}
-                  className={` photo-item   bg-gray-200   overflow-hidden  relative will-change-[opacity,filter] ${getImageLayoutClass(index, filteredArray.length)}
+                  className={` photo-item   bg-gray-200   overflow-hidden  relative will-change-[opacity] ${getImageLayoutClass(index, filteredArray.length)}
                               `}
                   onMouseEnter={() => setHoveredImageIndex(index)}
                   onMouseLeave={() => setHoveredImageIndex(null)}
