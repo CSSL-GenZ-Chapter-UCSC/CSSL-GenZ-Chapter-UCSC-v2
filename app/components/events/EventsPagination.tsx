@@ -16,7 +16,7 @@ export default function EventsPagination({ events }: EventsPaginationProps) {
 
   const displayedEvents = events.slice(
     currentPage * eventsPerPage,
-    (currentPage + 1) * eventsPerPage
+    (currentPage + 1) * eventsPerPage,
   );
 
   return (
@@ -48,11 +48,11 @@ export default function EventsPagination({ events }: EventsPaginationProps) {
               )}
 
               <div>
-                <h3 className="text-base md:text-lg font-normal mb-1.5 md:mb-2 transition-colors duration-300 group-hover:text-blue-400">
+                <h3 className="text-base md:text-xl font-normal mb-2 md:mb-1 text-white">
                   {event.title}
                 </h3>
 
-                <p className="text-xs md:text-sm text-white/40 mb-2 md:mb-3 font-normal transition-colors duration-300 group-hover:text-white/60">
+                <p className="text-xs md:text-sm text-white/40 mb-2 md:mb-3 font-normal">
                   {event.endDate ? (
                     // Show date range if endDate exists
                     <>
@@ -79,12 +79,12 @@ export default function EventsPagination({ events }: EventsPaginationProps) {
                 </p>
 
                 {event.shortSummary && (
-                  <p className="text-xs md:text-sm text-white/60 line-clamp-2 mb-2 md:mb-3 font-normal transition-colors duration-300 group-hover:text-white/80">
+                  <p className="text-xs md:text-sm text-white/60 line-clamp-2 mb-2 md:mb-3 font-normal">
                     {event.shortSummary}
                   </p>
                 )}
 
-                <span className="inline-flex items-center gap-1 text-xs md:text-sm text-blue-400 font-normal transition-all duration-300 group-hover:text-blue-300 group-hover:gap-2">
+                <span className="inline-flex items-center gap-1 text-xs md:text-sm text-blue-400 font-normal transition-all duration-300">
                   Learn More
                   <svg
                     className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"

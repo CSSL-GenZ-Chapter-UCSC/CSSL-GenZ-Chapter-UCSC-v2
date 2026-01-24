@@ -5,6 +5,7 @@ import { ReactLenis } from "lenis/react";
 import type { LenisRef } from "lenis/react";
 import { frame, cancelFrame } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+import { Analytics } from "@vercel/analytics/next";
 import { usePathname } from "next/navigation";
 import { Poppins, La_Belle_Aurore } from "next/font/google";
 import { Navbar } from "./components/elements/NavBar";
@@ -68,7 +69,10 @@ export default function RootLayout({
           ></ReactLenis>
         )}
         {!isStudio && <Navbar />}
-        <div className="relative z-10 bg-black">{children}</div>
+        <div className="relative z-10 bg-black">
+          {children}
+          <Analytics />
+        </div>
         {!isStudio && <Footer />}
       </body>
     </html>

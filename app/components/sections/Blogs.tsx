@@ -312,7 +312,7 @@ export const Blogs = ({ blogs = [] }: BlogsProps) => {
                   {activeIndex === index && (
                     <motion.div
                       key={blog.title}
-                      className="absolute w-full h-full flex flex-col justify-center items-start pl-20 right-0 top-1/2 -translate-y-1/2 translate-x-full z-10"
+                      className="absolute w-full md:min-w-[420px] md:max-w-[560px] h-full flex flex-col justify-center items-start pl-20 right-0 top-1/2 -translate-y-1/2 translate-x-full z-10"
                       initial={{ opacity: 0, filter: "blur(10px)" }}
                       animate={{ opacity: 1, filter: "blur(0px)" }}
                       exit={{ opacity: 0, filter: "blur(10px)" }}
@@ -321,7 +321,7 @@ export const Blogs = ({ blogs = [] }: BlogsProps) => {
                       <h2 className="text-white font-poppins text-[24px] font-medium leading-normal">
                         {blog.title}
                       </h2>
-                      <p className="text-[#9AA0A6] font-poppins text-[18px] font-normal leading-normal">
+                      <p className="text-[#9AA0A6] font-poppins text-[18px] font-normal leading-normal min-h-[72px]">
                         {truncateText(blog.excerpt || "", 20)}
                       </p>
                       <p className="text-[#9AA0A6] font-poppins text-[15px] font-normal leading-normal mt-10">
