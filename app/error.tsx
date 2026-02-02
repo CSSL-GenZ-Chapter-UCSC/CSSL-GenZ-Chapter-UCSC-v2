@@ -11,7 +11,10 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error(error);
+    console.error("Error caught:", error);
+    console.error("Error message:", error.message);
+    console.error("Error stack:", error.stack);
+    console.error("Error digest:", error.digest);
   }, [error]);
 
   return (
@@ -43,6 +46,19 @@ export default function Error({
             <div className="mt-8 p-4 bg-red-900/20 border border-red-500/50 rounded-lg text-left overflow-auto max-h-60">
               <p className="text-red-400 font-mono text-sm whitespace-pre-wrap">
                 {error.message}
+              </p>
+              {error.digest && (
+                <p className="text-gray-500 font-mono text-xs mt-2">
+                  Digest: {error.digest}
+                </p>
+              )}
+            </div>
+          )}
+          {/* Temporarily show error in production for debugging */}
+          {process.env.NODE_ENV === "production" && (
+            <div className="mt-8 p-4 bg-yellow-900/20 border border-yellow-500/50 rounded-lg text-left overflow-auto max-h-60">
+              <p className="text-yellow-400 font-mono text-sm whitespace-pre-wrap">
+                Debug: {error.message || "No error message"}
               </p>
               {error.digest && (
                 <p className="text-gray-500 font-mono text-xs mt-2">
