@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   description: "Content management studio",
 };
 
+// Prevent static generation for studio routes
+export const dynamic = "force-dynamic";
+
 export default function StudioLayout({
   children,
 }: {
