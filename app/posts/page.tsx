@@ -16,13 +16,13 @@ async function getPosts(): Promise<Post[]> {
 
 export const metadata = {
   metadataBase: new URL("https://www.ucscgenz.lk"),
-  title: "Posts",
+  title: "Posts - CSSL GenZ Chapter",
   description:
-    "CSSL GenZ Chapter of UCSC. Where GenZ minds at UCSC turn ideas into legacies. The CSSL GenZ Chapter thrives through collaboration bringing together passionate students and young professionals to share knowledge, build skills.",
+    "Read the latest articles and updates from the CSSL GenZ Chapter at UCSC — insights, stories, and ideas from passionate students and young professionals.",
   openGraph: {
     title: "Posts - CSSL GenZ Chapter",
     description:
-      "CSSL GenZ Chapter of UCSC. Where GenZ minds at UCSC turn ideas into legacies. The CSSL GenZ Chapter thrives through collaboration bringing together passionate students and young professionals to share knowledge, build skills.",
+      "Read the latest articles and updates from the CSSL GenZ Chapter at UCSC — insights, stories, and ideas from passionate students and young professionals.",
     url: "https://www.ucscgenz.lk/posts",
     siteName: "CSSL GenZ Chapter of UCSC",
     images: [
@@ -39,7 +39,7 @@ export const metadata = {
     card: "summary",
     title: "Posts - CSSL GenZ Chapter",
     description:
-      "CSSL GenZ Chapter of UCSC. Where GenZ minds at UCSC turn ideas into legacies.",
+      "Latest articles and updates from the CSSL GenZ Chapter at UCSC.",
     images: ["/CSSL Logo final - white.png"],
   },
 };

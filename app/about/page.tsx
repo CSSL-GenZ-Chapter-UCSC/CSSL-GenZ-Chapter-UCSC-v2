@@ -3,14 +3,14 @@ import { Vision } from "../components/sections/Vision";
 
 export const metadata = {
   metadataBase: new URL("https://www.ucscgenz.lk"),
-  title: "About us",
+  title: "About Us - CSSL GenZ Chapter",
   description:
-    "CSSL GenZ Chapter of UCSC. Where GenZ minds at UCSC turn ideas into legacies. The CSSL GenZ Chapter thrives through collaboration bringing together passionate students and young professionals to share knowledge, build skills.",
+    "Where GenZ minds at UCSC turn ideas into legacies. We thrive through collaboration, bringing together passionate students and young professionals to share knowledge and build skills.",
   keywords: "",
   openGraph: {
-    title: "About us - CSSL GenZ Chapter",
+    title: "About Us - CSSL GenZ Chapter",
     description:
-      "CSSL GenZ Chapter of UCSC. Where GenZ minds at UCSC turn ideas into legacies. The CSSL GenZ Chapter thrives through collaboration bringing together passionate students and young professionals to share knowledge, build skills.",
+      "Where GenZ minds at UCSC turn ideas into legacies. We thrive through collaboration, bringing together passionate students and young professionals to share knowledge and build skills.",
     url: "https://www.ucscgenz.lk/about",
     siteName: "CSSL GenZ Chapter of UCSC",
     images: [
@@ -25,9 +25,9 @@ export const metadata = {
   },
   twitter: {
     card: "summary",
-    title: "About us - CSSL GenZ Chapter",
+    title: "About Us - CSSL GenZ Chapter",
     description:
-      "CSSL GenZ Chapter of UCSC. Where GenZ minds at UCSC turn ideas into legacies.",
+      "Where GenZ minds at UCSC turn ideas into legacies. We thrive through collaboration, sharing knowledge and building skills.",
     images: ["/CSSL Logo final - white.png"],
   },
 };

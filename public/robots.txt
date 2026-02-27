@@ -1,0 +1,11 @@
+# CSSL GenZ Chapter of UCSC - robots.txt
+# https://www.ucscgenz.lk
+
+User-agent: *
+Allow: /
+Disallow: /studio/
+Disallow: /api/
+Disallow: /_next/
+
+# Sitemap
+Sitemap: https://www.ucscgenz.lk/sitemap.xml
