@@ -15,7 +15,7 @@ export const metadata = {
     siteName: "CSSL GenZ Chapter of UCSC",
     images: [
       {
-        url: "/CSSL Logo final - white.png",
+        url: "/CSSL Logo final - coloured.png",
         width: 512,
         height: 512,
         alt: "CSSL GenZ Chapter Logo",
@@ -28,7 +28,7 @@ export const metadata = {
     title: "Our Team - CSSL GenZ Chapter",
     description:
       "Meet the passionate students and young professionals behind the CSSL GenZ Chapter at UCSC.",
-    images: ["/CSSL Logo final - white.png"],
+    images: ["/CSSL Logo final - coloured.png"],
   },
 };
 
