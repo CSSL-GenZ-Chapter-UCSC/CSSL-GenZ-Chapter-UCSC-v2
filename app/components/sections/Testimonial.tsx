@@ -17,7 +17,7 @@ export interface TestimonialData {
   image: string;
 }
 
-const testimonials: TestimonialData[] = [
+const defaultTestimonials: TestimonialData[] = [
   {
     quote:
       "The future of computing in Sri Lanka is bright. And it's being built right here.",
@@ -49,7 +49,8 @@ export const Testimonial = ({
   const displayTestimonials =
     initialTestimonials && initialTestimonials.length > 0
       ? initialTestimonials
-      : testimonials;
+      : defaultTestimonials;
+      
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = useCallback(() => {
@@ -71,15 +72,15 @@ export const Testimonial = ({
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % displayTestimonials.length);
+      handleNext();
     }, AUTO_SLIDE_DURATION);
 
     return () => clearInterval(timer);
-  }, [currentIndex, displayTestimonials.length]);
+  }, [handleNext]);
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden py-20 md:py-32 mb-20">
-      {/* /* Background Gradient  */}
+      {/* Background Gradient */}
       <div
         className="absolute inset-0 z-0"
         style={{
@@ -89,7 +90,7 @@ export const Testimonial = ({
 
       {/* Decorative Left Boxes - 2 columns, 3 rows */}
       <motion.div
-        className="absolute left-0  top-0 h-full w-1/3 hidden lg:grid grid-cols-2 grid-rows-3 gap-3 p-2 z-10"
+        className="absolute left-0 top-0 h-full w-1/3 hidden lg:grid grid-cols-2 grid-rows-3 gap-3 p-2 z-10"
         style={{ transform: "translateX(-80px)" }}
       >
         {/* First Column - Top Box */}
@@ -99,8 +100,7 @@ export const Testimonial = ({
           transition={{ duration: 0.8 }}
           className="rounded-3xl"
           style={{
-            background:
-              "radial-gradient(circle at bottom right, #285C97, #000000)",
+            background: "radial-gradient(circle at bottom right, #285C97, #000000)",
           }}
         />
 
@@ -138,7 +138,7 @@ export const Testimonial = ({
               "0 0 40px rgba(40, 92, 151, 0.6), 0 0 80px rgba(40, 92, 151, 0.3)",
           }}
         >
-          <AnimatePresence>
+          <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
               initial={{ opacity: 0, filter: "blur(8px)" }}
@@ -147,18 +147,18 @@ export const Testimonial = ({
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="absolute inset-0 flex items-center justify-center p-1"
             >
-              <div className="relative w-full h-full rounded-3xl overflow-hidden">
+              <div className="relative w-full h-full rounded-3xl overflow-hidden group">
                 <Image
                   src={displayTestimonials[currentIndex].image}
                   alt={displayTestimonials[currentIndex].author}
                   fill
-                  className="object-cover object-top"
+                  className="object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-200 brightness-80"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src =
-                      "https://via.placeholder.com/200x200?text=Avatar";
+                    target.src = "https://via.placeholder.com/200x200?text=Avatar";
                   }}
                 />
+                <div className="absolute inset-0 bg-[#133769] mix-blend-color z-10 opacity-100 group-hover:opacity-0 transition-opacity duration-200 pointer-events-none" />
               </div>
             </motion.div>
           </AnimatePresence>
@@ -171,8 +171,7 @@ export const Testimonial = ({
           transition={{ duration: 0.8, delay: 0.3 }}
           className="rounded-3xl"
           style={{
-            background:
-              "radial-gradient(circle at top right, #285C97, #000000)",
+            background: "radial-gradient(circle at top right, #285C97, #000000)",
           }}
         />
 
@@ -227,32 +226,31 @@ export const Testimonial = ({
               whileInView={{ opacity: 1, x: 0 }}
               className="w-8 h-24 sm:w-12 sm:h-32 rounded-2xl"
               style={{
-                background:
-                  "radial-gradient(circle at right, #285C97, #000000)",
+                background: "radial-gradient(circle at right, #285C97, #000000)",
               }}
             />
 
             <div className="relative w-40 h-40 sm:w-48 sm:h-48">
-              <AnimatePresence>
+              <AnimatePresence mode="wait">
                 <motion.div
                   key={`mobile-${currentIndex}`}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 1.1 }}
                   transition={{ duration: 0.8, ease: "easeInOut" }}
-                  className="absolute inset-0 rounded-2xl overflow-hidden border-4 border-white/20 z-10"
+                  className="absolute inset-0 rounded-2xl overflow-hidden border-4 border-white/20 z-10 group"
                 >
                   <Image
                     src={displayTestimonials[currentIndex].image}
                     alt={displayTestimonials[currentIndex].author}
                     fill
-                    className="object-cover"
+                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-200 brightness-80"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
-                      target.src =
-                        "https://via.placeholder.com/200x200?text=Avatar";
+                      target.src = "https://via.placeholder.com/200x200?text=Avatar";
                     }}
                   />
+                  <div className="absolute inset-0 bg-[#133769] mix-blend-color z-10 opacity-100 group-hover:opacity-0 transition-opacity duration-200 pointer-events-none" />
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -270,7 +268,7 @@ export const Testimonial = ({
 
           {/* Testimonial Content - Right side */}
           <div className="w-full lg:pl-[35%] px-4 lg:pr-12">
-            <div className="min-h-[300px] flex flex-col justify-between">
+            <div className="min-h-[250px] flex flex-col justify-center">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentIndex}
@@ -281,7 +279,7 @@ export const Testimonial = ({
                   className="space-y-8"
                 >
                   <motion.p
-                    className="text-xl md:text-2xl lg:text-2xl text-gray-300 font-light leading-relaxed mt-20 text-right lg:text-right"
+                    className="text-xl md:text-2xl lg:text-3xl text-gray-300 font-light leading-relaxed text-center lg:text-left"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.2 }}
@@ -307,8 +305,8 @@ export const Testimonial = ({
             </div>
           </div>
 
-          {/* Navigation Dots - Fixed position */}
-          <div className="flex items-center justify-center gap-3 mt-20 w-full lg:pl-[35%]">
+          {/* Navigation Dots */}
+          <div className="flex items-center justify-center gap-3 mt-12 w-full lg:pl-[35%]">
             {displayTestimonials.map((_, index) => (
               <button
                 key={index}
