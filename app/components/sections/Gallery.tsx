@@ -173,7 +173,7 @@ const GalleryTexts = memo(
           </h2>
         </div>
 
-        <div className="relative z-20 bg-gray-600 w-[350px] h-[250px] self-center overflow-hidden md:block hidden transform-gpu">
+        <div className="relative z-20 bg-gray-600 w-[350px] h-[250px] self-center overflow-hidden lg:block hidden transform-gpu">
           {images.map((image, index) => (
             <RightImage
               key={index}
