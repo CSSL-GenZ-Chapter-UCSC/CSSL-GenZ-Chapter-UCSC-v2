@@ -9,8 +9,10 @@ import { getEvents, getAnnouncements, getTestimonials } from "@/sanity/lib/api";
 import { getBlogs } from "@/sanity/lib/getBlogs";
 
 export const metadata = {
+  metadataBase: new URL("https://www.ucscgenz.lk"),
   title: "CSSL GenZ Chapter",
-  description: "CSSL GenZ Chapter of UCSC",
+  description:
+    "Where GenZ minds at UCSC turn ideas into legacies. We thrive through collaboration, bringing together passionate students and young professionals to share knowledge and build skills.",
   keywords: "",
   icons: {
     apple: "/apple-touch-icon.png",
@@ -20,6 +22,29 @@ export const metadata = {
     ],
   },
   manifest: "/site.webmanifest",
+  openGraph: {
+    title: "CSSL GenZ Chapter",
+    description:
+      "Where GenZ minds at UCSC turn ideas into legacies. We thrive through collaboration, bringing together passionate students and young professionals to share knowledge and build skills.",
+    url: "https://www.ucscgenz.lk",
+    siteName: "CSSL GenZ Chapter of UCSC",
+    images: [
+      {
+        url: "/CSSL Logo final - coloured.png",
+        width: 512,
+        height: 512,
+        alt: "CSSL GenZ Chapter Logo",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "CSSL GenZ Chapter",
+    description:
+      "Where GenZ minds at UCSC turn ideas into legacies. We thrive through collaboration, sharing knowledge and building skills.",
+    images: ["/CSSL Logo final - coloured.png"],
+  },
 };
 
 export default async function Home() {

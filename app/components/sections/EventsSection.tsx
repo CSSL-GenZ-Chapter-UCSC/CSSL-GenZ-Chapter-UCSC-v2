@@ -199,7 +199,7 @@ export function EventsSection({ events }: EventsSectionProps) {
       >
         {/* LEFT SECTION: Event cards */}
         <div
-          className="md:w-[50%] w-full flex flex-col md:h-screen h-1/2 overflow-hidden relative"
+          className="md:w-[50%] w-full flex flex-col md:h-screen h-1/2 overflow-hidden relative pl-4 md:pl-10"
           ref={scrollableContentRef}
           id="scrollable-container"
         >
