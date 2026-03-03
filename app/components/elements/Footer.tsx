@@ -8,7 +8,9 @@ import {
   useAnimation,
   useMotionValueEvent,
 } from "motion/react";
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, useState } from "react";
+import { fetchContactInfoAction } from "@/app/actions/sanity";
+import type { ContactInfo } from "../sections/Contact";
 
 const gradient = `linear-gradient(
   80deg,
@@ -78,6 +80,11 @@ export const Footer = () => {
   const containerRef = useRef(null);
   const controls = useAnimation();
   const { scrollY } = useScroll();
+  const [contactInfo, setContactInfo] = useState<ContactInfo>({});
+
+  useEffect(() => {
+    fetchContactInfoAction().then(setContactInfo);
+  }, []);
 
   const checkScroll = useCallback(
     (latest: number) => {
@@ -90,7 +97,7 @@ export const Footer = () => {
         controls.start({ y: 100 });
       }
     },
-    [controls]
+    [controls],
   );
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -114,10 +121,10 @@ export const Footer = () => {
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="w-full h-[85%] bg-black/40 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)] z-10 hidden md:block"
         >
-          <FooterContent />
+          <FooterContent contactInfo={contactInfo} />
         </motion.div>
         <div className="w-full h-[85%] bg-black/40 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)] z-10 block md:hidden">
-          <FooterContent />
+          <FooterContent contactInfo={contactInfo} />
         </div>
         <div className="w-[90%] absolute sm:-bottom-70 bottom-0 flex items-center justify-center">
           <h2
@@ -138,7 +145,7 @@ export const Footer = () => {
   );
 };
 
-const FooterContent = () => {
+const FooterContent = ({ contactInfo }: { contactInfo: ContactInfo }) => {
   return (
     <div className="w-full h-full flex flex-col items-center justify-between p-8 sm:p-12 md:p-16 lg:p-20">
       <div className="w-full min-h-[50%] flex flex-col justify-start items-start">
@@ -157,8 +164,8 @@ const FooterContent = () => {
           2025 CSSL GenZ Chapter of UCSC
         </p>
         <div className="h-auto flex flex-col md:flex-row gap-3 sm:gap-6 md:gap-10 lg:gap-20 md:max-w-[60%] items-start justify-center text-xs sm:text-base md:text-lg">
-          <p>cssl@gmail.com</p>
-          <p>033 0929021</p>
+          <p>{contactInfo.email ?? "cssl@gmail.com"}</p>
+          <p>{contactInfo.phoneNumber ?? "033 0929021"}</p>
           <p className="md:max-w-[33%]">
             CSSL GenZ Chapter of UCSC, University of Colombo School of
             Computing, 35, Reid Avenue, Colombo 7.

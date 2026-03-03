@@ -13,7 +13,9 @@ import {
   GET_EVENT_SLUGS_QUERY,
   GET_ANNOUNCEMENTS_QUERY,
   GET_TESTIMONIALS_QUERY,
+  GET_CONTACT_INFO_QUERY,
 } from "@/sanity/queries";
+import type { ContactInfo } from "../../app/components/sections/Contact";
 import type { Event } from "../../app/types/event";
 import type { Announcement } from "../../app/components/shared/AnnouncementBar";
 import type { TestimonialData } from "../../app/components/sections/Testimonial";
@@ -32,7 +34,7 @@ export async function getEvents(): Promise<Event[]> {
       {},
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
-      }
+      },
     );
     return events;
   } catch (error) {
@@ -51,7 +53,7 @@ export async function getFeaturedEvent(): Promise<Event | null> {
       {},
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
-      }
+      },
     );
     return event;
   } catch (error) {
@@ -71,7 +73,7 @@ export async function getUpcomingEvents(): Promise<Event[]> {
       { now },
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
-      }
+      },
     );
     return events;
   } catch (error) {
@@ -91,7 +93,7 @@ export async function getPastEvents(): Promise<Event[]> {
       { now },
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
-      }
+      },
     );
     return events;
   } catch (error) {
@@ -110,7 +112,7 @@ export async function getEventBySlug(slug: string): Promise<Event | null> {
       { slug },
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
-      }
+      },
     );
     return event;
   } catch (error) {
@@ -130,7 +132,7 @@ export async function getSimilarEvents(eventId: string): Promise<Event[]> {
       { eventId },
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
-      }
+      },
     );
     return events;
   } catch (error) {
@@ -149,7 +151,7 @@ export async function getAllEventSlugs(): Promise<EventSlug[]> {
       {},
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
-      }
+      },
     );
     return slugs;
   } catch (error) {
@@ -168,7 +170,7 @@ export async function getAnnouncements(): Promise<Announcement[]> {
       {},
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
-      }
+      },
     );
     return announcements.map(
       (a: { _id: string; label: string; title: string; message: string }) => ({
@@ -176,7 +178,7 @@ export async function getAnnouncements(): Promise<Announcement[]> {
         label: a.label,
         title: a.title,
         message: a.message,
-      })
+      }),
     );
   } catch (error) {
     console.error("Error fetching announcements:", error);
@@ -194,11 +196,30 @@ export async function getTestimonials(): Promise<TestimonialData[]> {
       {},
       {
         next: { revalidate: 60 }, // Revalidate every 60 seconds
-      }
+      },
     );
     return testimonials;
   } catch (error) {
     console.error("Error fetching testimonials:", error);
     return [];
+  }
+}
+
+/**
+ * Fetch contact info (server-side)
+ */
+export async function getContactInfo(): Promise<ContactInfo> {
+  try {
+    const contactInfo = await client.fetch(
+      GET_CONTACT_INFO_QUERY,
+      {},
+      {
+        next: { revalidate: 60 }, // Revalidate every 60 seconds
+      },
+    );
+    return contactInfo ?? {};
+  } catch (error) {
+    console.error("Error fetching contact info:", error);
+    return {};
   }
 }

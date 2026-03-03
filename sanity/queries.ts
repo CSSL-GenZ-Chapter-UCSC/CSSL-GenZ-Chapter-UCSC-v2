@@ -199,3 +199,11 @@ export const GET_BLOGS_BY_CATEGORY_QUERY = `*[_type == "blog" && category->title
   body,
   "category": category->{ _id, title, description }
 }`;
+
+// Get contact info
+export const GET_CONTACT_INFO_QUERY = `*[_type == "contactInfo"] | order(_updatedAt desc)[0]{
+  linkedinLink,
+  email,
+  mapsLink,
+  phoneNumber
+}`;
