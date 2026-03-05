@@ -23,14 +23,14 @@ export const Vision = () => {
     overlayClassName?: string;
   }[] = [
     {
-      src: "/Images/About/mission1.jpg",
+      src: "/Images/About/CSSL_Colloquium.jpg",
       containerClassName: "",
       overlayClassName: "mix-blend-color",
       className: "scale-130",
       alt: "Vision image 1",
     },
     {
-      src: "/Images/About/mission2.jpg",
+      src: "/Images/About/grp11 _ meetup.jpg",
       containerClassName: "",
       overlayClassName: "mix-blend-color",
       className: "scale-130",
@@ -51,14 +51,14 @@ export const Vision = () => {
       alt: "Vision image 1",
     },
     {
-      src: "/Images/About/mission1.jpg",
+      src: "/Images/About/CSSL_Colloquium.jpg",
       containerClassName: "",
       overlayClassName: "mix-blend-color",
       className: "scale-130",
       alt: "Vision image 1",
     },
     {
-      src: "/Images/About/mission2.jpg",
+      src: "/Images/About/grp11 _ meetup.jpg",
       containerClassName: "",
       overlayClassName: "mix-blend-color",
       className: "scale-130",
@@ -172,6 +172,7 @@ export const Vision = () => {
                       hoveredIndex === i ? "grayscale-0" : "grayscale"
                     } transition-all duration-200 brightness-80 ${item.className ?? ""}`}
                     sizes="(max-width: 1024px) 50vw, 33vw"
+                    quality={90}
                     priority={i < 2}
                   />
                 ) : null}

@@ -128,7 +128,8 @@ export const About = () => {
                       className={`w-full h-full object-cover ${
                         hoveredIndex === i ? "grayscale-0" : "grayscale"
                       } transition-all duration-200 ${img.className ?? ""}`}
-                      sizes="(max-width: 640px) 50vw, 150px"
+                      sizes="(max-width: 640px) 50vw, 400px"
+                      quality={90}
                       priority={i < 2}
                       loading="eager"
                       draggable={false}
