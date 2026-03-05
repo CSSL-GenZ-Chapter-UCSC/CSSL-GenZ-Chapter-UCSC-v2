@@ -25,7 +25,9 @@ export const GET_EVENTS_QUERY = `*[_type == "event" && is_shown == true] | order
   },
   "photos": photos[]{
     "url": asset->url,
-    "alt": alt
+    "alt": alt,
+    "width": asset->metadata.dimensions.width,
+    "height": asset->metadata.dimensions.height
   }
 }`;
 
@@ -112,7 +114,9 @@ export const GET_EVENT_BY_SLUG_QUERY = `*[_type == "event" && slug.current == $s
   },
   "photos": photos[]{
     "url": asset->url,
-    "alt": alt
+    "alt": alt,
+    "width": asset->metadata.dimensions.width,
+    "height": asset->metadata.dimensions.height
   },
   featuredAfter
 }`;
@@ -145,7 +149,9 @@ export const GET_SIMILAR_EVENTS_QUERY = `*[
   },
   "photos": photos[]{
     "url": asset->url,
-    "alt": alt
+    "alt": alt,
+    "width": asset->metadata.dimensions.width,
+    "height": asset->metadata.dimensions.height
   }
 }`;
 // Get active announcements

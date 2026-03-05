@@ -52,6 +52,8 @@ export type Event = {
   photos?: {
     url?: string;
     alt?: string;
+    width?: number;
+    height?: number;
   }[];
   bannerImage?: {
     url?: string;
