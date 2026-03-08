@@ -11,7 +11,13 @@ type Post = {
 
 async function getPosts(): Promise<Post[]> {
   const query = `*[_type=="post" && defined(slug.current)]|order(publishedAt desc)[0...20]{_id,title,slug,excerpt,publishedAt}`;
-  return client.fetch(query);
+  return client.fetch(
+    query,
+    {},
+    {
+      next: { revalidate: 60 },
+    },
+  );
 }
 
 export const metadata = {

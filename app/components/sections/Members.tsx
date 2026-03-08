@@ -59,7 +59,13 @@ async function getMembers(): Promise<{
   presidents: MemberCard[];
   executiveCommittee: MemberCard[];
 }> {
-  const docs = await client.fetch<SanityMember[]>(memberQuery);
+  const docs = await client.fetch<SanityMember[]>(
+    memberQuery,
+    {},
+    {
+      next: { revalidate: 60 },
+    },
+  );
 
   const toCard = (m: SanityMember): MemberCard => ({
     name: m.name,
@@ -90,7 +96,13 @@ async function getTeams(): Promise<
     leads: MemberCard[];
   }>
 > {
-  const teams = await client.fetch<SanityTeam[]>(teamQuery);
+  const teams = await client.fetch<SanityTeam[]>(
+    teamQuery,
+    {},
+    {
+      next: { revalidate: 60 },
+    },
+  );
   const toCard = (m: SanityMember): MemberCard => ({
     name: m.name,
     role: m.role,
@@ -110,7 +122,7 @@ async function getTeams(): Promise<
       .slice()
       .sort(
         (a, b) =>
-          (a.order ?? 9999) - (b.order ?? 9999) || a.name.localeCompare(b.name)
+          (a.order ?? 9999) - (b.order ?? 9999) || a.name.localeCompare(b.name),
       )
       .map(toCard),
   }));
