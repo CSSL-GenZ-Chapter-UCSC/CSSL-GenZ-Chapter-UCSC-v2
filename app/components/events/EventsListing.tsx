@@ -7,6 +7,7 @@ import { Container } from "../shared/Container";
 import EventsPagination from "./EventsPagination";
 import { motion } from "motion/react";
 import { PageTitle } from "../shared/PageTitle";
+import { formatEventTime, formatEventDate, formatEventTimeRange } from "@/sanity/lib/dateFormatters";
 
 const container = {
   hidden: { opacity: 0 },
@@ -174,22 +175,9 @@ export const EventsListing = ({
                         <path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z" />
                       </svg>
                       <span>
-                        {new Date(featuredEvent.startDate).toLocaleTimeString(
-                          "en-US",
-                          {
-                            hour: "numeric",
-                            minute: "2-digit",
-                            hour12: true,
-                          }
-                        )}{" "}
-                        -{" "}
-                        {new Date(featuredEvent.endDate).toLocaleTimeString(
-                          "en-US",
-                          {
-                            hour: "numeric",
-                            minute: "2-digit",
-                            hour12: true,
-                          }
+                        {formatEventTimeRange(
+                          featuredEvent.startDate,
+                          featuredEvent.endDate
                         )}
                       </span>
                     </div>
@@ -300,22 +288,10 @@ export const EventsListing = ({
                 // Calculate time display
                 let timeDisplay = "TBA";
                 if (event.endDate) {
-                  const startTime = new Date(
-                    event.startDate
-                  ).toLocaleTimeString("en-US", {
-                    hour: "numeric",
-                    minute: "2-digit",
-                    hour12: true,
-                  });
-                  const endTime = new Date(event.endDate).toLocaleTimeString(
-                    "en-US",
-                    {
-                      hour: "numeric",
-                      minute: "2-digit",
-                      hour12: true,
-                    }
+                  timeDisplay = formatEventTimeRange(
+                    event.startDate,
+                    event.endDate
                   );
-                  timeDisplay = `${startTime} - ${endTime}`;
                 }
 
                 return (

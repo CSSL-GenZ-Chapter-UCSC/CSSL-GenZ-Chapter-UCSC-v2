@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SimilarEventsCarousel from "@/app/components/events/SimilarEventsCarousel";
 import PhotoGalleryWithLightbox from "@/app/components/events/PhotoGalleryWithLightbox";
+import { formatEventTime, formatEventDate, formatEventTimeRange } from "@/sanity/lib/dateFormatters";
 
 // Force dynamic rendering for development
 export const dynamic = "force-dynamic";
@@ -35,19 +36,11 @@ export default async function EventDetailPage({
 
   // Format date display
   const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    });
+    return formatEventDate(date);
   };
 
   const formatTime = (date: string) => {
-    return new Date(date).toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    });
+    return formatEventTime(date);
   };
 
   const dateDisplay = event.endDate
