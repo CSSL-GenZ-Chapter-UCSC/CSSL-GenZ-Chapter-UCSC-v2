@@ -255,12 +255,18 @@ const WorkActivities = () => {
         sizes="(max-width: 768px) 200px, 300px"
         isGrayscale
       />
+      <h2
+        className="absolute w-[90%] md:w-[366px] text-white font-poppins text-[18px] md:text-[22px] font-normal 
+      leading-[26.2px] tracking-[1.1px] top-[69%] md:top-[75%] left-[5%] md:left-[50%]"
+      >
+        Supporting Students Through Mentorship & Guidance
+      </h2>
       <p className="flex absolute left-[5%] md:left-[15%] top-[72%] md:top-[78%] w-[90%] md:w-[310px] h-auto md:h-60 flex-col justify-center shrink-0 text-gray-100 font-poppins text-[13px] md:text-[16px] font-light leading-[22.2px] tracking-[0.8px]">
-        We organize hands-on events such as hackathons, technical workshops, and
-        student friendly competitions to help undergraduates stay aligned with
-        emerging technologies. These experiences allow students to build
-        practical skills, experiment with new tools, and gain exposure to
-        real-world challenges in a fast-moving industry.
+        We provide continuous support through peer mentoring, expert advice,
+        and collaborative learning spaces that help students overcome
+        challenges with confidence. By connecting members with the right people
+        and resources, we ensure they can grow steadily in both technical
+        skills and professional readiness.
       </p>
       {/* 12 */}
       <WorkImage
