@@ -1,29 +1,33 @@
 /**
  * Date formatting utilities for events
- * Extracts time directly from ISO strings without timezone conversion
+ * Formats stored UTC datetimes in the event timezone (Sri Lanka).
  */
 
+const EVENT_TIME_ZONE = "Asia/Colombo";
+
+const eventTimeFormatter = new Intl.DateTimeFormat("en-US", {
+  hour: "numeric",
+  minute: "2-digit",
+  hour12: true,
+  timeZone: EVENT_TIME_ZONE,
+});
+
+const eventDateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+  timeZone: EVENT_TIME_ZONE,
+});
+
 /**
- * Formats event time without timezone conversion
- * Example: "2026-02-07T08:00:00Z" → "8:00 AM"
+ * Formats event time in the event timezone.
+ * Example: "2026-02-07T02:30:00.000Z" → "8:00 AM"
  */
 export const formatEventTime = (isoString: string): string => {
   if (!isoString) return "";
 
   try {
-    // Extract time from ISO string using regex
-    // Format: YYYY-MM-DDTHH:mm:ss
-    const timeMatch = isoString.match(/T(\d{2}):(\d{2}):/);
-    if (!timeMatch) return "";
-
-    const hour = parseInt(timeMatch[1], 10);
-    const minute = parseInt(timeMatch[2], 10);
-
-    // Convert to 12-hour format
-    const period = hour >= 12 ? "PM" : "AM";
-    const displayHour = hour % 12 === 0 ? 12 : hour % 12;
-
-    return `${displayHour}:${minute.toString().padStart(2, "0")} ${period}`;
+    return eventTimeFormatter.format(new Date(isoString));
   } catch {
     return "";
   }
@@ -37,12 +41,7 @@ export const formatEventDate = (isoString: string): string => {
   if (!isoString) return "";
 
   try {
-    const date = new Date(isoString);
-    return date.toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    });
+    return eventDateFormatter.format(new Date(isoString));
   } catch {
     return "";
   }
