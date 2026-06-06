@@ -3,8 +3,8 @@
  * Fetches all image fields from event schema
  */
 
-// Get events for EventsSection component (only visible events, ordered by startDate asc)
-export const GET_EVENTS_QUERY = `*[_type == "event" && is_shown == true] | order(startDate asc){
+// Get events for EventsSection component (only visible events, ordered by startDate desc)
+export const GET_EVENTS_QUERY = `*[_type == "event" && is_shown == true] | order(startDate desc){
   _id,
   title,
   slug,
